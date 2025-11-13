@@ -11,5 +11,27 @@ config_version=5
 [application]
 
 config/name="RPG Template"
+config/description="This is the template for RPG Systems"
 config/features=PackedStringArray("4.5", "Forward Plus")
+run/max_fps=59
 config/icon="res://icon.svg"
+
+[autoload]
+
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+
+[dialogue_manager]
+
+editor/advanced/custom_test_scene_path="res://addons/dialogue_manager/test_scene.tscn"
+
+[display]
+
+window/size/viewport_width=398
+window/size/viewport_height=224
+window/size/mode=3
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_dialogue_manager-3.8.1/addons/dialogue_manager/plugin.cfg")
