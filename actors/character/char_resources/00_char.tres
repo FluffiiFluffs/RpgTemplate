@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CharResource" load_steps=3 format=3 uid="uid://prpth3t5akim"]
 
-[ext_resource type="Texture2D" uid="uid://cyc5xt6sl2pao" path="res://assets/character/placeholder_char_spritesheet.png" id="1_0no1i"]
+[ext_resource type="Texture2D" uid="uid://cyc5xt6sl2pao" path="res://_assets/character/player/placeholder_char_spritesheet.png" id="1_0no1i"]
 [ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/char_resource.gd" id="1_07ocp"]
 
 [resource]

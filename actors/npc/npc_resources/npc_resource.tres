@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CharResource" load_steps=3 format=3 uid="uid://cxqnsipl5wpr8"]
+
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/char_resource.gd" id="1_64pog"]
+[ext_resource type="Texture2D" uid="uid://uylp5sbgwvth" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="1_em7lc"]
+
+[resource]
+script = ExtResource("1_64pog")
+char_faction = 1
+char_name = "NPC"
+char_sprite_sheet = ExtResource("1_em7lc")
+metadata/_custom_type_script = "uid://dekkhepva31dh"

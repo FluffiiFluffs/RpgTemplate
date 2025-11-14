@@ -1,10 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://bita6dnrj87wq"]
+[gd_scene load_steps=18 format=3 uid="uid://56kk082o8ck1"]
 
-[ext_resource type="Script" uid="uid://dktt53hbh57f5" path="res://actors/character/player_character/player_character.gd" id="1_5dlv1"]
-[ext_resource type="Texture2D" uid="uid://cyc5xt6sl2pao" path="res://_assets/character/player/placeholder_char_spritesheet.png" id="3_pflqk"]
-[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="3_t0tay"]
-[ext_resource type="Script" uid="uid://ebmcasvilahp" path="res://actors/state_machine/player_states/player_idle.gd" id="4_6oia8"]
-[ext_resource type="Script" uid="uid://plkn7epwt71w" path="res://actors/state_machine/player_states/player_walk.gd" id="4_31ora"]
+[ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/npc/npc.gd" id="1_3jjbx"]
+[ext_resource type="Texture2D" uid="uid://uylp5sbgwvth" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="2_3jjbx"]
+[ext_resource type="Script" uid="uid://cojagurq1svt" path="res://actors/state_machine/npc_states/npc_idle.gd" id="4_3jjbx"]
+[ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/state_machine/npc_states/npc_walk.gd" id="5_06j4l"]
+[ext_resource type="PackedScene" uid="uid://cgyymkjxthh20" path="res://common/area_interact/area_interact.tscn" id="7_i2mv8"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -278,20 +278,19 @@ _data = {
 &"walk_up": SubResource("Animation_7ar1o")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
-size = Vector2(32, 26)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
-[node name="PlayerCharacter" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_umrb1"]
+
+[node name="NPC" type="CharacterBody2D"]
 y_sort_enabled = true
 motion_mode = 1
-script = ExtResource("1_5dlv1")
+script = ExtResource("1_3jjbx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("3_pflqk")
+texture = ExtResource("2_3jjbx")
 offset = Vector2(0, -15)
 hframes = 4
 
@@ -310,17 +309,6 @@ unique_name_in_owner = true
 process_mode = 1
 current = true
 
-[node name="InteractAreaTrigger2D" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 64
-collision_mask = 0
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractAreaTrigger2D"]
-position = Vector2(0, -5)
-shape = SubResource("RectangleShape2D_pflqk")
-debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 z_index = 1
@@ -329,20 +317,26 @@ shape = SubResource("RectangleShape2D_b1uet")
 
 [node name="StateMachine" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("3_t0tay")
 
 [node name="Idle" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("4_6oia8")
+script = ExtResource("4_3jjbx")
 
 [node name="Walk" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("4_31ora")
+script = ExtResource("5_06j4l")
 
 [node name="Talking" type="Node2D" parent="StateMachine"]
 
-[node name="CutScene" type="Node2D" parent="StateMachine"]
+[node name="Patrol" type="Node2D" parent="StateMachine"]
 
 [node name="Node2D5" type="Node2D" parent="StateMachine"]
 
 [node name="Node2D6" type="Node2D" parent="StateMachine"]
+
+[node name="AreaInteract" parent="." instance=ExtResource("7_i2mv8")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaInteract"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_umrb1")
+debug_color = Color(0, 0.3557534, 0.822601, 0.41960785)
