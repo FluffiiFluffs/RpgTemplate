@@ -1,12 +1,13 @@
 class_name NPCPatrol extends State
 #
-@onready var walk :State= %Walk
+@onready var walk : State = %Walk
+
+var idle_duration : float = 1.0
+
 
 ## What happens when the state is entered
 func enter() -> void:
-	actor.animation_player.play("idle" + "_" + actor.set_anim_direction())
-	#GlobalPlayerManager.is_moving = false #might need this later
-
+	pass
 ## What happens when the state is exited
 func exit() -> void:
 	pass

@@ -7,7 +7,9 @@
 y_sort_enabled = true
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("1_2kk2i")]
-position = Vector2(195, 121)
+position = Vector2(155, 120)
 
 [node name="NPC" parent="." instance=ExtResource("2_xmmtp")]
-position = Vector2(101, 117)
+position = Vector2(90, 117)
+walk_max = 2.5
+free_wander_area = false

@@ -1,27 +1,23 @@
-class_name State extends Node2D
+class_name NPCFollow extends State
+#
+#@onready var walk :State= %Walk
 
-##Stores reference to the player that this PlayerState belongs to
-var actor:Actor
-var state_machine: StateMachine
+@onready var idle : State = %Idle
 
-func _init() -> void:
-	pass
 
-func _ready() -> void:
-	actor = get_parent().get_parent()
-	state_machine = get_parent()
-	pass
-	
+
 ## What happens when the state is entered
 func enter() -> void:
 	pass
 ## What happens when the state is exited
 func exit() -> void:
 	pass
-	
-	
+
 ## What happens during _process(): update while state is running
 func process (_delta : float) -> State:
+	#if actor.direction != Vector2.ZERO:
+		#return walk
+	actor.velocity = Vector2.ZERO
 	return null
 
 ## What happens during _physics_process(): update state is running
@@ -31,3 +27,7 @@ func physics( _delta: float) -> State:
 ## What happens with input events while this state is running
 func handle_input( _event: InputEvent) -> State:
 	return null
+
+func init():
+	pass
+	

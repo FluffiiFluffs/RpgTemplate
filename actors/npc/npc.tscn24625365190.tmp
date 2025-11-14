@@ -291,7 +291,7 @@ size = Vector2(16, 18)
 size = Vector2(48, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_muh4v"]
-size = Vector2(96, 96)
+size = Vector2(48, 48)
 
 [node name="NPC" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -299,8 +299,6 @@ motion_mode = 1
 script = ExtResource("1_3jjbx")
 npc_data = ExtResource("2_3jjbx")
 npc_will_walk = true
-walk_min = 1.0
-walk_max = 1.5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -360,26 +358,19 @@ position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_umrb1")
 debug_color = Color(0, 0.3557534, 0.822601, 0.41960785)
 
-[node name="P_Det_Area" type="Area2D" parent="."]
+[node name="PlayerDetectionArea2D" type="Area2D" parent="."]
 unique_name_in_owner = true
+visible = false
 collision_layer = 0
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="P_Det_Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea2D"]
 shape = SubResource("RectangleShape2D_h05io")
 debug_color = Color(0.49411765, 0, 1, 0.09019608)
 
 [node name="WanderArea" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 0
 
 [node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_muh4v")
 debug_color = Color(1, 0, 0.5372549, 0)
-
-[node name="PDetTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.2
-autostart = true

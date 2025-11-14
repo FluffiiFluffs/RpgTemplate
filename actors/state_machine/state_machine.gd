@@ -31,8 +31,8 @@ func initialize(_actor:Actor) -> void:
 			states.append(child)
 	if states.size() == 0:
 		return
-	states[0].actor = _actor
-	states[0].state_machine = self
+	#states[0].state_machine = self
+	#states[0].actor = _actor
 	#sets player initial state to 0 (idle)
 	for state in states:
 		state.init()

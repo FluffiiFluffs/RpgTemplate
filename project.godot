@@ -37,13 +37,13 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 folder_colors={
 "res://_assets/": "orange",
+"res://_common/": "gray",
 "res://_globals/": "teal",
 "res://actors/": "purple",
 "res://actors/character/": "purple",
 "res://actors/state_machine/": "gray",
 "res://addons/": "gray",
 "res://battle/": "pink",
-"res://common/": "gray",
 "res://dialogue/": "blue",
 "res://field/": "green",
 "res://quests/": "yellow"
