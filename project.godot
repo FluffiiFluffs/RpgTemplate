@@ -22,10 +22,6 @@ config/icon="res://icon.svg"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 
-[dialogue_manager]
-
-editor/advanced/custom_test_scene_path="res://addons/dialogue_manager/test_scene.tscn"
-
 [display]
 
 window/size/viewport_width=398
@@ -35,7 +31,7 @@ window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_dialogue_manager-3.8.1/addons/dialogue_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [file_customization]
 
