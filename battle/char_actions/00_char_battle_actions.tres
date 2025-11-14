@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BattleActions" load_steps=4 format=3 uid="uid://dvnl4rr2fxrj7"]
+
+[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/battle_action.gd" id="1_uc5k8"]
+[ext_resource type="Resource" uid="uid://cg57vq4ax8u2x" path="res://battle/actions/attack.tres" id="2_mqckc"]
+[ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/battle_actions.gd" id="2_w5msa"]
+
+[resource]
+script = ExtResource("2_w5msa")
+battle_actions = Array[ExtResource("1_uc5k8")]([ExtResource("2_mqckc")])
+metadata/_custom_type_script = "uid://curfpkctgy4ww"

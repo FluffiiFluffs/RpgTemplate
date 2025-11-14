@@ -1,2 +1,2 @@
-class_name Character
+class_name Actor
 extends CharacterBody2D

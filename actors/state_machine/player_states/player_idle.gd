@@ -1,0 +1,30 @@
+class_name PlayerIdle extends State
+
+@onready var walk :State= %Walk
+
+## What happens when the state is entered
+func enter() -> void:
+	actor.animation_player.play("idle" + "_" + actor.set_anim_direction())
+	#GlobalPlayerManager.is_moving = false #might need this later
+
+## What happens when the state is exited
+func exit() -> void:
+	pass
+
+## What happens during _process(): update while state is running
+func process (_delta : float) -> State:
+	if actor.direction != Vector2.ZERO:
+		return walk
+	actor.velocity = Vector2.ZERO
+	return null
+
+## What happens during _physics_process(): update state is running
+func physics( _delta: float) -> State:
+	return null	
+	
+## What happens with input events while this state is running
+func handle_input( _event: InputEvent) -> State:
+	return null
+
+func init():
+	pass

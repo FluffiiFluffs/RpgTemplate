@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bha66blcib4c7"]
+
+[ext_resource type="Script" uid="uid://d1j03nmxiifum" path="res://_globals/char_control.gd" id="1_apgpb"]
+
+[node name="CharControl" type="Node2D"]
+script = ExtResource("1_apgpb")
