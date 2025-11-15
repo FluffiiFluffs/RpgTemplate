@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://4hqnw34m4ovo"]
+[gd_scene load_steps=4 format=3 uid="uid://4hqnw34m4ovo"]
 
 [ext_resource type="PackedScene" uid="uid://bita6dnrj87wq" path="res://actors/character/player_character/player_character.tscn" id="1_2kk2i"]
 [ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/npc/npc.tscn" id="2_xmmtp"]
+[ext_resource type="PackedScene" uid="uid://deknphofgc8wr" path="res://_common/patrol_location/patrol_location.tscn" id="3_2fwss"]
 
 [node name="TestField" type="Node2D"]
 y_sort_enabled = true
@@ -11,10 +12,48 @@ position = Vector2(155, 120)
 
 [node name="NPC" parent="." instance=ExtResource("2_xmmtp")]
 position = Vector2(90, 117)
-collisions_on = true
-coll_off_with_timer = false
-coll_off_wait_time = 4.0
-idle_min = 1.5
-idle_max = 3.5
+npc_will_walk = true
+npc_will_patrol = true
 walk_max = 2.5
-free_walk_area = true
+is_following = false
+is_following_player = true
+follow_speed = 50.0
+
+[node name="NPC2" parent="." instance=ExtResource("2_xmmtp")]
+position = Vector2(90, 117)
+npc_will_walk = true
+npc_will_patrol = true
+walk_max = 2.5
+is_following = false
+is_following_player = true
+place_in_line = 3
+follow_speed = 50.0
+
+[node name="NPC3" parent="." instance=ExtResource("2_xmmtp")]
+position = Vector2(90, 117)
+npc_will_walk = true
+npc_will_patrol = true
+walk_max = 2.5
+is_following = false
+is_following_player = true
+place_in_line = 4
+follow_speed = 50.0
+
+[node name="NPCPatrolLocations" type="Node2D" parent="."]
+visible = false
+
+[node name="PatrolLocation" parent="NPCPatrolLocations" instance=ExtResource("3_2fwss")]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(32, 24)
+
+[node name="PatrolLocation2" parent="NPCPatrolLocations" instance=ExtResource("3_2fwss")]
+modulate = Color(1, 1, 0, 1)
+position = Vector2(43, 172)
+
+[node name="PatrolLocation3" parent="NPCPatrolLocations" instance=ExtResource("3_2fwss")]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(217, 177)
+
+[node name="PatrolLocation4" parent="NPCPatrolLocations" instance=ExtResource("3_2fwss")]
+modulate = Color(0, 1, 1, 1)
+position = Vector2(237, 41)

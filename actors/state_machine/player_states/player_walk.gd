@@ -1,6 +1,5 @@
 class_name PlayerWalk extends State
 
-@export var move_speed : float = 115.00
 @onready var idle = %Idle
 
 func init():
@@ -22,7 +21,7 @@ func process (_delta : float) -> State:
 	if actor.direction == Vector2.ZERO:
 		return idle
 		
-	actor.velocity = actor.direction * move_speed
+	actor.velocity = actor.direction * actor.move_speed
 	if actor.set_direction():
 		#actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
 		actor.update_animation("walk")

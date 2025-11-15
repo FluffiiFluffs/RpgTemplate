@@ -347,3 +347,8 @@ script = ExtResource("4_31ora")
 [node name="Node2D5" type="Node2D" parent="StateMachine"]
 
 [node name="Node2D6" type="Node2D" parent="StateMachine"]
+
+[node name="PathTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+autostart = true

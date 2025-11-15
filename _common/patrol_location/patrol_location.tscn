@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://deknphofgc8wr"]
+
+[ext_resource type="Script" uid="uid://c65qan0ry0rcm" path="res://_common/patrol_location/patrol_location.gd" id="1_xpn7g"]
+
+[sub_resource type="Gradient" id="Gradient_k2q1a"]
+offsets = PackedFloat32Array(0, 0.1, 0.8, 0.9, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1jh3m"]
+gradient = SubResource("Gradient_k2q1a")
+width = 24
+height = 24
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[node name="PatrolLocation" type="Node2D"]
+script = ExtResource("1_xpn7g")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = SubResource("GradientTexture2D_1jh3m")
+
+[node name="Line2D" type="Line2D" parent="Sprite2D"]
+unique_name_in_owner = true
+show_behind_parent = true
+points = PackedVector2Array(0, 0, 25, 0)
+width = 1.0
+
+[node name="NumLabel" type="Label" parent="Sprite2D"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = -0.083000004
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -12.007999
+offset_top = -12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaitLabel" type="Label" parent="Sprite2D"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "WAIT:0.0s"
+horizontal_alignment = 1
+vertical_alignment = 1

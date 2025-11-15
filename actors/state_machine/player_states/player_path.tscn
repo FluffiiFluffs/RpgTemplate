@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://557qvf1lyisv"]
+
+[ext_resource type="Script" uid="uid://b7e3x7gj3s8e" path="res://actors/state_machine/player_states/player_path.gd" id="1_bm47o"]
+
+[sub_resource type="Curve2D" id="Curve2D_bd802"]
+
+[node name="PlayerPath" type="Path2D"]
+curve = SubResource("Curve2D_bd802")
+script = ExtResource("1_bm47o")

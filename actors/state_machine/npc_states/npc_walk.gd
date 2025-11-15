@@ -4,7 +4,7 @@ class_name NPCWalk extends State
 #
 @export var move_speed : float = 115.00
 @onready var idle : State = %Idle
-@onready var wander_shape = %WanderShape
+
 
 #@export_category("Walk AI")
 @export var next_state : State

@@ -4,21 +4,24 @@ class_name NPC
 extends Actor
 
 @onready var sprite_2d = %Sprite2D
-@onready var animation_player :AnimationPlayer= %AnimationPlayer
-@onready var audio_stream_player_2d :AudioStreamPlayer2D= %AudioStreamPlayer2D
-@onready var audio_listener_2d :AudioListener2D= %AudioListener2D #should be default listener
+@onready var animation_player : AnimationPlayer = %AnimationPlayer
+@onready var audio_stream_player_2d : AudioStreamPlayer2D = %AudioStreamPlayer2D
+@onready var audio_listener_2d : AudioListener2D = %AudioListener2D #should be default listener
 #Other areas look to see if this overlaps, monitorable
-@onready var body_collision_shape_2d = %BodyCollisionShape2D #Collision shape for player
-@onready var state_machine:StateMachine= %StateMachine #State Machine reference
+@onready var body_collision_shape_2d : CollisionShape2D = %BodyCollisionShape2D #Collision shape for player
+@onready var state_machine: StateMachine = %StateMachine #State Machine reference
 @onready var walk : State = %Walk
-@onready var walk_area : Area2D = %WanderArea
-@onready var wander_shape :CollisionShape2D= %WanderShape
+@onready var walk_area_2d : Area2D = %WalkArea2D
+@onready var walk_shape_2d : CollisionShape2D = %WalkShape2D
 ##Autostart, on timeout checks to see if player is within p_det_area. wait_time = 0.2s
 @onready var p_det_timer : Timer = %PDetTimer
 ##Detects the player
 @onready var p_det_area : Area2D = %P_Det_Area
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
-@onready var coll_timer = %CollTimer
+@onready var coll_timer : Timer = %CollTimer
+
+
+
 
 ##Data Resource for this NPC. Must be set!
 @export var npc_data:CharResource = null
@@ -33,6 +36,7 @@ extends Actor
 ##If coll_off_with_timer true, how long until collision disables when player is detected. Default 4.0s
 @export var coll_off_wait_time : float = 4.0
 
+##Determines default idle parameters, but usually overwritten by using other states.
 @export_category("Idle State AI")
 ##Minimum normal idle time
 @export var idle_min : float = 1.5
@@ -60,13 +64,38 @@ var walk_duration : float = 1.0
 ##For debugging! True will queue_free() the pink square showing where this NPC will wander.
 @export var free_walk_area : bool = true
 
-#var cardinal_direction : Vector2 = Vector2.DOWN #not needed for NPC
+
+@export_category("Patrol State AI")
+##MUST BE SET IF npc_will_patrol = true![br] Make a normal Node2D in the scene and add PatrolLocation as children.[br] MUST HAVE AT LEAST 2 PatrolLocations for patrol state to work!
+@export var patrol_parent : Node2D = null
+
+@export_category("Follow AI")
+@export var is_following : bool = false
+##If true, the state finds the player, finds the follow node it instantiates, and follows.
+@export var is_following_player : bool = false
+##How far back to follow from node_to_follow.follow_me_path
+@export_range(2, 4, 1.0) var place_in_line : int = 2
+##Set in follow script, determined by node_to_follow.move_speed and distance from point trying to be reached.
+@export var follow_speed : float = 50.0
+##This is referenced in the follow state script to determine speed.[br] This MUST have a type-hint or the inspector will show "null" even though the variable correctly sets
+@export var node_to_follow : Actor = null
+var follow_point_local : Vector2 = Vector2.ZERO
+var follow_point_global : Vector2 = Vector2.ZERO
+##node_to_follow.follow_me_path. Set by follow state
+var path_to_follow : Path2D = null
+##curve of node_to_follow.follow_me_path.
+var fcurve : Curve2D = null
+
+
+
+
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO
 ##Name of the direction the NPC is facing.
 var direction_name : String = "down"
 ##Was the player found?
 var player_detected : bool = false
+
 
 
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
@@ -77,6 +106,9 @@ signal player_is_not_detected ##Signal for if the player was not detected
 signal pcolldettrue ##Signal to turn off collisions after a certain time.
 signal pcolldetfalse ##Signal to turn collisions back on once player exits detection area.
 #signal direction_changed( new_direction )
+
+
+
 
 func _ready()->void:
 	if Engine.is_editor_hint():
@@ -103,17 +135,17 @@ func setup_npc()->void:
 ##If a WalkCenterPoint is defined, makes it the walk_center instead of NPC origin position.
 func if_walking()->void:
 	if free_walk_area == true: #for debugging
-		walk_area.queue_free()  #for debugging
+		walk_area_2d.queue_free()  #for debugging
 	elif free_walk_area == false:  #for debugging
 		if walkcenterpoint == null:
-			var warea = walk_area  #for debugging
-			wander_shape.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))  #for debugging
+			var warea = walk_area_2d  #for debugging
+			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))  #for debugging
 			remove_child(warea)  #for debugging
 			warea.global_position = global_position  #for debugging
 			add_sibling.call_deferred(warea)  #for debugging
 		elif walkcenterpoint != null:
-			var warea = walk_area  #for debugging
-			wander_shape.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))  #for debugging
+			var warea = walk_area_2d  #for debugging
+			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))  #for debugging
 			remove_child(warea)  #for debugging
 			warea.global_position = walkcenterpoint.global_position  #for debugging
 			add_sibling.call_deferred(warea)  #for debugging
@@ -121,6 +153,10 @@ func if_walking()->void:
 	#NPC will eventually walk to walk_center.global_position after scene load
 	if walkcenterpoint:
 		walk_center = walkcenterpoint.global_position
+		
+
+		
+		pass
 
 func _physics_process(_delta)->void:
 	if Engine.is_editor_hint():
@@ -129,7 +165,11 @@ func _physics_process(_delta)->void:
 
 func _process(_delta) -> void:
 	if Engine.is_editor_hint():
-		wander_shape.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
+		if npc_will_walk == true:
+			walk_area_2d.visible = true
+			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
+		elif npc_will_walk == false:
+			walk_area_2d.visible = false
 		return
 	pass
 
@@ -217,6 +257,13 @@ func collisions_disabled()->void:
 func collisions_enabled()->void:
 	body_collision_shape_2d.set_deferred("disabled", false)
 	pass
+
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed("test1"):
+		if node_to_follow != null:
+			print(str(name) + " is following " + str(node_to_follow.name))
+		else:
+			print(str(name) + "node_to_follow not ready")
 
 #for player control, may not need
 #func set_direction() -> bool:

@@ -300,6 +300,9 @@ collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_3jjbx")
 npc_data = ExtResource("2_3jjbx")
+is_following = null
+is_following_player = null
+follow_speed = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
