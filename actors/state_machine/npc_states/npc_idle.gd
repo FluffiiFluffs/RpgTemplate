@@ -5,11 +5,6 @@ class_name NPCIdle extends State
 ##The next state to transition to. Default "walk" state. Can be self
 @export var next_state:State = walk
 
-@export_category("AI")
-##Minimum normal idle time
-@export var idle_min : float = 1.5
-##Maximum normal idle time
-@export var idle_max : float = 3.5
 
 var idle_duration : float = 1.0
 
@@ -28,10 +23,10 @@ func if_npc()->void:
 				next_state = patrol #after idle done, patrol (move to next location)
 			elif actor.npc_will_patrol == false: #if patrol is off
 				if actor.npc_will_walk == true: #if wander is on
-					idle_duration = randf_range(idle_min,idle_max) #random idle duration
+					idle_duration = randf_range(actor.idle_min,actor.idle_max) #random idle duration
 					next_state = walk #walk around after idle done
 				elif actor.npc_will_walk == false: #if patrol and walk are false...normal idle
-					idle_duration = randf_range(idle_min,idle_max) #random idle duration
+					idle_duration = randf_range(actor.idle_min,actor.idle_max) #random idle duration
 					next_state = self #keep idling. Forever.
 
 
@@ -69,9 +64,10 @@ func start_idle()-> void:
 		if actor.player_detected == true:
 			if CharDataKeeper.controlled_character != null:
 				actor.update_direction(CharDataKeeper.controlled_character.global_position)
+				actor.update_direction_name()
 				idle_duration = 2.0
-	idle_duration = randf_range(idle_min,idle_max)
-	actor.velocity = Vector2.ZERO
+	idle_duration = randf_range(actor.idle_min,actor.idle_max) #Randomizes idle duration
+	actor.velocity = Vector2.ZERO #Stops any velocity
 	#actor.update_animation() #from previous iteration
 	actor.update_animation("idle")
 	#idle timer, does not process while paused

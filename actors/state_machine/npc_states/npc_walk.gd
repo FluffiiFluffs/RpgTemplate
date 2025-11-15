@@ -73,7 +73,7 @@ func handle_input( _event: InputEvent) -> State:
 ##Begins walk routine
 func start_walk()->void:
 	if actor is NPC: #if the actor is an NPC	
-		if actor.player_detected == true: #if the player is found, enter idle state
+		if actor.player_detected == true: #if the player is found, enter idle state immediately
 			walk_done = true
 		elif actor.player_detected == false: ##if player is NOT found...
 			actor.walk_duration = randf_range(actor.walk_min, actor.walk_max) #walk duration random
@@ -90,7 +90,7 @@ func start_walk()->void:
 			actor.direction = _dir
 			actor.velocity = actor.walk_speed * _dir #begins moving towards target position
 			actor.direction = actor.global_position.direction_to(actor.global_position + _dir)
-			actor.set_direction()
+			actor.update_direction_name()
 			actor.update_animation("walk")
 			await get_tree().create_timer(actor.walk_duration, false).timeout
 			if next_state == null: #ensures next state is something

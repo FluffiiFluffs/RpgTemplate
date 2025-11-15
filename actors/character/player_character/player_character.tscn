@@ -286,6 +286,7 @@ size = Vector2(16, 18)
 
 [node name="PlayerCharacter" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_mask = 20
 motion_mode = 1
 script = ExtResource("1_5dlv1")
 

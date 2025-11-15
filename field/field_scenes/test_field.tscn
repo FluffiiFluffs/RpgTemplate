@@ -11,5 +11,10 @@ position = Vector2(155, 120)
 
 [node name="NPC" parent="." instance=ExtResource("2_xmmtp")]
 position = Vector2(90, 117)
+collisions_on = true
+coll_off_with_timer = false
+coll_off_wait_time = 4.0
+idle_min = 1.5
+idle_max = 3.5
 walk_max = 2.5
-free_wander_area = false
+free_walk_area = true

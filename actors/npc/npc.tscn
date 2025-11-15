@@ -295,12 +295,13 @@ size = Vector2(96, 96)
 
 [node name="NPC" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_layer = 4
+collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_3jjbx")
 npc_data = ExtResource("2_3jjbx")
-npc_will_walk = true
-walk_min = 1.0
-walk_max = 1.5
+idle_min = null
+idle_max = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -323,7 +324,7 @@ unique_name_in_owner = true
 process_mode = 1
 current = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -6)
@@ -383,3 +384,7 @@ debug_color = Color(1, 0, 0.5372549, 0)
 unique_name_in_owner = true
 wait_time = 0.2
 autostart = true
+
+[node name="CollTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
