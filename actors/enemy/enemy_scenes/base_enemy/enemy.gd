@@ -25,6 +25,10 @@ extends Actor
 @export_category("Enemy Data Resource")
 ##Data Resource for this NPC. Must be set!
 @export var enemy_data:CharResource = null
+##For Debugging
+@export var was_spawned : bool = false
+##For Debugging
+@export var enemy_spawner : EnemySpawner = null
 @export_category("Enemy Toggles")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on will_patrol will disable this!
 @export var will_walk : bool = false
@@ -66,6 +70,8 @@ var walk_center : Vector2 = Vector2.ZERO
 var walk_duration : float = 1.0
 ##For debugging! True will queue_free() the pink square showing where this NPC will wander.
 @export var free_walk_area : bool = true
+@export var walk_extents_x := 0
+@export var walk_extents_y := 0
 
 
 @export_category("Patrol State AI")
@@ -205,18 +211,19 @@ func set_walk_center_point(_wcp:WalkCenterPoint)->void:
 
 ##Checks to see if the player is wtihin p_det_area. Fires signals and toggles bool.
 func _check_for_player()->void:
-	if p_det_area.overlaps_body(CharDataKeeper.controlled_character):
-		player_detected = true
-		#print("PLAYER DETECTED!")
-		player_is_detected.emit()
-		if coll_off_with_timer == true:
-			pcolldettrue.emit()
-	elif !p_det_area.overlaps_body(CharDataKeeper.controlled_character):
-		player_detected = false
-		#print("PLAYER NOT DETECTED!")
-		player_is_not_detected.emit()
-		if coll_off_with_timer == true:
-			pcolldetfalse.emit()
+	if CharDataKeeper.controlled_character != null:
+		if p_det_area.overlaps_body(CharDataKeeper.controlled_character):
+			player_detected = true
+			#print("PLAYER DETECTED!")
+			player_is_detected.emit()
+			if coll_off_with_timer == true:
+				pcolldettrue.emit()
+		elif !p_det_area.overlaps_body(CharDataKeeper.controlled_character):
+			player_detected = false
+			#print("PLAYER NOT DETECTED!")
+			player_is_not_detected.emit()
+			if coll_off_with_timer == true:
+				pcolldetfalse.emit()
 
 ##Starts coll_timer. coll_timer timeout triggrs collsions_disabled()
 func ptimercolloff()->void:

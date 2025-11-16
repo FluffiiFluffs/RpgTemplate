@@ -69,7 +69,7 @@ func start_idle()-> void:
 	else:
 		idle_duration = 0.1
 	actor.velocity = Vector2.ZERO #Stops any velocity
-	#actor.update_animation() #from previous iteration
+	#actor.update_animation() #from previous iteration1
 	actor.update_animation("idle")
 	#idle timer, does not process while paused
 	await get_tree().create_timer(idle_duration,false).timeout 

@@ -245,3 +245,5 @@ script = ExtResource("4_31ora")
 [node name="PathTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.1
+
+[node name="Camera2D" type="Camera2D" parent="."]

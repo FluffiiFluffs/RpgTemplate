@@ -12,9 +12,17 @@ size = Vector2(157, 81)
 y_sort_enabled = true
 
 [node name="EnemySpawner" parent="." instance=ExtResource("1_2kk2i")]
-enemy_actors = Array[ExtResource("2_y2dmi")]([ExtResource("4_l7imp"), ExtResource("3_i2nf2"), null])
+enemy_actors = Array[ExtResource("2_y2dmi")]([ExtResource("4_l7imp"), ExtResource("3_i2nf2")])
+enemy_groups = null
+difficulty_modifier = null
 enemy_spawn_chance = 100.0
-max_enemies = 9
+min_enemies = null
+max_enemies = 4
+replace_enemies = null
+replace_off_screen = null
+enemy_stays_in_area = null
+count_enemy_wait_time = null
+enemy_amount = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner"]
 position = Vector2(78.5, 41.5)

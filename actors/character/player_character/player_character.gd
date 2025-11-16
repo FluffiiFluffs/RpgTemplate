@@ -18,7 +18,6 @@ extends Actor
 
 @export var walk_speed : float = 115.0
 
-var direction_name : String = "down"
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
 var follow_me_path:Path2D=null
@@ -68,42 +67,6 @@ func set_direction() -> bool:
 	direction_changed.emit( new_dir )
 	
 	return true
-#
-#func set_direction() -> bool:
-	#if direction == Vector2.ZERO:
-		#return false
-#
-	#var direction_id : int
-	#var threshold : float = 0.45
-	#if direction.y < -threshold:
-		#cardinal_direction = Vector2.DOWN
-		#direction_id = 3
-	#elif direction.y > threshold:
-		#cardinal_direction = Vector2.UP
-		#direction_id = 1
-	#elif direction.x > threshold:
-		#cardinal_direction = Vector2.RIGHT
-		#direction_id = 0
-	#elif direction.x < -threshold:
-		#cardinal_direction = Vector2.LEFT
-		#direction_id = 2
-	#else:
-		#printerr(str(name) + " NO DIRECTION FOUND")
-	#
-	#var new_dir = DIR_4 [ direction_id ]
-		#
-	#if new_dir == cardinal_direction:
-		#print("!")
-		#return false
-		#
-	#cardinal_direction = new_dir
-	#direction_changed.emit( new_dir )
-	#
-	#return true
-	#
-
-#func update_animation(state : String) -> void:
-	#animation_player.play( state + "_" + direction_name)
 
 func update_animation(state : String) -> void:
 	animation_player.play( state + "_" + set_anim_direction())
@@ -125,25 +88,6 @@ func set_anim_direction() -> String:
 		return "left"
 	else:
 		return "right"
-
-###Updates direction name, uses threshold of 0.45
-#func update_direction_name()->String:	
-	#var threshold : float = 0.45
-	#if direction.y < -threshold:
-		#direction_name = "up"
-		#return "up"
-	#elif direction.y > threshold:
-		#direction_name = "down"
-		#return "down"
-	#elif direction.x > threshold:
-		#direction_name = "right"
-		#return "right"
-	#elif direction.x < -threshold:
-		#direction_name = "left"
-		#return "left"
-	#else:
-		#return direction_name
-
 
 
 ###Defunct. Was for NPC follow code.
