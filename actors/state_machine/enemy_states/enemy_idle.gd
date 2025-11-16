@@ -1,40 +1,35 @@
-class_name NPCIdle extends State
+class_name EnemyIdle extends State
 
 
 @onready var follow : State = %Follow
 @onready var walk :State= %Walk
 @onready var patrol :State= %Patrol
+@onready var chase : State = %Chase
 ##The next state to transition to. Default "walk" state. Can be self
 @export var next_state:State = walk
-
 
 var idle_duration : float = 1.0
 
 ## What happens when the state is entered
 func enter() -> void:
-	if_npc()
-	if_enemy()
+	if actor.player_detected == false: #if no player
+		if actor.is_following == true:
+			next_state = follow
+			actor.will_walk = false
+			actor.will_patrol = false
+		elif actor.will_patrol == true and !actor.is_following: #if patrol is on
+			idle_duration = patrol.idle_duration #idle for the duration determined in patrol
+			next_state = patrol #after idle done, patrol (move to next location)
+		elif actor.will_patrol == false and !actor.is_following: #if patrol is off
+			if actor.will_walk == true and !actor.is_following: #if wander is on
+				idle_duration = randf_range(actor.idle_min,actor.idle_max) #random idle duration
+				next_state = walk #walk around after idle done
+			elif actor.will_walk == false and !actor.is_following: #if patrol and walk are false...normal idle
+				idle_duration = randf_range(actor.idle_min,actor.idle_max) #random idle duration
+				next_state = self #keep idling. Forever.
+	elif actor.player_detected == true:
+		state_machine.change_state(chase)
 	start_idle()
-	
-##Checks if the state is being used by an NPC.	
-func if_npc()->void:
-	if actor is NPC: #if the actor using this script is an NPC...
-		if actor.player_detected == false: #if no player
-			if actor.is_following == true:
-				next_state = follow
-				actor.will_walk = false
-				actor.will_patrol = false
-			elif actor.will_patrol == true and !actor.is_following: #if patrol is on
-				idle_duration = patrol.idle_duration #idle for the duration determined in patrol
-				next_state = patrol #after idle done, patrol (move to next location)
-			elif actor.will_patrol == false and !actor.is_following: #if patrol is off
-				if actor.will_walk == true and !actor.is_following: #if wander is on
-					idle_duration = randf_range(actor.idle_min,actor.idle_max) #random idle duration
-					next_state = walk #walk around after idle done
-				elif actor.will_walk == false and !actor.is_following: #if patrol and walk are false...normal idle
-					idle_duration = randf_range(actor.idle_min,actor.idle_max) #random idle duration
-					next_state = self #keep idling. Forever.
-
 ##Checks if the state is being used by an enemy
 func if_enemy()->void:
 	pass

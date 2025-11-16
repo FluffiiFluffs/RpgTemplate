@@ -5,6 +5,12 @@ extends Node2D
 
 @export var controlled_character_data:CharResource
 @export var controlled_character:PlayerCharacter
+@export_range(1, 4, 1) var party_size:int=4
+@export var party_member_02 : NPC = null
+@export var party_member_03 : NPC = null
+@export var party_member_04 : NPC = null
+
+
 
 @export var slot00 : CharResource = null #set in inspector
 var slot00_in_party:bool=true
@@ -126,6 +132,8 @@ var slot03_accy02
 var slot03_mainhand
 var slot03_offhand
 var slot03_2handing:bool=false
+
+
 
 
 func set_modified_data()->void:

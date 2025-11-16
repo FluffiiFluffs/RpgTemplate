@@ -22,19 +22,24 @@ extends Actor
 
 
 
-
+@export_category("NPC Data Resource")
 ##Data Resource for this NPC. Must be set!
 @export var npc_data:CharResource = null
+@export_category("NPC Toggles")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on npc_will_patrol will disable this!
-@export var npc_will_walk : bool = false
+@export var will_walk : bool = false
 ##NPC patrols area.[br] Locations to walk to will be determined by PatrolLocation nodes.
-@export var npc_will_patrol : bool = false
+@export var will_patrol : bool = false
 ##Enables collisions for this NPC. Default true.
 @export var collisions_on : bool = true
 ##If true, collisions will disable after coll_off_wait_time elapses
 @export var coll_off_with_timer : bool = false
 ##If coll_off_with_timer true, how long until collision disables when player is detected. Default 4.0s
 @export var coll_off_wait_time : float = 4.0
+##How fast to walk. Default 30.0
+@export var walk_speed : float = 30.0
+##If walk speed is altered, this is what walk speed will be set back to. Default = walk_speed
+@export var default_walk_speed : float = walk_speed
 
 ##Determines default idle parameters, but usually overwritten by using other states.
 @export_category("Idle State AI")
@@ -49,8 +54,6 @@ extends Actor
 @export var walk_range : float = 3
 ##Walk Center Point if needed. If none, global position of actor is used.
 @export var walkcenterpoint:WalkCenterPoint=null
-##How fast to walk. Default 30.0
-@export var walk_speed : float = 30.0
 ##Tile size for this project. Default 16x16
 @export var tile_size : float = 16
 ##Minimum time to walk (seconds).
@@ -70,22 +73,12 @@ var walk_duration : float = 1.0
 @export var patrol_parent : Node2D = null
 
 @export_category("Follow AI")
+##The actor this node will attempt to follow in the follow state
+@export var actor_to_follow : Actor = null
+##If set to true, NPC will attempt to follow actor_to_follow
 @export var is_following : bool = false
-##If true, the state finds the player, finds the follow node it instantiates, and follows.
-@export var is_following_player : bool = false
-##How far back to follow from node_to_follow.follow_me_path
-@export_range(2, 4, 1.0) var place_in_line : int = 2
-##Set in follow script, determined by node_to_follow.move_speed and distance from point trying to be reached.
+##Set in follow state script, equal to actor_to_follow.walk_speed 
 @export var follow_speed : float = 50.0
-##This is referenced in the follow state script to determine speed.[br] This MUST have a type-hint or the inspector will show "null" even though the variable correctly sets
-@export var node_to_follow : Actor = null
-var follow_point_local : Vector2 = Vector2.ZERO
-var follow_point_global : Vector2 = Vector2.ZERO
-##node_to_follow.follow_me_path. Set by follow state
-var path_to_follow : Path2D = null
-##curve of node_to_follow.follow_me_path.
-var fcurve : Curve2D = null
-
 
 
 
@@ -165,10 +158,10 @@ func _physics_process(_delta)->void:
 
 func _process(_delta) -> void:
 	if Engine.is_editor_hint():
-		if npc_will_walk == true:
+		if will_walk == true:
 			walk_area_2d.visible = true
 			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
-		elif npc_will_walk == false:
+		elif will_walk == false:
 			walk_area_2d.visible = false
 		return
 	pass
@@ -187,7 +180,7 @@ func play_animation(_name:String, _direction:String="down"):
 
 ##Updates direction name, uses threshold of 0.45
 func update_direction_name()->String:	
-	var threshold : float = 0.45
+	var threshold : float = 0.65
 	if direction.y < -threshold:
 		direction_name = "up"
 		return "up"
@@ -259,11 +252,12 @@ func collisions_enabled()->void:
 	pass
 
 func _unhandled_input(_event):
-	if Input.is_action_just_pressed("test1"):
-		if node_to_follow != null:
-			print(str(name) + " is following " + str(node_to_follow.name))
-		else:
-			print(str(name) + "node_to_follow not ready")
+	#if Input.is_action_just_pressed("test1"):
+		#if node_to_follow != null:
+			#print(str(name) + " is following " + str(node_to_follow.name))
+		#else:
+			#print(str(name) + "node_to_follow not ready")
+	pass
 
 #for player control, may not need
 #func set_direction() -> bool:

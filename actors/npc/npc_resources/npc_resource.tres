@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="CharResource" load_steps=3 format=3 uid="uid://cxqnsipl5wpr8"]
 
-[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/char_resource.gd" id="1_64pog"]
-[ext_resource type="Texture2D" uid="uid://uylp5sbgwvth" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="1_em7lc"]
+[ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="1_em7lc"]
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/char_resources/char_resource.gd" id="2_em7lc"]
 
 [resource]
-script = ExtResource("1_64pog")
+resource_local_to_scene = true
+script = ExtResource("2_em7lc")
 char_faction = 1
 char_name = "NPC"
 char_sprite_sheet = ExtResource("1_em7lc")

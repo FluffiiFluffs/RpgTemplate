@@ -5,6 +5,7 @@ extends Resource
 @export var char_name:String=""
 @export_enum("WARRIOR","THIEF","MAGE","HEALER") var char_class:int
 @export var char_sprite_sheet:Texture
+@export var battle_sprite_sheet:Texture
 @export var char_level:int=1
 @export var current_exp:int=0
 @export var max_hp:int=100

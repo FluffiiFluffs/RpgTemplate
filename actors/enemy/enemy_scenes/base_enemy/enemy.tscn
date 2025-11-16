@@ -1,10 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://bita6dnrj87wq"]
+[gd_scene load_steps=24 format=3 uid="uid://dt3hw6ocf2cl7"]
 
-[ext_resource type="Script" uid="uid://dktt53hbh57f5" path="res://actors/character/player_character/player_character.gd" id="1_5dlv1"]
-[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_6oia8"]
-[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="3_t0tay"]
-[ext_resource type="Script" uid="uid://ebmcasvilahp" path="res://actors/state_machine/player_states/player_idle.gd" id="4_6oia8"]
-[ext_resource type="Script" uid="uid://plkn7epwt71w" path="res://actors/state_machine/player_states/player_walk.gd" id="4_31ora"]
+[ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_0bajq"]
+[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_ntjkm"]
+[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="4_laeoq"]
+[ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="4_ntjkm"]
+[ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/state_machine/npc_states/npc_walk.gd" id="6_mk5gs"]
+[ext_resource type="Script" uid="uid://c3stcs3g00qcn" path="res://actors/state_machine/enemy_states/enemy_patrol.gd" id="6_ntjkm"]
+[ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_chase.gd" id="8_ntjkm"]
+[ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="8_ordjh"]
+[ext_resource type="PackedScene" uid="uid://cgyymkjxthh20" path="res://_common/area_interact/area_interact.tscn" id="9_53jt1"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -170,21 +174,29 @@ _data = {
 &"walk_up": SubResource("Animation_7ar1o")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
-size = Vector2(32, 26)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
-[node name="PlayerCharacter" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_umrb1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h05io"]
+size = Vector2(48, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_muh4v"]
+size = Vector2(96, 96)
+
+[node name="Enemy" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_mask = 20
+collision_layer = 4
+collision_mask = 16
 motion_mode = 1
-script = ExtResource("1_5dlv1")
+script = ExtResource("1_0bajq")
+will_walk = null
+will_patrol = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("2_6oia8")
+texture = ExtResource("2_ntjkm")
 offset = Vector2(0, -15)
 hframes = 4
 vframes = 3
@@ -205,18 +217,7 @@ unique_name_in_owner = true
 process_mode = 1
 current = true
 
-[node name="InteractAreaTrigger2D" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 64
-collision_mask = 0
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractAreaTrigger2D"]
-position = Vector2(0, -5)
-shape = SubResource("RectangleShape2D_pflqk")
-debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -6)
@@ -224,24 +225,63 @@ shape = SubResource("RectangleShape2D_b1uet")
 
 [node name="StateMachine" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("3_t0tay")
+script = ExtResource("4_laeoq")
 
 [node name="Idle" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("4_6oia8")
+script = ExtResource("4_ntjkm")
 
-[node name="Walk" type="Node2D" parent="StateMachine"]
+[node name="Walk" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("next_state")]
 unique_name_in_owner = true
-script = ExtResource("4_31ora")
+script = ExtResource("6_mk5gs")
+next_state = NodePath("../Idle")
 
 [node name="Talking" type="Node2D" parent="StateMachine"]
 
-[node name="CutScene" type="Node2D" parent="StateMachine"]
-
-[node name="Node2D5" type="Node2D" parent="StateMachine"]
-
-[node name="Node2D6" type="Node2D" parent="StateMachine"]
-
-[node name="PathTimer" type="Timer" parent="."]
+[node name="Patrol" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-wait_time = 0.1
+script = ExtResource("6_ntjkm")
+
+[node name="Follow" type="Node2D" parent="StateMachine"]
+unique_name_in_owner = true
+script = ExtResource("8_ordjh")
+
+[node name="Chase" type="Node2D" parent="StateMachine"]
+unique_name_in_owner = true
+script = ExtResource("8_ntjkm")
+
+[node name="AreaInteract" parent="." instance=ExtResource("9_53jt1")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaInteract"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_umrb1")
+debug_color = Color(0, 0.3557534, 0.822601, 0.41960785)
+
+[node name="P_Det_Area" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P_Det_Area"]
+shape = SubResource("RectangleShape2D_h05io")
+debug_color = Color(0.49411765, 0, 1, 0.09019608)
+
+[node name="WalkArea2D" type="Area2D" parent="."]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+collision_mask = 0
+
+[node name="WalkShape2D" type="CollisionShape2D" parent="WalkArea2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_muh4v")
+debug_color = Color(1, 0, 0.5372549, 0)
+
+[node name="PDetTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.2
+autostart = true
+
+[node name="CollTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

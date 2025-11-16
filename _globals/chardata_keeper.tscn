@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://8vgkriebxli3"]
+[gd_scene load_steps=4 format=3 uid="uid://8vgkriebxli3"]
 
 [ext_resource type="Script" uid="uid://bjylpsq33l742" path="res://_globals/chardata_keeper.gd" id="1_7befc"]
 [ext_resource type="Resource" uid="uid://prpth3t5akim" path="res://actors/character/char_resources/00_char.tres" id="2_4byte"]
+[ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/npc/npc_resources/npc_resource.tres" id="3_x4q7v"]
 
 [node name="ChardataKeeper" type="Node2D"]
 script = ExtResource("1_7befc")
 slot00 = ExtResource("2_4byte")
-slot01 = ExtResource("2_4byte")
-slot02 = ExtResource("2_4byte")
-slot03 = ExtResource("2_4byte")
+slot01 = ExtResource("3_x4q7v")
+slot02 = ExtResource("3_x4q7v")
+slot03 = ExtResource("3_x4q7v")

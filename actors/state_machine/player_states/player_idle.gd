@@ -2,10 +2,14 @@ class_name PlayerIdle extends State
 
 @onready var walk :State= %Walk
 
+func _ready()->void:
+	actor = get_parent().get_parent()
+	state_machine = get_parent()
+
 ## What happens when the state is entered
 func enter() -> void:
 	actor.animation_player.play("idle" + "_" + actor.set_anim_direction())
-	#GlobalPlayerManager.is_moving = false #might need this later
+	actor.update_animation("idle")
 
 ## What happens when the state is exited
 func exit() -> void:

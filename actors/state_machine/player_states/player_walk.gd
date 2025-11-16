@@ -4,10 +4,14 @@ class_name PlayerWalk extends State
 
 func init():
 	pass
+	
+func _ready()->void:
+	actor = get_parent().get_parent()
+	state_machine = get_parent()
 
 ## What happens when the state is entered
 func enter() -> void:
-	#actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
+	actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
 	actor.update_animation("walk")
 	#GlobalPlayerManager.is_moving = true
 	pass
@@ -21,10 +25,9 @@ func process (_delta : float) -> State:
 	if actor.direction == Vector2.ZERO:
 		return idle
 		
-	actor.velocity = actor.direction * actor.move_speed
+	actor.velocity = actor.direction * actor.walk_speed
 	if actor.set_direction():
-		#actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
-		actor.update_animation("walk")
+		actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
 	return null
 
 ## What happens during _physics_process(): update state is running

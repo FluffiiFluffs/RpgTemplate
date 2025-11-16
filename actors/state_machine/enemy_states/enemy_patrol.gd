@@ -1,5 +1,5 @@
 @tool
-class_name NPCPatrol extends State
+class_name EnemyPatrol extends State
 #
 @onready var idle = %Idle
 
@@ -29,8 +29,8 @@ func enter() -> void:
 	if patrol_locations.size() < 2:
 		printerr("NPC" + str(actor.name) + " DOES NOT HAVE ANY PATROL LOCATIONS AS CHILDREN!")
 		printerr("NPC " + str(actor.name) + " SET TO WANDER MODE")
-		actor.will_patrol = false
-		actor.will_walk = true
+		actor.npc_will_patrol = false
+		actor.npc_will_walk = true
 		state_machine.change_state(idle)
 	if target:
 		if target.target_position.distance_to(actor.global_position) < 1:
