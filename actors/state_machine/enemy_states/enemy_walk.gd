@@ -27,7 +27,10 @@ func enter() -> void:
 	if actor.walkcenterpoint:
 		actor.walk_center = actor.walkcenterpoint.global_position
 	walk_done = false
-	start_walk()
+	if !actor.was_spawned:
+		normal_walk()
+	elif actor.was_spawned:
+		spawned_walk()
 	#print(str(actor.name) + " Start Walk State")
 	pass
 	
@@ -53,7 +56,7 @@ func handle_input( _event: InputEvent) -> State:
 	return null
 
 ##Begins walk routine
-func start_walk()->void:
+func normal_walk()->void:
 	if actor.player_detected == true: #if the player is found, enter idle state immediately
 		state_machine.change_state(chase) #Chase the player!
 	elif actor.player_detected == false: ##if player is NOT found...
@@ -64,6 +67,39 @@ func start_walk()->void:
 		if abs(actor.global_position.distance_to(actor.walk_center)) > actor.walk_range * actor.tile_size:
 			#print(str(actor.name) + " OUT OF CENTER RANGE!")
 			var dir_to_area : Vector2 = actor.global_position.direction_to(actor.walk_center)
+			var best_direction : Array[float] = []
+			for d in actor.DIR_4:
+				best_direction.append (d.dot(dir_to_area))
+			_dir = actor.DIR_4[best_direction.find(best_direction.max())]
+		actor.direction = _dir
+		actor.velocity = actor.walk_speed * _dir #begins moving towards target position
+		actor.direction = actor.global_position.direction_to(actor.global_position + _dir)
+		actor.update_direction_name()
+		actor.update_animation("walk")
+		await get_tree().create_timer(actor.walk_duration, false).timeout
+		if next_state == null: #ensures next state is something
+			next_state = idle
+		walk_done = true
+
+
+func spawned_walk()->void:
+	if actor.player_detected == true: #if the player is found, enter idle state immediately
+		state_machine.change_state(chase) #Chase the player!
+	elif actor.player_detected == false: ##if player is NOT found...
+		actor.walk_duration = randf_range(actor.walk_min, actor.walk_max) #walk duration random
+		var _dir : Vector2 = actor.DIR_4[randi_range(0,3)] #pick a random direction
+		var dist_to_center_x = abs(actor.global_position.x - actor.walk_shape.global_position.x)
+		var dist_to_center_y = abs(actor.global_position.y - actor.walk_shape.global_position.y)
+		#print("dist_to_center_x " + str(dist_to_center_x))
+		#print("dist_to_center_y " + str(dist_to_center_y))
+		var farthest_y = abs(actor.walk_extents_y / 2)
+		#print("farthest_y " + str(farthest_y))
+		var farthest_x = abs(actor.walk_extents_x / 2)
+		#print("farthest_y " + str(farthest_x))
+		#if outside the walking range, finds the best way to get back to the center
+		if dist_to_center_x > farthest_x or dist_to_center_y > farthest_y:
+			#print(str(actor.name) + " OUT OF CENTER RANGE!")
+			var dir_to_area : Vector2 = actor.global_position.direction_to(actor.walk_shape.global_position)
 			var best_direction : Array[float] = []
 			for d in actor.DIR_4:
 				best_direction.append (d.dot(dir_to_area))

@@ -3,6 +3,12 @@
 ##As with normal RPG convention, Slot00 is the currently controlled character, set by player_character.gd on load
 extends Node2D
 
+const PLAYER_CHARACTER = preload("uid://bita6dnrj87wq")
+const NPC = preload("uid://56kk082o8ck1")
+const ENEMY = preload("uid://dt3hw6ocf2cl7")
+
+
+
 @export var controlled_character_data:CharResource
 @export var controlled_character:PlayerCharacter
 @export_range(1, 4, 1) var party_size:int=4

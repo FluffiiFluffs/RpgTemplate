@@ -1,4 +1,3 @@
-@tool
 ##enemy.gd
 class_name Enemy
 extends Actor
@@ -76,9 +75,12 @@ var walk_center : Vector2 = Vector2.ZERO
 var walk_duration : float = 1.0
 ##For debugging! True will queue_free() the pink square showing where this NPC will wander.
 @export var free_walk_area : bool = true
-@export var walk_extents_x := 0
-@export var walk_extents_y := 0
-
+##For debugging! Defines shape.x the enemy will walk in
+@export var walk_extents_x : float = 0.0
+##For debugging! Defines shape.y the enemy will walk in.
+@export var walk_extents_y : float = 0.0
+##For debugging! Stores the collision shape this node spawned from.
+@export var walk_shape : CollisionShape2D = null
 
 @export_category("Patrol State AI")
 ##MUST BE SET IF will_patrol = true![br] Make a normal Node2D in the scene and add PatrolLocation as children.[br] MUST HAVE AT LEAST 2 PatrolLocations for patrol state to work!
@@ -105,7 +107,6 @@ var direction_name : String = "down"
 var player_detected : bool = false
 
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
-const _00_CHAR = preload("uid://prpth3t5akim")
 
 signal player_is_detected ##Signal for if the player is detected
 signal player_is_not_detected ##Signal for if the player was not detected
@@ -113,18 +114,22 @@ signal pcolldettrue ##Signal to turn off collisions after a certain time.
 signal pcolldetfalse ##Signal to turn collisions back on once player exits detection area.
 #signal direction_changed( new_direction )
 
-
-
-
 func _ready()->void:
 	if Engine.is_editor_hint():
 		return
 	setup_enemy()
 	if_walking()
+	tree_exited.connect(wareafree)
 	pass
+
+func wareafree():
+	if walk_area_2d:
+		walk_area_2d.queue_free()
 
 ##Setup routine for NPC
 func setup_enemy()->void:
+	walk_area_2d.original_parent = self
+	walk_area_2d.was_spawned = was_spawned
 	sprite_2d.texture = enemy_data.char_sprite_sheet #gets texture from resource
 	walk_center = global_position #Sets walk center to NPC global position
 	state_machine.initialize(self) #Initializes state_machine script to be the this node
@@ -135,7 +140,6 @@ func setup_enemy()->void:
 	pcolldettrue.connect(ptimercolloff)
 	pcolldetfalse.connect(ptimercollon)
 	
-	
 	pass
 ##Determines if walk_area shows up in debug. Sets up walk_area size. Places walk_area at NPC's position but does not move with NPC.[br]
 ##If a WalkCenterPoint is defined, makes it the walk_center instead of NPC origin position.
@@ -144,24 +148,19 @@ func if_walking()->void:
 		walk_area_2d.queue_free()  #for debugging
 	elif free_walk_area == false:  #for debugging
 		if walkcenterpoint == null:
-			var warea = walk_area_2d  #for debugging
 			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))  #for debugging
-			remove_child(warea)  #for debugging
-			warea.global_position = global_position  #for debugging
-			add_sibling.call_deferred(warea)  #for debugging
+			remove_child(walk_area_2d)  #for debugging
+			walk_area_2d.global_position = global_position  #for debugging
+			add_sibling.call_deferred(walk_area_2d)  #for debugging
 		elif walkcenterpoint != null:
-			var warea = walk_area_2d  #for debugging
 			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))  #for debugging
-			remove_child(warea)  #for debugging
-			warea.global_position = walkcenterpoint.global_position  #for debugging
-			add_sibling.call_deferred(warea)  #for debugging
+			remove_child(walk_area_2d)  #for debugging
+			walk_area_2d.global_position = walkcenterpoint.global_position  #for debugging
+			add_sibling.call_deferred(walk_area_2d)  #for debugging
 	#If a walkcenterpoint is set in the inspector, it becomes the walk_center for walk state
 	#NPC will eventually walk to walk_center.global_position after scene load
 	if walkcenterpoint:
 		walk_center = walkcenterpoint.global_position
-		
-
-		
 		pass
 
 func _physics_process(_delta)->void:
@@ -171,11 +170,12 @@ func _physics_process(_delta)->void:
 
 func _process(_delta) -> void:
 	if Engine.is_editor_hint():
-		if will_walk == true:
-			walk_area_2d.visible = true
-			walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
-		elif will_walk == false:
-			walk_area_2d.visible = false
+		if walk_area_2d:
+			if will_walk == true:
+				walk_area_2d.visible = true
+				walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
+			elif will_walk == false:
+				walk_area_2d.visible = false
 		return
 	pass
 

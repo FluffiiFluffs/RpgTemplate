@@ -25,7 +25,7 @@ var follow_me_path:Path2D=null
 ## 0 = RIGHT, 1 = DOWN, 2 = LEFT, 3 = UP
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
 const _00_CHAR = preload("uid://prpth3t5akim")
-const PLAYER_PATH = preload("uid://557qvf1lyisv")
+
 
 signal direction_changed( new_direction )
 

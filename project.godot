@@ -23,6 +23,10 @@ DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
 
+[debug]
+
+settings/stdout/verbose_stdout=true
+
 [display]
 
 window/size/viewport_width=398

@@ -58,16 +58,16 @@ func init():
 ##Begins idle routine
 func start_idle()-> void:
 	#print(str(actor.name) + " Start Idle State")
-	if actor is NPC:
-		if actor.player_detected == true:
-			if CharDataKeeper.controlled_character != null:
-				actor.update_direction(CharDataKeeper.controlled_character.global_position)
-				actor.update_direction_name()
-				idle_duration = 2.0
-	if !actor.is_following:
-		idle_duration = randf_range(actor.idle_min,actor.idle_max) #Randomizes idle duration
-	else:
-		idle_duration = 0.1
+	#if actor is NPC:
+		#if actor.player_detected == true:
+			#if CharDataKeeper.controlled_character != null:
+				#actor.update_direction(CharDataKeeper.controlled_character.global_position)
+				#actor.update_direction_name()
+				#idle_duration = 2.0
+	#if !actor.is_following:
+		#idle_duration = randf_range(actor.idle_min,actor.idle_max) #Randomizes idle duration
+	#else:
+		#idle_duration = 0.1
 	actor.velocity = Vector2.ZERO #Stops any velocity
 	#actor.update_animation() #from previous iteration1
 	actor.update_animation("idle")
