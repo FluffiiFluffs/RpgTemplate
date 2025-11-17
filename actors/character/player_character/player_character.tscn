@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bita6dnrj87wq"]
+[gd_scene load_steps=20 format=3 uid="uid://bita6dnrj87wq"]
 
 [ext_resource type="Script" uid="uid://dktt53hbh57f5" path="res://actors/character/player_character/player_character.gd" id="1_5dlv1"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_6oia8"]
@@ -176,9 +176,15 @@ size = Vector2(32, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0cue"]
+size = Vector2(398, 224)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6oia8"]
+size = Vector2(696.5, 392)
+
 [node name="PlayerCharacter" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_mask = 20
+collision_mask = 28
 motion_mode = 1
 script = ExtResource("1_5dlv1")
 
@@ -247,3 +253,17 @@ unique_name_in_owner = true
 wait_time = 0.1
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.25, 0.25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D"]
+shape = SubResource("RectangleShape2D_b0cue")
+debug_color = Color(0.8862745, 0, 0.8039216, 0)
+
+[node name="EnemySpawnTrigger" type="Area2D" parent="."]
+collision_layer = 524288
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger"]
+shape = SubResource("RectangleShape2D_6oia8")
+debug_color = Color(1, 0, 0, 0)

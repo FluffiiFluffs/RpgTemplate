@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_ntjkm"]
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="4_laeoq"]
 [ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="4_ntjkm"]
-[ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/state_machine/npc_states/npc_walk.gd" id="6_mk5gs"]
+[ext_resource type="Script" uid="uid://cl15npn1uos1n" path="res://actors/state_machine/enemy_states/enemy_walk.gd" id="5_ntjkm"]
 [ext_resource type="Script" uid="uid://c3stcs3g00qcn" path="res://actors/state_machine/enemy_states/enemy_patrol.gd" id="6_ntjkm"]
 [ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_chase.gd" id="8_ntjkm"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="8_ordjh"]
@@ -187,7 +187,7 @@ size = Vector2(96, 96)
 
 [node name="Enemy" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_layer = 4
+collision_layer = 8
 collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_0bajq")
@@ -232,7 +232,7 @@ script = ExtResource("4_ntjkm")
 
 [node name="Walk" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("next_state")]
 unique_name_in_owner = true
-script = ExtResource("6_mk5gs")
+script = ExtResource("5_ntjkm")
 next_state = NodePath("../Idle")
 
 [node name="Talking" type="Node2D" parent="StateMachine"]

@@ -25,11 +25,7 @@ extends Actor
 @export_category("Enemy Data Resource")
 ##Data Resource for this NPC. Must be set!
 @export var enemy_data:CharResource = null
-##For Debugging
-@export var was_spawned : bool = false
-##For Debugging
-@export var enemy_spawner : EnemySpawner = null
-@export_category("Enemy Toggles")
+@export_category("Enemy Options")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on will_patrol will disable this!
 @export var will_walk : bool = false
 ##NPC patrols area.[br] Locations to walk to will be determined by PatrolLocation nodes.
@@ -44,6 +40,16 @@ extends Actor
 @export var walk_speed : float = 30.0
 ##If walk speed is altered, this is what walk speed will be set back to default = walk_speed
 @export var default_walk_speed : float = walk_speed
+@export_category("Spawned by Spawner Options")
+##For Debugging.[br]Bool for if this enemy was spawned by an EnemySpawner node
+@export var was_spawned : bool = false
+##For Debugging.[br]Reference to the enemy_spawner.[br]Set by the spawner when enemy is instantiated
+@export var enemy_spawner : EnemySpawner = null
+##If true, this enemy will despawn when the player is a certain distance from the enemy.[br]Usually set by the EnemySpawner parent node
+@export var despawn_with_distance : bool = false
+##How far the player must be to despawn the enemy if despawn_with_distance = true.[br]Usually set by the EnemySpawner parent node
+@export var despawn_distance : float = 500
+
 
 ##Determines default idle parameters, but usually overwritten by using other states.
 @export_category("Idle State AI")
@@ -86,7 +92,10 @@ var walk_duration : float = 1.0
 
 
 @export_category("Chase AI")
-
+##If the enemy can see the player
+@export var see_player : bool = false
+##If the enemy is chasing the player
+@export var chasing_player : bool = false
 
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO

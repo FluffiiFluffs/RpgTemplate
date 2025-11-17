@@ -3,7 +3,10 @@ extends Area2D
 
 const ENEMY = preload("uid://dt3hw6ocf2cl7")
 
+##Unused. Defunct
 @onready var spawn_timer : Timer = %SpawnTimer
+##Visual marker for editor
+@onready var sprite_2d = %Sprite2D
 
 ##How the enemy will be represented on the field.
 @export var enemy_actors:Array[CharResource]
@@ -14,13 +17,13 @@ const ENEMY = preload("uid://dt3hw6ocf2cl7")
 ##Percent chance enemies will spawn from this node
 @export_range(1,100,0.5) var enemy_spawn_chance : float = 30.0
 ##Minimum enemies to spawn in the area
-@export_range(1,20,1) var min_enemies : int = 1
+@export_range(1,100,1) var min_enemies : int = 1
 ##Maximum enemies to spawn in the area
-@export_range(1, 20, 1) var max_enemies : int = 1
-##If true, enemies will be replaced after defeat. (on-screen)
-@export var replace_enemies : bool = false
-##If true, enemies will be replaced when area is off-screen.
-@export var replace_off_screen : bool = false
+@export_range(1, 100, 1) var max_enemies : int = 1
+##If true, enemies will despawn when a certain distance away from the player (usually off-screen)
+@export var despawn_with_distance : bool = true
+##How far the player must be to despawn the enemies
+@export var despawn_distance : float = 500
 ##If enemy is confined to the area.
 @export var enemy_stays_in_area : bool = false
 ##How long to wait before trying to spawn new enemies when below max
@@ -28,77 +31,17 @@ const ENEMY = preload("uid://dt3hw6ocf2cl7")
 ##FOR DEBUG![br]Array of collision shapes.[br]! ! ! ! SHAPE CAN ONLY BE A RectangelShape2D ! ! ! !
 @export var collision_shapes : Array[CollisionShape2D] = []
 ##How many enemies remain in the group.
-@export var enemy_amount : int = 0
-
+@export var enemies_to_spawn : int = 0
+##How many enemies are currently spawned
+@export var spawn_count : int = 0
 
 func _ready() -> void:
-	randomize()
-	#just gets rid of the timer if replace_enemies is false
-	if replace_enemies == false:
-		spawn_timer.queue_free()
-	else:
-		spawn_timer.timeout.connect(replace_enemy)
-		spawn_timer.wait_time = count_enemy_wait_time
-	gather_shapes()
-
-
-func spawn_all() -> void:
-	if enemy_actors.is_empty():
-		push_warning("EnemySpawner has no enemy_actors set")
-		return
-	var random_chance = randf_range(0, 100)
-	if random_chance <= enemy_spawn_chance:
-		enemy_amount = randi_range(min_enemies, max_enemies)
-		for i in enemy_amount:
-			if enemy_amount == max_enemies:
-				print(str(name) + " reached max enemy amount (" + str(max_enemies) + ")")
-				return
-			if enemy_amount < max_enemies:
-				var random_actor = enemy_actors[randi_range(0, enemy_actors.size()-1)]
-				var enemy = ENEMY.instantiate()
-				enemy.enemy_data = random_actor
-				enemy.was_spawned = true
-				enemy.enemy_spawner = self
-				enemy.will_walk = true
-				var rand_shape = collision_shapes[pick_random_shape()]
-				enemy.global_position = _random_point_in_rect(rand_shape.shape)
-				await get_tree().process_frame
-				add_child(enemy)
-				enemy_amount += clampi(1,0,max_enemies)
-				#random_group() ##TODO
-
-##TODO
-func random_group()->void:
-	var rand_group : int = randi_range(0, enemy_groups.size()-1)
-	#assign group to enemy_actor group variable
-
-##Replaces enemy when timer completes if less than max enemies
-func replace_enemy()->void:
-	if replace_enemies == true:
-		if replace_off_screen == false:
-			if enemy_amount == max_enemies:
-				print("SpawnTimer cannot spawn more enemies. Max enemies present")
-				return
-			if enemy_amount < max_enemies:
-				var random_chance = randf_range(0,100)
-				if random_chance < enemy_spawn_chance:
-					var random_actor : CharResource = enemy_actors[randi_range(0, enemy_actors.size()-1)]
-					var enemy :Enemy= random_actor.instantiate()
-					enemy.enemy_data = random_actor
-					enemy.was_spawned = true
-					var rand_shape = collision_shapes[pick_random_shape()]
-					enemy.walk_extents_x = rand_shape.extents.x
-					enemy.walk_extents_y = rand_shape.extents.y
-					enemy.global_position = _random_point_in_rect(rand_shape)
-					add_child(enemy)
-					enemy.enemy_spawner = self
-					enemy_amount += clampi(1,0,max_enemies)
-
-##Subtracts enemy from enemy_amount
-func enemy_killed():
-	enemy_amount -= clampi(1,0,max_enemies)
-
-##Finds all the child shapes of the EnemySpawner node
+	sprite_2d.queue_free() #gets rid of the visual marker
+	gather_shapes() #appends all shapes to collision_shapes[]
+	area_entered.connect(spawn_all) #Spawns enemies when player EnemySpawnTrigger comes in range.
+	area_exited.connect(remove_all_enemies) #Removes enemies when player is out of range
+	
+##Finds all the child shapes of the EnemySpawner node and appends to collision_shapes[]
 func gather_shapes()->void:
 	if get_children().is_empty():
 		printerr(str(name) + " has no collision shapes to spawn enemies!")
@@ -107,30 +50,151 @@ func gather_shapes()->void:
 		if child is CollisionShape2D:
 			collision_shapes.append(child)
 
-##Picks a random shape to spawn the enemy
-func pick_random_shape()->int:
-	if collision_shapes.size() == 0:
-		return -1
+##Spawns enemies.[br]Picks random amount up to max_enemies to spawn.[br]Each enemy then has a chance to spawn based upon enemy_spawn_chance.
+func spawn_all(_area: Area2D = null) -> void:
+	#If no enemy actors, abort!
+	if enemy_actors.is_empty():
+		push_warning("EnemySpawner has no enemy_actors set")
+		return
+	
+	#If no collision shapes, abort!	
+	if collision_shapes.is_empty():
+		push_warning("EnemySpawner has no shapes!")
+		return
+
+	
+	if spawn_count >= max_enemies:
+		print(str(name) + " reached max enemy amount (" + str(max_enemies) + ")")
+		return
+	else:
+		enemies_to_spawn = randi_range(min_enemies, max_enemies)
+		print("Attempting to spawn " + str(enemies_to_spawn) + " enemies.")
+		for i in range(enemies_to_spawn):
+			spawn_enemy()
+			
+		print("spawn_count " + str(spawn_count))
+		#max_enemies = spawn_count ##if this is 
+
+##Spawns a single enemy, used within spawn_all().
+func spawn_enemy()->void:
+	if spawn_count >= max_enemies:
+		print("max_enemies reached " + str(max_enemies) + "spawn_count: " + (str(spawn_count) ))
+		return
+		#Rolls random number 1-100
+	var random_chance = randf_range(0, 100)
+	
+	#If random chance is more than the spawn chance, do not spawn enemies.
+	if random_chance > enemy_spawn_chance:
+		print("Did not spawn enemy. " + str(random_chance) + " > " + str(enemy_spawn_chance))
+		return
+	else:
+		var random_actor: CharResource = enemy_actors[randi_range(0, enemy_actors.size()-1)]
+		var enemy = ENEMY.instantiate()
+		enemy.enemy_data = random_actor
+		enemy.name = random_actor.char_name
+		enemy.was_spawned = true
+		enemy.will_walk = true
+		enemy.enemy_spawner = self
+		enemy.despawn_with_distance = despawn_with_distance
+		enemy.despawn_distance = despawn_distance
+		var rand_shape = collision_shapes[pick_random_shape()]
+		enemy.global_position = _random_point_in_rect(rand_shape)
+		call_deferred("add_child", enemy)
+		spawn_count += 1
+		#print("spawned enemy " + str(spawn_count))
+
+##Returns a random shape from collision_shapes array. collision_shapes[] is generated by gather_shapes()
+func pick_random_shape() -> int: 
 	var shapes_amount : int = collision_shapes.size()
-	var shape_index : int = randi_range(0, shapes_amount-1)
-	return shape_index
+	if shapes_amount == 0:
+		return -1
+	return randi_range(0, shapes_amount -1)
 
-###Finds a random point in the randomly selected shape
-#func get_random_point_in_area(rect_shape:RectangleShape2D) -> Vector2:
-		#if rect_shape is RectangleShape2D:
-			#return _random_point_in_rect(rect_shape)
-		#else:
-			## Fallback: spawn at spawner position
-			#return global_position
+##Finds a random point within the selected shape and returns its Vector2 Value.
+func _random_point_in_rect(shape_node:CollisionShape2D)-> Vector2:
+	var rect_shape := shape_node.shape as RectangleShape2D
+	if rect_shape == null:
+		push_warning(str(name) + " has non rectangle shape in collision_shapes")
+		return shape_node.global_position
 
-func _random_point_in_rect(rect_shape: RectangleShape2D) -> Vector2:
 	var extents: Vector2 = rect_shape.extents
 	var local_pos := Vector2(
 		randf_range(-extents.x, extents.x),
 		randf_range(-extents.y, extents.y)
 	)
-	return global_position * local_pos
+
+	return shape_node.to_global(local_pos-global_position)
+
+##Replaces an enemy.[br]Maximum amount will only be up to the originally determined enemies_to_spawn that was generated during spawn_all() (not max_enemies).
+func replace_enemy()->void:
+	if spawn_count == enemies_to_spawn:
+		print(str(name) + " cannot spawn more enemies. Max enemies for this round present " + str(spawn_count))
+		return
+	elif spawn_count > enemies_to_spawn:
+		print("Too many enemies! Removing enemy!")
+		remove_random_enemy()
+		print("spawn_count = " + str(spawn_count) + " enemies_to_spawn = " + str(enemies_to_spawn))
+		return
+	elif spawn_count < enemies_to_spawn:
+		var random_actor: CharResource = enemy_actors[randi_range(0, enemy_actors.size()-1)]
+		var enemy = ENEMY.instantiate()
+		enemy.enemy_data = random_actor
+		enemy.name = random_actor.char_name
+		enemy.was_spawned = true
+		enemy.will_walk = true
+		enemy.enemy_spawner = self
+		var rand_shape = collision_shapes[pick_random_shape()]
+		enemy.global_position = _random_point_in_rect(rand_shape)
+		call_deferred("add_child", enemy)
+		spawn_count += 1
+		print("spawned enemy " + str(spawn_count))
+
+
+##Removes all children enemies from the EnemySpawner if they cannot see the player.
+func remove_all_enemies(_area:Area2D = null)->void:
+	for child in get_children():
+		if child is Enemy:
+			if !child.see_player:
+				child.queue_free()
+				spawn_count -= 1
+				print("Removed enemy, enemy_count: " + str(spawn_count))
+
+
+
+
+
+###If true, enemies will be replaced after defeat. (on-screen)
+#@export var replace_enemies : bool = false
+###If true, enemies will be replaced when area is off-screen.
+#@export var replace_off_screen : bool = false
+
+
+##TODO
+##Picks a random BattleGroup for the enemy actor (field) to represent
+func random_group()->void:
+	var rand_group : int = randi_range(0, enemy_groups.size()-1)
+	#assign group to enemy_actor group variable
+
+func remove_random_enemy()->void:
+	for child in get_children():
+		if child is Enemy:
+			#if enemies_to_spawn > max_enemies:
+			child.queue_free()
+			spawn_count -= 1
+			break
+##Subtracts enemy from enemy_amount
+func enemy_killed():
+	spawn_count -= clampi(1,0,max_enemies)
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
 		spawn_all()
+	if Input.is_action_just_pressed("test4"):
+		replace_enemy()
+	if Input.is_action_just_pressed("test5"):
+		remove_all_enemies()
+		
+###This should be called from the enemy actually, so defunct!
+#func enemy_was_killed(_enemy : Enemy)->void:
+	#_enemy.queue_free()	
+	#spawn_count -= 1

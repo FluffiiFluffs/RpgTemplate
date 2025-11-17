@@ -62,7 +62,7 @@ func start_walk()->void:
 		#print(str(_dir))
 		#if outside the walking range, finds the best way to get back to the center
 		if abs(actor.global_position.distance_to(actor.walk_center)) > actor.walk_range * actor.tile_size:
-			print(str(actor.name) + " OUT OF CENTER RANGE!")
+			#print(str(actor.name) + " OUT OF CENTER RANGE!")
 			var dir_to_area : Vector2 = actor.global_position.direction_to(actor.walk_center)
 			var best_direction : Array[float] = []
 			for d in actor.DIR_4:

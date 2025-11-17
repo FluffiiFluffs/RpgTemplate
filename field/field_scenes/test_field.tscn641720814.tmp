@@ -22,25 +22,37 @@ char_sprite_sheet = ExtResource("4_i2nf2")
 metadata/_custom_type_script = "uid://dekkhepva31dh"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xmmtp"]
-size = Vector2(236.75, 162.5)
+size = Vector2(157, 81)
 
 [node name="TestField" type="Node2D"]
 y_sort_enabled = true
 
 [node name="EnemySpawner" parent="." instance=ExtResource("1_2kk2i")]
-position = Vector2(361, 199)
 enemy_actors = Array[ExtResource("2_y2dmi")]([SubResource("Resource_y2dmi"), SubResource("Resource_i2nf2")])
+enemy_groups = null
+difficulty_modifier = null
 enemy_spawn_chance = 100.0
+min_enemies = null
 max_enemies = 10
+replace_enemies = null
+replace_off_screen = null
+enemy_stays_in_area = null
+count_enemy_wait_time = null
+enemies_to_spawn = null
+spawn_count = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner"]
-position = Vector2(-408, -19)
+position = Vector2(78.5, 41.5)
 shape = SubResource("RectangleShape2D_xmmtp")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemySpawner"]
-position = Vector2(108, -195)
+position = Vector2(321, 43)
 shape = SubResource("RectangleShape2D_xmmtp")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="EnemySpawner"]
-position = Vector2(293, 213)
+position = Vector2(310, 181)
+shape = SubResource("RectangleShape2D_xmmtp")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="EnemySpawner"]
+position = Vector2(80, 182)
 shape = SubResource("RectangleShape2D_xmmtp")

@@ -46,7 +46,7 @@ func enter() -> void:
 		actor.walk_center = actor.walkcenterpoint.global_position
 	walk_done = false
 	start_walk()
-	print(str(actor.name) + " Start Walk State")
+	#print(str(actor.name) + " Start Walk State")
 	pass
 	
 ## What happens when the state is exited
