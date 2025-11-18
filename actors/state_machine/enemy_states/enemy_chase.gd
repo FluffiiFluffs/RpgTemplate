@@ -9,6 +9,13 @@ class_name EnemyChase extends State
 @export var next_state:State = walk
 
 var idle_duration : float = 1.0
+var state_timer : Timer
+
+func _ready()->void:
+	actor = get_parent().get_parent()
+	state_machine = get_parent()
+	setup_timer()
+
 
 ## What happens when the state is entered
 func enter() -> void:
@@ -57,6 +64,9 @@ func init():
 
 ##Begins idle routine
 func start_idle()-> void:
+	##here until chase state is fleshed out
+	state_machine.change_state(next_state)
+	return
 	#print(str(actor.name) + " Start Idle State")
 	if actor is NPC:
 		if actor.player_detected == true:
@@ -72,7 +82,8 @@ func start_idle()-> void:
 	#actor.update_animation() #from previous iteration
 	actor.update_animation("idle")
 	#idle timer, does not process while paused
-	await get_tree().create_timer(idle_duration,false).timeout 
+	#await get_tree().create_timer(idle_duration,false).timeout  ## Creates memory leak!!!
+	use_timer(idle_duration)
 	#await get_tree().process_frame #may not need....
 	if next_state == null:
 		next_state = self
@@ -81,3 +92,19 @@ func start_idle()-> void:
 		return
 	if next_state != self: #if wander or patrol are true...
 		state_machine.change_state(next_state) #change to that state
+
+
+##Creates timer, adds timer as a child node (so it can be queue_free'd!)
+func setup_timer()->void:
+	state_timer = Timer.new()
+	state_timer.one_shot = true
+	state_timer.wait_time = 1.0
+	state_timer.process_mode = Node.PROCESS_MODE_INHERIT
+	add_child(state_timer)
+
+##Sets timer.wait_time, starts timer, and then awaits its finish
+func use_timer(_wait_time:float)->void:
+	state_timer.wait_time = _wait_time
+	state_timer.start()
+	await state_timer.timeout
+	

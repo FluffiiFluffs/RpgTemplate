@@ -204,7 +204,7 @@ func remove_all_enemies(_area:Area2D = null)->void:
 #@export var replace_off_screen : bool = false
 ###
 
-##TODO
+##TODO (unimplemented)
 ##Picks a random BattleGroup for the enemy actor (field) to represent
 func random_group()->void:
 	var rand_group : int = randi_range(0, enemy_groups.size()-1)

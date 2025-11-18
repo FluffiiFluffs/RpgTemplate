@@ -1,3 +1,4 @@
+@tool
 ##enemy.gd
 class_name Enemy
 extends Actor
@@ -55,7 +56,7 @@ extends Actor
 ##Minimum normal idle time
 @export var idle_min : float = 1.5
 ##Maximum normal idle time
-@export var idle_max : float = 3.5
+@export var idle_max : float = 3.5 
 
 ##If will_walk is true, this section will be used to determine the walk parameters.
 @export_category("Walk State AI")

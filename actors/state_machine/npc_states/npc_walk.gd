@@ -25,6 +25,8 @@ class_name NPCWalk extends State
 
 ##If true, end of state is triggered.
 var walk_done : bool = false 
+var state_timer : Timer
+
 
 func _process(_delta)->void:
 	pass
@@ -34,7 +36,7 @@ func init():
 func _ready()->void:
 	actor = get_parent().get_parent()
 	state_machine = get_parent()
-
+	setup_timer()
 	#actor.walk_center = actor.global_position....normally
 
 
@@ -91,9 +93,28 @@ func start_walk()->void:
 		actor.direction = actor.global_position.direction_to(actor.global_position + _dir)
 		actor.update_direction_name()
 		actor.update_animation("walk")
-		await get_tree().create_timer(actor.walk_duration, false).timeout
+		#await get_tree().create_timer(actor.walk_duration, false).timeout ##Creates memory leak if queuefreed while active!
+		use_timer(actor.walk_duration)
 		if next_state == null: #ensures next state is something
 			next_state = idle
 		walk_done = true
 	
 	pass
+
+
+
+
+##Creates timer, adds timer as a child node (so it can be queue_free'd!)
+func setup_timer()->void:
+	state_timer = Timer.new()
+	state_timer.one_shot = true
+	state_timer.wait_time = 1.0
+	state_timer.process_mode = Node.PROCESS_MODE_INHERIT
+	add_child(state_timer)
+
+##Sets timer.wait_time, starts timer, and then awaits its finish
+func use_timer(_wait_time:float)->void:
+	state_timer.wait_time = _wait_time
+	state_timer.start()
+	await state_timer.timeout
+	
