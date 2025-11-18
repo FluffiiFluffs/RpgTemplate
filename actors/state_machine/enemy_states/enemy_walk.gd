@@ -38,6 +38,7 @@ func enter() -> void:
 	
 ## What happens when the state is exited
 func exit() -> void:
+	state_timer.stop()
 	pass
 	
 	
