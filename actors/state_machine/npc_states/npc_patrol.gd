@@ -62,14 +62,14 @@ func process (_delta : float) -> State:
 		var dist: float = to_target.length()
 
 		# arrive exactly at the corner if we would pass it this frame
-		var step: float = actor.walk_speed * _delta
+		var step: float = actor.move_speed * _delta
 		if dist <= step:
 			return idle
 
 		# otherwise keep moving straight toward the target
 		direction = to_target / dist
 		actor.direction = direction
-		actor.velocity = actor.walk_speed * direction
+		actor.velocity = actor.move_speed * direction
 		actor.update_direction(target.target_position)
 		actor.update_direction_name()
 		actor.update_animation("walk")
@@ -114,7 +114,7 @@ func gather_patrol_locations(_n: Node = null) -> void:
 				
 func walk_phase() -> void:
 	actor.direction = actor.global_position.direction_to(target.target_position)
-	actor.velocity = actor.walk_speed * actor.direction
+	actor.velocity = actor.move_speed * actor.direction
 	actor.update_direction(target.target_position)
 	actor.update_direction_name()
 	actor.update_animation("walk")

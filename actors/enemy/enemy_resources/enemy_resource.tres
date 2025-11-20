@@ -9,4 +9,6 @@ script = ExtResource("2_a7gt7")
 char_faction = 2
 char_name = "ENEMY"
 char_sprite_sheet = ExtResource("1_s8y5a")
+caution_range = 200.0
+alert_range = 75.0
 metadata/_custom_type_script = "uid://dekkhepva31dh"

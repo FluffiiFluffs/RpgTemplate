@@ -2,6 +2,8 @@
 class_name EnemyPatrol extends State
 #
 @onready var idle = %Idle
+@onready var caution = %Caution
+@onready var alert = %Alert
 
 var patrol_locations: Array[PatrolLocation]
 var current_location_index: int = 0
@@ -51,6 +53,15 @@ func exit() -> void:
 
 ## What happens during _process(): update while state is running
 func process (_delta : float) -> State:
+	##Immediately puts enemy into caution or alert mode depending on alert_type
+	if actor.caution_mode == true:
+		if actor.alert_type == 0 or actor.alert_type == 1: #scared or cautious
+			return caution
+		elif actor.alert_type == 2: #aggressive
+			return alert
+	elif actor.alert_mode == true:
+		return alert
+
 	if !patrol_locations.is_empty():
 		
 		# if a player interrupt is active, stop here
@@ -62,14 +73,14 @@ func process (_delta : float) -> State:
 		var dist: float = to_target.length()
 
 		# arrive exactly at the corner if we would pass it this frame
-		var step: float = actor.walk_speed * _delta
+		var step: float = actor.move_speed * _delta
 		if dist <= step:
 			return idle
 
 		# otherwise keep moving straight toward the target
 		direction = to_target / dist
 		actor.direction = direction
-		actor.velocity = actor.walk_speed * direction
+		actor.velocity = actor.move_speed * direction
 		actor.update_direction(target.target_position)
 		actor.update_direction_name()
 		actor.update_animation("walk")
@@ -114,7 +125,7 @@ func gather_patrol_locations(_n: Node = null) -> void:
 				
 func walk_phase() -> void:
 	actor.direction = actor.global_position.direction_to(target.target_position)
-	actor.velocity = actor.walk_speed * actor.direction
+	actor.velocity = actor.move_speed * actor.direction
 	actor.update_direction(target.target_position)
 	actor.update_direction_name()
 	actor.update_animation("walk")

@@ -15,7 +15,7 @@ class_name NPCWalk extends State
 ###Walk Center Point if needed. If none, global position of actor is used
 #@export var walkcenterpoint:WalkCenterPoint=null
 ###How fast to walk
-#@export var walk_speed : float = 30.0
+#@export var move_speed : float = 30.0
 ###How large the tiles for this project are (default is 16)
 #@export var tile_size : float = 16
 ###Minimum time to walk
@@ -90,7 +90,7 @@ func start_walk()->void:
 				best_direction.append (d.dot(dir_to_area))
 			_dir = actor.DIR_4[best_direction.find(best_direction.max())]
 		actor.direction = _dir
-		actor.velocity = actor.walk_speed * _dir #begins moving towards target position
+		actor.velocity = actor.move_speed * _dir #begins moving towards target position
 		actor.direction = actor.global_position.direction_to(actor.global_position + _dir)
 		actor.update_direction_name()
 		actor.update_animation("walk")

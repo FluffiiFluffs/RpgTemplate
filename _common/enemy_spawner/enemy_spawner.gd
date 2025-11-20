@@ -193,8 +193,8 @@ func replace_enemy()->void:
 func remove_all_enemies(_area:Area2D = null)->void:
 	for child in get_children():
 		if child is Enemy:
-			if !child.see_player:
-				child.queue_free()
+			if !child.see_player: #has_seen_player not necessary here
+				child.queue_free() 
 				spawn_count -= 1
 				print("Removed enemy, enemy_count: " + str(spawn_count))
 

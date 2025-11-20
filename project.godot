@@ -19,9 +19,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [debug]
 
@@ -135,6 +135,10 @@ test5={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":53,"key_label":0,"unicode":53,"location":0,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://dialogue/new_dialogue.dialogue")
 
 [layer_names]
 

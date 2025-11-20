@@ -25,8 +25,8 @@ func process (_delta : float) -> State:
 		return idle
 	if actor.global_position.distance_to(actor.actor_to_follow.global_position) > stopfollowdist+6:
 		actor.direction = actor.global_position.direction_to(actor.actor_to_follow.global_position)
-		actor.walk_speed = actor.actor_to_follow.walk_speed
-		actor.velocity = actor.walk_speed * actor.direction
+		actor.move_speed = actor.actor_to_follow.move_speed
+		actor.velocity = actor.move_speed * actor.direction
 		actor.update_direction_name()
 		actor.update_animation("walk")
 		pass

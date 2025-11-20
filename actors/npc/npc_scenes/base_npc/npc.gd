@@ -37,9 +37,9 @@ extends Actor
 ##If coll_off_with_timer true, how long until collision disables when player is detected. Default 4.0s
 @export var coll_off_wait_time : float = 4.0
 ##How fast to walk. Default 30.0
-@export var walk_speed : float = 30.0
-##If walk speed is altered, this is what walk speed will be set back to. Default = walk_speed
-@export var default_walk_speed : float = walk_speed
+@export var move_speed : float = 30.0
+##If walk speed is altered, this is what walk speed will be set back to. Default = move_speed
+@export var default_move_speed : float = move_speed
 
 ##Determines default idle parameters, but usually overwritten by using other states.
 @export_category("Idle State AI")
@@ -77,7 +77,7 @@ var walk_duration : float = 1.0
 @export var actor_to_follow : Actor = null
 ##If set to true, NPC will attempt to follow actor_to_follow
 @export var is_following : bool = false
-##Set in follow state script, equal to actor_to_follow.walk_speed 
+##Set in follow state script, equal to actor_to_follow.move_speed 
 @export var follow_speed : float = 50.0
 
 

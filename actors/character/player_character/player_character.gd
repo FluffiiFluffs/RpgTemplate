@@ -16,7 +16,9 @@ extends Actor
 @onready var state_machine:StateMachine= %StateMachine #State Machine reference
 @onready var path_timer : Timer = %PathTimer
 
-@export var walk_speed : float = 115.0
+@export var move_speed : float = 115.0
+@export var run_speed : float = move_speed * 2.0
+@export var original_move_speed : float = 115.0
 
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
@@ -44,6 +46,9 @@ func _physics_process(_delta)->void:
 	move_and_slide()
 
 func _process(_delta) -> void:
+	pass
+	
+func _unhandled_input(_event):
 	direction = Vector2( Input.get_axis("move_left",
 	"move_right"), Input.get_axis("move_up","move_down")).normalized()
 

@@ -25,7 +25,7 @@ func process (_delta : float) -> State:
 	if actor.direction == Vector2.ZERO:
 		return idle
 		
-	actor.velocity = actor.direction * actor.walk_speed
+	actor.velocity = actor.direction * actor.move_speed
 	if actor.set_direction():
 		actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
 	return null
@@ -36,6 +36,9 @@ func physics( _delta: float) -> State:
 	
 ## What happens with input events while this state is running
 func handle_input( _event: InputEvent) -> State:
-	#if _event.is_action_pressed("interact_input"):
-		#GlobalPlayerManager.interact_pressed.emit()
+	if _event.is_action_pressed("cancel_input"):
+		actor.move_speed = actor.run_speed
+	if _event.is_action_released("cancel_input"):
+		actor.move_speed = actor.original_move_speed
+		
 	return null

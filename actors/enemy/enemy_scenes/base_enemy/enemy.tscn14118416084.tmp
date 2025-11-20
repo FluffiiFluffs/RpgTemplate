@@ -201,6 +201,10 @@ motion_mode = 1
 script = ExtResource("1_0bajq")
 will_walk = true
 default_move_speed = 30.0
+idle_min = 0.5
+idle_max = 1.5
+has_seen_player = null
+see_range = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
