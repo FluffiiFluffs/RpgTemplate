@@ -1,5 +1,6 @@
 ~ start
-NPC: [[Hi|Hello|Howdy]], this is some dialogue.
+
+[do! DialogueManager._set_portrait("player","happy")] [[Hi|Hello|Howdy]], this is some dialogue.
 NPC: Here are some choices. [wait=0.5] Make your choice.
 - First one
 	NPC: You picked the first one.

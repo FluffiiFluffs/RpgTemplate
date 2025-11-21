@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="SpeakerResource" load_steps=18 format=3 uid="uid://b4oqligpuxk1l"]
+[gd_resource type="Resource" script_class="SpeakerResource" load_steps=19 format=3 uid="uid://b4oqligpuxk1l"]
 
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_waeo2"]
+[ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="2_wff2p"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_waeo2"]
 load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
@@ -70,4 +71,5 @@ angry = SubResource("AtlasTexture_wff2p")
 happy = SubResource("AtlasTexture_5ragq")
 special = SubResource("AtlasTexture_etxau")
 tired = SubResource("AtlasTexture_q8fct")
+voice = ExtResource("2_wff2p")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"

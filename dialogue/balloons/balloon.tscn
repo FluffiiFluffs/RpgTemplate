@@ -103,6 +103,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 text = "This is a test dialog to see how much text I can put into this box. I would like to think that I could put a lot of text into this box so I can have characters say a lot of stuff. I am not sure how much text I can put into this box but it's got space."
+seconds_per_step = 0.03
 
 [node name="Control" type="Control" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(5, 3)

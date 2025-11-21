@@ -74,8 +74,6 @@ var mutation_cooldown: Timer = Timer.new()
 ## Indicator to show that player can progress dialogue.
 @onready var progress: Polygon2D = %Progress
 
-var voice : AudioStream = null
-
 func _ready() -> void:
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
@@ -86,14 +84,18 @@ func _ready() -> void:
 
 	mutation_cooldown.timeout.connect(_on_mutation_cooldown_timeout)
 	add_child(mutation_cooldown)
-
+	
+	#region Code not present in original script
+	dialogue_label.spoke.connect(_on_dialogue_label_spoke)
+	#endregion
+	
 	if auto_start:
 		if not is_instance_valid(dialogue_resource):
 			assert(false, DMConstants.get_error_message(DMConstants.ERR_MISSING_RESOURCE_FOR_AUTOSTART))
 		start()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_instance_valid(dialogue_line):
 		progress.visible = not dialogue_label.is_typing and dialogue_line.responses.size() == 0 and not dialogue_line.has_tag("voice")
 
@@ -221,4 +223,44 @@ func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
 
 
+#endregion
+
+
+
+#region Code not present in original script
+##Plays voice is option is set to 0 (FULL)[br]
+##Animates face per letter if Options.portrait_type set to 0 (TALKING)
+func _on_dialogue_label_spoke(letter: String, letter_index: int, speed: float)->void:
+	play_voice(letter)
+	animate_face(letter)
+
+##Plays voice of the current speaker[br]
+## 0 = FULL, voice file plays rapidly.
+## 1 = START, voice only plays at the beginning of text.
+## 2 = OFF, no voice plays (This function should do nothing)
+func play_voice(letter:String)->void:
+	if Options.voices_type == 0:
+		if DialogueManager.speaker_resources != null:
+			if (letter == " " or letter == ";" or letter == "." or letter == "?" or letter == "m" or letter == "!"):
+				return
+			if DialogueManager.speaker_voice == null:
+				return
+			audio_stream_player.stream = DialogueManager.speaker_voice
+			audio_stream_player.play()
+	elif Options.voices_type == 1:
+		if DialogueManager.speaker_resources != null:
+			if DialogueManager.speaker_voice == null:
+				return
+			if dialogue_label.visible_characters == 1:
+				audio_stream_player.stream = DialogueManager.speaker_voice
+				audio_stream_player.play()
+	
+func animate_face(letter:String)->void:
+	if Options.portrait_type == 0:
+		if DialogueManager.speaker_resources != null:
+			if (letter == " " or letter == ";" or letter == "." or letter == "?" or letter == "m" or letter == "!"):
+				portrait_texture.texture = DialogueManager.speaker_current_expression
+			elif dialogue_label.visible_characters % 6:
+				portrait_texture.texture = DialogueManager.speaker_talk_expression
+			pass
 #endregion

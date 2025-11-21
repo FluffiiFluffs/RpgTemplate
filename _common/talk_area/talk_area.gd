@@ -1,8 +1,12 @@
 class_name TalkArea
 extends Area2D
 
+##SpeakerResources to be used within the dialogue resource.
 @export var speakers : Array[SpeakerResource] = []
-@export var dialog : Resource
+##The dialogue resource to be used. Must be set.
+@export var dialogue : Resource
+##What DialogueManager title to start from within the dialogue resource
+@export var talking_start_position : String = "start"
 @export var can_talk : bool = false
 
 func _ready()->void:
@@ -26,6 +30,12 @@ func _unhandled_input(event):
 		_start_dialog()
 
 func _start_dialog():
-	#put speakers resource into dialoguemanager array for use in dialog balloons
-	DialogueManager._set_resources(speakers.duplicate())
-	DialogueManager.show_dialogue_balloon(dialog, "start")
+	if dialogue != null:
+		#put speakers resource into dialoguemanager array for use in dialog balloons
+		DialogueManager._set_resources(speakers.duplicate())
+		await get_tree().process_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
+		DialogueManager.show_dialogue_balloon(dialogue, "start")
