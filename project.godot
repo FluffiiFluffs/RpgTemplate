@@ -23,14 +23,16 @@ CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
-[debug]
+[dialogue_manager]
 
-settings/stdout/verbose_stdout=true
+runtime/balloon_path="res://dialogue/balloons/balloon.tscn"
 
 [display]
 
 window/size/viewport_width=398
 window/size/viewport_height=224
+window/size/window_width_override=796
+window/size/window_height_override=448
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 
@@ -88,6 +90,7 @@ confirm_input={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":90,"key_label":0,"unicode":122,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
 ]
 }
 cancel_input={
@@ -154,3 +157,4 @@ locale/translations_pot_files=PackedStringArray("res://dialogue/new_dialogue.dia
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/decals/filter=0

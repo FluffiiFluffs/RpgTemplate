@@ -207,18 +207,19 @@ func set_walk_center_point(_wcp:WalkCenterPoint)->void:
 
 ##Checks to see if the player is wtihin p_det_area. Fires signals and toggles bool.
 func _check_for_player()->void:
-	if p_det_area.overlaps_body(CharDataKeeper.controlled_character):
-		player_detected = true
-		#print("PLAYER DETECTED!")
-		player_is_detected.emit()
-		if coll_off_with_timer == true:
-			pcolldettrue.emit()
-	elif !p_det_area.overlaps_body(CharDataKeeper.controlled_character):
-		player_detected = false
-		#print("PLAYER NOT DETECTED!")
-		player_is_not_detected.emit()
-		if coll_off_with_timer == true:
-			pcolldetfalse.emit()
+	if CharDataKeeper.controlled_character:
+		if p_det_area.overlaps_body(CharDataKeeper.controlled_character):
+			player_detected = true
+			#print("PLAYER DETECTED!")
+			player_is_detected.emit()
+			if coll_off_with_timer == true:
+				pcolldettrue.emit()
+		elif !p_det_area.overlaps_body(CharDataKeeper.controlled_character):
+			player_detected = false
+			#print("PLAYER NOT DETECTED!")
+			player_is_not_detected.emit()
+			if coll_off_with_timer == true:
+				pcolldetfalse.emit()
 
 ##Starts coll_timer. coll_timer timeout triggrs collsions_disabled()
 func ptimercolloff()->void:

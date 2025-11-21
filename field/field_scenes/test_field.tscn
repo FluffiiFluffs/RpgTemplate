@@ -1,21 +1,50 @@
-[gd_scene load_steps=5 format=3 uid="uid://4hqnw34m4ovo"]
+[gd_scene load_steps=11 format=3 uid="uid://4hqnw34m4ovo"]
 
 [ext_resource type="PackedScene" uid="uid://bqx4dkkysbkm2" path="res://_common/enemy_spawner/enemy_spawner.tscn" id="1_2kk2i"]
 [ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/char_resources/char_resource.gd" id="2_y2dmi"]
-[ext_resource type="Resource" uid="uid://bthhoxi0h52di" path="res://actors/enemy/enemy_resources/enemy_resource.tres" id="3_2fwss"]
+[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="3_i2nf2"]
+[ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/npc/npc_scenes/base_npc/npc.tscn" id="4_l7imp"]
+[ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="5_83y5q"]
+[ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="6_bjslq"]
+[ext_resource type="Resource" uid="uid://dkky0bkw56p7p" path="res://dialogue/new_dialogue.dialogue" id="9_qanu8"]
+
+[sub_resource type="Resource" id="Resource_3uhb3"]
+resource_local_to_scene = true
+script = ExtResource("2_y2dmi")
+char_faction = 2
+char_name = "ENEMY"
+char_sprite_sheet = ExtResource("3_i2nf2")
+caution_range = 200.0
+alert_range = 75.0
+metadata/_custom_type_script = "uid://dekkhepva31dh"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y2dmi"]
 size = Vector2(200, 200)
+
+[sub_resource type="Resource" id="Resource_bqjps"]
+resource_local_to_scene = true
+script = ExtResource("2_y2dmi")
+char_faction = 1
+char_name = "NPC"
+char_sprite_sheet = ExtResource("5_83y5q")
+metadata/_custom_type_script = "uid://dekkhepva31dh"
 
 [node name="TestField" type="Node2D"]
 y_sort_enabled = true
 
 [node name="EnemySpawner" parent="." instance=ExtResource("1_2kk2i")]
 position = Vector2(591, 122)
-enemy_actors = Array[ExtResource("2_y2dmi")]([ExtResource("3_2fwss")])
+enemy_actors = Array[ExtResource("2_y2dmi")]([SubResource("Resource_3uhb3")])
 enemy_spawn_chance = 100.0
 stays_in_shape = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner"]
 shape = SubResource("RectangleShape2D_y2dmi")
 debug_color = Color(1, 0, 0, 0.05)
+
+[node name="NPC" parent="." instance=ExtResource("4_l7imp")]
+position = Vector2(61, 1)
+npc_data = SubResource("Resource_bqjps")
+
+[node name="TalkArea" parent="NPC" instance=ExtResource("6_bjslq")]
+dialog = ExtResource("9_qanu8")

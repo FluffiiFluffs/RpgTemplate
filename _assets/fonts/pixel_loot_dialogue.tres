@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://b5llu2gvm3oh1"]
+
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_vkmsm"]
+
+[resource]
+base_font = ExtResource("1_vkmsm")
+spacing_bottom = 5

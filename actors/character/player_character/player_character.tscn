@@ -20,6 +20,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [4]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_pflqk"]
 resource_name = "idle_down"
@@ -35,6 +47,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_y0uyn"]
@@ -52,6 +76,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [5]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5707964]
+}
 
 [sub_resource type="Animation" id="Animation_gv10s"]
 resource_name = "idle_right"
@@ -67,6 +103,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.5707964]
 }
 
 [sub_resource type="Animation" id="Animation_kujp3"]
@@ -102,6 +150,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [8]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_ry0v3"]
 resource_name = "walk_left"
@@ -119,6 +179,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5707964]
 }
 
 [sub_resource type="Animation" id="Animation_fbroj"]
@@ -138,6 +210,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [10]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.5707964]
+}
 
 [sub_resource type="Animation" id="Animation_7ar1o"]
 resource_name = "walk_up"
@@ -156,6 +240,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [11]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("InteractPivot:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-3.1415927]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b1uet"]
 _data = {
@@ -170,9 +266,6 @@ _data = {
 &"walk_up": SubResource("Animation_7ar1o")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
-size = Vector2(32, 26)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
@@ -181,6 +274,9 @@ size = Vector2(398, 224)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6oia8"]
 size = Vector2(696.5, 392)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
+size = Vector2(16, 32)
 
 [node name="PlayerCharacter" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -210,17 +306,6 @@ max_polyphony = 5
 unique_name_in_owner = true
 process_mode = 1
 current = true
-
-[node name="InteractAreaTrigger2D" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 64
-collision_mask = 0
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractAreaTrigger2D"]
-position = Vector2(0, -5)
-shape = SubResource("RectangleShape2D_pflqk")
-debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -256,10 +341,12 @@ wait_time = 0.1
 zoom = Vector2(0.3, 0.3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D"]
+visible = false
 shape = SubResource("RectangleShape2D_b0cue")
 debug_color = Color(0.8862745, 0, 0.8039216, 0)
 
 [node name="EnemySpawnTrigger" type="Area2D" parent="."]
+visible = false
 collision_layer = 524288
 collision_mask = 0
 monitoring = false
@@ -267,3 +354,17 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger"]
 shape = SubResource("RectangleShape2D_6oia8")
 debug_color = Color(1, 0, 0, 0)
+
+[node name="InteractPivot" type="Marker2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot"]
+unique_name_in_owner = true
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D"]
+position = Vector2(0, 11)
+shape = SubResource("RectangleShape2D_pflqk")
+debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)

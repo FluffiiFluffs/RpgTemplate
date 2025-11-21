@@ -192,8 +192,7 @@ collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_3jjbx")
 npc_data = ExtResource("2_3jjbx")
-will_walk = null
-will_patrol = null
+default_move_speed = 30.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -250,6 +249,7 @@ script = ExtResource("6_i2mv8")
 [node name="Node2D6" type="Node2D" parent="StateMachine"]
 
 [node name="AreaInteract" parent="." instance=ExtResource("7_i2mv8")]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaInteract"]
 position = Vector2(0, -7)
@@ -263,7 +263,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P_Det_Area"]
 shape = SubResource("RectangleShape2D_h05io")
-debug_color = Color(0.49411765, 0, 1, 0.09019608)
+debug_color = Color(0.49411765, 0, 1, 0)
 
 [node name="WalkArea2D" type="Area2D" parent="."]
 unique_name_in_owner = true

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt8y3g87tb6pj"]
+
+[ext_resource type="Script" uid="uid://dc72ipcwpgkxk" path="res://_common/talk_area/talk_area.gd" id="1_c04qf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qanu8"]
+size = Vector2(40, 40)
+
+[node name="TalkArea" type="Area2D"]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+script = ExtResource("1_c04qf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qanu8")
+debug_color = Color(0, 0.7373294, 1, 0.25)

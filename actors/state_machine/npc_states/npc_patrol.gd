@@ -12,7 +12,6 @@ var idle_duration : float
 const COLORS = [ Color(1,0,0), Color(1,1,0), Color(0,1,0), Color(0,1,1), Color(0,0,1), Color(1,0,1) ]
 
 func _ready() -> void:
-	await get_tree().process_frame
 	actor = get_parent().get_parent()
 	state_machine = get_parent()
 	gather_patrol_locations()

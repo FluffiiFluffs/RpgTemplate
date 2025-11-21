@@ -5,6 +5,11 @@ class_name NPCFollow extends State
 ##How far to stop following
 var stopfollowdist : int = 32
 
+
+func _ready()->void:
+	actor = get_parent().get_parent()
+	state_machine = get_parent()
+
 ## What happens when the state is entered
 func enter() -> void:
 	actor = get_parent().get_parent()

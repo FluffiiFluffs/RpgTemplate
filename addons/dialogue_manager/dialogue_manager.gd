@@ -71,6 +71,13 @@ var _dotnet_dialogue_manager: RefCounted
 var _expression_parser: DMExpressionParser = DMExpressionParser.new()
 
 
+var speaker_resources : Array[SpeakerResource]
+var current_balloon
+var speaker_current_expression : Texture
+var speaker_talk_expression : Texture
+var speaker_special_expression : Texture
+
+
 func _ready() -> void:
 	# Cache the known Node2D properties
 	_node_properties = ["Script Variables"]
@@ -331,6 +338,191 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 	return line
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Puts resources into speaker_resources array (will be used in loop)
+func _set_resources(_resources : Array[SpeakerResource])->void:
+	_clear_speaker_resources()
+	speaker_resources = _resources
+	pass
+
+##Clears speaker_resources array after dialgoue has completed
+func _clear_speaker_resources()->void:
+	speaker_resources = []
+
+#func _set_portrait(_speaker : String, _expression : String) -> void:
+	## Find the matching SpeakerResource by name in the speaker_resources array
+	#var speaker : SpeakerResource = null
+	#for s in speaker_resources:
+		#if s == null:
+			#continue
+		#if s.name.to_lower() == _speaker.to_lower():
+			#speaker = s
+			#break
+#
+	#if speaker == null:
+		#push_warning("DialogueManager: Speaker '%s' not found in speaker_resources." % _speaker)
+#
+	## Normalize expression string so dialog data can be case insensitive
+	#var expr := _expression.to_lower()
+#
+	## Pick the texture that corresponds to the expression
+	#match expr:
+		#"normal":
+			#if speaker.normal.texture != null:
+				#current_balloon.portrait_texture.texture = speaker.normal
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"talk", "talking":
+			#if speaker.talk.texture != null:
+				#current_balloon.portrait_texture.texture = speaker.talk
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"sad":
+			#if speaker.sad.texture != null:
+				#current_balloon.portrait_texture.texture = speaker.sad
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"surprised", "surprise":
+			#if speaker.surprise.texture != null:
+				#current_balloon.portrait_texture.texture = speaker
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"angry", "mad":
+			#if speaker.angry.texture != null:
+				#current_balloon.portrait_texture.texture = speaker.angry
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"happy":
+			#if speaker.happy != null:
+				#current_balloon.portrait_texture.texture = speaker.happy
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"special":
+			#if speaker.special.texture != null:
+				#current_balloon.portrait_texture.texture = speaker.special
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		#"tired":
+			#if speaker.tired.texture != null:
+				#current_balloon.portrait_texture.texture = speaker.tired
+			#else:
+				#printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+
+
+
+
+func _set_portrait(_speaker : String, _expression : String) -> void:
+	current_balloon.portrait_panel.set_deferred("visible", true)
+	# No resources at all
+	if speaker_resources.is_empty():
+		current_balloon.portrait_panel.set_deferred("visible", false)
+		push_warning("DialogueManager: No speaker_resources set, cannot set portrait.")
+		return
+	if _speaker == "" and _expression == "":
+		current_balloon.portrait_panel.set_deferred("visible", false)
+		return
+	# Find the matching SpeakerResource by name in the speaker_resources array
+	var speaker : SpeakerResource = null
+	for s in speaker_resources:
+		if s == null:
+			continue
+		if s.name.to_lower() == _speaker.to_lower():
+			speaker = s
+			break
+
+	if speaker == null:
+		push_warning("DialogueManager: Speaker '%s' not found in speaker_resources." % _speaker)
+		# Optional: clear or hide portrait so it does not keep the old one
+		if current_balloon and current_balloon.portrait_panel:
+			current_balloon.portrait_panel.visible = false
+		return
+
+	# At this point we are guaranteed to have a valid speaker
+	if current_balloon and current_balloon.portrait_panel:
+		current_balloon.portrait_panel.visible = true
+
+	# Normalize expression string so dialog data can be case insensitive
+	var expr := _expression.to_lower()
+
+	# Pick the texture that corresponds to the expression
+	match expr:
+		"normal":
+			if speaker.normal != null:
+				current_balloon.portrait_texture.texture = speaker.normal
+				speaker_current_expression = speaker.normal
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"talk", "talking":
+			if speaker.talk != null:
+				current_balloon.portrait_texture.texture = speaker.talk
+				speaker_talk_expression = speaker.talk
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"sad":
+			if speaker.sad != null:
+				current_balloon.portrait_texture.texture = speaker.sad
+				speaker_current_expression = speaker.sad
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"surprise":
+			if speaker.surprise != null:
+				current_balloon.portrait_texture.texture = speaker.surprise
+				speaker_current_expression = speaker.surprise
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"angry":
+			if speaker.angry != null:
+				current_balloon.portrait_texture.texture = speaker.angry
+				speaker_current_expression = speaker.angry
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"happy":
+			if speaker.happy != null:
+				current_balloon.portrait_texture.texture = speaker.happy
+				speaker_current_expression = speaker.happy
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"special":
+			if speaker.special != null:
+				current_balloon.portrait_texture.texture = speaker.special
+				speaker_special_expression = speaker.special
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		"tired":
+			if speaker.tired != null:
+				current_balloon.portrait_texture.texture = speaker.tired
+				speaker_current_expression = speaker.tired
+			else:
+				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
+		_:
+			printerr("DialogueManager tried to set expression '%s', but it is not handled in _set_portrait." % _expression)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Replace any variables, etc in the text.
 func get_resolved_line_data(data: Dictionary, extra_game_states: Array = []) -> DMResolvedLineData:
 	var text: String = translate(data)
@@ -489,8 +681,19 @@ func show_dialogue_balloon_scene(balloon_scene, resource: DialogueResource, titl
 		balloon_scene = balloon_scene.instantiate()
 
 	var balloon: Node = balloon_scene
+	current_balloon = balloon
+	
 	_start_balloon.call_deferred(balloon, resource, title, extra_game_states)
+	##added code. returns error "Invalid assignment of property or key 'hide' with value of type 'bool' on a base object of type 'Nil'." when talking a second time...
+	#if speaker_resources.is_empty():
+		#balloon.portrait_panel.set_deferred("visible", false)
+	#else:
+		#balloon.portrait_panel.set_deferred("visible", true)
 	return balloon
+
+
+
+
 
 
 ## Resolve a static line ID to an actual line ID
@@ -505,9 +708,28 @@ func static_id_to_line_ids(resource: DialogueResource, static_id: String) -> Pac
 	return resource.lines.values().filter(func(l): return l.get(&"translation_key", "") == static_id).map(func(l): return l.id)
 
 
-# Call "start" on the given balloon.
+## Call "start" on the given balloon.
+#func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
+	#get_current_scene.call().add_child(balloon)
+#
+	#if balloon.has_method(&"start"):
+		#balloon.start(resource, title, extra_game_states)
+	#elif balloon.has_method(&"Start"):
+		#balloon.Start(resource, title, extra_game_states)
+	#else:
+		#assert(false, DMConstants.translate(&"runtime.dialogue_balloon_missing_start_method"))
+#
+	#dialogue_started.emit(resource)
+	#bridge_dialogue_started.emit(resource)
+	
+	
 func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
 	get_current_scene.call().add_child(balloon)
+
+	# Portrait panel visibility based on speaker_resources
+	if balloon.has_node("PortraitPanel"):
+		var portrait_panel: Control = balloon.get_node("PortraitPanel")
+		portrait_panel.visible = not speaker_resources.is_empty()
 
 	if balloon.has_method(&"start"):
 		balloon.start(resource, title, extra_game_states)
@@ -519,12 +741,24 @@ func _start_balloon(balloon: Node, resource: DialogueResource, title: String, ex
 	dialogue_started.emit(resource)
 	bridge_dialogue_started.emit(resource)
 
+	
+	
+	
+	
+
+
+## Get the path to the example balloon
+#func _get_example_balloon_path() -> String:
+	#var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
+	#var balloon_path: String = "/example_balloon/small_example_balloon.tscn" if is_small_window else "/example_balloon/example_balloon.tscn"
+	#return get_script().resource_path.get_base_dir() + balloon_path
 
 # Get the path to the example balloon
 func _get_example_balloon_path() -> String:
-	var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
-	var balloon_path: String = "/example_balloon/small_example_balloon.tscn" if is_small_window else "/example_balloon/example_balloon.tscn"
-	return get_script().resource_path.get_base_dir() + balloon_path
+	var balloon_path: String = "res://dialogue/balloons/balloon.tscn"
+	return balloon_path
+	
+
 
 
 #endregion
@@ -570,7 +804,6 @@ func _bridge_get_line(resource: DialogueResource, key: String, extra_game_states
 	await Engine.get_main_loop().process_frame
 	var line = await get_line(resource, key, extra_game_states)
 	bridge_get_line_completed.emit(line)
-
 
 func _bridge_mutate(mutation: Dictionary, extra_game_states: Array, is_inline_mutation: bool = false) -> void:
 	await _mutate(mutation, extra_game_states, is_inline_mutation)

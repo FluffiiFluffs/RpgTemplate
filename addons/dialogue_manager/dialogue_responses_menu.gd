@@ -12,7 +12,7 @@ signal response_selected(response: Control)
 
 
 ## Optionally specify a control to duplicate for each response
-@export var response_template: Control
+@export var response_template: Control 
 
 ## The action for accepting a response (is possibly overridden by parent dialogue balloon).
 @export var next_action: StringName = &""
@@ -70,27 +70,27 @@ func configure_focus() -> void:
 		var item: Control = items[i]
 
 		item.focus_mode = Control.FOCUS_ALL
-
-		item.focus_neighbor_left = item.get_path()
-		item.focus_neighbor_right = item.get_path()
-
-		if i == 0:
-			item.focus_neighbor_top = item.get_path()
-			item.focus_neighbor_left = item.get_path()
-			item.focus_previous = item.get_path()
-		else:
-			item.focus_neighbor_top = items[i - 1].get_path()
-			item.focus_neighbor_left = items[i - 1].get_path()
-			item.focus_previous = items[i - 1].get_path()
-
-		if i == items.size() - 1:
-			item.focus_neighbor_bottom = item.get_path()
-			item.focus_neighbor_right = item.get_path()
-			item.focus_next = item.get_path()
-		else:
-			item.focus_neighbor_bottom = items[i + 1].get_path()
-			item.focus_neighbor_right = items[i + 1].get_path()
-			item.focus_next = items[i + 1].get_path()
+#
+		#item.focus_neighbor_left = item.get_path()
+		#item.focus_neighbor_right = item.get_path()
+#
+		#if i == 0:
+			#item.focus_neighbor_top = item.get_path()
+			#item.focus_neighbor_left = item.get_path()
+			#item.focus_previous = item.get_path()
+		#else:
+			#item.focus_neighbor_top = items[i - 1].get_path()
+			#item.focus_neighbor_left = items[i - 1].get_path()
+			#item.focus_previous = items[i - 1].get_path()
+#
+		#if i == items.size() - 1:
+			#item.focus_neighbor_bottom = item.get_path()
+			#item.focus_neighbor_right = item.get_path()
+			#item.focus_next = item.get_path()
+		#else:
+			#item.focus_neighbor_bottom = items[i + 1].get_path()
+			#item.focus_neighbor_right = items[i + 1].get_path()
+			#item.focus_next = items[i + 1].get_path()
 
 		item.mouse_entered.connect(_on_response_mouse_entered.bind(item))
 		item.gui_input.connect(_on_response_gui_input.bind(item, item.get_meta("response")))

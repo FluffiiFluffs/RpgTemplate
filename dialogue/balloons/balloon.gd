@@ -1,4 +1,5 @@
-class_name DialogueManagerExampleBalloon extends CanvasLayer
+class_name DialogBalloon
+extends CanvasLayer
 ## A basic dialogue balloon for use with Dialogue Manager.
 
 
@@ -19,6 +20,12 @@ class_name DialogueManagerExampleBalloon extends CanvasLayer
 
 ## A sound player for voice lines (if they exist).
 @onready var audio_stream_player: AudioStreamPlayer = %AudioStreamPlayer
+
+## Panel node that holds portrait_texture. If DialogueManager.speaker_resources is blank, this hides
+@onready var portrait_panel = %PortraitPanel
+
+## Uses texture to show portrait
+@onready var portrait_texture = %PortraitTexture
 
 ## Temporary game states
 var temporary_game_states: Array = []
@@ -67,9 +74,9 @@ var mutation_cooldown: Timer = Timer.new()
 ## Indicator to show that player can progress dialogue.
 @onready var progress: Polygon2D = %Progress
 
+var voice : AudioStream = null
 
 func _ready() -> void:
-	character_label.visible = false
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
 
@@ -115,6 +122,9 @@ func start(with_dialogue_resource: DialogueResource = null, title: String = "", 
 	if not title.is_empty():
 		start_from_title = title
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
+	#Clears speaker portrait if there are no resources set (use for inspecting stuff maybe)
+	if DialogueManager.speaker_resources == []:
+		portrait_panel.set_deferred("visible", false)
 	show()
 
 
@@ -128,7 +138,7 @@ func apply_dialogue_line() -> void:
 	balloon.grab_focus()
 
 	#character_label.visible = not dialogue_line.character.is_empty()
-	#character_label.text = tr(dialogue_line.character, "dialogue")
+	character_label.text = tr(dialogue_line.character, "dialogue")
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line

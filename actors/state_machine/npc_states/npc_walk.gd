@@ -46,7 +46,6 @@ func enter() -> void:
 	#Possible use is for after-cutscene
 	if actor.walkcenterpoint:
 		actor.walk_center = actor.walkcenterpoint.global_position
-	walk_done = false
 	start_walk()
 	#print(str(actor.name) + " Start Walk State")
 	pass
@@ -59,8 +58,6 @@ func exit() -> void:
 	
 ## What happens during _process(): update while state is running
 func process (_delta : float) -> State:
-	if walk_done == true: #move to next state
-		return next_state
 	if actor.player_detected == true: #if player is detected, force idle state
 		state_machine.change_state(idle)
 	return null
@@ -76,7 +73,7 @@ func handle_input( _event: InputEvent) -> State:
 ##Begins walk routine
 func start_walk()->void:
 	if actor.player_detected == true: #if the player is found, enter idle state immediately
-		walk_done = true
+		state_machine.change_state(idle)
 	elif actor.player_detected == false: ##if player is NOT found...
 		actor.walk_duration = randf_range(actor.walk_min, actor.walk_max) #walk duration random
 		var _dir : Vector2 = actor.DIR_4[randi_range(0,3)] #pick a random direction
@@ -96,9 +93,7 @@ func start_walk()->void:
 		actor.update_animation("walk")
 		#await get_tree().create_timer(actor.walk_duration, false).timeout ##Creates memory leak if queuefreed while active!
 		use_timer(actor.walk_duration)
-		if next_state == null: #ensures next state is something
-			next_state = idle
-		walk_done = true
+
 	
 	pass
 
@@ -118,4 +113,9 @@ func use_timer(_wait_time:float)->void:
 	state_timer.wait_time = _wait_time
 	state_timer.start()
 	await state_timer.timeout
-	
+
+func _on_timer_timeout()->void:
+	if next_state == null: #ensures next state is something
+		next_state = idle
+	state_machine.change_state(next_state)
+	pass

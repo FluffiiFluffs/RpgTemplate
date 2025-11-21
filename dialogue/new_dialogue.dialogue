@@ -1,11 +1,11 @@
 ~ start
-Nathan: [[Hi|Hello|Howdy]], this is some dialogue.
-Nathan: Here are some choices.
+NPC: [[Hi|Hello|Howdy]], this is some dialogue.
+NPC: Here are some choices. [wait=0.5] Make your choice.
 - First one
-	Nathan: You picked the first one.
+	NPC: You picked the first one.
 - Second one
-	Nathan: You picked the second one.
+	NPC: You picked the second one.
 - Start again => start
-- End the conversation => END
-Nathan: For more information see the online documentation.
+- End => END
+NPC: For more information see the online documentation.
 => END

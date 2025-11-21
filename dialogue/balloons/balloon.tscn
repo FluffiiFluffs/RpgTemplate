@@ -1,0 +1,151 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6g8djd5ijles"]
+
+[ext_resource type="Script" uid="uid://dxdyq6etv13j2" path="res://dialogue/balloons/balloon.gd" id="1_2b1h5"]
+[ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="2_cudab"]
+[ext_resource type="Theme" uid="uid://bbynjfc6np7tp" path="res://dialogue/balloons/balloon_theme.tres" id="2_i5b03"]
+[ext_resource type="FontFile" uid="uid://c430yru54h27l" path="res://_assets/fonts/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf" id="2_lrmgk"]
+[ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/dialogue_responses_menu.gd" id="3_ha0tj"]
+
+[sub_resource type="Animation" id="Animation_i6nbm"]
+resource_name = "progress"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Progress:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.2, -0.0157438, -1, -0.2, 0.0112069, 0.25, 0, -1, -0.25, 0, 0.25, 0, 0, -0.2, 0.00299701, 0.25, 0),
+"times": PackedFloat32Array(0, 0.1, 0.5, 0.6, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6b6c8"]
+_data = {
+&"progress": SubResource("Animation_i6nbm")
+}
+
+[node name="Balloon" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_2b1h5")
+
+[node name="Balloon" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_i5b03")
+
+[node name="MarginContainer" type="MarginContainer" parent="Balloon"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Balloon/MarginContainer"]
+clip_children = 2
+layout_mode = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Balloon/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PortraitPanel" type="Panel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="PortraitTexture" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/PortraitPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CharacterLabel" type="RichTextLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 2
+mouse_filter = 1
+theme_override_fonts/normal_font = ExtResource("2_lrmgk")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+theme_override_font_sizes/bold_italics_font_size = 10
+theme_override_font_sizes/italics_font_size = 10
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+text = "Character"
+fit_content = true
+scroll_active = false
+
+[node name="DialogueLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_cudab")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "This is a test dialog to see how much text I can put into this box. I would like to think that I could put a lot of text into this box so I can have characters say a lot of stuff. I am not sure how much text I can put into this box but it's got space."
+
+[node name="Control" type="Control" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(5, 3)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Progress" type="Polygon2D" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
+position = Vector2(-0.026249565, 0)
+polygon = PackedVector2Array(2.5, -3, 2.5, 3, 10, 0)
+uv = PackedVector2Array(2.5, -3, 2.5, 3, 10, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
+libraries = {
+&"": SubResource("AnimationLibrary_6b6c8")
+}
+autoplay = "progress"
+
+[node name="ResponsesMenu" type="GridContainer" parent="Balloon"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.20700002
+anchor_top = 0.69200003
+anchor_right = 0.79300004
+anchor_bottom = 0.69200003
+offset_left = 0.11399078
+offset_top = -22.00801
+offset_right = -0.11401367
+offset_bottom = -0.008010864
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+columns = 2
+script = ExtResource("3_ha0tj")
+
+[node name="Response" type="Button" parent="Balloon/ResponsesMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Response Example"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]
+[connection signal="response_selected" from="Balloon/ResponsesMenu" to="." method="_on_responses_menu_response_selected"]
