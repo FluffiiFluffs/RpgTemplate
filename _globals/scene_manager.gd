@@ -2,6 +2,8 @@ extends Node2D
 
 const _NPC = preload("uid://56kk082o8ck1")
 const PLAYER_CHARACTER = preload("uid://bita6dnrj87wq")
+const _00_CHAR = preload("uid://prpth3t5akim")
+
 
 ##If the player is spawned
 var player_is_made : bool = false
@@ -12,15 +14,15 @@ var party_spawn_point
 
 func make_player()->void:
 	if player_is_made == false:
+		CharDataKeeper.slot00 = _00_CHAR
 		var new_player : PlayerCharacter = PLAYER_CHARACTER.instantiate()
-		new_player.sprite_2d = CharDataKeeper.slot00.char_sprite_sheet
-		new_player.global_position = Vector2.ZERO ##ALERT CHANGE THIS LATER!
+		new_player.global_position = Vector2.ZERO ##TODO CHANGE THIS LATER!
 		CharDataKeeper.controlled_character = new_player
 		get_tree().current_scene.call_deferred("add_child", new_player)
 		await get_tree().process_frame
+		new_player.sprite_2d.texture = CharDataKeeper.slot00.char_sprite_sheet
 		new_player.name = CharDataKeeper.slot00.char_name
 		player_is_made = true
-
 
 func make_party()->void:
 	if CharDataKeeper.party_size == 1:
@@ -127,6 +129,8 @@ func make_party()->void:
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test1"):
+		print(str(name) + " made player")
 		make_player()
 	if Input.is_action_just_pressed("test2"):
+		print(str(name) + " made party")
 		make_party()

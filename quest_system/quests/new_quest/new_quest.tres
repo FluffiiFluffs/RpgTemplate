@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Quest" load_steps=6 format=3 uid="uid://dseygpu2us63e"]
+
+[ext_resource type="Script" uid="uid://db7yfp2vh7lr2" path="res://quest_system/base/quest_resource.gd" id="1_llbcy"]
+[ext_resource type="Script" uid="uid://dywu7aeq0a26d" path="res://quest_system/base/quest_step_resource.gd" id="2_w70gt"]
+[ext_resource type="Resource" uid="uid://btw8uie0nkqdb" path="res://quest_system/quests/new_quest/steps/new_quest_00.tres" id="3_ywiht"]
+[ext_resource type="Resource" uid="uid://c6ag5gv2ig0re" path="res://quest_system/quests/new_quest/steps/new_quest_01.tres" id="4_ysh83"]
+[ext_resource type="Resource" uid="uid://b2nou5f3kjxyc" path="res://quest_system/quests/new_quest/steps/new_quest_02.tres" id="5_oei3j"]
+
+[resource]
+script = ExtResource("1_llbcy")
+quest_id = &"0001"
+quest_name = "First Quest"
+description = "This is the first quest."
+steps = Array[ExtResource("2_w70gt")]([ExtResource("3_ywiht"), ExtResource("4_ysh83"), ExtResource("5_oei3j")])
+metadata/_custom_type_script = "uid://db7yfp2vh7lr2"

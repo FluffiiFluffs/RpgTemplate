@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CharResource" load_steps=3 format=3 uid="uid://bthhoxi0h52di"]
 
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="1_s8y5a"]
-[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/char_resources/char_resource.gd" id="2_a7gt7"]
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/base_char_resources/char_resource.gd" id="2_a7gt7"]
 
 [resource]
 resource_local_to_scene = true

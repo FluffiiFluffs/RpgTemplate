@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cyw8elamdnchs"]
+
+[node name="GameMenuGui" type="Node2D"]

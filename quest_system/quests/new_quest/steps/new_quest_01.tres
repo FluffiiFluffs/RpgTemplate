@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="QuestStep" load_steps=2 format=3 uid="uid://c6ag5gv2ig0re"]
+
+[ext_resource type="Script" uid="uid://dywu7aeq0a26d" path="res://quest_system/base/quest_step_resource.gd" id="1_3xjfw"]
+
+[resource]
+script = ExtResource("1_3xjfw")
+step_name = "Next Step"
+step_type = 3
+description = "Spoke to the other NPC."
+metadata/_custom_type_script = "uid://dywu7aeq0a26d"

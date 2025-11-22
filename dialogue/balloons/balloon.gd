@@ -182,8 +182,6 @@ func next(next_id: String) -> void:
 
 
 #region Signals
-
-
 func _on_mutation_cooldown_timeout() -> void:
 	if will_hide_balloon:
 		will_hide_balloon = false
@@ -221,8 +219,6 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
-
-
 #endregion
 
 

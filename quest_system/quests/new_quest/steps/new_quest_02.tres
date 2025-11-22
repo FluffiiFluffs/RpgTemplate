@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="QuestStep" load_steps=2 format=3 uid="uid://b2nou5f3kjxyc"]
+
+[ext_resource type="Script" uid="uid://dywu7aeq0a26d" path="res://quest_system/base/quest_step_resource.gd" id="1_gya2x"]
+
+[resource]
+script = ExtResource("1_gya2x")
+step_name = "Complete Quest"
+step_type = 3
+description = "Spoke to the first NPC."
+metadata/_custom_type_script = "uid://dywu7aeq0a26d"

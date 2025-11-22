@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://bita6dnrj87wq"]
+[gd_scene load_steps=19 format=3 uid="uid://bita6dnrj87wq"]
 
 [ext_resource type="Script" uid="uid://dktt53hbh57f5" path="res://actors/character/player_character/player_character.gd" id="1_5dlv1"]
-[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_6oia8"]
-[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="3_t0tay"]
+[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="3_t0tay"]
 [ext_resource type="Script" uid="uid://ebmcasvilahp" path="res://actors/state_machine/player_states/player_idle.gd" id="4_6oia8"]
 [ext_resource type="Script" uid="uid://plkn7epwt71w" path="res://actors/state_machine/player_states/player_walk.gd" id="4_31ora"]
 
@@ -286,7 +285,6 @@ script = ExtResource("1_5dlv1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("2_6oia8")
 offset = Vector2(0, -15)
 hframes = 4
 vframes = 3
@@ -333,12 +331,7 @@ script = ExtResource("4_31ora")
 
 [node name="Node2D6" type="Node2D" parent="StateMachine"]
 
-[node name="PathTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.1
-
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.3, 0.3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D"]
 visible = false

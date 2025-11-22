@@ -1,9 +1,9 @@
 [gd_scene load_steps=24 format=3 uid="uid://56kk082o8ck1"]
 
-[ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/npc/npc_scenes/base_npc/npc.gd" id="1_3jjbx"]
-[ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/npc/npc_resources/npc_resource.tres" id="2_3jjbx"]
+[ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/npc/npc_scenes/base/npc.gd" id="1_3jjbx"]
+[ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/npc/npc_resources/base/base_npc_resource.tres" id="2_3jjbx"]
 [ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="3_umrb1"]
-[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="3_ve4uv"]
+[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="3_ve4uv"]
 [ext_resource type="Script" uid="uid://cojagurq1svt" path="res://actors/state_machine/npc_states/npc_idle.gd" id="4_3jjbx"]
 [ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/state_machine/npc_states/npc_walk.gd" id="5_06j4l"]
 [ext_resource type="Script" uid="uid://c24ccuf0y06bn" path="res://actors/state_machine/npc_states/npc_patrol.gd" id="6_06j4l"]

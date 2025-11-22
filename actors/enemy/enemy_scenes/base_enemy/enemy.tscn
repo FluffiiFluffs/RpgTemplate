@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_0bajq"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_ntjkm"]
-[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/state_machine.gd" id="4_laeoq"]
+[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="4_laeoq"]
 [ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="4_ntjkm"]
 [ext_resource type="Script" uid="uid://cl15npn1uos1n" path="res://actors/state_machine/enemy_states/enemy_walk.gd" id="5_ntjkm"]
 [ext_resource type="Script" uid="uid://c3stcs3g00qcn" path="res://actors/state_machine/enemy_states/enemy_patrol.gd" id="6_ntjkm"]

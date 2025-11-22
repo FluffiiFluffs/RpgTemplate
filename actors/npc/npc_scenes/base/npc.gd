@@ -105,6 +105,7 @@ signal pcolldetfalse ##Signal to turn collisions back on once player exits detec
 
 func _ready()->void:
 	if Engine.is_editor_hint():
+		sprite_2d.texture = npc_data.char_sprite_sheet
 		return
 	setup_npc()
 	if_walking()

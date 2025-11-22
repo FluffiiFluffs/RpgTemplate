@@ -23,10 +23,14 @@ Options="*res://_globals/options.tscn"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+QuestManager="*res://_globals/quest_manager.tscn"
+InventoryManager="*res://_globals/inventory_manager.tscn"
+DM="*res://_globals/dm_helper.gd"
 
 [dialogue_manager]
 
 runtime/balloon_path="res://dialogue/balloons/balloon.tscn"
+editor/wrap_long_lines=true
 
 [display]
 
@@ -54,7 +58,7 @@ folder_colors={
 "res://battle/": "pink",
 "res://dialogue/": "blue",
 "res://field/": "green",
-"res://quests/": "yellow"
+"res://quest_system/": "yellow"
 }
 
 [input]
@@ -182,7 +186,7 @@ test5={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://dialogue/new_dialogue.dialogue")
+locale/translations_pot_files=PackedStringArray("res://dialogue/new_dialogue.dialogue", "res://dialogue/new_quest_dialogue.dialogue")
 
 [layer_names]
 
