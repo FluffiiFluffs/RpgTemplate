@@ -27,6 +27,8 @@ extends Resource
 @export var is_completed : bool = false
 ##Experience rewarded on step completion
 @export var reward_exp : int = 0
+##Money rewarded on step completion
+@export var reward_money : int = 0
 ##Items rewarded on step completion
 @export var reward_items : Array = []
 

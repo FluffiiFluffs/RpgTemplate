@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://4hqnw34m4ovo"]
+[gd_scene load_steps=82 format=3 uid="uid://4hqnw34m4ovo"]
 
 [ext_resource type="PackedScene" uid="uid://bqx4dkkysbkm2" path="res://_common/enemy_spawner/enemy_spawner.tscn" id="1_2kk2i"]
 [ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/base_char_resources/char_resource.gd" id="2_y2dmi"]
@@ -10,8 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="8_bqjps"]
 [ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/voices/placeholder_voices/snd_txtsus.wav" id="8_qanu8"]
 [ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="9_3uhb3"]
-[ext_resource type="Resource" uid="uid://dbnggkxfb7vou" path="res://dialogue/speaker_resources/npc_test.tres" id="12_3ql8g"]
-[ext_resource type="Resource" uid="uid://b4oqligpuxk1l" path="res://dialogue/speaker_resources/player_character.tres" id="13_7dw1e"]
 [ext_resource type="Resource" uid="uid://dc52sh8wntptq" path="res://dialogue/new_quest_dialogue.dialogue" id="14_mlibb"]
 
 [sub_resource type="Resource" id="Resource_3uhb3"]
@@ -184,6 +182,145 @@ caution_range = 200.0
 alert_range = 75.0
 metadata/_custom_type_script = "uid://dekkhepva31dh"
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dw1e"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mlibb"]
+atlas = SubResource("CompressedTexture2D_7dw1e")
+region = Rect2(4, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fme3t"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc3fs"]
+atlas = SubResource("CompressedTexture2D_fme3t")
+region = Rect2(172, 4, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_khs2v"]
+atlas = ExtResource("8_bqjps")
+region = Rect2(60, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7gaee"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta0s4"]
+atlas = SubResource("CompressedTexture2D_7gaee")
+region = Rect2(116, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ye4o7"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nvu4"]
+atlas = SubResource("CompressedTexture2D_ye4o7")
+region = Rect2(172, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j22wq"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sufqc"]
+atlas = SubResource("CompressedTexture2D_j22wq")
+region = Rect2(228, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u66oi"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohdes"]
+atlas = SubResource("CompressedTexture2D_u66oi")
+region = Rect2(284, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wt3wa"]
+load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgdhp"]
+atlas = SubResource("CompressedTexture2D_wt3wa")
+region = Rect2(340, 4, 48, 48)
+
+[sub_resource type="Resource" id="Resource_mlibb"]
+resource_local_to_scene = true
+script = ExtResource("7_bjslq")
+name = "NPC"
+normal = SubResource("AtlasTexture_khs2v")
+talk = SubResource("AtlasTexture_ohdes")
+sad = SubResource("AtlasTexture_ta0s4")
+surprise = SubResource("AtlasTexture_sufqc")
+angry = SubResource("AtlasTexture_mlibb")
+happy = SubResource("AtlasTexture_bc3fs")
+special = SubResource("AtlasTexture_2nvu4")
+tired = SubResource("AtlasTexture_qgdhp")
+voice = ExtResource("8_qanu8")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c6a5b"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ounjd"]
+atlas = SubResource("CompressedTexture2D_c6a5b")
+region = Rect2(4, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6gcpj"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xom28"]
+atlas = SubResource("CompressedTexture2D_6gcpj")
+region = Rect2(172, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qej6j"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7q45y"]
+atlas = SubResource("CompressedTexture2D_qej6j")
+region = Rect2(60, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8alma"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dve3h"]
+atlas = SubResource("CompressedTexture2D_8alma")
+region = Rect2(116, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0hpdm"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yjlbp"]
+atlas = SubResource("CompressedTexture2D_0hpdm")
+region = Rect2(172, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_id7uq"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdts0"]
+atlas = SubResource("CompressedTexture2D_id7uq")
+region = Rect2(228, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x2ea4"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n31bh"]
+atlas = SubResource("CompressedTexture2D_x2ea4")
+region = Rect2(284, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mswpi"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivxbw"]
+atlas = SubResource("CompressedTexture2D_mswpi")
+region = Rect2(340, 4, 48, 48)
+
+[sub_resource type="Resource" id="Resource_fme3t"]
+resource_local_to_scene = true
+script = ExtResource("7_bjslq")
+name = "Player"
+normal = SubResource("AtlasTexture_7q45y")
+talk = SubResource("AtlasTexture_n31bh")
+sad = SubResource("AtlasTexture_dve3h")
+surprise = SubResource("AtlasTexture_sdts0")
+angry = SubResource("AtlasTexture_ounjd")
+happy = SubResource("AtlasTexture_xom28")
+special = SubResource("AtlasTexture_yjlbp")
+tired = SubResource("AtlasTexture_ivxbw")
+voice = ExtResource("9_3uhb3")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"
+
 [node name="TestField" type="Node2D"]
 y_sort_enabled = true
 
@@ -211,6 +348,6 @@ position = Vector2(80, 0)
 npc_data = SubResource("Resource_7dw1e")
 
 [node name="TalkArea" parent="NPC2" instance=ExtResource("6_bjslq")]
-speakers = Array[ExtResource("7_bjslq")]([ExtResource("12_3ql8g"), ExtResource("13_7dw1e")])
+speakers = Array[ExtResource("7_bjslq")]([SubResource("Resource_mlibb"), SubResource("Resource_fme3t")])
 dialogue = ExtResource("14_mlibb")
 talking_start_position = "npc2"

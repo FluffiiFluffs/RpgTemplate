@@ -15,7 +15,7 @@ func give_quest(quest_id:StringName)->void:
 	var quest := _find_quest(quest_id)
 	#Checks if quest_id given is valid
 	if quest == null:
-		printerr("Quest" + str(quest_id) + " invalid ID")
+		printerr("Quest " + str(quest_id) + " invalid ID")
 		return
 
 	#Checks if quest was completed		

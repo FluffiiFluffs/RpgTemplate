@@ -26,6 +26,7 @@ DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 QuestManager="*res://_globals/quest_manager.tscn"
 InventoryManager="*res://_globals/inventory_manager.tscn"
 DM="*res://_globals/dm_helper.gd"
+Inventory="*res://_globals/inventory_manager.tscn"
 
 [dialogue_manager]
 

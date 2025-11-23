@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://w7qxfm10qo2r"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/item_effect.gd" id="1_cd3v3"]
+[ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="2_cepck"]
+[ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_tt7k5"]
+
+[resource]
+script = ExtResource("2_cepck")
+item_id = &"apple"
+name = "Apple"
+type = 2
+description = "It's an apple."
+battle_use = 1
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

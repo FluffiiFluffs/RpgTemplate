@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3vfphoul8ljv"]
+[gd_scene load_steps=3 format=3 uid="uid://c3vfphoul8ljv"]
 
 [ext_resource type="Script" uid="uid://dkyyrcfv7i40r" path="res://_globals/inventory_manager.gd" id="1_d2cym"]
+[ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/apple.tres" id="2_72dg7"]
 
 [node name="InventoryManager" type="Node2D"]
 script = ExtResource("1_d2cym")
+all_items = [ExtResource("2_72dg7")]
