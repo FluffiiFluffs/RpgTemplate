@@ -235,3 +235,14 @@ func can_add_item(item_id : StringName, qty : int) -> bool:
 func has_free_slot() -> bool:
 	return current_inventory.size() < current_slots
 #endregion
+
+
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed("test3"):
+		print("inventory_manager: current_inventory = " + str(current_inventory))
+	if Input.is_action_just_pressed("test4"):
+		for i in 200:
+			add_item("apple", 10)
+	if Input.is_action_just_pressed("test5"):
+		clear_slots()
+	

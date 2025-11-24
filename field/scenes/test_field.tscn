@@ -1,23 +1,25 @@
-[gd_scene load_steps=82 format=3 uid="uid://4hqnw34m4ovo"]
+[gd_scene load_steps=102 format=3 uid="uid://4hqnw34m4ovo"]
 
-[ext_resource type="PackedScene" uid="uid://bqx4dkkysbkm2" path="res://_common/enemy_spawner/enemy_spawner.tscn" id="1_2kk2i"]
-[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/base_char_resources/char_resource.gd" id="2_y2dmi"]
-[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="3_i2nf2"]
-[ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/npc/npc_scenes/base/npc.tscn" id="4_l7imp"]
-[ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="5_3uhb3"]
-[ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="6_bjslq"]
-[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="7_bjslq"]
-[ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="8_bqjps"]
-[ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/voices/placeholder_voices/snd_txtsus.wav" id="8_qanu8"]
-[ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="9_3uhb3"]
-[ext_resource type="Resource" uid="uid://dc52sh8wntptq" path="res://dialogue/new_quest_dialogue.dialogue" id="14_mlibb"]
+[ext_resource type="PackedScene" uid="uid://bqx4dkkysbkm2" path="res://_common/enemy_spawner/enemy_spawner.tscn" id="1_p55uj"]
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/base_char_resources/char_resource.gd" id="2_5hyb6"]
+[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="3_ve4hq"]
+[ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/npc/npc_scenes/base/npc.tscn" id="4_sh68w"]
+[ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="5_ohn77"]
+[ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="6_4lsk8"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="7_y5hqn"]
+[ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="8_kacu3"]
+[ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/voices/placeholder_voices/snd_txtsus.wav" id="9_avvtr"]
+[ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="10_ngjbu"]
+[ext_resource type="Resource" uid="uid://dc52sh8wntptq" path="res://dialogue/new_quest_dialogue.dialogue" id="11_0654a"]
+[ext_resource type="PackedScene" uid="uid://c3sfxn75o468d" path="res://field/objects/trashcan.tscn" id="12_iej7r"]
+[ext_resource type="PackedScene" uid="uid://cqts22xonjkd5" path="res://_common/inspect_area/inspect_area.tscn" id="13_5hyb6"]
 
-[sub_resource type="Resource" id="Resource_3uhb3"]
+[sub_resource type="Resource" id="Resource_5hyb6"]
 resource_local_to_scene = true
-script = ExtResource("2_y2dmi")
+script = ExtResource("2_5hyb6")
 char_faction = 2
 char_name = "ENEMY"
-char_sprite_sheet = ExtResource("3_i2nf2")
+char_sprite_sheet = ExtResource("3_ve4hq")
 caution_range = 200.0
 alert_range = 75.0
 metadata/_custom_type_script = "uid://dekkhepva31dh"
@@ -27,10 +29,10 @@ size = Vector2(200, 200)
 
 [sub_resource type="Resource" id="Resource_8ribu"]
 resource_local_to_scene = true
-script = ExtResource("2_y2dmi")
+script = ExtResource("2_5hyb6")
 char_faction = 1
 char_name = "NPC"
-char_sprite_sheet = ExtResource("5_3uhb3")
+char_sprite_sheet = ExtResource("5_ohn77")
 metadata/_custom_type_script = "uid://dekkhepva31dh"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ypob0"]
@@ -48,7 +50,7 @@ atlas = SubResource("CompressedTexture2D_703kq")
 region = Rect2(172, 4, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ryfmy"]
-atlas = ExtResource("8_bqjps")
+atlas = ExtResource("8_kacu3")
 region = Rect2(60, 4, 48, 48)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5lt7l"]
@@ -86,9 +88,9 @@ load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403b
 atlas = SubResource("CompressedTexture2D_4tb3a")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_d37sa"]
+[sub_resource type="Resource" id="Resource_ve4hq"]
 resource_local_to_scene = true
-script = ExtResource("7_bjslq")
+script = ExtResource("7_y5hqn")
 name = "NPC"
 normal = SubResource("AtlasTexture_ryfmy")
 talk = SubResource("AtlasTexture_lbl53")
@@ -98,7 +100,7 @@ angry = SubResource("AtlasTexture_c5mii")
 happy = SubResource("AtlasTexture_a0u5e")
 special = SubResource("AtlasTexture_4sh14")
 tired = SubResource("AtlasTexture_rpm01")
-voice = ExtResource("8_qanu8")
+voice = ExtResource("9_avvtr")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_waeo2"]
@@ -157,9 +159,9 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_vqpsj")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_3ql8g"]
+[sub_resource type="Resource" id="Resource_sh68w"]
 resource_local_to_scene = true
-script = ExtResource("7_bjslq")
+script = ExtResource("7_y5hqn")
 name = "Player"
 normal = SubResource("AtlasTexture_k8ccy")
 talk = SubResource("AtlasTexture_4r1j2")
@@ -169,15 +171,15 @@ angry = SubResource("AtlasTexture_wff2p")
 happy = SubResource("AtlasTexture_5ragq")
 special = SubResource("AtlasTexture_etxau")
 tired = SubResource("AtlasTexture_q8fct")
-voice = ExtResource("9_3uhb3")
+voice = ExtResource("10_ngjbu")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [sub_resource type="Resource" id="Resource_7dw1e"]
 resource_local_to_scene = true
-script = ExtResource("2_y2dmi")
+script = ExtResource("2_5hyb6")
 char_faction = 2
 char_name = "ENEMY"
-char_sprite_sheet = ExtResource("3_i2nf2")
+char_sprite_sheet = ExtResource("3_ve4hq")
 caution_range = 200.0
 alert_range = 75.0
 metadata/_custom_type_script = "uid://dekkhepva31dh"
@@ -197,7 +199,7 @@ atlas = SubResource("CompressedTexture2D_fme3t")
 region = Rect2(172, 4, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_khs2v"]
-atlas = ExtResource("8_bqjps")
+atlas = ExtResource("8_kacu3")
 region = Rect2(60, 4, 48, 48)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7gaee"]
@@ -235,9 +237,9 @@ load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403b
 atlas = SubResource("CompressedTexture2D_wt3wa")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_mlibb"]
+[sub_resource type="Resource" id="Resource_ohn77"]
 resource_local_to_scene = true
-script = ExtResource("7_bjslq")
+script = ExtResource("7_y5hqn")
 name = "NPC"
 normal = SubResource("AtlasTexture_khs2v")
 talk = SubResource("AtlasTexture_ohdes")
@@ -247,7 +249,7 @@ angry = SubResource("AtlasTexture_mlibb")
 happy = SubResource("AtlasTexture_bc3fs")
 special = SubResource("AtlasTexture_2nvu4")
 tired = SubResource("AtlasTexture_qgdhp")
-voice = ExtResource("8_qanu8")
+voice = ExtResource("9_avvtr")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c6a5b"]
@@ -306,9 +308,9 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_mswpi")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_fme3t"]
+[sub_resource type="Resource" id="Resource_4lsk8"]
 resource_local_to_scene = true
-script = ExtResource("7_bjslq")
+script = ExtResource("7_y5hqn")
 name = "Player"
 normal = SubResource("AtlasTexture_7q45y")
 talk = SubResource("AtlasTexture_n31bh")
@@ -318,15 +320,101 @@ angry = SubResource("AtlasTexture_ounjd")
 happy = SubResource("AtlasTexture_xom28")
 special = SubResource("AtlasTexture_yjlbp")
 tired = SubResource("AtlasTexture_ivxbw")
-voice = ExtResource("9_3uhb3")
+voice = ExtResource("10_ngjbu")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y5hqn"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kacu3"]
+atlas = SubResource("CompressedTexture2D_y5hqn")
+region = Rect2(4, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_avvtr"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngjbu"]
+atlas = SubResource("CompressedTexture2D_avvtr")
+region = Rect2(172, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0654a"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iej7r"]
+atlas = SubResource("CompressedTexture2D_0654a")
+region = Rect2(60, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fxcvt"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skv7g"]
+atlas = SubResource("CompressedTexture2D_fxcvt")
+region = Rect2(116, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h78op"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohpxp"]
+atlas = SubResource("CompressedTexture2D_h78op")
+region = Rect2(172, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_flswj"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttdy6"]
+atlas = SubResource("CompressedTexture2D_flswj")
+region = Rect2(228, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b2m4a"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0f07"]
+atlas = SubResource("CompressedTexture2D_b2m4a")
+region = Rect2(284, 4, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u062u"]
+load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fp00"]
+atlas = SubResource("CompressedTexture2D_u062u")
+region = Rect2(340, 4, 48, 48)
+
+[sub_resource type="Resource" id="Resource_y5hqn"]
+resource_local_to_scene = true
+script = ExtResource("7_y5hqn")
+name = "Player"
+normal = SubResource("AtlasTexture_iej7r")
+talk = SubResource("AtlasTexture_f0f07")
+sad = SubResource("AtlasTexture_skv7g")
+surprise = SubResource("AtlasTexture_ttdy6")
+angry = SubResource("AtlasTexture_kacu3")
+happy = SubResource("AtlasTexture_ngjbu")
+special = SubResource("AtlasTexture_ohpxp")
+tired = SubResource("AtlasTexture_1fp00")
+voice = ExtResource("10_ngjbu")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"
+
+[sub_resource type="Resource" id="Resource_kacu3"]
+resource_local_to_scene = true
+script = ExtResource("7_y5hqn")
+name = "Player"
+normal = SubResource("AtlasTexture_iej7r")
+talk = SubResource("AtlasTexture_f0f07")
+sad = SubResource("AtlasTexture_skv7g")
+surprise = SubResource("AtlasTexture_ttdy6")
+angry = SubResource("AtlasTexture_kacu3")
+happy = SubResource("AtlasTexture_ngjbu")
+special = SubResource("AtlasTexture_ohpxp")
+tired = SubResource("AtlasTexture_1fp00")
+voice = ExtResource("10_ngjbu")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [node name="TestField" type="Node2D"]
 y_sort_enabled = true
 
-[node name="EnemySpawner" parent="." instance=ExtResource("1_2kk2i")]
+[node name="EnemySpawner" parent="." instance=ExtResource("1_p55uj")]
 position = Vector2(591, 122)
-enemy_actors = Array[ExtResource("2_y2dmi")]([SubResource("Resource_3uhb3")])
+enemy_actors = Array[ExtResource("2_5hyb6")]([SubResource("Resource_5hyb6")])
 enemy_spawn_chance = 100.0
 stays_in_shape = true
 
@@ -334,20 +422,40 @@ stays_in_shape = true
 shape = SubResource("RectangleShape2D_y2dmi")
 debug_color = Color(1, 0, 0, 0.05)
 
-[node name="NPC" parent="." instance=ExtResource("4_l7imp")]
+[node name="NPC" parent="." instance=ExtResource("4_sh68w")]
 position = Vector2(-86, -3)
 npc_data = SubResource("Resource_8ribu")
 
-[node name="TalkArea" parent="NPC" instance=ExtResource("6_bjslq")]
-speakers = Array[ExtResource("7_bjslq")]([SubResource("Resource_d37sa"), SubResource("Resource_3ql8g")])
-dialogue = ExtResource("14_mlibb")
-talking_start_position = "npc1"
+[node name="TalkArea" parent="NPC" instance=ExtResource("6_4lsk8")]
+start_position = "npc1"
+speakers = Array[ExtResource("7_y5hqn")]([SubResource("Resource_ve4hq"), SubResource("Resource_sh68w")])
+dialogue = ExtResource("11_0654a")
 
-[node name="NPC2" parent="." instance=ExtResource("4_l7imp")]
+[node name="NPC2" parent="." instance=ExtResource("4_sh68w")]
 position = Vector2(80, 0)
 npc_data = SubResource("Resource_7dw1e")
 
-[node name="TalkArea" parent="NPC2" instance=ExtResource("6_bjslq")]
-speakers = Array[ExtResource("7_bjslq")]([SubResource("Resource_mlibb"), SubResource("Resource_fme3t")])
-dialogue = ExtResource("14_mlibb")
-talking_start_position = "npc2"
+[node name="TalkArea" parent="NPC2" instance=ExtResource("6_4lsk8")]
+start_position = "npc2"
+speakers = Array[ExtResource("7_y5hqn")]([SubResource("Resource_ohn77"), SubResource("Resource_4lsk8")])
+dialogue = ExtResource("11_0654a")
+
+[node name="Trashcan" parent="." instance=ExtResource("12_iej7r")]
+position = Vector2(-44, -70)
+
+[node name="InspectArea" parent="Trashcan" instance=ExtResource("13_5hyb6")]
+z_index = 1
+item_here = true
+item_here_start = "trashcan1"
+item_not_here_start = "trashcan1"
+speakers = Array[ExtResource("7_y5hqn")]([SubResource("Resource_y5hqn")])
+
+[node name="Trashcan2" parent="." instance=ExtResource("12_iej7r")]
+position = Vector2(23, -70)
+
+[node name="InspectArea" parent="Trashcan2" instance=ExtResource("13_5hyb6")]
+z_index = 1
+item_here_start = "trashcan1"
+item_not_here_start = "trashcan1"
+open = true
+speakers = Array[ExtResource("7_y5hqn")]([SubResource("Resource_kacu3")])

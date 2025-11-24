@@ -226,7 +226,7 @@ func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 #region Code not present in original script
 ##Plays voice is option is set to 0 (FULL)[br]
 ##Animates face per letter if Options.portrait_type set to 0 (TALKING)
-func _on_dialogue_label_spoke(letter: String, letter_index: int, speed: float)->void:
+func _on_dialogue_label_spoke(letter: String, _letter_index: int, _speed: float)->void:
 	play_voice(letter)
 	animate_face(letter)
 

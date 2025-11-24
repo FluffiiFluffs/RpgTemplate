@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgyymkjxthh20"]
+
+[ext_resource type="Script" uid="uid://cpwiu3ic2whpe" path="res://_common/actor_interact_area/actor_interact_area.gd" id="1_y2eux"]
+
+[node name="ActorInteractArea" type="Area2D"]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+script = ExtResource("1_y2eux")

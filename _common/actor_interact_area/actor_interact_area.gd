@@ -1,4 +1,4 @@
-class_name AreaInteract
+class_name ActorInteractArea
 extends Area2D
 
 signal interacted

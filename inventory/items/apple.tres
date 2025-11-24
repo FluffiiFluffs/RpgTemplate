@@ -8,6 +8,7 @@
 script = ExtResource("2_cepck")
 item_id = &"apple"
 name = "Apple"
+max_stack_size = 10
 type = 2
 description = "It's an apple."
 battle_use = 1

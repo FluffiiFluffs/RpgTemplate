@@ -12,6 +12,9 @@ extends Resource
 ##Quest steps
 @export var steps : Array[QuestStep] = []
 
+##If Quest shows up in UI
+@export var visible_in_ui : bool = true
+
 ## Step -1 means the player does not have the quest yet
 ## Step 0 means the quest has been given and we are on steps[0]
 var current_step: int = -1

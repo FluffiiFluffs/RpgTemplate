@@ -207,7 +207,7 @@ func remove_all_enemies(_area:Area2D = null)->void:
 ##TODO (unimplemented)
 ##Picks a random BattleGroup for the enemy actor (field) to represent
 func random_group()->void:
-	var rand_group : int = randi_range(0, enemy_groups.size()-1)
+	var _rand_group : int = randi_range(0, enemy_groups.size()-1)
 	#assign group to enemy_actor group variable
 
 func remove_random_enemy()->void:
@@ -221,16 +221,15 @@ func remove_random_enemy()->void:
 func enemy_killed():
 	spawn_count -= clampi(1,0,max_enemies)
 
-func _unhandled_input(_event):
-	if Input.is_action_just_pressed("test3"):
-		spawn_all()
-	if Input.is_action_just_pressed("test4"):
-		#replace_enemy()
-		print_orphan_nodes()
-		pass
-	if Input.is_action_just_pressed("test5"):
-		remove_all_enemies()
-		
+#func _unhandled_input(_event):
+	#if Input.is_action_just_pressed("test3"):
+		#print(str(name) + " spawn_all()")
+		#spawn_all()
+#
+	#if Input.is_action_just_pressed("test5"):
+		#print(str(name) + "remove_all_enemies()")
+		#remove_all_enemies()
+		#
 ###This should be called from the enemy actually, so defunct!
 #func enemy_was_killed(_enemy : Enemy)->void:
 	#_enemy.queue_free()	

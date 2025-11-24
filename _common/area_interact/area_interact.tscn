@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgyymkjxthh20"]
-
-[ext_resource type="Script" uid="uid://cpwiu3ic2whpe" path="res://_common/area_interact/area_interact.gd" id="1_ipwpm"]
-
-[node name="AreaInteract" type="Area2D"]
-collision_layer = 0
-collision_mask = 64
-monitorable = false
-script = ExtResource("1_ipwpm")

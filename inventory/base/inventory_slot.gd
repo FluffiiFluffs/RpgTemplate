@@ -1,5 +1,5 @@
 class_name InventorySlot
-extends Node
+extends Resource
 
 
 @export var item : Item = null

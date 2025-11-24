@@ -40,5 +40,29 @@ Sorting
 Backend
 	All items of every type held within an array
 	All items to be resources
-		ID, name, type, on-use effect, -1 on use flag, in-battle only toggle, can use in-battle toggle
+		ID, name, max stack size, if unique, type, on-use effect, -1 on use flag, in-battle only toggle, can use in-battle toggle
 		who can equip, stat bonuses when equipped
+
+
+How Items Are Obtained
+	Found
+		Through exploration in the world
+			conditions needed:
+				if player needs to interact with interaction area a certain number of times
+					variable updated via dialoguemanager (times_interacted, updated via interaction manager through dialoguemanager)
+				if interaction_area will give an item
+					if the player receives an item they should always see a text box
+				if interaction area will not given an item (or there is no interaction area at all)
+					if the player does not receive an item,
+						text box can appear to notify the player there was nothing there
+						nothing happens (but text for getting the item was intended)
+
+	Given
+		From NPC
+			just given
+			given for quest
+	Battle
+		Looted
+	Shopping
+		Purchased
+		Traded

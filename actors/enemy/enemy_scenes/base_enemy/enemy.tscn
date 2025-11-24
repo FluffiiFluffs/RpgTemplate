@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dt3hw6ocf2cl7"]
+[gd_scene load_steps=26 format=3 uid="uid://dt3hw6ocf2cl7"]
 
 [ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_0bajq"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_ntjkm"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://bfnnu6w6usg8o" path="res://actors/state_machine/enemy_states/enemy_caution.gd" id="8_a7sam"]
 [ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_alert.gd" id="8_ntjkm"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="8_ordjh"]
-[ext_resource type="PackedScene" uid="uid://cgyymkjxthh20" path="res://_common/area_interact/area_interact.tscn" id="9_53jt1"]
 [ext_resource type="Script" uid="uid://dsqepnvdhvj58" path="res://actors/enemy/enemy_scenes/base_enemy/walk_area.gd" id="10_q6shg"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
@@ -179,8 +178,6 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_umrb1"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_usjcl"]
 radius = 300.0
 
@@ -261,13 +258,6 @@ script = ExtResource("8_a7sam")
 [node name="Alert" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
 script = ExtResource("8_ntjkm")
-
-[node name="AreaInteract" parent="." instance=ExtResource("9_53jt1")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaInteract"]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_umrb1")
-debug_color = Color(0, 0.3557534, 0.822601, 0.41960785)
 
 [node name="SeeArea2D" type="Area2D" parent="."]
 unique_name_in_owner = true

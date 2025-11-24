@@ -188,13 +188,13 @@ func update_quest_ui()->void:
 	pass
 
 
-
 #region my original code
 ###If a new game is chosen from the menu after dying.
 #func clear_quests()->void:
 	#current_quests = []
 	#completed_quests = []
 #endregion
+
 
 #region needs to be tested
 func clear_quests()->void:

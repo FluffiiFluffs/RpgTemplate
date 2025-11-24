@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://56kk082o8ck1"]
+[gd_scene load_steps=22 format=3 uid="uid://56kk082o8ck1"]
 
 [ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/npc/npc_scenes/base/npc.gd" id="1_3jjbx"]
 [ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/npc/npc_resources/base/base_npc_resource.tres" id="2_3jjbx"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/state_machine/npc_states/npc_walk.gd" id="5_06j4l"]
 [ext_resource type="Script" uid="uid://c24ccuf0y06bn" path="res://actors/state_machine/npc_states/npc_patrol.gd" id="6_06j4l"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="6_i2mv8"]
-[ext_resource type="PackedScene" uid="uid://cgyymkjxthh20" path="res://_common/area_interact/area_interact.tscn" id="7_i2mv8"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -177,8 +176,6 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_umrb1"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h05io"]
 size = Vector2(48, 48)
 
@@ -248,20 +245,13 @@ script = ExtResource("6_i2mv8")
 
 [node name="Node2D6" type="Node2D" parent="StateMachine"]
 
-[node name="AreaInteract" parent="." instance=ExtResource("7_i2mv8")]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaInteract"]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_umrb1")
-debug_color = Color(0, 0.3557534, 0.822601, 0.41960785)
-
 [node name="P_Det_Area" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="P_Det_Area"]
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_h05io")
 debug_color = Color(0.49411765, 0, 1, 0)
 

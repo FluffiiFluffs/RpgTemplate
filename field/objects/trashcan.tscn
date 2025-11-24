@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://c3sfxn75o468d"]
+
+[ext_resource type="Script" uid="uid://ctmlgmwgf3pm0" path="res://field/objects/trashcan.gd" id="1_05si2"]
+[ext_resource type="Texture2D" uid="uid://ub3gc3rsycnp" path="res://_assets/field_objects/placeholder_trashcan_spritesheet.png" id="1_pyjlb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pyjlb"]
+size = Vector2(16, 6)
+
+[sub_resource type="Animation" id="Animation_pyjlb"]
+resource_name = "closed"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_05si2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_vrwtd"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hmqgs"]
+_data = {
+&"RESET": SubResource("Animation_05si2"),
+&"closed": SubResource("Animation_pyjlb"),
+&"open": SubResource("Animation_vrwtd")
+}
+
+[node name="Trashcan" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_05si2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+texture = ExtResource("1_pyjlb")
+offset = Vector2(0, -8)
+hframes = 2
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+z_index = 1
+position = Vector2(0, -9)
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_pyjlb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_hmqgs")
+}
