@@ -1,0 +1,15 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://c6uhmypho81xb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0xcdq"]
+load_path = "res://.godot/imported/ninepatch.png-1c1b37490001bfa4ac4b7ccd279f4aaf.ctex"
+
+[resource]
+content_margin_left = 8.0
+content_margin_top = 9.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+texture = SubResource("CompressedTexture2D_0xcdq")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0

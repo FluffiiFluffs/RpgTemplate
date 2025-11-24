@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GameState="*res://_globals/game_state.tscn"
 Options="*res://_globals/options.tscn"
 Save="*res://_globals/save_manager.tscn"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
@@ -60,7 +61,8 @@ folder_colors={
 "res://battle/": "pink",
 "res://dialogue/": "blue",
 "res://field/": "green",
-"res://quest_system/": "yellow"
+"res://quest_system/": "yellow",
+"res://ui/": "blue"
 }
 
 [input]

@@ -1,94 +1,93 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bbynjfc6np7tp"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://bbynjfc6np7tp"]
 
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_gdpv7"]
 [ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="2_jjb68"]
+[ext_resource type="Texture2D" uid="uid://c4o00wi8ao6bm" path="res://_assets/ui/ui_elements/ninepatch.png" id="3_gtd8v"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_235ry"]
-content_margin_left = 6.0
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ixtg7"]
+load_path = "res://.godot/imported/ninepatch.png-1c1b37490001bfa4ac4b7ccd279f4aaf.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gtd8v"]
+content_margin_left = 8.0
+content_margin_top = 9.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+texture = SubResource("CompressedTexture2D_ixtg7")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+modulate_color = Color(0.5370987, 0.5370987, 0.5370987, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l0i83"]
+load_path = "res://.godot/imported/ninepatch.png-1c1b37490001bfa4ac4b7ccd279f4aaf.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aig5k"]
+content_margin_left = 8.0
+content_margin_top = 9.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+texture = SubResource("CompressedTexture2D_l0i83")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+modulate_color = Color(0.6627451, 0.44313726, 0.09019608, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nix56"]
+load_path = "res://.godot/imported/ninepatch.png-1c1b37490001bfa4ac4b7ccd279f4aaf.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_787nc"]
+content_margin_left = 8.0
+content_margin_top = 9.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+texture = SubResource("CompressedTexture2D_nix56")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mnqh6"]
+load_path = "res://.godot/imported/ninepatch.png-1c1b37490001bfa4ac4b7ccd279f4aaf.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6opsn"]
+content_margin_left = 8.0
+content_margin_top = 9.0
+content_margin_right = 8.0
+content_margin_bottom = 7.0
+texture = SubResource("CompressedTexture2D_mnqh6")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+modulate_color = Color(0, 0.5803922, 0.4627451, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtfhl"]
+content_margin_left = 5.0
 content_margin_top = 3.0
-content_margin_right = 6.0
-content_margin_bottom = 3.0
-bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.345098, 0.345098, 0.345098, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ufjut"]
-content_margin_left = 6.0
-content_margin_top = 3.0
-content_margin_right = 6.0
-content_margin_bottom = 3.0
-bg_color = Color(0.227451, 0.227451, 0.227451, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fcbqo"]
-content_margin_left = 6.0
-content_margin_top = 3.0
-content_margin_right = 6.0
-content_margin_bottom = 3.0
-bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6i7a"]
-content_margin_left = 6.0
-content_margin_top = 3.0
-content_margin_right = 6.0
-content_margin_bottom = 3.0
-bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6nbm"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource("3_gtd8v")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
 
 [resource]
 default_font_size = 8
 Button/font_sizes/font_size = 7
 Button/fonts/font = ExtResource("1_gdpv7")
-Button/styles/disabled = SubResource("StyleBoxFlat_235ry")
-Button/styles/focus = SubResource("StyleBoxFlat_ufjut")
-Button/styles/hover = SubResource("StyleBoxFlat_fcbqo")
-Button/styles/normal = SubResource("StyleBoxFlat_t6i7a")
+Button/styles/disabled = SubResource("StyleBoxTexture_gtd8v")
+Button/styles/focus = SubResource("StyleBoxTexture_aig5k")
+Button/styles/hover = SubResource("StyleBoxTexture_aig5k")
+Button/styles/normal = SubResource("StyleBoxTexture_787nc")
+Button/styles/pressed = SubResource("StyleBoxTexture_6opsn")
 MarginContainer/constants/margin_bottom = 4
 MarginContainer/constants/margin_left = 8
 MarginContainer/constants/margin_right = 8
 MarginContainer/constants/margin_top = 4
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_i6nbm")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_vtfhl")
 RichTextLabel/font_sizes/bold_font_size = 7
 RichTextLabel/font_sizes/bold_italics_font_size = 7
 RichTextLabel/font_sizes/italics_font_size = 7
