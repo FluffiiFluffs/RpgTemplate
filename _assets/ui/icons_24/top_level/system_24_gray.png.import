@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yn7k2p305te7"
-path="res://.godot/imported/bag_icon.png-69827ae9e1f3e598e12892922775589e.ctex"
+uid="uid://behka6od7l4m3"
+path="res://.godot/imported/system_24_gray.png-5caa0590174a67b6ebe97ce030c61074.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://_assets/ui/icons_small/bag_icon.png"
-dest_files=["res://.godot/imported/bag_icon.png-69827ae9e1f3e598e12892922775589e.ctex"]
+source_file="res://_assets/ui/icons_24/top_level/system_24_gray.png"
+dest_files=["res://.godot/imported/system_24_gray.png-5caa0590174a67b6ebe97ce030c61074.ctex"]
 
 [params]
 

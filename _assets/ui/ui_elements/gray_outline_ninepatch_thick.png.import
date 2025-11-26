@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y0xhx62wkxds"
-path="res://.godot/imported/shield_icon.png-f85a89d43aa9c19a88dcfe9f9dd7247c.ctex"
+uid="uid://dij6ewoqetv3k"
+path="res://.godot/imported/gray_outline_ninepatch_thick.png-ba641c0f543f9f942bb9e7891aa7b9e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://_assets/ui/icons_small/shield_icon.png"
-dest_files=["res://.godot/imported/shield_icon.png-f85a89d43aa9c19a88dcfe9f9dd7247c.ctex"]
+source_file="res://_assets/ui/ui_elements/gray_outline_ninepatch_thick.png"
+dest_files=["res://.godot/imported/gray_outline_ninepatch_thick.png-ba641c0f543f9f942bb9e7891aa7b9e0.ctex"]
 
 [params]
 

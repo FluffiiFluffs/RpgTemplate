@@ -1,0 +1,669 @@
+[gd_scene load_steps=28 format=3 uid="uid://cyw8elamdnchs"]
+
+[ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
+[ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
+[ext_resource type="Texture2D" uid="uid://15cocjn2s06n" path="res://_assets/ui/icons_large/banana.png" id="2_ww2n6"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="3_003g3"]
+[ext_resource type="PackedScene" uid="uid://d2pku36y8tghf" path="res://_globals/gui/game_menu/top_menu_button.tscn" id="3_xubta"]
+[ext_resource type="Texture2D" uid="uid://deeilbwi20y70" path="res://_assets/ui/icons_24/top_level/equipment_24_gray.png" id="7_e31sb"]
+[ext_resource type="Texture2D" uid="uid://cd8qqp6syqx7y" path="res://_assets/ui/icons_24/top_level/equipment_24_color.png" id="8_40ivv"]
+[ext_resource type="Texture2D" uid="uid://dhjx7a3qbs8fa" path="res://_assets/ui/icons_24/top_level/magic_24_gray.png" id="9_qx86f"]
+[ext_resource type="Texture2D" uid="uid://b24r8qqpdgg2o" path="res://_assets/ui/icons_24/top_level/magic.png" id="10_jhopq"]
+[ext_resource type="Texture2D" uid="uid://hi3y7a7efbrt" path="res://_assets/ui/icons_24/top_level/stats_24_gray.png" id="11_es6ld"]
+[ext_resource type="Texture2D" uid="uid://cwshesfadxmsu" path="res://_assets/ui/icons_24/top_level/stats_24_color.png" id="12_mngg1"]
+[ext_resource type="Texture2D" uid="uid://behka6od7l4m3" path="res://_assets/ui/icons_24/top_level/system_24_gray.png" id="13_so8r6"]
+[ext_resource type="PackedScene" uid="uid://bhfhqwlqdj6ki" path="res://_globals/gui/game_menu/inventory_item_button.tscn" id="14_003g3"]
+[ext_resource type="PackedScene" uid="uid://bw1yk70p3346y" path="res://_globals/gui/game_menu/TopLevelStatsContainer.tscn" id="14_3l8ib"]
+[ext_resource type="Texture2D" uid="uid://c8cyj8nn5drx2" path="res://_assets/ui/icons_24/top_level/system_24_color.png" id="14_8gqqd"]
+[ext_resource type="Texture2D" uid="uid://b7du4w5bfx6hm" path="res://_assets/ui/ui_elements/black_ninepatch.png" id="15_3l8ib"]
+
+[sub_resource type="Animation" id="Animation_003g3"]
+resource_name = "top_level_hide"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopLevel/TopPositioner:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -36)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TopLevel/TopPositioner/VBoxContainer/MoneyHBox:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TopLevel/BottomPositioner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 225), Vector2(200, 284)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("InventoryPositionerLeft:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-200, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("InventoryPositionerRight:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3l8ib"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopLevel/TopPositioner:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -52)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TopLevel/TopPositioner/VBoxContainer/MoneyHBox:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TopLevel/BottomPositioner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 284)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("InventoryPositionerLeft:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-200, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("InventoryPositionerRight:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rmrhr"]
+resource_name = "top_level_show"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopLevel/TopPositioner:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -36), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TopLevel/TopPositioner/VBoxContainer/MoneyHBox:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TopLevel/BottomPositioner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 284), Vector2(200, 225)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("InventoryPositionerLeft:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-200, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("InventoryPositionerRight:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_e31sb"]
+resource_name = "inventory_show"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopLevel/TopPositioner:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -36)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TopLevel/TopPositioner/VBoxContainer/MoneyHBox:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TopLevel/BottomPositioner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 225), Vector2(200, 284)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("InventoryPositionerLeft:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-200, 0), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("InventoryPositionerRight:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(400, 0), Vector2(200, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3l8ib"]
+_data = {
+&"RESET": SubResource("Animation_3l8ib"),
+&"inventory_show": SubResource("Animation_e31sb"),
+&"top_level_hide": SubResource("Animation_003g3"),
+&"top_level_show": SubResource("Animation_rmrhr")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_003g3"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rmrhr"]
+texture = ExtResource("15_3l8ib")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l8ib"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmrhr"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_e31sb"]
+color = Color(1, 1, 1, 0)
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_rmrhr"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[node name="GameMenuUI" type="CanvasLayer"]
+script = ExtResource("1_id8es")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_3l8ib")
+}
+
+[node name="TopLevel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopPositioner" type="Control" parent="TopLevel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -52.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_xubta")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopLevel/TopPositioner"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 63.0
+grow_horizontal = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="TopLevelPanelContainer" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_003g3")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="SelectorLabel" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 12
+text = "INVENTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ButtonHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="ItemsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+layout_mode = 2
+
+[node name="EquipButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+layout_mode = 2
+unselected = ExtResource("7_e31sb")
+selected = ExtResource("8_40ivv")
+
+[node name="MagicButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+layout_mode = 2
+unselected = ExtResource("9_qx86f")
+selected = ExtResource("10_jhopq")
+
+[node name="StatsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+layout_mode = 2
+unselected = ExtResource("11_es6ld")
+selected = ExtResource("12_mngg1")
+
+[node name="SystemButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+layout_mode = 2
+unselected = ExtResource("13_so8r6")
+selected = ExtResource("14_8gqqd")
+
+[node name="MoneyHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MoneyPanelContainer" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_rmrhr")
+
+[node name="MarginContainer" type="MarginContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+alignment = 2
+
+[node name="MoneySymbol" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "$"
+vertical_alignment = 1
+
+[node name="MoneyValueLabel" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "0"
+vertical_alignment = 1
+
+[node name="BottomPositioner" type="Control" parent="TopLevel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 284.0
+offset_bottom = 284.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme = ExtResource("1_xubta")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/BottomPositioner"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -55.0
+offset_right = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="PanelContainer" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_3l8ib")]
+layout_mode = 2
+
+[node name="PanelContainer2" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_3l8ib")]
+layout_mode = 2
+
+[node name="PanelContainer3" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_3l8ib")]
+layout_mode = 2
+
+[node name="PanelContainer4" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_3l8ib")]
+layout_mode = 2
+
+[node name="InventoryPositionerLeft" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_right = -399.99973
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_xubta")
+
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerLeft"]
+custom_minimum_size = Vector2(192, 225)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3l8ib")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InventoryPositionerLeft/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="InventoryPositionerLeft/PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerLeft/PanelContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="InventoryItemButton" parent="InventoryPositionerLeft/PanelContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("14_003g3")]
+layout_mode = 2
+
+[node name="InventoryItemButton2" parent="InventoryPositionerLeft/PanelContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("14_003g3")]
+layout_mode = 2
+
+[node name="InventoryItemButton3" parent="InventoryPositionerLeft/PanelContainer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("14_003g3")]
+layout_mode = 2
+
+[node name="InventoryPositionerRight" type="Control" parent="."]
+custom_minimum_size = Vector2(200, 225)
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_right = 200.00024
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerRight/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="InventoryPositionerRight/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/PanelContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="InventoryPositionerRight/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
+
+[node name="TextureRect" type="TextureRect" parent="InventoryPositionerRight/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("2_ww2n6")
+stretch_mode = 3
+
+[node name="VSeparator2" type="VSeparator" parent="InventoryPositionerRight/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
+
+[node name="Label" type="Label" parent="InventoryPositionerRight/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 12
+text = "Item Name"
+horizontal_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="InventoryPositionerRight/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
+
+[node name="HSeparator" type="HSeparator" parent="InventoryPositionerRight/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
+
+[node name="EquipPositioner" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MagicPositioner" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatsPositioner" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SystemPositioner" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

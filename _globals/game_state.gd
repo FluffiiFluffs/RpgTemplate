@@ -18,4 +18,4 @@ extends Node2D
 	"SHOP10",
 	"DIALOGUE11"
 )
-var game_state: int = 0
+var gamestate: int = 0

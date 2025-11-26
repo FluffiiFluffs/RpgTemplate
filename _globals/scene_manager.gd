@@ -4,7 +4,23 @@ const _NPC = preload("uid://56kk082o8ck1")
 const PLAYER_CHARACTER = preload("uid://bita6dnrj87wq")
 const _00_CHAR = preload("uid://prpth3t5akim")
 
-
+##Current state the game is in[br]
+##Keeps track of the game state so elements do not interfere with each other.
+@export_enum(
+	"STARTMENU0",
+	"FIELD1",
+	"BATTLE2",
+	"GAMEMENU3",
+	"INTERACTING4",
+	"CUTSCENE5",
+	"PAUSEMENU6",
+	"TRANSITION7",
+	"LOADING8",
+	"GAMEOVER9",
+	"SHOP10",
+	"DIALOGUE11"
+)
+var gamestate: int = 0
 ##If the player is spawned
 var player_is_made : bool = false
 ##If the party has been made or not
@@ -125,6 +141,10 @@ func make_party()->void:
 		party_is_made = true		
 	pass
 
+
+
+func load_scene(scene:PackedScene)->void:
+	pass
 
 
 func _unhandled_input(_event):

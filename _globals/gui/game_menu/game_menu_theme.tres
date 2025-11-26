@@ -1,0 +1,75 @@
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://7n7ii34ekkpv"]
+
+[ext_resource type="Texture2D" uid="uid://dij6ewoqetv3k" path="res://_assets/ui/ui_elements/gray_outline_ninepatch_thick.png" id="1_u8o7y"]
+[ext_resource type="Texture2D" uid="uid://bt5vv7fxpxg2g" path="res://_assets/ui/ui_elements/gray_outline_ninepatch.png" id="1_x6qet"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_otes6"]
+texture = ExtResource("1_x6qet")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x6qet"]
+texture = ExtResource("1_u8o7y")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(0, 0, 24, 24)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u8o7y"]
+load_path = "res://.godot/imported/gray_outline_ninepatch.png-8e658ea7e1a709d5c0b39bba416b2fc6.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_buijl"]
+texture = SubResource("CompressedTexture2D_u8o7y")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(1, 0, 1, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_otes6"]
+load_path = "res://.godot/imported/gray_outline_ninepatch.png-8e658ea7e1a709d5c0b39bba416b2fc6.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jmbjx"]
+texture = SubResource("CompressedTexture2D_otes6")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(1, 0, 1, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a4qma"]
+load_path = "res://.godot/imported/gray_outline_ninepatch.png-8e658ea7e1a709d5c0b39bba416b2fc6.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qa0vq"]
+texture = SubResource("CompressedTexture2D_a4qma")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(0.9254902, 0.9254902, 0.9254902, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qa0vq"]
+load_path = "res://.godot/imported/gray_outline_ninepatch.png-8e658ea7e1a709d5c0b39bba416b2fc6.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m2gri"]
+texture = SubResource("CompressedTexture2D_qa0vq")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+modulate_color = Color(0.81286305, 0.5702423, 0.11644431, 1)
+
+[resource]
+InventoryButton/base_type = &"Button"
+InventoryButton/styles/normal = SubResource("StyleBoxTexture_otes6")
+MenuPanel/base_type = &"PanelContainer"
+MenuPanel/styles/panel = SubResource("StyleBoxTexture_x6qet")
+TopMenuButton/base_type = &"Button"
+TopMenuButton/styles/focus = SubResource("StyleBoxTexture_buijl")
+TopMenuButton/styles/hover = SubResource("StyleBoxTexture_jmbjx")
+TopMenuButton/styles/normal = SubResource("StyleBoxTexture_qa0vq")
+TopMenuButton/styles/pressed = SubResource("StyleBoxTexture_m2gri")

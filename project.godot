@@ -21,9 +21,10 @@ config/icon="res://icon.svg"
 
 GameState="*res://_globals/game_state.tscn"
 Options="*res://_globals/options.tscn"
+GameMenu="*res://_globals/gui/game_menu/game_menu_gui.tscn"
+SceneManager="*res://_globals/scene_manager.tscn"
 Save="*res://_globals/save_manager.tscn"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
-SceneManager="*res://_globals/scene_manager.tscn"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 QuestManager="*res://_globals/quest_manager.tscn"
 DM="*res://_globals/dm_helper.gd"
@@ -37,8 +38,8 @@ editor/wrap_long_lines=true
 
 [display]
 
-window/size/viewport_width=398
-window/size/viewport_height=224
+window/size/viewport_width=400
+window/size/viewport_height=225
 window/size/window_width_override=796
 window/size/window_height_override=448
 window/stretch/mode="viewport"
