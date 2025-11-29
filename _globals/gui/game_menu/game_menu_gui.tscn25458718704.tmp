@@ -350,8 +350,8 @@ _data = {
 &"RESET": SubResource("Animation_3l8ib"),
 &"inventory_hide": SubResource("Animation_40ivv"),
 &"inventory_show": SubResource("Animation_e31sb"),
-&"top_menu_hide": SubResource("Animation_003g3"),
-&"top_menu_show": SubResource("Animation_rmrhr")
+&"top_level_hide": SubResource("Animation_003g3"),
+&"top_level_show": SubResource("Animation_rmrhr")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_003g3"]
@@ -702,7 +702,6 @@ size_flags_vertical = 8
 mouse_filter = 2
 
 [node name="DescriptionPanel" type="PanelContainer" parent="InventoryPositionerRight"]
-unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -843,7 +842,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
-text = "THIEF"
+text = "WARRIOR"
 
 [node name="Slot02CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -851,14 +850,14 @@ self_modulate = Color(0.40985805, 0.40985808, 0.40985805, 1)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
-text = "MAGE"
+text = "WARRIOR"
 
 [node name="Slot03CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
-text = "HEALER"
+text = "WARRIOR"
 
 [node name="HSeparator4" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
 layout_mode = 2

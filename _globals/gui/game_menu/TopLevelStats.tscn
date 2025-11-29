@@ -1,0 +1,175 @@
+[gd_scene load_steps=9 format=3 uid="uid://bw1yk70p3346y"]
+
+[ext_resource type="Script" uid="uid://76vltdckwkst" path="res://_globals/gui/game_menu/top_level_stats.gd" id="1_vu14d"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_o82g3"]
+
+[sub_resource type="Gradient" id="Gradient_vu14d"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jo253"]
+gradient = SubResource("Gradient_vu14d")
+width = 16
+height = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_738t7"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.3529412, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8oh2q"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.30980393, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qx86f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o82g3"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.27450982, 0, 0, 1)
+
+[node name="ToplevelStats" type="Control"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 43.0
+script = ExtResource("1_vu14d")
+
+[node name="BuffBox" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(96, 16)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -8.0
+offset_top = -16.0
+offset_right = 8.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuffBox"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_jo253")
+
+[node name="StatsContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_738t7")
+
+[node name="MarginContainer" type="MarginContainer" parent="StatsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="CharNameLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o82g3")
+theme_override_font_sizes/font_size = 7
+text = "WARRIOR"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 2
+
+[node name="LVLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_o82g3")
+theme_override_font_sizes/font_size = 7
+text = "LV"
+
+[node name="LVNumLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_o82g3")
+theme_override_font_sizes/font_size = 7
+text = "05"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 2
+
+[node name="HPLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o82g3")
+theme_override_font_sizes/font_size = 5
+text = "HP"
+
+[node name="HPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8oh2q")
+
+[node name="HPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/HPPanelContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_qx86f")
+value = 50.0
+show_percentage = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 2
+
+[node name="MPLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o82g3")
+theme_override_font_sizes/font_size = 5
+text = "MP"
+
+[node name="MPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o82g3")
+
+[node name="MPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/MPPanelContainer"]
+unique_name_in_owner = true
+modulate = Color(0, 0, 1, 1)
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_qx86f")
+value = 50.0
+show_percentage = false

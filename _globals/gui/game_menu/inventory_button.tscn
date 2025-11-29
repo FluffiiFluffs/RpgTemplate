@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://dn46ocaf6y8fy"]
+
+[ext_resource type="Script" uid="uid://dyyka46yoxekp" path="res://_globals/gui/game_menu/inventory_button.gd" id="1_37o1m"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_3ynou"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5t42"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l8ib"]
+draw_center = false
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_37o1m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ynou"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2168"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mwf2n"]
+
+[node name="InventoryOptionsButton" type="PanelContainer"]
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
+script = ExtResource("1_37o1m")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = -1
+theme_override_constants/margin_bottom = -2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_3ynou")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_3l8ib")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_37o1m")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3ynou")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2168")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mwf2n")
+text = "USE"
+alignment = 0

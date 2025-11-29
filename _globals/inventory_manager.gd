@@ -10,10 +10,9 @@ extends Node2D
 @export var default_slots : int = 12
 ##How many slots are in the inventory, can be expanded later by adding InventorySlot to current_inventory[]
 @export var current_slots : int = 12
-##How many slots have an item in them
+#How many slots have an item in them
 @export var slots_filled : int = 0
-##If true, another stack of the item will be made when it fills up
-@export var multi_stacks : bool = true
+
 
 func _ready()->void:
 	pass
@@ -22,10 +21,10 @@ func _ready()->void:
 func clear_slots() -> void:
 	current_inventory.clear()
 	slots_filled = 0
-	current_slots = default_slots
+	#current_slots = default_slots
 
 ##For adding a new slot with an item.[br]
-##If multi_stacks is true: 
+##If Options.multi_stacks is true: 
 ##Makes a new new stack if qty is higher than the max_stack_size of the item being added
 func add_slot_by_id(_item_id : StringName, qty : int)->void:
 	var item : Item = find_item(_item_id)
@@ -41,7 +40,7 @@ func add_slot_by_id(_item_id : StringName, qty : int)->void:
 	new_slot.stringname = _item_id
 	current_inventory.append(new_slot)
 	if new_slot.quantity > item.max_stack_size:
-		if multi_stacks == true:
+		if Options.multi_stacks == true:
 			if item.unique == false:
 				var overflow : int = new_slot.quantity - item.max_stack_size
 				new_slot.quantity = item.max_stack_size
@@ -100,7 +99,7 @@ func add_item(item_id : StringName, qty : int)->void:
 			var difference : int = item.max_stack_size - slot.quantity
 			slot.quantity += difference
 			var difference_quantity : int = qty - difference 
-			if multi_stacks == true:
+			if Options.multi_stacks == true:
 				add_slot_by_id(item_id, difference_quantity)
 		else:
 			slot.quantity = new_quantity
@@ -223,7 +222,7 @@ func can_add_item(item_id : StringName, qty : int) -> bool:
 				return true
 			remaining -= free_space
 
-	# If we still have remaining quantity, we may need new stacks
+ 	#If we still have remaining quantity, we may need new stacks
 	while remaining > 0:
 		if !has_free_slot():
 			return false
@@ -231,18 +230,19 @@ func can_add_item(item_id : StringName, qty : int) -> bool:
 	
 	return true
 
-##Checks if there is a free slot in the inventory, if not infinite
+
+#Checks if there is a free slot in the inventory, if not infinite
 func has_free_slot() -> bool:
 	return current_inventory.size() < current_slots
 #endregion
 
 
-func _unhandled_input(_event):
-	if Input.is_action_just_pressed("test3"):
-		print("inventory_manager: current_inventory = " + str(current_inventory))
-	if Input.is_action_just_pressed("test4"):
-		for i in 200:
-			add_item("apple", 10)
-	if Input.is_action_just_pressed("test5"):
-		clear_slots()
-	
+#func _unhandled_input(_event):
+	#if Input.is_action_just_pressed("test3"):
+		#print("inventory_manager: current_inventory = " + str(current_inventory))
+	#if Input.is_action_just_pressed("test4"):
+		#for i in 200:
+			#add_item("apple", 10)
+	#if Input.is_action_just_pressed("test5"):
+		#clear_slots()
+	#

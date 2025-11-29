@@ -45,6 +45,8 @@ func make_party()->void:
 		return
 	if party_is_made == false:
 		var player = CharDataKeeper.controlled_character
+		if player == null:
+			return
 		await get_tree().process_frame
 		var scene_tree = player.get_parent()
 		if CharDataKeeper.party_size > 1:

@@ -11,6 +11,9 @@ enum EquipClass {
 	BOSS = 32,
 }
 
+enum ItemType { KEY, TOOL, HEAL, STATUSHEAL, WEAPON, HEAD, CHEST, ARMS, LEGS, ACCESSORY }
+
+
 enum BattleUse {CANNOT, CAN, ONLY}
 enum FieldTargeting { ONE, ALL }
 enum BattleTargeting { ONE, PARTY, ALL }
@@ -27,7 +30,8 @@ enum BattleTargeting { ONE, PARTY, ALL }
 @export var unique : bool = false
 ##Type of the item[br]
 ##Key=0, Tool=1, Heal=2, Statusheal=3, Weapon=4, Head=5, Chest=6, Arms=7, Legs=8, Accessory=9
-@export_enum("KEY", "TOOL", "HEAL", "STATUSHEAL", "WEAPON", "HEAD", "CHEST", "ARMS", "LEGS", "ACCESSORY")var type : int = 0
+@export_enum("KEY", "TOOL", "HEAL", "STATUSHEAL", "WEAPON", "HEAD", "CHEST", "ARMS", "LEGS", "ACCESSORY")
+var type: int = ItemType.KEY
 ##Sprite used for the item in the description
 @export var menu_sprite : Texture2D = null
 ##Sprite used for the menu (next to the item)
@@ -73,8 +77,8 @@ enum BattleTargeting { ONE, PARTY, ALL }
 ##Adds to character's def_value when equipped
 @export var def_bonus : int = 0
 ##Adds to character's strength when equipped
-@export var strength_bonus : int = 0
+@export var str_bonus : int = 0
 ##Adds to character's speed when equipped
-@export var speed_bonus : int = 0
+@export var spd_bonus : int = 0
 ##Adds to character's magic when equipped
-@export var magic_bonus : int = 0
+@export var mag_bonus : int = 0

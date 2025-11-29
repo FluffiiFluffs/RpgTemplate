@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2pku36y8tghf"]
+[gd_scene load_steps=8 format=3 uid="uid://d2pku36y8tghf"]
 
-[ext_resource type="Texture2D" uid="uid://qtha337ebkpg" path="res://_assets/ui/icons_24/top_level/items_24_gray.png" id="1_xqsro"]
 [ext_resource type="Script" uid="uid://bxkttkp0kmx0l" path="res://_globals/gui/game_menu/top_menu_button.gd" id="2_xqsro"]
-[ext_resource type="Texture2D" uid="uid://buuuv8hhxqsch" path="res://_assets/ui/icons_24/top_level/items_24_color.png" id="3_afhmn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xqsro"]
 content_margin_left = 2.0
@@ -16,10 +14,17 @@ border_width_right = 1
 border_width_bottom = 1
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afhmn"]
-draw_center = false
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xqsro"]
 
-[node name="PanelContainer" type="PanelContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_afhmn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_np0nu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ejvyn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahhff"]
+
+[node name="TopMenuButton" type="PanelContainer"]
 offset_right = 28.0
 offset_bottom = 28.0
 size_flags_horizontal = 4
@@ -27,8 +32,8 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xqsro")
 script = ExtResource("2_xqsro")
-unselected = ExtResource("1_xqsro")
-selected = ExtResource("3_afhmn")
+focus_color = null
+unfocus_color = null
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -41,6 +46,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_afhmn")
-icon = ExtResource("1_xqsro")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xqsro")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_afhmn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_np0nu")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ejvyn")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ahhff")
 icon_alignment = 1
