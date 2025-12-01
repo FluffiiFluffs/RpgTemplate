@@ -2,26 +2,29 @@
 ##global GameMenu
 extends CanvasLayer
 
+
+
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
+#region Top Level variables
 ##Text property accessed to show the name of the UI element selected (on focus)
 @onready var selector_label : Label = %SelectorLabel
+##Button takes player to the inventory screen
 @onready var items_button : TopMenuButton = %ItemsButton
+##Button takes player to the equip screen
 @onready var equip_button : TopMenuButton = %EquipButton
+##Button takes player to the magic screen
 @onready var magic_button : TopMenuButton = %MagicButton
+##Button takes player to the stats screen
 @onready var stats_button : TopMenuButton = %StatsButton
+##Button takes player to the quests screen
 @onready var quests_button : TopMenuButton = %QuestsButton
+##Button takes player to the systems screen
 @onready var system_button : TopMenuButton = %SystemButton
-@onready var use_items_button : InventoryOptionsButton = %UseItemsButton
-@onready var sort_items_button : InventoryOptionsButton = %SortItemsButton
-@onready var reorder_items_button : InventoryOptionsButton  = %ReorderItemsButton
-@onready var exit_items_button : InventoryOptionsButton  = %ExitItemsButton
-
-
-
-
 
 ##Text property accessed to show amount of money player has
 @onready var money_value_label = %MoneyValueLabel
+##Hbox holding TopLevelStats scenes for each party member in the party
+@onready var party_h_box_container = %PartyHBoxContainer
 ##Slot00 Name, Level, HP, MP, Buffs
 @onready var toplevel_stats_1 : TopLevelStats = %ToplevelStats1
 ##Slot01 Name, Level, HP, MP, Buffs
@@ -30,65 +33,96 @@ extends CanvasLayer
 @onready var toplevel_stats_3 : TopLevelStats = %ToplevelStats3
 ##Slot03 Name, Level, HP, MP, Buffs
 @onready var toplevel_stats_4 : TopLevelStats = %ToplevelStats4
+#endregion
+
+#region Inventory Variables
 ##InventoryItemButtons are instantiated into this box to create inventory entries
-@onready var items_list_v_box = %ItemsListVBox
+@onready var items_list_v_box : VBoxContainer = %ItemsListVBox
 ##Description panel
-@onready var description_panel = %DescriptionPanel
+@onready var description_panel : PanelContainer = %DescriptionPanel
 ##Texture of item being described
-@onready var desc_item_texture = %DescItemTexture
+@onready var desc_item_texture : TextureRect = %DescItemTexture
 ##Name of item being described
-@onready var desc_item_name = %DescItemName
+@onready var desc_item_name : Label = %DescItemName
 ##Type of item being described
-@onready var desc_type_text = %DescTypeText
+@onready var desc_type_text : Label = %DescTypeText
 ##Quantity of item being described
-@onready var desc_qty_text = %DescQtyText
+@onready var desc_qty_text : Label = %DescQtyText
 ##Description of item being described
-@onready var desc_text_label = %DescTextLabel
+@onready var desc_text_label : Label = %DescTextLabel
+##Shown/Hidden if the item is a piece of equipment or not
+@onready var desc_equip_container : VBoxContainer = %DescEquipContainer
 ##Class name of slot00. Self-Modulates depending on if the item can be used by the class
-@onready var slot_00_can_use_label = %Slot00CanUseLabel
+@onready var slot_00_can_use_label : Label = %Slot00CanUseLabel
 ##Class name of slot01. Self-Modulates depending on if the item can be used by the class
-@onready var slot_01_can_use_label = %Slot01CanUseLabel
+@onready var slot_01_can_use_label : Label = %Slot01CanUseLabel
 ##Class name of slot02. Self-Modulates depending on if the item can be used by the class
-@onready var slot_02_can_use_label = %Slot02CanUseLabel
+@onready var slot_02_can_use_label : Label = %Slot02CanUseLabel
 ##Class name of slot03. Self-Modulates depending on if the item can be used by the class
-@onready var slot_03_can_use_label = %Slot03CanUseLabel
-##Hbox of HP Bonus. Modulates if value != 0
-@onready var hp_bonus_h_box = %HPBonusHBox
+@onready var slot_03_can_use_label : Label = %Slot03CanUseLabel
+##Hbox of HP Bonus. Modulates based on bit value of item
+@onready var hp_bonus_h_box : HBoxContainer = %HPBonusHBox
 ##Value of HP Bonus
-@onready var hp_bonus_value = %HPBonusValue
-##Hbox of MP Bonus. Modulates if value != 0
-@onready var mp_bonus_h_box = %MPBonusHBox
+@onready var hp_bonus_value : Label = %HPBonusValue
+##Hbox of MP Bonus. Modulates based on bit value of item
+@onready var mp_bonus_h_box : HBoxContainer = %MPBonusHBox
 ##Value of MP Bonus
-@onready var mp_bonus_value = %MPBonusValue
-##Hbox of ATK Bonus. Modulates if value != 0
-@onready var atk_bonus_h_box = %ATKBonusHBox
+@onready var mp_bonus_value : Label = %MPBonusValue
+##Hbox of ATK Bonus. Modulates based on bit value of item
+@onready var atk_bonus_h_box : HBoxContainer = %ATKBonusHBox
 ##Value of ATK Bonus
-@onready var atk_bonus_value = %ATKBonusValue
-##Hbox of DEF Bonus. Modulates if value != 0
-@onready var def_bonus_h_box = %DEFBonusHBox
+@onready var atk_bonus_value : Label = %ATKBonusValue
+##Hbox of DEF Bonus. Modulates based on bit value of item
+@onready var def_bonus_h_box : HBoxContainer = %DEFBonusHBox
 ##Value of DEF Bonus
-@onready var def_bonus_value = %DEFBonusValue
-##Hbox of STR Bonus. Modulates if value != 0
-@onready var str_bonus_h_box = %STRBonusHBox
+@onready var def_bonus_value : Label = %DEFBonusValue
+##Hbox of STR Bonus. Modulates based on bit value of item
+@onready var strength_bonus_h_box : HBoxContainer = %StrengthBonusHBox
 ##Value of STR Bonus
-@onready var str_bonus_value = %STRBonusValue
-##Hbox of SPD Bonus. Modulates if value != 0
-@onready var spd_bonus_h_box = %SPDBonusHBox
+@onready var strength_bonus_value : Label = %StrengthBonusValue
+##Hbox of SPD Bonus. Modulates based on bit value of item
+@onready var speed_bonus_h_box : HBoxContainer = %SpeedBonusHBox
+##Hbox of STR Bonus. Modulates based on bit value of item
+@onready var stamina_bonus_h_box : HBoxContainer = %StaminaBonusHBox
+##Value of STM Bonus
+@onready var stamina_bonus_value : Label = %StaminaBonusValue
 ##Value of SPD bonus
-@onready var spd_bonus_value = %SPDBonusValue
+@onready var speed_bonus_value : Label = %SpeedBonusValue
 ##Hbox of MAG Bonus. Modulates if value != 0
-@onready var mag_bonus_h_box = %MAGBonusHBox
+@onready var magic_bonus_h_box : HBoxContainer = %MagicBonusHBox
 ##Value of MAG Bonus
-@onready var mag_bonus_value = %MAGBonusValue
+@onready var magic_bonus_value : Label = %MagicBonusValue
+
+##Inventory screen: focuses items list so items can be used
+@onready var use_items_button : InventoryOptionsButton = %UseItemsButton
+##Inventory screen: sorts items automatically
+@onready var sort_items_button : InventoryOptionsButton = %SortItemsButton
+##Inventory screen: focuses item list so items can be reordered
+@onready var reorder_items_button : InventoryOptionsButton  = %ReorderItemsButton
+##Inventory screen: exits to the top menu
+@onready var exit_items_button : InventoryOptionsButton  = %ExitItemsButton
+
+
+
+
+
+#endregion
+
 
 const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki")
 const DISABLED_COLOR = Color(0.41, 0.41, 0.41, 1.0)
 const ENABLED_COLOR = Color(0.945, 0.704, 0.0, 1.0)
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "INVENTORY_LIST", "EQUIP", "MAGIC", "STATS", "QUEST", "SYSTEM") var menu_state : int = 0
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "SYSTEM") var menu_state : int = 0
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
-var last_top_button_focused : TopMenuButton
+var last_top_button_focused : TopMenuButton = null
+##Stores button that is curretly focused by the UI
+var current_button_focused : Button = null
+var current_focused_inventory_button : InventoryItemButton = null
+var current_focused_party_member : int = 0
+
+signal select()
 
 
 func _ready()->void:
@@ -96,6 +130,9 @@ func _ready()->void:
 	setup_top_menu_button_presses()
 	setup_top_menu_button_neighbors()
 	setup_inventory_options_buttons()
+
+	
+
 
 #region Top Menu
 func top_menu_open()->void:
@@ -193,6 +230,11 @@ func on_top_quests_button_pressed()->void:
 func on_top_system_button_pressed()->void:
 	pass
 
+##Loads party member information into the appropriate slot
+func load_party()->void:
+	pass
+
+
 #endregion
 
 
@@ -234,21 +276,33 @@ func focus_first_inventory_item() -> void:
 func generate_items_list()->void:
 	#generate items list
 	for i in Inventory.current_inventory:
-		var islot = i
-		var _item = i.item
-		var new_inventory_item_button : InventoryItemButton = INVENTORY_ITEM_BUTTON.instantiate()
-		items_list_v_box.add_child(new_inventory_item_button)
-		new_inventory_item_button.item = _item
-		new_inventory_item_button.item_button.text = str(_item.name)
-		new_inventory_item_button.item_qty_label.text = str(islot.quantity)
-		#new_inventory_item_button.item_button.pressed.connect(use_item) #need to do this later
-		new_inventory_item_button.item_button.focus_entered.connect(func button_focused()->void:
-			new_inventory_item_button.self_modulate = new_inventory_item_button.focus_color
-			update_item_description(islot)
-			)
-		new_inventory_item_button.item_button.focus_exited.connect(func button_unfocused()->void:
-			new_inventory_item_button.self_modulate = new_inventory_item_button.unfocus_color
-			)
+		make_button(i)
+
+func make_button(invslot : InventorySlot) -> void:
+	var islot = invslot
+	var _item = islot.item
+	var new_inventory_item_button : InventoryItemButton = INVENTORY_ITEM_BUTTON.instantiate()
+	items_list_v_box.add_child(new_inventory_item_button)
+	new_inventory_item_button.item = _item
+	new_inventory_item_button.item_button.text = str(_item.name)
+	new_inventory_item_button.item_qty_label.text = str(islot.quantity)
+	new_inventory_item_button.item_button.pressed.connect(select_item) #need to do this later
+	new_inventory_item_button.item_button.focus_entered.connect(func button_focused()->void:
+		new_inventory_item_button.self_modulate = new_inventory_item_button.focus_color
+		update_item_description(islot)
+		)
+	new_inventory_item_button.item_button.focus_exited.connect(func button_unfocused()->void:
+		new_inventory_item_button.self_modulate = new_inventory_item_button.unfocus_color
+		)
+
+
+func select_item(item_button : InventoryItemButton)->void:
+	if !item_button.item.effects.is_empty():
+		current_focused_inventory_button = item_button
+		
+	
+	pass
+
 
 func setup_inventory_focus_neighbors() -> void:
 	var ilist := items_list_v_box.get_children()
@@ -370,31 +424,35 @@ func update_item_description(islot:InventorySlot)->void:
 		desc_type_text.text = _item.ItemType.keys()[_item.type]
 		desc_qty_text.text = str(islot.quantity)
 		desc_text_label.text = _item.description
+		if _item.type > 3:
+			desc_equip_container.set_deferred("visible", true)
+		else: 
+			desc_equip_container.set_deferred("visible", false)
 		##checks bit value of can_equip and then sets the modulate of the label to ENABLED_COLOR or DISABLED_COLOR depending on if it can be equipped by that class
 		var equip_flags = _item.can_equip
-		if (equip_flags & Item.EquipClass.WARRIOR) != 0:
+		if (equip_flags & _item.EquipClass.WARRIOR) != 0:
 			slot_00_can_use_label.modulate = ENABLED_COLOR
 		else:
 			slot_00_can_use_label.modulate = DISABLED_COLOR
 		
 		if (equip_flags & Item.EquipClass.THIEF) != 0:
-			slot_00_can_use_label.modulate = ENABLED_COLOR
+			slot_01_can_use_label.modulate = ENABLED_COLOR
 		else:
-			slot_00_can_use_label.modulate = DISABLED_COLOR
+			slot_01_can_use_label.modulate = DISABLED_COLOR
 			
 		if (equip_flags & Item.EquipClass.MAGE) != 0:
-			slot_00_can_use_label.modulate = ENABLED_COLOR
+			slot_02_can_use_label.modulate = ENABLED_COLOR
 		else:
-			slot_00_can_use_label.modulate = DISABLED_COLOR
+			slot_02_can_use_label.modulate = DISABLED_COLOR
 		
 		if (equip_flags & Item.EquipClass.HEALER) != 0:
-			slot_00_can_use_label.modulate = ENABLED_COLOR
+			slot_03_can_use_label.modulate = ENABLED_COLOR
 		else:
-			slot_00_can_use_label.modulate = DISABLED_COLOR
+			slot_03_can_use_label.modulate = DISABLED_COLOR
 		
 		if _item.hp_bonus != 0:
 			hp_bonus_h_box.modulate = ENABLED_COLOR
-			hp_bonus_value = str(_item.hp_bonus)
+			hp_bonus_value.text = str(_item.hp_bonus)
 		else:
 			hp_bonus_h_box.modulate = DISABLED_COLOR
 			hp_bonus_value.text = "0"
@@ -420,34 +478,37 @@ func update_item_description(islot:InventorySlot)->void:
 			def_bonus_h_box.modulate = DISABLED_COLOR
 			def_bonus_value.text = "0"
 			
-		if _item.str_bonus != 0:
-			str_bonus_h_box.modulate = ENABLED_COLOR
-			str_bonus_value.text = str(_item.str_bonus)
+		if _item.strength_bonus != 0:
+			strength_bonus_h_box.modulate = ENABLED_COLOR
+			strength_bonus_value.text = str(_item.strength_bonus)
 		else:
-			str_bonus_h_box.modulate = DISABLED_COLOR
-			str_bonus_value.text = "0"
-			
-		if _item.spd_bonus != 0:
-			spd_bonus_h_box.modulate = ENABLED_COLOR
-			spd_bonus_value.text = str(_item.spd_bonus)
+			strength_bonus_h_box.modulate = DISABLED_COLOR
+			strength_bonus_value.text = "0"
+
+		if _item.stamina_bonus != 0:
+			stamina_bonus_h_box.modulate = ENABLED_COLOR
+			stamina_bonus_value.text = str(_item.stamina_bonus)
 		else:
-			spd_bonus_h_box.modulate = DISABLED_COLOR
-			spd_bonus_value.text = "0"
-		
-		if _item.mag_bonus != 0:
-			mag_bonus_h_box.modulate = ENABLED_COLOR
-			mag_bonus_value.text = str(_item.mag_bonus)
+			stamina_bonus_h_box.modulate = DISABLED_COLOR
+			stamina_bonus_value.text = "0"
+
+
+		if _item.speed_bonus != 0:
+			speed_bonus_h_box.modulate = ENABLED_COLOR
+			speed_bonus_value.text = str(_item.speed_bonus)
 		else:
-			mag_bonus_h_box.modulate = DISABLED_COLOR
-			mag_bonus_value.text = "0"
-			
-			
-			
+			speed_bonus_h_box.modulate = DISABLED_COLOR
+			speed_bonus_value.text = "0"
 		
-		
-	#if item is weapon, head, chest, arms, legs, or accessory
-		#show who can use
-		#show bonus stats
+		if _item.magic_bonus != 0:
+			magic_bonus_h_box.modulate = ENABLED_COLOR
+			magic_bonus_value.text = str(_item.magic_bonus)
+		else:
+			magic_bonus_h_box.modulate = DISABLED_COLOR
+			magic_bonus_value.text = "0"
+			
+	
+
 	pass
 	
 func sort_pressed()->void:
@@ -483,6 +544,8 @@ func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
 		top_menu_open()
 		focus_last_top_menu_button()
+	if Input.is_action_just_pressed("confirm_input"):
+		pass
 	if Input.is_action_just_pressed("cancel_input"):
 		match menu_state:
 			0: #TOP_MENU_CLOSED

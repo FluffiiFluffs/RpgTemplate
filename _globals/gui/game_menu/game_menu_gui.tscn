@@ -120,10 +120,10 @@ tracks/2/path = NodePath("TopLevel/BottomPositioner:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(200, 284), Vector2(200, 225)]
+"values": [Vector2(200, 225)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -185,10 +185,10 @@ tracks/2/path = NodePath("TopLevel/BottomPositioner:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(200, 225), Vector2(200, 284)]
+"values": [Vector2(200, 225)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -571,7 +571,8 @@ grow_vertical = 0
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/BottomPositioner"]
+[node name="PartyHBoxContainer" type="HBoxContainer" parent="TopLevel/BottomPositioner"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -587,19 +588,19 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ToplevelStats1" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats1" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ToplevelStats2" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats2" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ToplevelStats3" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats3" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ToplevelStats4" parent="TopLevel/BottomPositioner/HBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats4" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -609,18 +610,20 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -200.0
-offset_right = -400.00018
+offset_right = -400.0006
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
 [node name="ItemListPanel" type="PanelContainer" parent="InventoryPositionerLeft"]
-custom_minimum_size = Vector2(192, 225)
+custom_minimum_size = Vector2(192, 166)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.73800004
+offset_right = 0.00018310547
+offset_bottom = -0.05000305
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -695,7 +698,7 @@ anchor_left = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_right = 200.00049
+offset_right = 200.00006
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 8
@@ -703,10 +706,13 @@ mouse_filter = 2
 
 [node name="DescriptionPanel" type="PanelContainer" parent="InventoryPositionerRight"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 166)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -0.0009765625
+offset_bottom = -59.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
@@ -802,6 +808,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
 [node name="DescItemContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 8
@@ -809,193 +816,221 @@ theme_override_constants/margin_bottom = 2
 
 [node name="DescTextLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescItemContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(180, 0)
+custom_minimum_size = Vector2(180, 45)
 layout_mode = 2
+size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
-text = "This is a description of the item and it can be kinda long because of how large this description box is. This will tell the player what the item does and should be pulled from the item's description property that was set in the inspector."
+text = "This is a description of the item and it can be kinda long because of how large this description box is. The maximum is 4 lines of text"
 autowrap_mode = 3
 
-[node name="HSeparator3" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescEquipContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="HSeparator3" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
-[node name="DescCanUseContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescCanUseContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Slot00CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot00CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "WARRIOR"
 
-[node name="Slot01CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot01CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "THIEF"
 
-[node name="Slot02CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot02CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
 unique_name_in_owner = true
-self_modulate = Color(0.40985805, 0.40985808, 0.40985805, 1)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MAGE"
 
-[node name="Slot03CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot03CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "HEALER"
 
-[node name="HSeparator4" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="HSeparator4" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
-[node name="DescStatBonusContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescStatBonusContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
+size_flags_vertical = 6
+theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 8
+theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 2
 
-[node name="GridContainer" type="GridContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer"]
+[node name="GridContainer" type="GridContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 6
 columns = 4
 
-[node name="HPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="HPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/HPBonusHBox"]
+[node name="HPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "HP +"
 
-[node name="HPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/HPBonusHBox"]
+[node name="HPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="MPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="MPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/MPBonusHBox"]
+[node name="MPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MPBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MP +"
 
-[node name="MPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/MPBonusHBox"]
+[node name="MPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MPBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="ATKBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="ATKBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ATKBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox"]
+[node name="ATKBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK +"
 
-[node name="ATKBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox"]
+[node name="ATKBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="DEFBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="DEFBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="DEFBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox"]
+[node name="DEFBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "DEF +"
 
-[node name="DEFBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox"]
+[node name="DEFBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="STRBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="StrengthBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="STRBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/STRBonusHBox"]
+[node name="StrengthBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STR +"
 
-[node name="STRBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/STRBonusHBox"]
+[node name="StrengthBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="SPDBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="StaminaBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SPDBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/SPDBonusHBox"]
+[node name="StaminaBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "STM +"
+
+[node name="StaminaBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="SpeedBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SpeedBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SPD +"
 
-[node name="SPDBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/SPDBonusHBox"]
+[node name="SpeedBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="MAGBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer"]
+[node name="MagicBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MAGBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/MAGBonusHBox"]
+[node name="MagicBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MAG +"
 
-[node name="MAGBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescStatBonusContainer/GridContainer/MAGBonusHBox"]
+[node name="MagicBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")

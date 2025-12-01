@@ -16,5 +16,5 @@ description = "A shiny red apple. Eating this apple restores 10 HP."
 battle_use = 1
 buy_price = 10
 sell_price = 5
-can_equip = 7
+can_equip = 8
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

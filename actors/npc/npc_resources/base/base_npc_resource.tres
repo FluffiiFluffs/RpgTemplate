@@ -6,7 +6,7 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("2_em7lc")
-char_faction = 1
-char_name = "NPC"
+char_name = "MAGE"
+char_class = 2
 char_sprite_sheet = ExtResource("1_em7lc")
 metadata/_custom_type_script = "uid://dekkhepva31dh"

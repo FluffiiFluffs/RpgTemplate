@@ -16,4 +16,5 @@ description = "A rare banana. Eating this restores 20 HP."
 battle_use = 1
 buy_price = 20
 sell_price = 10
+can_equip = 2
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
