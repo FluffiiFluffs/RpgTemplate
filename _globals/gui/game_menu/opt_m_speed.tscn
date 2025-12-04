@@ -1,0 +1,102 @@
+[gd_scene load_steps=10 format=3 uid="uid://cimj2et0tktwp"]
+
+[ext_resource type="Script" uid="uid://dgp4g26skrx8w" path="res://_globals/gui/game_menu/opt_m_speed.gd" id="1_1ff36"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_lpxfp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ff36"]
+resource_local_to_scene = true
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mngg1"]
+content_margin_left = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_seyew"]
+content_margin_right = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6y0t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ff36"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oc31x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t25sp"]
+
+[node name="MSpeed" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 182.0
+offset_bottom = 16.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1ff36")
+script = ExtResource("1_1ff36")
+
+[node name="MSpeedHBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MSpeedHBox"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="MSpeedLabel" type="Label" parent="MSpeedHBox/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_lpxfp")
+theme_override_font_sizes/font_size = 7
+text = "MESSAGE SPEED"
+horizontal_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="MSpeedHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
+
+[node name="MSpeedValue" type="Label" parent="MSpeedHBox/PanelContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_lpxfp")
+theme_override_font_sizes/font_size = 7
+text = "5"
+horizontal_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="MSpeedHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
+
+[node name="MSpeedSlider" type="HSlider" parent="MSpeedHBox/PanelContainer6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+max_value = 10.0
+value = 5.0
+rounded = true
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1ff36")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_1ff36")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_oc31x")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_oc31x")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_t25sp")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_t25sp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_t25sp")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_t25sp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_t25sp")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_t25sp")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t25sp")

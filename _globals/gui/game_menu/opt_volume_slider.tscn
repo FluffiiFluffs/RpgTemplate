@@ -1,0 +1,84 @@
+[gd_scene load_steps=15 format=3 uid="uid://dxex6icbm6dkj"]
+
+[ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_f8sgp"]
+[ext_resource type="Script" uid="uid://bl7hjwg50qey7" path="res://_globals/gui/game_menu/opt_volume_slider.gd" id="1_wu0v7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rktiy"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wu0v7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2wbul"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_btv8l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7tjtf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2qkym"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ixsek"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h6frb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ya3ht"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2o0e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n7061"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_16y8h"]
+
+[node name="OptVolumeSlider" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.9969464, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_rktiy")
+script = ExtResource("1_wu0v7")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_wu0v7")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_2wbul")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_btv8l")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_7tjtf")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2qkym")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ixsek")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_h6frb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_ya3ht")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_p2o0e")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_n7061")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_16y8h")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HSlider" type="HSlider" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
+theme = ExtResource("1_f8sgp")
+max_value = 10.0
+step = 0.5
+value = 7.0
+scrollable = false
+tick_count = 3
+ticks_on_borders = true
+ticks_position = 2

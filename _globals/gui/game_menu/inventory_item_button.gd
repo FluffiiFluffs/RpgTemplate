@@ -6,9 +6,6 @@ extends PanelContainer
 @onready var item_button = %ItemButton
 @onready var item_qty_label = %ItemQtyLabel
 
-@export var focus_color : Color = Color(0.945, 0.704, 0.0, 1.0)
-@export var unfocus_color : Color = Color(1.0, 1.0, 1.0, 1.0)
-
 
 func _ready()->void:
 	item_button.focus_entered.connect(button_focused)
@@ -16,8 +13,8 @@ func _ready()->void:
 
 
 func button_focused()->void:
-	self_modulate = focus_color
+	self_modulate = GameMenu.ENABLED_COLOR
 	pass
 
 func button_unfocused()->void:
-	self_modulate = unfocus_color
+	self_modulate = GameMenu.DISABLED_COLOR

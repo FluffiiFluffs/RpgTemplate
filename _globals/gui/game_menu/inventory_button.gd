@@ -21,8 +21,8 @@ func _ready()->void:
 
 
 func button_focused()->void:
-	self_modulate = focus_color
+	self_modulate = GameMenu.ENABLED_COLOR
 	pass
 
 func button_unfocused()->void:
-	self_modulate = unfocus_color
+	self_modulate = GameMenu.DISABLED_COLOR

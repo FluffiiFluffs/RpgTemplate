@@ -12,9 +12,9 @@ extends PanelContainer
 @export var unselected : Texture2D = null
 ##Should be colored
 @export var selected : Texture2D = null
-@export var focus_color : Color = Color(0.945, 0.704, 0.0, 1.0)
-@export var unfocus_color : Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var ui_name : String = ""
 
+signal change_text(ui_name)
 
 func _process(_delta)->void:
 	if Engine.is_editor_hint():
@@ -30,12 +30,13 @@ func _ready()->void:
 	button.icon = unselected
 	
 func button_focused()->void:
-	self_modulate = focus_color
+	self_modulate = GameMenu.ENABLED_COLOR
 	button.icon = selected
+	change_text.emit(ui_name)
 	pass
 
 func button_unfocused()->void:
-	self_modulate = unfocus_color
+	self_modulate = GameMenu.DISABLED_COLOR
 	button.icon = unselected
 	
 	pass

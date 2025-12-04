@@ -15,8 +15,6 @@ extends Resource
 @export var battle_sprite_sheet:Texture
 ##Default level of the actor
 @export var char_level:int=1
-##Default current experience of the actor
-@export var current_exp:int=0
 ##Default max_hp of the Actor. Modified by Stamina.
 @export var max_hp:int=100
 ##Default max_mp of the Actor. Modified by Magic.

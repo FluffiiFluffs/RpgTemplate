@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=50 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -21,6 +21,9 @@
 [ext_resource type="PackedScene" uid="uid://bw1yk70p3346y" path="res://_globals/gui/game_menu/TopLevelStats.tscn" id="14_rmrhr"]
 [ext_resource type="Texture2D" uid="uid://b7du4w5bfx6hm" path="res://_assets/ui/ui_elements/black_ninepatch.png" id="15_3l8ib"]
 [ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="17_qx86f"]
+[ext_resource type="PackedScene" uid="uid://dxex6icbm6dkj" path="res://_globals/gui/game_menu/opt_volume_slider.tscn" id="22_so8r6"]
+[ext_resource type="PackedScene" uid="uid://cimj2et0tktwp" path="res://_globals/gui/game_menu/opt_m_speed.tscn" id="23_8gqqd"]
+[ext_resource type="PackedScene" uid="uid://dwhea87oe4shd" path="res://_globals/gui/game_menu/sort_order_entry.tscn" id="23_so8r6"]
 
 [sub_resource type="Animation" id="Animation_3l8ib"]
 length = 0.001
@@ -387,6 +390,89 @@ color = Color(1, 1, 1, 1)
 grow_begin = -8.0
 grow_end = -8.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so8r6"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mngg1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8gqqd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26r4l"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seyew"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6y0t"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_seyew"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6y0t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_012yt"]
+resource_local_to_scene = true
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ke5u3"]
+resource_local_to_scene = true
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_so8r6"]
+resource_local_to_scene = true
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_26r4l"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gqqd"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
 [node name="GameMenuUI" type="CanvasLayer"]
 layer = 10
 script = ExtResource("1_id8es")
@@ -420,7 +506,7 @@ theme = ExtResource("1_xubta")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 63.0
+offset_bottom = 59.0
 grow_horizontal = 2
 size_flags_vertical = 0
 mouse_filter = 2
@@ -473,48 +559,42 @@ unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("5_es6ld")
 selected = ExtResource("6_mngg1")
-focus_color = Color(0.945, 0.704, 0, 1)
-unfocus_color = Color(1, 1, 1, 1)
+ui_name = "Inventory"
 
 [node name="EquipButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("7_e31sb")
 selected = ExtResource("8_40ivv")
-focus_color = Color(0.945, 0.704, 0, 1)
-unfocus_color = Color(1, 1, 1, 1)
+ui_name = "Equip"
 
 [node name="MagicButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("9_qx86f")
 selected = ExtResource("10_es6ld")
-focus_color = Color(0.945, 0.704, 0, 1)
-unfocus_color = Color(1, 1, 1, 1)
+ui_name = "Magic"
 
 [node name="StatsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("11_es6ld")
 selected = ExtResource("12_mngg1")
-focus_color = Color(0.945, 0.704, 0, 1)
-unfocus_color = Color(1, 1, 1, 1)
+ui_name = "Stats"
 
 [node name="QuestsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("11_40ivv")
 selected = ExtResource("12_qx86f")
-focus_color = Color(0.945, 0.704, 0, 1)
-unfocus_color = Color(1, 1, 1, 1)
+ui_name = "Quests"
 
-[node name="SystemButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="OptionsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("13_so8r6")
 selected = ExtResource("14_8gqqd")
-focus_color = Color(0.945, 0.704, 0, 1)
-unfocus_color = Color(1, 1, 1, 1)
+ui_name = "Options"
 
 [node name="MoneyHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer"]
 modulate = Color(1, 1, 1, 0)
@@ -605,6 +685,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="InventoryPositionerLeft" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -692,6 +773,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="InventoryPositionerRight" type="Control" parent="."]
+visible = false
 custom_minimum_size = Vector2(200, 225)
 layout_mode = 3
 anchor_left = 0.5
@@ -1070,13 +1152,497 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="SystemPositioner" type="Control" parent="."]
+[node name="OptionsPositioner" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9903211, 0.9901309)
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_so8r6")
+
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPositioner/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="OptVolumeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="OptMusicHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="OptMusicLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Music"
+
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
+
+[node name="OptMusicSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer3" instance=ExtResource("22_so8r6")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_26r4l")
+
+[node name="OptSFXHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="OptSFXLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SFX"
+
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
+
+[node name="OptSFXSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer3" instance=ExtResource("22_so8r6")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_seyew")
+volume_type = "SFX"
+
+[node name="OptVoicesHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="OptVoicesLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Voices"
+
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
+
+[node name="OptVoicesSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer3" instance=ExtResource("22_so8r6")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c6y0t")
+volume_type = "VOICES"
+
+[node name="OptPVHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="VTypeHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="VTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Voices Type"
+
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
+
+[node name="VTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "FULL"
+
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
+
+[node name="VTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_right = NodePath("../../../PTypeHBox/PanelContainer6/PTypeButton")
+focus_neighbor_bottom = NodePath("../../../../MTypeHBox/PanelContainer6/MTypeButton")
+focus_next = NodePath("../../../PTypeHBox/PanelContainer6/PTypeButton")
+
+[node name="PTypeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="PTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Portrait Type"
+
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
+
+[node name="PTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Talking"
+
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
+
+[node name="PTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../VTypeHbox/PanelContainer6/VTypeButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../../../MTypeHBox/PanelContainer6/MTypeButton")
+
+[node name="MTypeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="MTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Movement"
+
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
+
+[node name="MTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Walk or Run"
+
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
+
+[node name="MTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_right = NodePath(".")
+button_pressed = true
+
+[node name="MsgSpeedHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MSpeed" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" instance=ExtResource("23_8gqqd")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_012yt")
+
+[node name="BMSpeed" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" instance=ExtResource("23_8gqqd")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ke5u3")
+message_type = "BATTLE"
+
+[node name="MemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="MenuMemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PanelContainer2" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="MenuMemLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Menu Memory"
+
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
+
+[node name="MenuMemButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_right = NodePath("../../../BattMemHBox/PanelContainer6/BattMemButton")
+focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
+focus_next = NodePath("../../../BattMemHBox/PanelContainer6/BattMemButton")
+
+[node name="BattMemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PanelContainer2" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
+
+[node name="BattMemLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Battle Memory"
+
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
+
+[node name="BattMemButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
+focus_next = NodePath("../../../../OptSortOrderButton")
+focus_previous = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
+
+[node name="OptSortOrderButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../MemHBox/MenuMemHBox/PanelContainer6/MenuMemButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../OptControlsButton")
+focus_next = NodePath("../OptControlsButton")
+focus_previous = NodePath("../MemHBox/BattMemHBox/PanelContainer6/BattMemButton")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+theme_override_styles/normal = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_so8r6")
+text = "Configure Item Sort Order"
+
+[node name="OptControlsButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../OptSortOrderButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../OptInGameStatsButton")
+focus_next = NodePath("../OptInGameStatsButton")
+focus_previous = NodePath("../OptSortOrderButton")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+theme_override_styles/normal = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_so8r6")
+text = "Controls"
+
+[node name="OptInGameStatsButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../OptControlsButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath("../OptLoadExitHBox/LoadGameButton")
+focus_previous = NodePath("../OptControlsButton")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+theme_override_styles/normal = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_so8r6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_so8r6")
+text = "In-Game Stats"
+
+[node name="OptLoadExitHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="LoadGameButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../OptInGameStatsButton")
+focus_neighbor_right = NodePath("../ExitGameButton")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath("../ExitGameButton")
+focus_previous = NodePath("../../OptInGameStatsButton")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+theme_override_styles/normal = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_26r4l")
+text = "LOAD GAME"
+
+[node name="ExitGameButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath("../LoadGameButton")
+focus_neighbor_top = NodePath("../../OptInGameStatsButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath("../LoadGameButton")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+theme_override_styles/normal = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_26r4l")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_26r4l")
+text = "EXIT GAME"
+
+[node name="SortOrderPositioner" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 3
-anchors_preset = 0
-offset_top = 8.0
-offset_right = 40.0
-offset_bottom = 8.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="SortOrderPositioner"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8gqqd")
+
+[node name="MarginContainer" type="MarginContainer" parent="SortOrderPositioner/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="SortOrderVBox" type="VBoxContainer" parent="SortOrderPositioner/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SortOrderEntry" parent="SortOrderPositioner/PanelContainer/MarginContainer/SortOrderVBox" instance=ExtResource("23_so8r6")]
+unique_name_in_owner = true
+layout_mode = 2

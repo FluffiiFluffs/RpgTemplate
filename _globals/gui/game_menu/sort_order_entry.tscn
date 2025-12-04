@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://dwhea87oe4shd"]
+
+[ext_resource type="Script" uid="uid://f63360xm7q7b" path="res://_globals/gui/game_menu/sort_order_entry.gd" id="1_q5cqw"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_vbcpf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_26r4l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mngg1"]
+resource_local_to_scene = true
+content_margin_top = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke5u3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0rp3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldqiu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uyx8q"]
+
+[node name="SortOrderEntry" type="HBoxContainer"]
+script = ExtResource("1_q5cqw")
+
+[node name="SortNumContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_26r4l")
+
+[node name="SortNumLabel" type="Label" parent="SortNumContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_vbcpf")
+theme_override_font_sizes/font_size = 11
+text = "1"
+
+[node name="SortButtonContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mngg1")
+
+[node name="SortButton" type="Button" parent="SortButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_vbcpf")
+theme_override_font_sizes/font_size = 7
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ke5u3")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_q0rp3")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_mnvkg")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ldqiu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_uyx8q")
+text = "HEAL"

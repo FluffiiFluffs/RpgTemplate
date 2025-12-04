@@ -19,7 +19,7 @@ extends CanvasLayer
 ##Button takes player to the quests screen
 @onready var quests_button : TopMenuButton = %QuestsButton
 ##Button takes player to the systems screen
-@onready var system_button : TopMenuButton = %SystemButton
+@onready var options_button :TopMenuButton= %OptionsButton
 
 ##Text property accessed to show amount of money player has
 @onready var money_value_label = %MoneyValueLabel
@@ -101,8 +101,53 @@ extends CanvasLayer
 @onready var reorder_items_button : InventoryOptionsButton  = %ReorderItemsButton
 ##Inventory screen: exits to the top menu
 @onready var exit_items_button : InventoryOptionsButton  = %ExitItemsButton
+#endregion
 
 
+
+#region Options Menu
+#Options Menu
+##Options Menu Music Slider (scene)
+@onready var opt_music_slider : OptVolumeSlider = %OptMusicSlider
+##Options menu SFX Slider (scene)
+@onready var opt_sfx_slider: OptVolumeSlider = %OptSFXSlider
+##Options menu voices slider (scene)
+@onready var opt_voices_slider : OptVolumeSlider = %OptVoicesSlider
+##Voices type label, changes with check button (FULL, START)
+@onready var v_type_label : Label = %VTypeLabel
+##Voices type button toggle
+@onready var v_type_button : CheckButton = %VTypeButton
+##Portrait type label, changes with check button (TALKING, STILL)
+@onready var p_type_label : Label = %PTypeLabel
+##Portrait type button toggle
+@onready var p_type_button : CheckButton = %PTypeButton
+##Movement type label, changes with check button (WALK OR RUN, RUN ONLY)
+@onready var m_type_label : Label = %MTypeLabel
+##Movement type toggle
+@onready var m_type_button : CheckButton = %MTypeButton
+##Message speed slider
+@onready var m_speed : OptMSpeedSlider = %MSpeed
+##Battle message speed slider
+@onready var bm_speed : OptMSpeedSlider = %BMSpeed
+##Menu memory button toggle
+@onready var menu_mem_button : CheckButton = %MenuMemButton
+##Battle memory button toggle
+@onready var batt_mem_button : CheckButton = %BattMemButton
+##Takes user to inventory sort order menu
+@onready var opt_sort_order_button : Button = %OptSortOrderButton
+##Takes user to controls menu
+@onready var opt_controls_button : Button = %OptControlsButton
+##Takes user to in-game-stats menu
+@onready var opt_in_game_stats_button : Button = %OptInGameStatsButton
+##Take user to load game menu
+@onready var load_game_button : Button = %LoadGameButton
+##Pops up exit game confirmation.
+@onready var exit_game_button : Button = %ExitGameButton
+
+
+
+#SortMenu
+@onready var sort_order_v_box : VBoxContainer = %SortOrderVBox
 
 
 
@@ -112,8 +157,9 @@ extends CanvasLayer
 const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki")
 const DISABLED_COLOR = Color(0.41, 0.41, 0.41, 1.0)
 const ENABLED_COLOR = Color(0.945, 0.704, 0.0, 1.0)
+const TRANS_COLOR = Color(0.0, 0.0, 0.0, 0.0)
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "SYSTEM") var menu_state : int = 0
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
@@ -122,29 +168,30 @@ var current_button_focused : Button = null
 var current_focused_inventory_button : InventoryItemButton = null
 var current_focused_party_member : int = 0
 
-signal select()
 
+var current_selected_slider : Control = null
 
 func _ready()->void:
 	last_top_button_focused = items_button
 	setup_top_menu_button_presses()
 	setup_top_menu_button_neighbors()
 	setup_inventory_options_buttons()
-
-	
+	setup_selector()
+	setup_options_menu()
+	setup_options_focus()
 
 
 #region Top Menu
 func top_menu_open()->void:
 	animation_player.play("top_menu_show")
 	#play top menu animation open
-	menu_state = 1
+	menu_state = "TOP_MENU_OPEN"
 	pass
 	
 func top_menu_close()->void:
 	animation_player.play("top_menu_hide")
 	#play top menu animation closed
-	menu_state = 0
+	menu_state = "TOP_MENU_CLOSED"
 	pass
 
 ##Connects button presses for each button under ButtonHBox
@@ -154,7 +201,7 @@ func setup_top_menu_button_presses()->void:
 	magic_button.button.pressed.connect(on_top_magic_button_pressed)
 	stats_button.button.pressed.connect(on_top_stats_button_pressed)
 	quests_button.button.pressed.connect(on_top_quests_button_pressed)
-	system_button.button.pressed.connect(on_top_system_button_pressed)
+	options_button.button.pressed.connect(on_top_options_button_pressed)
 	pass
 
 func setup_top_menu_button_neighbors() -> void:
@@ -163,14 +210,14 @@ func setup_top_menu_button_neighbors() -> void:
 	var magic_btn  : Button = magic_button.button
 	var stats_btn  : Button = stats_button.button
 	var quests_btn : Button = quests_button.button
-	var system_btn : Button = system_button.button
+	var options_btn : Button = options_button.button
 
 	# Items
 	items_btn.focus_neighbor_top    = items_btn.get_path()
 	items_btn.focus_neighbor_bottom = items_btn.get_path()
-	items_btn.focus_neighbor_left   = system_btn.get_path()
+	items_btn.focus_neighbor_left   = options_btn.get_path()
 	items_btn.focus_neighbor_right  = equip_btn.get_path()
-	items_btn.focus_previous   = system_btn.get_path()
+	items_btn.focus_previous   = options_btn.get_path()
 	items_btn.focus_next  = equip_btn.get_path()
 	
 	# Equip
@@ -201,20 +248,34 @@ func setup_top_menu_button_neighbors() -> void:
 	quests_btn.focus_neighbor_top    = quests_btn.get_path()
 	quests_btn.focus_neighbor_bottom = quests_btn.get_path()
 	quests_btn.focus_neighbor_left   = stats_btn.get_path()
-	quests_btn.focus_neighbor_right  = system_btn.get_path()
+	quests_btn.focus_neighbor_right  = options_btn.get_path()
 	quests_btn.focus_previous   = stats_btn.get_path()
-	quests_btn.focus_next  = system_btn.get_path()
+	quests_btn.focus_next  = options_btn.get_path()
 
 	# System
-	system_btn.focus_neighbor_top    = system_btn.get_path()
-	system_btn.focus_neighbor_bottom = system_btn.get_path()
-	system_btn.focus_neighbor_left   = quests_btn.get_path()
-	system_btn.focus_neighbor_right  = items_btn.get_path()
-	system_btn.focus_previous   = quests_btn.get_path()
-	system_btn.focus_next  = items_btn.get_path()	
+	options_btn.focus_neighbor_top    = options_btn.get_path()
+	options_btn.focus_neighbor_bottom = options_btn.get_path()
+	options_btn.focus_neighbor_left   = quests_btn.get_path()
+	options_btn.focus_neighbor_right  = items_btn.get_path()
+	options_btn.focus_previous   = quests_btn.get_path()
+	options_btn.focus_next  = items_btn.get_path()	
 
 func focus_last_top_menu_button()->void:
 	last_top_button_focused.button.grab_focus()
+
+##Connects signals to change text of selector
+func setup_selector()->void:
+	items_button.change_text.connect(change_selector_text)
+	equip_button.change_text.connect(change_selector_text)
+	magic_button.change_text.connect(change_selector_text)
+	stats_button.change_text.connect(change_selector_text)
+	quests_button.change_text.connect(change_selector_text)
+	options_button.change_text.connect(change_selector_text)
+	
+	pass
+
+func change_selector_text(_text : String) ->void:
+	selector_label.text = _text
 
 func on_top_items_button_pressed()->void:
 	open_inventory()
@@ -227,7 +288,7 @@ func on_top_stats_button_pressed()->void:
 	pass
 func on_top_quests_button_pressed()->void:
 	pass
-func on_top_system_button_pressed()->void:
+func on_top_options_button_pressed()->void:
 	pass
 
 ##Loads party member information into the appropriate slot
@@ -252,7 +313,7 @@ func open_inventory()->void:
 	await animation_player.animation_finished
 	call_deferred("focus_first_inventory_item")
 		#play inventory open animation
-	menu_state = 3 #inventory open
+	menu_state = "USE_ITEMS" #inventory open
 	pass
 	
 ##Grabs focus of first inventory item in the list.
@@ -378,7 +439,7 @@ func on_items_use_button_pressed()->void:
 	var first_child = ilist[0]
 	first_child.item_button.grab_focus()
 	last_top_button_focused = items_button
-	menu_state = 3
+	menu_state = "USE_ITEMS"
 	
 func on_items_sort_button_pressed()->void:
 	pass
@@ -386,13 +447,13 @@ func on_items_reorder_button_pressed()->void:
 	pass
 func on_items_exit_pressed()->void:
 	close_inventory()
-	menu_state = 1
+	menu_state = "TOP_MENU_OPEN"
 	focus_last_top_menu_button()
 
 func close_inventory()->void:
 	#play inventory close animation
 	animation_player.play("inventory_hide")
-	menu_state = 1 #back to top level
+	menu_state = "TOP_MENU_OPEN" #back to top level
 	#Clear items list
 	clear_items_list()
 	pass
@@ -512,12 +573,7 @@ func update_item_description(islot:InventorySlot)->void:
 	pass
 	
 func sort_pressed()->void:
-	#pop up menu
-		#sort
-		#configure sort order
-	pass
-
-func popup_sort_menu()->void:
+	
 	pass
 
 
@@ -540,6 +596,224 @@ func focus_inventory_options()->void:
 #endregion
 
 #@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "INVENTORY_LIST", "EQUIP", "MAGIC", "STATS", "QUEST", "SYSTEM") var menu_state : int = 0
+
+
+#region Options Menu
+
+func setup_options_menu()->void:
+	ui_set_v_type()
+	ui_set_p_type()
+	ui_set_move_type()
+	ui_set_menu_memory()
+	ui_set_volume()
+	m_speed.get_options_speed()
+	bm_speed.get_options_speed()
+	m_speed.set_speed_label()
+	bm_speed.set_speed_label()
+	
+
+
+func connect_options_buttons()->void:
+	v_type_button.toggled.connect(v_type_toggled)
+	p_type_button.toggled.connect(p_type_toggled)
+	menu_mem_button.toggled.connect(menu_mem_toggled)
+	batt_mem_button.toggled.connect(batt_mem_toggled)
+	opt_sort_order_button.pressed.connect(opt_sort_order_button_pressed)
+	opt_controls_button.pressed.connect(opt_controls_button_pressed)
+	opt_in_game_stats_button.pressed.connect(opt_in_game_stats_button_pressed)
+	load_game_button.pressed.connect(load_game_button_pressed)
+	exit_game_button.pressed.connect(exit_game_button_pressed)
+
+	pass
+
+func setup_options_focus()->void:
+	opt_music_slider.button.focus_neighbor_top = opt_music_slider.button.get_path()
+	opt_music_slider.button.focus_neighbor_bottom = v_type_button.get_path()
+	opt_music_slider.button.focus_neighbor_left = opt_music_slider.button.get_path()
+	opt_music_slider.button.focus_neighbor_right = opt_sfx_slider.button.get_path()
+	opt_music_slider.button.focus_previous = opt_music_slider.button.get_path()
+	opt_music_slider.button.focus_next = opt_sfx_slider.button.get_path()
+	
+	opt_sfx_slider.button.focus_neighbor_top = opt_sfx_slider.button.get_path()
+	opt_sfx_slider.button.focus_neighbor_bottom = v_type_button.get_path()
+	opt_sfx_slider.button.focus_neighbor_left = opt_music_slider.button.get_path()
+	opt_sfx_slider.button.focus_neighbor_right = opt_voices_slider.button.get_path()
+	opt_sfx_slider.button.focus_previous = opt_music_slider.button.get_path()
+	opt_sfx_slider.button.focus_next = opt_voices_slider.button.get_path()
+
+	opt_voices_slider.button.focus_neighbor_top = opt_voices_slider.button.get_path()
+	opt_voices_slider.button.focus_neighbor_bottom = p_type_button.get_path()
+	opt_voices_slider.button.focus_neighbor_left = opt_sfx_slider.button.get_path()
+	opt_voices_slider.button.focus_neighbor_right = opt_voices_slider.button.get_path()
+	opt_voices_slider.button.focus_previous = opt_sfx_slider.button.get_path()
+	opt_voices_slider.button.focus_next = v_type_button.get_path()
+
+	m_type_button.focus_neighbor_top = p_type_button.get_path()
+	m_type_button.focus_neighbor_bottom = m_speed.button.get_path()
+	#m_type_button.focus_neighbor_left = #self, set in inspector
+	#m_type_button.focus_neighbor_right # = self, set in inspector
+	m_type_button.focus_previous = opt_voices_slider.button.get_path()
+	m_type_button.focus_next = m_speed.button.get_path()
+
+	m_speed.button.focus_neighbor_top = m_type_button.get_path()
+	m_speed.button.focus_neighbor_bottom = menu_mem_button.get_path()
+	m_speed.button.focus_neighbor_left = m_speed.button.get_path()
+	m_speed.button.focus_neighbor_right = bm_speed.button.get_path()
+	m_speed.button.focus_previous = m_type_button.get_path()
+	m_speed.button.focus_next = bm_speed.button.get_path()
+
+	bm_speed.button.focus_neighbor_top = m_type_button.get_path()
+	bm_speed.button.focus_neighbor_bottom = batt_mem_button.get_path()
+	bm_speed.button.focus_neighbor_left = m_speed.button.get_path()
+	bm_speed.button.focus_neighbor_right = bm_speed.button.get_path()
+	bm_speed.button.focus_previous = m_speed.button.get_path()
+	bm_speed.button.focus_next = menu_mem_button.get_path()
+	
+	menu_mem_button.focus_neighbor_top = m_speed.button.get_path()
+	menu_mem_button.focus_neighbor_bottom = sort_items_button.get_path()
+	menu_mem_button.focus_neighbor_left = menu_mem_button.get_path()
+	menu_mem_button.focus_neighbor_right = batt_mem_button.get_path()
+	menu_mem_button.focus_previous = bm_speed.button.get_path()
+	menu_mem_button.focus_next = batt_mem_button.get_path()
+	
+	batt_mem_button.focus_neighbor_top = bm_speed.button.get_path()
+	batt_mem_button.focus_neighbor_bottom = sort_items_button.get_path()
+	batt_mem_button.focus_neighbor_left = menu_mem_button.get_path()
+	batt_mem_button.focus_neighbor_right = batt_mem_button.get_path()
+	batt_mem_button.focus_previous = menu_mem_button.get_path()
+	batt_mem_button.focus_next = sort_items_button.get_path()
+
+
+func ui_set_volume()->void:
+	opt_music_slider.h_slider.value = Options.music_volume
+	opt_sfx_slider.h_slider.value = Options.sfx_volume
+	opt_voices_slider.h_slider.value = Options.voices_volume
+
+##Gets voice type from Options and sets the UI to match
+func ui_set_v_type()->void:
+	if Options.voices_type == 1:
+		v_type_label.text = "START"
+		v_type_button.button_pressed = false
+	else:
+		v_type_label.text = "FULL"
+		v_type_button.button_pressed = true
+
+##Gets portrait type from Options and sets the UI to match
+func ui_set_p_type()->void:
+	if Options.portrait_type == 0:
+		p_type_label.text = "TALKING"
+		p_type_button.button_pressed = false
+	else:
+		p_type_label.text = "STILL"
+		p_type_button.button_pressed = true
+
+##Toggles voice type between FULL and START
+func v_type_toggled(_toggle : bool)->void:
+	if _toggle == false:
+		v_type_label.text = "START"
+		Options.voices_type = 1
+	else:
+		v_type_label.text = "FULL"
+		Options.voices_type = 0
+
+##Toggles portrait type between TALKING and STILL
+func p_type_toggled(_toggle : bool)->void:
+	if _toggle == false:
+		p_type_label.text = "TALKING"
+		Options.portrait_type = 0
+	else:
+		p_type_label.text = "STILL"
+		Options.portrait_type = 1
+
+##Gets menu memory and battle menu memory from Options and sets the UI to match
+func ui_set_menu_memory()->void:
+	if Options.menu_memory == true:
+		menu_mem_button.button_pressed = true
+	else:
+		menu_mem_button.button_pressed = false
+	if Options.battle_menu_memory == true:
+		batt_mem_button.button_pressed = true
+	else:
+		batt_mem_button.button_pressed = false
+
+func ui_set_move_type()->void:
+	if Options.always_run == false:
+		m_type_button.button_pressed = false
+	else:
+		m_type_button.button_pressed = true
+
+func m_type_button_toggled(_toggle : bool)->void:
+	if _toggle == false:
+		Options.always_run = false
+	else:
+		Options.always_run = true
+
+func menu_mem_toggled(_toggle : bool)->void:
+	if _toggle == false:
+		Options.menu_memory = false
+	else:
+		Options.menu_memory = true
+
+func batt_mem_toggled(_toggle : bool)->void:
+	if _toggle == false:
+		Options.battle_menu_memory = false
+	else:
+		Options.battle_menu_memory = true
+
+##Pops up inventory sort order window
+func opt_sort_order_button_pressed()->void:
+	pass
+
+##Pops up controls config window
+func opt_controls_button_pressed()->void:
+	pass
+
+##Pops up in-game stats window
+func opt_in_game_stats_button_pressed()->void:
+	pass
+
+##pops up load game window
+func load_game_button_pressed()->void:
+	pass
+
+##Pops up exit game confirmation window
+func exit_game_button_pressed()->void:
+	pass
+
+func slider_active(_slider)->void:
+	current_selected_slider = _slider
+	menu_state = "OPTIONS_SLIDER"
+
+func slider_inactive()->void:
+	current_selected_slider = null
+	menu_state = "OPTIONS_MENU"
+
+
+
+
+#region SortOrderMenu
+
+func clear_sort_buttons()->void:
+	for child in sort_order_v_box.get_children():
+		if child is SortOrderButton:
+			remove_child(child)
+			child.queue_free()
+
+func make_sort_buttons()->void:
+	for i in Options.item_sort_order:
+		var new_sort_button : SortOrderButton = SortOrderButton.new()
+		new_sort_button.set_label_text(i)
+		new_sort_button.set_button_text(Options.item_sort_order[i].key())
+		sort_order_v_box.add_child(new_sort_button)
+
+
+#endregion
+
+
+#endregion
+
+
+
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
 		top_menu_open()
@@ -548,23 +822,23 @@ func _unhandled_input(_event):
 		pass
 	if Input.is_action_just_pressed("cancel_input"):
 		match menu_state:
-			0: #TOP_MENU_CLOSED
+			"TOP_MENU_CLOSED": #TOP_MENU_CLOSED
 				return
-			1: #TOP_MENU_OPEN
+			"TOP_MENU_OPEN":
 				top_menu_close()
-				menu_state = 0
-			2: #INVENTORY_OPTIONS
-				#close the inventory completely
+				menu_state = "TOP_MENU_CLOSED"
+			"INVENTORY_OPTIONS":
+				#close the inventory completely, open top menu
 				close_inventory()
-				menu_state = 1
+				menu_state = "TOP_MENU_OPEN"
 				focus_last_top_menu_button()
-			3: #INVENTORY_LIST
+			"USE_ITEMS":
 				focus_inventory_options()
-				menu_state = 2
-			4: 
+				menu_state = "INVENTORY_OPTIONS"
+			"OPTIONS_MENU":
+				##close the options menu, open the top menu
 				pass
-			5: 
-				pass
-			6:
+			"OPTIONS_SLIDER":
+				##refocus the button attached to the slider
 				pass
 				

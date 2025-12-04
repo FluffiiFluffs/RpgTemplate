@@ -23,7 +23,7 @@ extends Control
 @onready var buff_h_box = %BuffHBox
 
 ##Reference to party member in CharDataKeeper
-var party_member : CharResource = CharDataKeeper.controlled_character_data
+var party_member : CharResource
 var original_style : StyleBoxFlat = null
 var unique_style : StyleBoxFlat = null
 

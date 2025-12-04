@@ -20,7 +20,10 @@ const ENEMY = preload("uid://dt3hw6ocf2cl7")
 @export var party_member_03_data : CharResource = null
 @export var party_member_04 : NPC = null
 @export var party_member_04_data : CharResource = null
-
+@export var class_color_warrior : Color = Color(0.349, 0.0, 0.0, 1.0)
+@export var class_color_thief : Color = Color(0.349, 0.248, 0.0, 1.0)
+@export var class_color_mage : Color = Color(0.349, 0.0, 0.349, 1.0)
+@export var class_color_healer : Color = Color(0.0, 0.485, 0.349, 1.0)
 
 
 @export var slot00 : CharResource = null #set in inspector
