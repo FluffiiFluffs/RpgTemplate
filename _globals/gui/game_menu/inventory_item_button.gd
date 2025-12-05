@@ -1,20 +1,13 @@
 class_name InventoryItemButton
 extends PanelContainer
+##Button is instantiated with GameMenu.make_item_button()
+##button.pressed, focus_entered, and focus_exited are handled with that function
+
 
 @export var item : Item = null
 @export var quantity : int = 0
-@onready var item_button = %ItemButton
-@onready var item_qty_label = %ItemQtyLabel
-
+@onready var item_button : Button = %ItemButton
+@onready var item_qty_label : Label = %ItemQtyLabel
 
 func _ready()->void:
-	item_button.focus_entered.connect(button_focused)
-	item_button.focus_exited.connect(button_unfocused)
-
-
-func button_focused()->void:
-	self_modulate = GameMenu.ENABLED_COLOR
 	pass
-
-func button_unfocused()->void:
-	self_modulate = GameMenu.DISABLED_COLOR

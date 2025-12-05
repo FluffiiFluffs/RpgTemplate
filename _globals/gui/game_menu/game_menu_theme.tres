@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://7n7ii34ekkpv"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://7n7ii34ekkpv"]
 
 [ext_resource type="Texture2D" uid="uid://dij6ewoqetv3k" path="res://_assets/ui/ui_elements/gray_outline_ninepatch_thick.png" id="1_u8o7y"]
 [ext_resource type="Texture2D" uid="uid://bt5vv7fxpxg2g" path="res://_assets/ui/ui_elements/gray_outline_ninepatch.png" id="1_x6qet"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="3_buijl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_otes6"]
 texture = ExtResource("1_x6qet")
@@ -18,6 +19,12 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 region_rect = Rect2(0, 0, 24, 24)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_buijl"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u8o7y"]
 load_path = "res://.godot/imported/gray_outline_ninepatch.png-8e658ea7e1a709d5c0b39bba416b2fc6.ctex"
@@ -68,6 +75,25 @@ InventoryButton/base_type = &"Button"
 InventoryButton/styles/normal = SubResource("StyleBoxTexture_otes6")
 MenuPanel/base_type = &"PanelContainer"
 MenuPanel/styles/panel = SubResource("StyleBoxTexture_x6qet")
+OptionsButton/base_type = &"Button"
+OptionsButton/colors/font_color = Color(1, 1, 1, 1)
+OptionsButton/colors/font_focus_color = Color(0.9448032, 0.70420504, 0, 1)
+OptionsButton/colors/font_hover_color = Color(0.9448032, 0.70420504, 0, 1)
+OptionsButton/colors/font_hover_pressed_color = Color(0.9448032, 0.70420504, 0, 1)
+OptionsButton/colors/font_pressed_color = Color(0.9448032, 0.70420504, 0, 1)
+OptionsButton/font_sizes/font_size = 7
+OptionsButton/fonts/font = ExtResource("3_buijl")
+OptionsButton/styles/disabled = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/focus = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/hover = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/hover_pressed = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/normal = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/pressed = SubResource("StyleBoxEmpty_buijl")
+OptionsButton/styles/pressed_mirrored = SubResource("StyleBoxEmpty_buijl")
 TopMenuButton/base_type = &"Button"
 TopMenuButton/styles/focus = SubResource("StyleBoxTexture_buijl")
 TopMenuButton/styles/hover = SubResource("StyleBoxTexture_jmbjx")

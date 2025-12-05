@@ -2,11 +2,8 @@
 class_name InventoryOptionsButton
 extends PanelContainer
 
-@onready var button = %Button
+@onready var button : Button = %Button
 @export var text : String = ""
-
-@export var focus_color : Color = Color(0.945, 0.704, 0.0, 1.0)
-@export var unfocus_color : Color = Color(1.0, 1.0, 1.0, 1.0)
 
 
 func _process(_delta)->void:
@@ -25,4 +22,4 @@ func button_focused()->void:
 	pass
 
 func button_unfocused()->void:
-	self_modulate = GameMenu.DISABLED_COLOR
+	self_modulate = GameMenu.WHITE_COLOR

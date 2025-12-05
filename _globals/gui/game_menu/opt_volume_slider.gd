@@ -2,8 +2,8 @@ class_name OptVolumeSlider
 extends PanelContainer
 
 
-@onready var h_slider = %HSlider
-@onready var button = %Button
+@onready var h_slider : HSlider = %HSlider
+@onready var button : Button = %Button
 
 
 @export_enum ("MUSIC", "SFX", "VOICES") var volume_type : String= "MUSIC"
@@ -25,7 +25,7 @@ func get_volume()->void:
 		"SFX":
 			h_slider.value = Options.sfx_volume
 		"VOICES":
-			h_slider.value = Options.voices_type
+			h_slider.value = Options.voices_volume
 
 func button_focused()->void:
 	self_modulate = GameMenu.DISABLED_COLOR
@@ -60,5 +60,6 @@ func set_options_value(_value:float)->void:
 func _unhandled_input(_event):
 	if GameMenu.current_selected_slider == self:
 		if Input.is_action_just_pressed("cancel_input"):
-			GameMenu.slider_inactive()
 			button.grab_focus()
+			GameMenu.slider_inactive()
+			get_viewport().set_input_as_handled()

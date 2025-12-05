@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://d0gxsrinoroon"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/item_effect.gd" id="1_dabwa"]
+[ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_0ucbs"]
+[ext_resource type="Texture2D" uid="uid://cwshesfadxmsu" path="res://_assets/ui/icons_24/top_level/stats_24_color.png" id="3_4t46t"]
+[ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="4_i2kn8"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("4_i2kn8")
+item_id = &"helmet"
+name = "Helmet"
+sort_id = 7001
+type = 7
+menu_sprite = ExtResource("3_4t46t")
+description = "A helmet that keeps your head from being crushed. Mostly."
+one_less_on_use = false
+buy_price = 60
+sell_price = 30
+can_equip = 1
+hp_bonus = 10
+mp_bonus = 20
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

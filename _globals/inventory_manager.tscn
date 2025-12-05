@@ -1,12 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3vfphoul8ljv"]
+[gd_scene load_steps=24 format=3 uid="uid://c3vfphoul8ljv"]
 
 [ext_resource type="Script" uid="uid://dkyyrcfv7i40r" path="res://_globals/inventory_manager.gd" id="1_d2cym"]
-[ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/apple.tres" id="2_72dg7"]
+[ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="2_72dg7"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="2_e84fm"]
-[ext_resource type="Resource" uid="uid://byt08a2lu57w8" path="res://inventory/items/banana.tres" id="4_7dsqp"]
+[ext_resource type="Resource" uid="uid://byt08a2lu57w8" path="res://inventory/items/1000_mpheal/1001_banana.tres" id="4_7dsqp"]
 [ext_resource type="Script" uid="uid://cbuwt4xsxq6jy" path="res://inventory/base/inventory_slot.gd" id="4_mjgim"]
-[ext_resource type="Resource" uid="uid://5qv0eey8n7wc" path="res://inventory/items/sword.tres" id="6_8we1o"]
-[ext_resource type="Resource" uid="uid://bl6pvt6gcced5" path="res://inventory/items/shield.tres" id="7_bt3a0"]
+[ext_resource type="Resource" uid="uid://5qv0eey8n7wc" path="res://inventory/items/5000_weapon/5001_sword.tres" id="6_8we1o"]
+[ext_resource type="Resource" uid="uid://bl6pvt6gcced5" path="res://inventory/items/6000_offhand/6001_shield.tres" id="7_bt3a0"]
+[ext_resource type="Resource" uid="uid://dhd14qjuye01s" path="res://inventory/items/8000_chest/8001_armor.tres" id="8_t7542"]
+[ext_resource type="Resource" uid="uid://c2w3p6uipkdyi" path="res://inventory/items/10000_legs/10001_greaves.tres" id="9_ecu7t"]
+[ext_resource type="Resource" uid="uid://c2c202pjp3ykj" path="res://inventory/items/3000_tool/3001_fire_potion.tres" id="10_2k8hq"]
+[ext_resource type="Resource" uid="uid://b8is1mnqf7r8h" path="res://inventory/items/11000_accessory/11002_ring.tres" id="11_oms01"]
+[ext_resource type="Resource" uid="uid://dh7gnwyaag2iq" path="res://inventory/items/9000_arms/9001_sleeves.tres" id="12_s5mrw"]
+[ext_resource type="Resource" uid="uid://bxevh0vmlere2" path="res://inventory/items/4000_key/4001_key.tres" id="13_221cp"]
 
 [sub_resource type="Resource" id="Resource_72dg7"]
 script = ExtResource("4_mjgim")
@@ -36,7 +42,49 @@ quantity = 1
 stringname = &"shield"
 metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
 
+[sub_resource type="Resource" id="Resource_ecu7t"]
+script = ExtResource("4_mjgim")
+item = ExtResource("8_t7542")
+quantity = 2
+stringname = &"armor"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_2k8hq"]
+script = ExtResource("4_mjgim")
+item = ExtResource("9_ecu7t")
+quantity = 2
+stringname = &"greaves"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_oms01"]
+script = ExtResource("4_mjgim")
+item = ExtResource("10_2k8hq")
+quantity = 4
+stringname = &"firepotion"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_s5mrw"]
+script = ExtResource("4_mjgim")
+item = ExtResource("11_oms01")
+quantity = 2
+stringname = &"orangering"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_221cp"]
+script = ExtResource("4_mjgim")
+item = ExtResource("12_s5mrw")
+quantity = 1
+stringname = &"sleeves"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_tcweg"]
+script = ExtResource("4_mjgim")
+item = ExtResource("13_221cp")
+quantity = 1
+stringname = &"key"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
 [node name="InventoryManager" type="Node2D"]
 script = ExtResource("1_d2cym")
 all_items = Array[ExtResource("2_e84fm")]([ExtResource("2_72dg7"), ExtResource("4_7dsqp")])
-current_inventory = Array[ExtResource("4_mjgim")]([SubResource("Resource_72dg7"), SubResource("Resource_e84fm"), SubResource("Resource_bt3a0"), SubResource("Resource_t7542")])
+current_inventory = Array[ExtResource("4_mjgim")]([SubResource("Resource_72dg7"), SubResource("Resource_e84fm"), SubResource("Resource_bt3a0"), SubResource("Resource_t7542"), SubResource("Resource_ecu7t"), SubResource("Resource_2k8hq"), SubResource("Resource_oms01"), SubResource("Resource_s5mrw"), SubResource("Resource_221cp"), SubResource("Resource_tcweg")])

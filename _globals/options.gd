@@ -13,12 +13,8 @@ extends Node2D
 @export_range(0.0,10.0, 0.5) var voices_volume : float = 7.0 : set = set_voices_volume
 
 @export_category("Item Sort Order")
-##Inventory sort order. Pops up extra menu when button pressed[br]
-##KEY items sort into their own menu category
-@export var item_sort_order : Array = ["HEAL", "STATUSHEAL", "TOOL", "EQUIPMENT"]
-	#( "HEAL", "STATUSHEAL", TOOL
-		#Equipment (aLL just one category, always sorts in this order)
-			#"WEAPON", "OFFHAND", "HEAD", "CHEST", "ARMS", "LEGS", "ACCESSORY")
+##Inventory sort order. Pops up extra menu when button pressed
+@export var item_sort_order : Array = ["HEAL","MPHEAL", "STATUSHEAL", "TOOL", "KEY", "EQUIPMENT"]
 
 @export_category("Dialogue")
 ## 0 : FULL = Speaking characters play their voice sound rapidly.[br]
@@ -34,9 +30,9 @@ extends Node2D
 
 @export_category("Message Speeds")
 ##message speed (need to make this a thing in dialogue manager)
-@export var message_speed : float = 1.0 : set = set_message_speed
+@export var message_speed : float = 1.0 # : set = set_message_speed
 ##battle message speed
-@export var battle_message_speed : float = 1.0 : set = set_battle_message_speed
+@export var battle_message_speed : float = 1.0  #: set = set_battle_message_speed
 
 @export_category("Menu Memory")
 ##If the cursor position is remembered on main menus

@@ -1,5 +1,5 @@
 ##inventory_manager.gd
-##global InventoryManager
+##global Inventory
 extends Node2D
 
 ##All the items in the game so they're easily accessed
@@ -234,7 +234,75 @@ func can_add_item(item_id : StringName, qty : int) -> bool:
 #Checks if there is a free slot in the inventory, if not infinite
 func has_free_slot() -> bool:
 	return current_inventory.size() < current_slots
+
+func _get_item_sort_category(item : Item)->String:
+	if item == null:
+		return "TOOL"
+
+	match item.type:
+		Item.ItemType.HEAL:
+			return "HEAL"
+		Item.ItemType.MPHEAL:
+			return "MPHEAL"
+		Item.ItemType.STATUSHEAL:
+			return "STATUSHEAL"
+		Item.ItemType.TOOL:
+			return "TOOL"
+		Item.ItemType.KEY:
+			return "KEY"
+		Item.ItemType.WEAPON, Item.ItemType.OFFHAND, Item.ItemType.HEAD, Item.ItemType.CHEST, Item.ItemType.ARMS, Item.ItemType.LEGS, Item.ItemType.ACCESSORY:
+			return "EQUIPMENT"
+		_:
+			return "TOOL"
+
+func _get_category_index(category : String)->int:
+	var idx : int = Options.item_sort_order.find(category)
+	if idx == -1:
+		return Options.item_sort_order.size()
+	return idx
+
+
+func _compare_slots_by_sort_order(a : InventorySlot, b : InventorySlot)->bool:
+	if a.item == null or b.item == null:
+		return false
+
+	var a_index : int = _get_category_index(_get_item_sort_category(a.item))
+	var b_index : int = _get_category_index(_get_item_sort_category(b.item))
+
+	if a_index == b_index:
+		return a.item.sort_id < b.item.sort_id
+
+	return a_index < b_index
+
+
+func sort_inventory_by_current_options()->void:
+	if current_inventory.is_empty():
+		return
+	current_inventory.sort_custom(Callable(self, "_compare_slots_by_sort_order"))
+
+
+
 #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #func _unhandled_input(_event):

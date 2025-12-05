@@ -148,28 +148,32 @@ extends CanvasLayer
 
 #SortMenu
 @onready var sort_order_v_box : VBoxContainer = %SortOrderVBox
+@onready var sort_order_positioner : Control = %SortOrderPositioner
 
 
 
 #endregion
 
-
+const SORT_ORDER_ENTRY = preload("uid://dwhea87oe4shd")
 const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki")
 const DISABLED_COLOR = Color(0.41, 0.41, 0.41, 1.0)
 const ENABLED_COLOR = Color(0.945, 0.704, 0.0, 1.0)
 const TRANS_COLOR = Color(0.0, 0.0, 0.0, 0.0)
+const WHITE_COLOR = Color(1.0, 1.0, 1.0, 1.0)
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
 ##Stores button that is curretly focused by the UI
 var current_button_focused : Button = null
-var current_focused_inventory_button : InventoryItemButton = null
+var current_selected_inventory_button : InventoryItemButton = null
 var current_focused_party_member : int = 0
 
-
 var current_selected_slider : Control = null
+
+
+@export  var sort_selected_index : int = -1
 
 func _ready()->void:
 	last_top_button_focused = items_button
@@ -179,6 +183,9 @@ func _ready()->void:
 	setup_selector()
 	setup_options_menu()
 	setup_options_focus()
+	connect_options_buttons()
+	sort_order_positioner.visible = true
+	
 
 
 #region Top Menu
@@ -278,6 +285,7 @@ func change_selector_text(_text : String) ->void:
 	selector_label.text = _text
 
 func on_top_items_button_pressed()->void:
+
 	open_inventory()
 	pass
 func on_top_equip_button_pressed()->void:
@@ -289,6 +297,7 @@ func on_top_stats_button_pressed()->void:
 func on_top_quests_button_pressed()->void:
 	pass
 func on_top_options_button_pressed()->void:
+	open_options()
 	pass
 
 ##Loads party member information into the appropriate slot
@@ -314,6 +323,7 @@ func open_inventory()->void:
 	call_deferred("focus_first_inventory_item")
 		#play inventory open animation
 	menu_state = "USE_ITEMS" #inventory open
+	last_top_button_focused = items_button
 	pass
 	
 ##Grabs focus of first inventory item in the list.
@@ -337,33 +347,38 @@ func focus_first_inventory_item() -> void:
 func generate_items_list()->void:
 	#generate items list
 	for i in Inventory.current_inventory:
-		make_button(i)
+		make_item_button(i)
 
-func make_button(invslot : InventorySlot) -> void:
+func make_item_button(invslot : InventorySlot) -> void:
 	var islot = invslot
 	var _item = islot.item
 	var new_inventory_item_button : InventoryItemButton = INVENTORY_ITEM_BUTTON.instantiate()
 	items_list_v_box.add_child(new_inventory_item_button)
 	new_inventory_item_button.item = _item
+	new_inventory_item_button.self_modulate = TRANS_COLOR
 	new_inventory_item_button.item_button.text = str(_item.name)
 	new_inventory_item_button.item_qty_label.text = str(islot.quantity)
-	new_inventory_item_button.item_button.pressed.connect(select_item) #need to do this later
+	new_inventory_item_button.item_button.pressed.connect(select_item)
 	new_inventory_item_button.item_button.focus_entered.connect(func button_focused()->void:
-		new_inventory_item_button.self_modulate = new_inventory_item_button.focus_color
+		new_inventory_item_button.self_modulate = WHITE_COLOR
 		update_item_description(islot)
 		)
 	new_inventory_item_button.item_button.focus_exited.connect(func button_unfocused()->void:
-		new_inventory_item_button.self_modulate = new_inventory_item_button.unfocus_color
+		new_inventory_item_button.self_modulate = TRANS_COLOR
 		)
 
 
 func select_item(item_button : InventoryItemButton)->void:
-	if !item_button.item.effects.is_empty():
-		current_focused_inventory_button = item_button
-		
+	match menu_state:
+		"REORDER_ITEMS":
+			current_selected_inventory_button = item_button
+			menu_state = "REORDER_ITEMS_REORDERING"
+		"USE_ITEMS":
+			#use the item, trigger effect in item_button.item.effects
+			#if can use item, use it
+			#if decrement_on_use, decrement count
+			pass
 	
-	pass
-
 
 func setup_inventory_focus_neighbors() -> void:
 	var ilist := items_list_v_box.get_children()
@@ -399,9 +414,7 @@ func setup_inventory_focus_neighbors() -> void:
 			var self_path = btn.get_path()
 			btn.focus_neighbor_left = self_path
 			btn.focus_neighbor_right = self_path
-			
-			
-			
+
 	use_items_button.button.focus_neighbor_top = use_items_button.button.get_path()
 	use_items_button.button.focus_neighbor_bottom = use_items_button.button.get_path()
 	use_items_button.button.focus_neighbor_left = exit_items_button.button.get_path()
@@ -421,15 +434,12 @@ func setup_inventory_focus_neighbors() -> void:
 	exit_items_button.button.focus_neighbor_bottom = exit_items_button.button.get_path()
 	exit_items_button.button.focus_neighbor_left = reorder_items_button.button.get_path()
 	exit_items_button.button.focus_neighbor_right = use_items_button.button.get_path()
-	
-	
-	
+
 func setup_inventory_options_buttons()->void:
 		use_items_button.button.pressed.connect(on_items_use_button_pressed)
 		sort_items_button.button.pressed.connect(on_items_sort_button_pressed)
 		reorder_items_button.button.pressed.connect(on_items_reorder_button_pressed)
 		exit_items_button.button.pressed.connect(on_items_exit_pressed)
-
 
 ##Focuses first item in the items list
 func on_items_use_button_pressed()->void:
@@ -438,11 +448,16 @@ func on_items_use_button_pressed()->void:
 		return
 	var first_child = ilist[0]
 	first_child.item_button.grab_focus()
-	last_top_button_focused = items_button
 	menu_state = "USE_ITEMS"
 	
 func on_items_sort_button_pressed()->void:
-	pass
+	if Inventory.current_inventory.is_empty():
+		return
+
+	Inventory.sort_inventory_by_current_options()
+	update_items_list()
+	focus_first_inventory_item()  # this will trigger update_item_description for that slot
+
 func on_items_reorder_button_pressed()->void:
 	pass
 func on_items_exit_pressed()->void:
@@ -456,119 +471,40 @@ func close_inventory()->void:
 	menu_state = "TOP_MENU_OPEN" #back to top level
 	#Clear items list
 	clear_items_list()
-	pass
-	
-	
+
 func update_items_list()->void:
-	#gets Inventory.current_inventory and populates ItemsListVBox
-	
-	pass
+	clear_items_list()
+	generate_items_list()
+	setup_inventory_focus_neighbors()
 
 ##Clears all items in the items list under items_list_v_box
 func clear_items_list()->void:
 	for child in items_list_v_box.get_children():
 		items_list_v_box.remove_child(child)
 		child.queue_free()
-	
-	pass
 
 func update_item_description(islot:InventorySlot)->void:
-	#If nothing, hide it
 	if islot == null:
 		description_panel.set_deferred("visible", false)
-	else:
-	#grab focus item's name, sprite, description, can_equip, bonus_stats
-	#sets item texture, name, type, quantity, description
-		var _item = islot.item
-		desc_item_texture.texture = _item.menu_sprite
-		desc_item_name.text = str(_item.name)
-		desc_type_text.text = _item.ItemType.keys()[_item.type]
-		desc_qty_text.text = str(islot.quantity)
-		desc_text_label.text = _item.description
-		if _item.type > 3:
-			desc_equip_container.set_deferred("visible", true)
-		else: 
-			desc_equip_container.set_deferred("visible", false)
-		##checks bit value of can_equip and then sets the modulate of the label to ENABLED_COLOR or DISABLED_COLOR depending on if it can be equipped by that class
-		var equip_flags = _item.can_equip
-		if (equip_flags & _item.EquipClass.WARRIOR) != 0:
-			slot_00_can_use_label.modulate = ENABLED_COLOR
-		else:
-			slot_00_can_use_label.modulate = DISABLED_COLOR
-		
-		if (equip_flags & Item.EquipClass.THIEF) != 0:
-			slot_01_can_use_label.modulate = ENABLED_COLOR
-		else:
-			slot_01_can_use_label.modulate = DISABLED_COLOR
-			
-		if (equip_flags & Item.EquipClass.MAGE) != 0:
-			slot_02_can_use_label.modulate = ENABLED_COLOR
-		else:
-			slot_02_can_use_label.modulate = DISABLED_COLOR
-		
-		if (equip_flags & Item.EquipClass.HEALER) != 0:
-			slot_03_can_use_label.modulate = ENABLED_COLOR
-		else:
-			slot_03_can_use_label.modulate = DISABLED_COLOR
-		
-		if _item.hp_bonus != 0:
-			hp_bonus_h_box.modulate = ENABLED_COLOR
-			hp_bonus_value.text = str(_item.hp_bonus)
-		else:
-			hp_bonus_h_box.modulate = DISABLED_COLOR
-			hp_bonus_value.text = "0"
-		
-		if _item.mp_bonus != 0:
-			mp_bonus_h_box.modulate = ENABLED_COLOR
-			mp_bonus_value.text = str(_item.mp_bonus)
-		else:
-			mp_bonus_h_box.modulate = DISABLED_COLOR
-			mp_bonus_value.text = "0"
-		
-		if _item.atk_bonus != 0:
-			atk_bonus_h_box.modulate = ENABLED_COLOR
-			atk_bonus_value.text = str(_item.atk_bonus)
-		else:
-			atk_bonus_h_box.modulate = DISABLED_COLOR
-			atk_bonus_value.text = "0"
-		
-		if _item.def_bonus != 0:
-			def_bonus_h_box.modulate = ENABLED_COLOR
-			def_bonus_value.text = str(_item.def_bonus)
-		else:
-			def_bonus_h_box.modulate = DISABLED_COLOR
-			def_bonus_value.text = "0"
-			
-		if _item.strength_bonus != 0:
-			strength_bonus_h_box.modulate = ENABLED_COLOR
-			strength_bonus_value.text = str(_item.strength_bonus)
-		else:
-			strength_bonus_h_box.modulate = DISABLED_COLOR
-			strength_bonus_value.text = "0"
+		return
 
-		if _item.stamina_bonus != 0:
-			stamina_bonus_h_box.modulate = ENABLED_COLOR
-			stamina_bonus_value.text = str(_item.stamina_bonus)
-		else:
-			stamina_bonus_h_box.modulate = DISABLED_COLOR
-			stamina_bonus_value.text = "0"
+	# make sure it is visible again
+	description_panel.set_deferred("visible", true)
 
+	var _item = islot.item
+	desc_item_texture.texture = _item.menu_sprite
+	desc_item_name.text = str(_item.name)
 
-		if _item.speed_bonus != 0:
-			speed_bonus_h_box.modulate = ENABLED_COLOR
-			speed_bonus_value.text = str(_item.speed_bonus)
-		else:
-			speed_bonus_h_box.modulate = DISABLED_COLOR
-			speed_bonus_value.text = "0"
-		
-		if _item.magic_bonus != 0:
-			magic_bonus_h_box.modulate = ENABLED_COLOR
-			magic_bonus_value.text = str(_item.magic_bonus)
-		else:
-			magic_bonus_h_box.modulate = DISABLED_COLOR
-			magic_bonus_value.text = "0"
-			
-	
+	var type_name := ""
+	for type_key in _item.ItemType:
+		if _item.ItemType[type_key] == _item.type:
+			type_name = String(type_key)
+			break
+	desc_type_text.text = type_name
+
+	desc_qty_text.text = str(islot.quantity)
+	desc_text_label.text = _item.description
+
 
 	pass
 	
@@ -600,6 +536,17 @@ func focus_inventory_options()->void:
 
 #region Options Menu
 
+func open_options()->void:
+	setup_options_menu()
+	animation_player.play("options_show")
+	menu_state = "OPTIONS_MENU"
+	last_top_button_focused = options_button
+	opt_music_slider.button.grab_focus()
+	
+func close_options()->void:
+	animation_player.play("options_hide")
+	menu_state = "TOP_MENU_OPEN"
+
 func setup_options_menu()->void:
 	ui_set_v_type()
 	ui_set_p_type()
@@ -618,6 +565,7 @@ func connect_options_buttons()->void:
 	p_type_button.toggled.connect(p_type_toggled)
 	menu_mem_button.toggled.connect(menu_mem_toggled)
 	batt_mem_button.toggled.connect(batt_mem_toggled)
+	m_type_button.toggled.connect(m_type_button_toggled)
 	opt_sort_order_button.pressed.connect(opt_sort_order_button_pressed)
 	opt_controls_button.pressed.connect(opt_controls_button_pressed)
 	opt_in_game_stats_button.pressed.connect(opt_in_game_stats_button_pressed)
@@ -670,18 +618,18 @@ func setup_options_focus()->void:
 	bm_speed.button.focus_next = menu_mem_button.get_path()
 	
 	menu_mem_button.focus_neighbor_top = m_speed.button.get_path()
-	menu_mem_button.focus_neighbor_bottom = sort_items_button.get_path()
+	menu_mem_button.focus_neighbor_bottom = opt_sort_order_button.get_path()
 	menu_mem_button.focus_neighbor_left = menu_mem_button.get_path()
 	menu_mem_button.focus_neighbor_right = batt_mem_button.get_path()
 	menu_mem_button.focus_previous = bm_speed.button.get_path()
 	menu_mem_button.focus_next = batt_mem_button.get_path()
 	
 	batt_mem_button.focus_neighbor_top = bm_speed.button.get_path()
-	batt_mem_button.focus_neighbor_bottom = sort_items_button.get_path()
+	batt_mem_button.focus_neighbor_bottom = opt_sort_order_button.get_path()
 	batt_mem_button.focus_neighbor_left = menu_mem_button.get_path()
 	batt_mem_button.focus_neighbor_right = batt_mem_button.get_path()
 	batt_mem_button.focus_previous = menu_mem_button.get_path()
-	batt_mem_button.focus_next = sort_items_button.get_path()
+	batt_mem_button.focus_next = opt_sort_order_button.get_path()
 
 
 func ui_set_volume()->void:
@@ -739,14 +687,18 @@ func ui_set_menu_memory()->void:
 func ui_set_move_type()->void:
 	if Options.always_run == false:
 		m_type_button.button_pressed = false
+		m_type_label.text = "WALK OR RUN"
 	else:
 		m_type_button.button_pressed = true
+		m_type_label.text = "ALWAYS RUN"
 
 func m_type_button_toggled(_toggle : bool)->void:
 	if _toggle == false:
 		Options.always_run = false
+		m_type_label.text = "WALK OR RUN"
 	else:
 		Options.always_run = true
+		m_type_label.text = "ALWAYS RUN"
 
 func menu_mem_toggled(_toggle : bool)->void:
 	if _toggle == false:
@@ -762,6 +714,7 @@ func batt_mem_toggled(_toggle : bool)->void:
 
 ##Pops up inventory sort order window
 func opt_sort_order_button_pressed()->void:
+	open_sort_menu()
 	pass
 
 ##Pops up controls config window
@@ -793,18 +746,146 @@ func slider_inactive()->void:
 
 #region SortOrderMenu
 
+func open_sort_menu()->void:
+	clear_sort_buttons()
+	make_sort_buttons()
+	setup_sort_order_focus_neighbors()
+	focus_first_sort_button()
+	animation_player.play("opt_sort_order_show")
+	menu_state = "OPTIONS_SORT_ORDER"
+	pass
+	
+func close_sort_menu()->void:
+	clear_sort_buttons() ##get the buttons out of memory
+	animation_player.play("opt_sort_order_hide")
+	sort_selected_index = -1
+	opt_sort_order_button.grab_focus()
+	menu_state = "OPTIONS_MENU"
+	
+	pass
+
+
 func clear_sort_buttons()->void:
 	for child in sort_order_v_box.get_children():
 		if child is SortOrderButton:
-			remove_child(child)
+			sort_order_v_box.remove_child(child)
 			child.queue_free()
 
+
 func make_sort_buttons()->void:
-	for i in Options.item_sort_order:
-		var new_sort_button : SortOrderButton = SortOrderButton.new()
-		new_sort_button.set_label_text(i)
-		new_sort_button.set_button_text(Options.item_sort_order[i].key())
+	var count := Options.item_sort_order.size()
+	for i in range(count):
+		var category : String = Options.item_sort_order[i]
+
+		var new_sort_button : SortOrderButton = SORT_ORDER_ENTRY.instantiate()
+		
+		# add to the VBox first so @onready runs
 		sort_order_v_box.add_child(new_sort_button)
+
+		# now the onready vars are valid
+		new_sort_button.set_label_text(i + 1)      # int is fine here
+		new_sort_button.set_button_text(category)
+
+func setup_sort_order_focus_neighbors()->void:
+	var slist := sort_order_v_box.get_children()
+	var count := slist.size()
+
+	if count == 0:
+		return
+
+	if count == 1:
+		var only_child : SortOrderButton = slist[0]
+		var btn : Button = only_child.sort_button
+		var path : NodePath = btn.get_path()
+		btn.focus_neighbor_top = path
+		btn.focus_neighbor_bottom = path
+		btn.focus_neighbor_left = path
+		btn.focus_neighbor_right = path
+		return
+
+	for i in range(count):
+		var entry : SortOrderButton = slist[i]
+		var btn : Button = entry.sort_button
+
+		var top_index : int = (i - 1 + count) % count
+		var bottom_index : int = (i + 1) % count
+
+		var top_btn : Button = (slist[top_index] as SortOrderButton).sort_button
+		var bottom_btn : Button = (slist[bottom_index] as SortOrderButton).sort_button
+
+		btn.focus_neighbor_top = top_btn.get_path()
+		btn.focus_neighbor_bottom = bottom_btn.get_path()
+
+		var self_path : NodePath = btn.get_path()
+		btn.focus_neighbor_left = self_path
+		btn.focus_neighbor_right = self_path
+
+
+
+func focus_first_sort_button()->void:
+	var slist := sort_order_v_box.get_children()
+	if slist.size() == 0:
+		return
+	var first : SortOrderButton = slist[0]
+	first.grab_button_focus()
+
+func sort_order_button_pressed(button: SortOrderButton)->void:
+	var slist := sort_order_v_box.get_children()
+	var idx : int = slist.find(button)
+	if idx == -1:
+		return
+
+	if menu_state == "OPTIONS_SORT_ORDER":
+		# first selection
+		sort_selected_index = idx
+
+		for child in slist:
+			if child is SortOrderButton:
+				(child as SortOrderButton).set_selected(child == button)
+
+		menu_state = "OPTIONS_SORT_ORDER_SORTING"
+
+	elif menu_state == "OPTIONS_SORT_ORDER_SORTING":
+		# second selection (or cancel if same)
+		if idx == sort_selected_index:
+			cancel_sort_selection()
+			return
+
+		_swap_item_sort_order(sort_selected_index, idx)
+		cancel_sort_selection()
+
+		# rebuild the list so labels stay in the right order
+		clear_sort_buttons()
+		make_sort_buttons()
+		setup_sort_order_focus_neighbors()
+
+		var new_list := sort_order_v_box.get_children()
+		if idx >= 0 and idx < new_list.size():
+			var new_button : SortOrderButton = new_list[idx]
+			new_button.grab_button_focus()
+
+func _swap_item_sort_order(a : int, b : int)->void:
+	var order : Array = Options.item_sort_order.duplicate()
+
+	if a < 0 or a >= order.size():
+		return
+	if b < 0 or b >= order.size():
+		return
+
+	var tmp = order[a]
+	order[a] = order[b]
+	order[b] = tmp
+
+	Options.item_sort_order = order
+
+func cancel_sort_selection()->void:
+	sort_selected_index = -1
+	var slist := sort_order_v_box.get_children()
+	for child in slist:
+		if child is SortOrderButton:
+			(child as SortOrderButton).set_selected(false)
+	menu_state = "OPTIONS_SORT_ORDER"
+
 
 
 #endregion
@@ -835,10 +916,21 @@ func _unhandled_input(_event):
 			"USE_ITEMS":
 				focus_inventory_options()
 				menu_state = "INVENTORY_OPTIONS"
+			"REORDER_ITEMS":
+				focus_inventory_options()
+				menu_state = "INVENTORY_OPTIONS"
+			"REORDER_ITEMS_REORDERING":
+				#cancel_reorder_selection()
+				pass
 			"OPTIONS_MENU":
 				##close the options menu, open the top menu
-				pass
+				close_options()
+				focus_last_top_menu_button()
 			"OPTIONS_SLIDER":
-				##refocus the button attached to the slider
+				#refocuses the button attached to the slider
+				#handled by the button itself
 				pass
-				
+			"OPTIONS_SORT_ORDER":
+				close_sort_menu()
+			"OPTIONS_SORT_ORDER_SORTING":
+				cancel_sort_selection()

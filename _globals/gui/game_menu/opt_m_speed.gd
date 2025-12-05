@@ -11,20 +11,20 @@ extends PanelContainer
 
 func _ready()->void:
 	set_label()
-	if Engine.is_editor_hint:
-		return
-	get_options_speed()
 	m_speed_slider.value_changed.connect(slider_changed)
 	button.pressed.connect(button_pressed)
 	button.focus_entered.connect(button_focused)
 	button.focus_exited.connect(button_unfocused)
+	if Engine.is_editor_hint:
+		return
+	get_options_speed()
 	set_speed_label()
 
 
 
 func button_focused()->void:
 	self_modulate = GameMenu.DISABLED_COLOR
-	print(str(name)+" focused")
+	#print(str(name)+" focused")
 
 func button_unfocused()->void:
 	if GameMenu.current_selected_slider == self:
@@ -56,18 +56,22 @@ func set_speed_label()->void:
 func button_pressed()->void:
 	GameMenu.slider_active(self)
 	self_modulate = GameMenu.ENABLED_COLOR
+	GameMenu.menu_state = "OPTIONS_SLIDER"
 	m_speed_slider.grab_focus()
 
 func slider_changed(_value:float)->void:
 	match message_type:
 		"MENU":
 			Options.message_speed = _value
+			m_speed_value.text = str(_value)
 		"BATTLE":
 			Options.battle_message_speed = _value
+			m_speed_value.text = str(_value)
 	set_speed_label()
 
 func _unhandled_input(event):
 	if GameMenu.current_selected_slider == self:
 		if Input.is_action_just_pressed("cancel_input"):
-			GameMenu.slider_inactive()
 			button.grab_focus()
+			GameMenu.slider_inactive() 
+			get_viewport().set_input_as_handled()

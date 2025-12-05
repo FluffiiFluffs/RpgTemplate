@@ -3,7 +3,7 @@ class_name TopMenuButton
 extends PanelContainer
 
 
-@onready var button = %Button
+@onready var button : Button = %Button
 
 @export var pressed : bool = false
 
