@@ -152,10 +152,11 @@ extends CanvasLayer
 
 #endregion
 
+const TOP_LEVEL_STATS = preload("uid://bw1yk70p3346y")
 const SORT_ORDER_ENTRY = preload("uid://dwhea87oe4shd")
 const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki")
 const DISABLED_COLOR = Color(0.41, 0.41, 0.41, 1.0)
-const ENABLED_COLOR = Color(0.945, 0.704, 0.0, 1.0)
+const ENABLED_COLOR = Color("f1b400ff")
 const TRANS_COLOR = Color(0.0, 0.0, 0.0, 0.0)
 const WHITE_COLOR = Color(1.0, 1.0, 1.0, 1.0)
 
@@ -302,6 +303,65 @@ func on_top_options_button_pressed()->void:
 func load_party()->void:
 	pass
 
+##clears the party's top level stat containers
+func clear_top_level_stats_containers()->void:
+	for child in party_h_box_container:
+		party_h_box_container.remove_child(child)
+		child.queue_free()
+
+
+##Instantiates top level stats scenes
+func setup_top_level_stats()->void:
+	for member in CharDataKeeper.party_members:
+		var new_stats_container = TOP_LEVEL_STATS.instantiate() as TopLevelStats
+		party_h_box_container.call_deferred("add_child", new_stats_container)
+		new_stats_container.party_member = member
+		update_top_level_stats_box(new_stats_container)
+
+
+##updates a single stats box
+func update_top_level_stats_box(stats_box : TopLevelStats)->void:
+	##needs to figure out what box is trying to be updated and update it
+	var pmember = stats_box.party_member
+	stats_box.set_class_color(return_class_color(pmember.char_resource.char_class))
+	stats_box.hp_progress_bar.max_hp = pmember.get_max_hp()
+	stats_box.hp_progress_bar.value = pmember.current_hp
+	stats_box.mp_progress_bar.max_mp = pmember.get_max_mp()
+	stats_box.mp_progress_bar.value = pmember.current_mp
+	stats_box.update_buffs() ##TODO This function needs to be filled out later when buffs are implemented
+	pass
+
+
+func setup_top_level_stats_focus_neighbors_for_item(_item:Item)->void:
+	#takes item for argument and if the item can be used, then it is a valid focus neighbor for left/right
+	#focus needs to wrap to allow user to rapidly press left/right for selection if they wish (in the same way the items menu wraps from last item to first item and first to last)
+	#up/down focus neighbors always need to be set to itself so selection doesn't go anywhere else in the UI
+	#if the item is not valid to be used by the party member (hp is full, mp is full, does not have status that the item affects, etc), then that particular top level stats box needs to call set_border_color_to_disable() and not be allowed to be focused for the duration of attempting to use the item
+	#if no party members can use the item, then do nothing and return focus to the item that was trying to be used (this can later be hooked up to an error sound)
+	pass
+	
+##TODO setup magic
+func setup_top_level_stats_focus_neighbors_for_magic(_spell)->void:
+	pass
+
+func setup_top_level_stats_focus_neighbors_for_equip(_item:Item)->void:
+	##TODO set this up later for the equip menu, should work similar to the item function above, but check Item.can_equip flags to enable and disable the boxes and setup which neighbors are skipped or not.
+	pass
+
+
+
+func return_class_color(classnum : int)->Color:
+	match classnum:
+		0:
+			return Options.class_color_warrior
+		1:
+			return Options.class_color_thief
+		2:
+			return Options.class_color_mage
+		3:
+			return Options.class_color_healer
+		_:
+			return Color(1.0, 1.0, 1.0, 1.0)
 
 #endregion
 
@@ -406,6 +466,7 @@ func select_item(item_button : InventoryItemButton)->void:
 					(new_button as InventoryItemButton).grab_button_focus()
 			
 		"USE_ITEMS":
+
 			#use the item, trigger effect in item_button.item.effects
 			#if can use item, use it
 			#if decrement_on_use, decrement count

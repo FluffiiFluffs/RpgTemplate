@@ -54,5 +54,4 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_37o1m")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_3ynou")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2168")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_mwf2n")
-text = "USE"
 alignment = 0

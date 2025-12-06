@@ -1,21 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bw1yk70p3346y"]
+[gd_scene load_steps=13 format=3 uid="uid://bw1yk70p3346y"]
 
 [ext_resource type="Script" uid="uid://76vltdckwkst" path="res://_globals/gui/game_menu/top_level_stats.gd" id="1_vu14d"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_o82g3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vu14d"]
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="Gradient" id="Gradient_vu14d"]
-offsets = PackedFloat32Array(0, 0.58627856, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_jo253"]
-gradient = SubResource("Gradient_vu14d")
-width = 16
-height = 16
-fill = 2
-fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_738t7"]
 resource_local_to_scene = true
@@ -24,8 +10,9 @@ border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
-border_color = Color(0.3529412, 0, 0, 1)
 anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jo253"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8oh2q"]
 resource_local_to_scene = true
@@ -34,7 +21,6 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.30980393, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qx86f"]
 
@@ -45,7 +31,46 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.27450982, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vu14d"]
+
+[sub_resource type="Animation" id="Animation_jo253"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopFlasherContainer:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p1bxw"]
+resource_name = "flash_top"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopFlasherContainer:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(0.945, 0.704, 0, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fhmjh"]
+_data = {
+&"RESET": SubResource("Animation_jo253"),
+&"flash_top": SubResource("Animation_p1bxw")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jo253"]
 resource_local_to_scene = true
@@ -55,144 +80,101 @@ border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
-border_blend = true
+anti_aliasing = false
 
 [node name="ToplevelStats" type="Control"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 100.0
-offset_bottom = 43.0
+offset_bottom = 50.0
 script = ExtResource("1_vu14d")
-
-[node name="BuffBox" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(100, 16)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -50.0
-offset_top = -16.0
-offset_right = 50.0
-grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_vu14d")
-
-[node name="BuffHBox" type="HBoxContainer" parent="BuffBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 3
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="BuffBox/BuffHBox"]
-layout_mode = 2
-size_flags_horizontal = 6
-texture = SubResource("GradientTexture2D_jo253")
-stretch_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="BuffBox/BuffHBox"]
-layout_mode = 2
-size_flags_horizontal = 6
-texture = SubResource("GradientTexture2D_jo253")
-stretch_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="BuffBox/BuffHBox"]
-layout_mode = 2
-size_flags_horizontal = 6
-texture = SubResource("GradientTexture2D_jo253")
-stretch_mode = 2
-
-[node name="TextureRect4" type="TextureRect" parent="BuffBox/BuffHBox"]
-layout_mode = 2
-size_flags_horizontal = 6
-texture = SubResource("GradientTexture2D_jo253")
-stretch_mode = 2
-
-[node name="TextureRect5" type="TextureRect" parent="BuffBox/BuffHBox"]
-layout_mode = 2
-size_flags_horizontal = 6
-texture = SubResource("GradientTexture2D_jo253")
-stretch_mode = 2
 
 [node name="StatsContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 43)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_738t7")
 
 [node name="MarginContainer" type="MarginContainer" parent="StatsContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 4
+theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="CharNameLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jo253")
+
+[node name="BuffTexture" type="TextureRect" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
+size_flags_horizontal = 0
+stretch_mode = 3
+
+[node name="CharNameLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("2_o82g3")
 theme_override_font_sizes/font_size = 7
 text = "WARRIOR"
 horizontal_alignment = 1
+clip_text = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jo253")
 
-[node name="LVLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("2_o82g3")
-theme_override_font_sizes/font_size = 7
-text = "LV"
-
-[node name="LVNumLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="DebuffTexture" type="TextureRect" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("2_o82g3")
-theme_override_font_sizes/font_size = 7
-text = "05"
+size_flags_horizontal = 8
+stretch_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 2
 
-[node name="HPLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="HPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_o82g3")
 theme_override_font_sizes/font_size = 5
 text = "HP"
 
-[node name="HPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="HPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8oh2q")
 
-[node name="HPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/HPPanelContainer"]
+[node name="HPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HPPanelContainer"]
 unique_name_in_owner = true
 modulate = Color(1, 0, 0, 1)
 custom_minimum_size = Vector2(36, 0)
@@ -201,23 +183,23 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qx86f")
 value = 50.0
 show_percentage = false
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 2
 
-[node name="MPLabel" type="Label" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_o82g3")
 theme_override_font_sizes/font_size = 5
 text = "MP"
 
-[node name="MPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o82g3")
 
-[node name="MPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/MPPanelContainer"]
+[node name="MPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/MPPanelContainer"]
 unique_name_in_owner = true
 modulate = Color(0, 0, 1, 1)
 custom_minimum_size = Vector2(36, 0)
@@ -226,14 +208,36 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qx86f")
 value = 50.0
 show_percentage = false
 
-[node name="FlasherBox" type="PanelContainer" parent="."]
+[node name="Button" type="Button" parent="."]
 unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(100, 43)
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 43.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_jo253")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vu14d")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vu14d")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vu14d")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_vu14d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vu14d")
+toggle_mode = true
 
-[node name="FlasherButton" type="Button" parent="FlasherBox"]
-layout_mode = 2
+[node name="TopAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_fhmjh")
+}
+autoplay = "RESET"
+
+[node name="TopFlasherContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(100, 43)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jo253")

@@ -23,7 +23,7 @@ extends Resource
 @export var current_hp : int = 100
 ##Current MP. This is always clamped against get_max_mp().
 @export var current_mp : int = 0
-
+@export var current_buffs :Array= []
 
 @export_category("Equipment")
 @export var headslot : Item
