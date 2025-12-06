@@ -358,21 +358,55 @@ func make_item_button(invslot : InventorySlot) -> void:
 	new_inventory_item_button.self_modulate = TRANS_COLOR
 	new_inventory_item_button.item_button.text = str(_item.name)
 	new_inventory_item_button.item_qty_label.text = str(islot.quantity)
-	new_inventory_item_button.item_button.pressed.connect(select_item)
+	
+	new_inventory_item_button.item_button.pressed.connect(
+		func()->void:
+		select_item(new_inventory_item_button)
+		new_inventory_item_button.self_modulate = ENABLED_COLOR)
 	new_inventory_item_button.item_button.focus_entered.connect(func button_focused()->void:
-		new_inventory_item_button.self_modulate = WHITE_COLOR
 		update_item_description(islot)
+		if not new_inventory_item_button.is_selected:
+			new_inventory_item_button.self_modulate = WHITE_COLOR
 		)
 	new_inventory_item_button.item_button.focus_exited.connect(func button_unfocused()->void:
-		new_inventory_item_button.self_modulate = TRANS_COLOR
+		if not new_inventory_item_button.is_selected:
+			new_inventory_item_button.self_modulate = TRANS_COLOR
 		)
 
 
 func select_item(item_button : InventoryItemButton)->void:
 	match menu_state:
 		"REORDER_ITEMS":
+			#stores first item selected
 			current_selected_inventory_button = item_button
+			#marks the selection as selected
+			var ilist := items_list_v_box.get_children()
+			for child in ilist:
+				if child is InventoryItemButton:
+					(child as InventoryItemButton).set_selected(child == item_button)
 			menu_state = "REORDER_ITEMS_REORDERING"
+			
+		"REORDER_ITEMS_REORDERING":
+			#picks second item and swaps or cancels out if the same item is selected
+			if item_button == current_selected_inventory_button:
+				cancel_reorder_selection()
+				return
+			var ilist := items_list_v_box.get_children()
+			var from_index : int = ilist.find(current_selected_inventory_button)
+			var to_index : int = ilist.find(item_button)
+			if from_index == -1 or to_index == -1:
+				cancel_reorder_selection()
+				return
+			_swap_inventory_slots(from_index, to_index)
+			cancel_reorder_selection()
+			#Updates list, and focuses new position
+			update_items_list()
+			var new_list := items_list_v_box.get_children()
+			if to_index >= 0 and to_index < new_list.size():
+				var new_button = new_list[to_index]
+				if new_button is InventoryItemButton:
+					(new_button as InventoryItemButton).grab_button_focus()
+			
 		"USE_ITEMS":
 			#use the item, trigger effect in item_button.item.effects
 			#if can use item, use it
@@ -459,7 +493,27 @@ func on_items_sort_button_pressed()->void:
 	focus_first_inventory_item()  # this will trigger update_item_description for that slot
 
 func on_items_reorder_button_pressed()->void:
+	#not enough items, don't do anything
+	if Inventory.current_inventory.size() < 2:
+		return
+	#Clears previous selection, enter reorder state
+	cancel_reorder_selection()
+	menu_state = "REORDER_ITEMS"
+	focus_first_inventory_item()
 	pass
+	
+func cancel_reorder_selection()->void:
+	if current_selected_inventory_button != null:
+		current_selected_inventory_button.self_modulate = WHITE_COLOR
+	current_selected_inventory_button = null
+	var ilist := items_list_v_box.get_children()
+	for child in ilist:
+		if child is InventoryItemButton:
+			(child as InventoryItemButton).set_selected(false)
+	menu_state = "REORDER_ITEMS"
+	
+	
+	
 func on_items_exit_pressed()->void:
 	close_inventory()
 	menu_state = "TOP_MENU_OPEN"
@@ -528,7 +582,20 @@ func use_item()->void:
 func focus_inventory_options()->void:
 	use_items_button.button.grab_focus()
 
+func _swap_inventory_slots(a : int, b : int)->void:
+	var inv = Inventory.current_inventory
+	if a < 0 or a >= inv.size(): #safety check
+		return
+	if b < 0 or b >= inv.size(): #safety check
+		return
+	var tmp = inv[a]
+	inv[a] = inv[b]
+	inv[b] = tmp
+		
 
+			
+		
+		
 #endregion
 
 #@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "INVENTORY_LIST", "EQUIP", "MAGIC", "STATS", "QUEST", "SYSTEM") var menu_state : int = 0
@@ -920,7 +987,10 @@ func _unhandled_input(_event):
 				focus_inventory_options()
 				menu_state = "INVENTORY_OPTIONS"
 			"REORDER_ITEMS_REORDERING":
-				#cancel_reorder_selection()
+				var first_button := current_selected_inventory_button
+				cancel_reorder_selection()
+				if first_button != null and is_instance_valid(first_button):
+					first_button.grab_button_focus()
 				pass
 			"OPTIONS_MENU":
 				##close the options menu, open the top menu
@@ -933,4 +1003,11 @@ func _unhandled_input(_event):
 			"OPTIONS_SORT_ORDER":
 				close_sort_menu()
 			"OPTIONS_SORT_ORDER_SORTING":
+				var idx := sort_selected_index
 				cancel_sort_selection()
+				if idx >= 0:
+					var slist := sort_order_v_box.get_children()
+					if idx < slist.size():
+						var entry := slist[idx]
+						if entry is SortOrderButton:
+							(entry as SortOrderButton).grab_button_focus()

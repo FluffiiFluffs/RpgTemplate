@@ -46,6 +46,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_3l8ib")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3l8ib")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_3l8ib")
 theme_override_styles/focus = SubResource("StyleBoxFlat_3l8ib")
+toggle_mode = true
 text = "Apple"
 alignment = 0
 

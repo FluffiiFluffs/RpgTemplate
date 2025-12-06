@@ -60,7 +60,7 @@ func gather_shapes()->void:
 	for child in get_children():
 		if child is CollisionShape2D:
 			child.debug_color = Color(1.0, 0.0, 0.0, 0.050)
-			print(str(child.name) + " global_position " + str(child.global_position))
+			#print(str(child.name) + " global_position " + str(child.global_position))
 			collision_shapes.append(child)
 
 ##Spawns enemies.[br]Picks random amount up to max_enemies to spawn.[br]Each enemy then has a chance to spawn based upon enemy_spawn_chance.

@@ -9,5 +9,20 @@ extends PanelContainer
 @onready var item_button : Button = %ItemButton
 @onready var item_qty_label : Label = %ItemQtyLabel
 
+var is_selected : bool = false
+
 func _ready()->void:
 	pass
+
+
+func grab_button_focus()->void:
+	item_button.grab_focus()
+
+func set_selected(selected : bool)->void:
+	is_selected = selected
+	if item_button:
+		item_button.button_pressed = selected
+	if selected:
+		self_modulate = GameMenu.ENABLED_COLOR
+	else:
+		self_modulate = GameMenu.TRANS_COLOR
