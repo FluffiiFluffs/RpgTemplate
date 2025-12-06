@@ -2,8 +2,6 @@
 ##global GameMenu
 extends CanvasLayer
 
-
-
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 #region Top Level variables
 ##Text property accessed to show the name of the UI element selected (on focus)
@@ -161,7 +159,7 @@ const ENABLED_COLOR = Color(0.945, 0.704, 0.0, 1.0)
 const TRANS_COLOR = Color(0.0, 0.0, 0.0, 0.0)
 const WHITE_COLOR = Color(1.0, 1.0, 1.0, 1.0)
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USING_ITEM", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
@@ -966,8 +964,6 @@ func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
 		top_menu_open()
 		focus_last_top_menu_button()
-	if Input.is_action_just_pressed("confirm_input"):
-		pass
 	if Input.is_action_just_pressed("cancel_input"):
 		match menu_state:
 			"TOP_MENU_CLOSED": #TOP_MENU_CLOSED
@@ -983,6 +979,8 @@ func _unhandled_input(_event):
 			"USE_ITEMS":
 				focus_inventory_options()
 				menu_state = "INVENTORY_OPTIONS"
+			"USING_ITEM":
+				pass
 			"REORDER_ITEMS":
 				focus_inventory_options()
 				menu_state = "INVENTORY_OPTIONS"

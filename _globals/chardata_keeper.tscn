@@ -1,19 +1,12 @@
 [gd_scene load_steps=7 format=3 uid="uid://8vgkriebxli3"]
 
 [ext_resource type="Script" uid="uid://bjylpsq33l742" path="res://_globals/chardata_keeper.gd" id="1_7befc"]
-[ext_resource type="Resource" uid="uid://prpth3t5akim" path="res://actors/character/player_character/00_char.tres" id="2_4byte"]
-[ext_resource type="Resource" uid="uid://uad4ipmuyu6j" path="res://actors/character/player_character/01_char.tres" id="3_0h4om"]
-[ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/npc/npc_resources/base/base_npc_resource.tres" id="3_x4q7v"]
-[ext_resource type="Resource" uid="uid://5m3jepbbino1" path="res://actors/character/player_character/02_char.tres" id="4_8q0pa"]
-[ext_resource type="Resource" uid="uid://k27eea21ptbq" path="res://actors/character/player_character/03_char.tres" id="5_08uhy"]
+[ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="2_4byte"]
+[ext_resource type="Resource" uid="uid://d0cbou2irbwf" path="res://actors/character/base_party_resources/warrior_party_member_data.tres" id="3_0h4om"]
+[ext_resource type="Resource" uid="uid://b5wmbkov323pp" path="res://actors/character/base_party_resources/thief_party_member_data.tres" id="4_8q0pa"]
+[ext_resource type="Resource" uid="uid://yuhvgw0ir1x7" path="res://actors/character/base_party_resources/mage_party_member_data.tres" id="5_08uhy"]
+[ext_resource type="Resource" uid="uid://5ypxra5wjlwe" path="res://actors/character/base_party_resources/healer_party_member_data.tres" id="6_sqnyb"]
 
 [node name="ChardataKeeper" type="Node2D"]
 script = ExtResource("1_7befc")
-party_member_01_data = ExtResource("2_4byte")
-party_member_02_data = ExtResource("3_0h4om")
-party_member_03_data = ExtResource("4_8q0pa")
-party_member_04_data = ExtResource("5_08uhy")
-slot00 = ExtResource("2_4byte")
-slot01 = ExtResource("3_x4q7v")
-slot02 = ExtResource("3_x4q7v")
-slot03 = ExtResource("3_x4q7v")
+all_party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])

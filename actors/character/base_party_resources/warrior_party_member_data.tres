@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PartyMemberData" load_steps=3 format=3 uid="uid://d0cbou2irbwf"]
+
+[ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="1_5o3im"]
+[ext_resource type="Resource" uid="uid://prpth3t5akim" path="res://actors/character/base_char_resources/warrior_char.tres" id="1_djn1j"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_5o3im")
+id = &"warrior"
+char_resource = ExtResource("1_djn1j")
+metadata/_custom_type_script = "uid://dtu3mn8pht81q"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PartyMemberData" load_steps=3 format=3 uid="uid://5ypxra5wjlwe"]
+
+[ext_resource type="Resource" uid="uid://k27eea21ptbq" path="res://actors/character/base_char_resources/healer_char.tres" id="1_7m4b1"]
+[ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="1_crqld"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_crqld")
+id = &"healer"
+char_resource = ExtResource("1_7m4b1")
+metadata/_custom_type_script = "uid://dtu3mn8pht81q"

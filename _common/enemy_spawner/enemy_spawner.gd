@@ -198,6 +198,15 @@ func remove_all_enemies(_area:Area2D = null)->void:
 				spawn_count -= 1
 				print("Removed enemy, enemy_count: " + str(spawn_count))
 
+##Removes children enemies no matter what
+func _remove_all_enemies(_area:Area2D = null)->void:
+	for child in get_children():
+		if child is Enemy:
+			child.queue_free() 
+			spawn_count -= 1
+			print("Removed enemy, enemy_count: " + str(spawn_count))
+
+
 ###If true, enemies will be replaced after defeat. (on-screen)
 #@export var replace_enemies : bool = false
 ###If true, enemies will be replaced when area is off-screen.

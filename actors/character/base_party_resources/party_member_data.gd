@@ -108,6 +108,40 @@ extends Resource
 @export var buff_magic_percent : float = 0.0
 #endregion
 
+
+func init_from_char_resource(_char_resource : CharResource, _id : StringName = "") -> void:
+	if _char_resource == null:
+		return
+
+	char_resource = _char_resource
+
+	# Give it a stable id. You can change this logic later if you want.
+	if _id == "":
+		id = char_resource.char_name
+	else:
+		id = _id
+
+	# Starting level uses the default from the CharResource.
+	level = char_resource.char_level
+
+	# Fresh member, no experience yet.
+	current_exp = 0
+	total_exp = 0
+	# You can leave next_level_exp as whatever you set in the inspector,
+	# or later hook it to some ExpTable.get_exp_for_level(level + 1).
+
+	# Start fully healed.
+	current_hp = get_max_hp()
+	current_mp = get_max_mp()
+
+	# Safety clamp, in case formulas change later.
+	clamp_vitals()
+
+
+
+
+
+
 #region Basic Getters
 ##Basic helpers so UI and battle do not poke CharResource directly.
 
@@ -441,3 +475,4 @@ func clamp_vitals() -> void:
 		current_mp = max_mp
 	if current_mp < 0:
 		current_mp = 0
+		
