@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=52 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -62,6 +62,33 @@ vertical = true
 color = Color(1, 1, 1, 1)
 grow_begin = -8.0
 grow_end = -8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q0rp3"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnvkg"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke5u3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0rp3"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_26r4l"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldqiu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so8r6"]
 bg_color = Color(0, 0, 0, 1)
@@ -803,37 +830,641 @@ theme_override_font_sizes/font_size = 7
 text = "10"
 
 [node name="EquipPositioner" type="Control" parent="."]
-visible = false
 layout_mode = 3
-anchors_preset = 0
-offset_top = 8.0
-offset_right = 40.0
-offset_bottom = 8.0
+anchors_preset = 10
+anchor_right = 1.0
 grow_horizontal = 2
-grow_vertical = 2
 mouse_filter = 2
 
 [node name="MagicPositioner" type="Control" parent="."]
-visible = false
 layout_mode = 3
-anchors_preset = 0
-offset_top = 8.0
-offset_right = 40.0
-offset_bottom = 8.0
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="StatsPositioner" type="Control" parent="."]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.77800006
+offset_top = -215.0
+offset_bottom = -215.05002
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="StatsPositioner" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_top = 8.0
-offset_right = 40.0
-offset_bottom = 8.0
+[node name="StatsPanelContainer" type="PanelContainer" parent="StatsPositioner"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q0rp3")
+
+[node name="MarginContainer" type="MarginContainer" parent="StatsPositioner/StatsPanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="StatsPortraitContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mnvkg")
+
+[node name="StatsPortrait" type="TextureRect" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/StatsPortraitContainer"]
+custom_minimum_size = Vector2(92, 163)
+layout_mode = 2
+stretch_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 16
+
+[node name="NameContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
+
+[node name="StatsNameLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/NameContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_xubta")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 17
+text = "WARRIOR"
+horizontal_alignment = 1
+
+[node name="ClassVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q0rp3")
+
+[node name="StatsClassTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 9
+text = "CLASS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="StatsClassLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 13
+text = "WARRIOR"
+
+[node name="HSeparator2" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(170, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatsCurrLevelHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLevelTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 9
+text = "Level"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLevelValueLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 9
+text = "99"
+
+[node name="StatsNextLvLVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsNextLvLTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "EXP to Next LvL"
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsNextLvLValueLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "10000000"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+
+[node name="StatsEquipVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="StatsMainHandHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMainHandTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "Main Hand"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMainHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD WEAPON"
+
+[node name="StatsOffHandHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsOffHandTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "OFF HAND"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsOffHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD OFF HAND"
+
+[node name="StatsHeadHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHeadTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "HEAD"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHeadText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD HELMET "
+
+[node name="StatsChestHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsChestTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "CHEST"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsChestText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER STURDY ARMOR "
+
+[node name="StastsLegsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLegsTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "LEGS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLegsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD LEG ARMOR"
+
+[node name="StatsAccy1HBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy1TitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "ACCY1"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAcc1Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "RARE ACCESSORY"
+
+[node name="StatsAcc2HBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy2TitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "ACCY2"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy2Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER RARE ACCESSORy"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatsHPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "HP"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsCurrHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 8
+text = "/"
+
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMaxHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer4"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsHPHBox2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "MP"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsCurrHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 8
+text = "/"
+
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMaxHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer4"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="HSeparator" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+
+[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "ATK"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsDEFHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsDEFTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "DEF"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsDEFValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSTRHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTRTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "STR"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTRValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSTMHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTMTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "STM"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTMValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSPDTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SPD"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSPDValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsMAGHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMagTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "MAG"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMAGValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox/PanelContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "99999"
 
 [node name="OptionsPositioner" type="Control" parent="."]
 layout_mode = 3

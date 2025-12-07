@@ -949,7 +949,7 @@ func setup_options_focus()->void:
 	opt_voices_slider.button.focus_previous = opt_sfx_slider.button.get_path()
 	opt_voices_slider.button.focus_next = v_type_button.get_path()
 
-	m_type_button.focus_neighbor_top = p_type_button.get_path()
+	m_type_button.focus_neighbor_top = v_type_button.get_path()
 	m_type_button.focus_neighbor_bottom = m_speed.button.get_path()
 	#m_type_button.focus_neighbor_left = #self, set in inspector
 	#m_type_button.focus_neighbor_right # = self, set in inspector
@@ -1096,6 +1096,7 @@ func slider_inactive()->void:
 #region SortOrderMenu
 
 func open_sort_menu()->void:
+	sort_order_positioner.set_deferred("visible", true)
 	clear_sort_buttons()
 	make_sort_buttons()
 	setup_sort_order_focus_neighbors()
@@ -1110,7 +1111,8 @@ func close_sort_menu()->void:
 	sort_selected_index = -1
 	opt_sort_order_button.grab_focus()
 	menu_state = "OPTIONS_MENU"
-	
+	await animation_player.animation_finished
+	sort_order_positioner.set_deferred("visible", false)
 	pass
 
 
