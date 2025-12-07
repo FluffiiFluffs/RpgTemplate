@@ -5,6 +5,7 @@ extends PanelContainer
 
 
 @export var item : Item = null
+@export var islot : InventorySlot = null
 @export var quantity : int = 0
 @onready var item_button : Button = %ItemButton
 @onready var item_qty_label : Label = %ItemQtyLabel

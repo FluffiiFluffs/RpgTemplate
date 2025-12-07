@@ -8,4 +8,6 @@ resource_local_to_scene = true
 script = ExtResource("1_5o3im")
 id = &"warrior"
 char_resource = ExtResource("1_djn1j")
+current_hp = 29
+current_mp = 20
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

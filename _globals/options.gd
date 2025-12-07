@@ -14,7 +14,7 @@ extends Node2D
 
 @export_category("Item Sort Order")
 ##Inventory sort order. Pops up extra menu when button pressed
-@export var item_sort_order : Array = ["HEAL","MPHEAL", "STATUSHEAL", "TOOL", "KEY", "EQUIPMENT"]
+@export var item_sort_order : Array = ["HPHEAL","MPHEAL", "STATUSHEAL", "TOOL", "KEY", "EQUIPMENT"]
 
 @export_category("Dialogue")
 ## 0 : FULL = Speaking characters play their voice sound rapidly.[br]

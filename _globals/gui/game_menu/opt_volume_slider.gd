@@ -61,5 +61,5 @@ func _unhandled_input(_event):
 	if GameMenu.current_selected_slider == self:
 		if Input.is_action_just_pressed("cancel_input"):
 			button.grab_focus()
+			await get_tree().process_frame
 			GameMenu.slider_inactive()
-			get_viewport().set_input_as_handled()

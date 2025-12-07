@@ -11,7 +11,7 @@ enum EquipClass {
 	BOSS = 32,
 }
 
-enum ItemType { HEAL, MPHEAL, STATUSHEAL, TOOL, KEY, WEAPON, OFFHAND, HEAD, CHEST, ARMS, LEGS, ACCESSORY }
+enum ItemType { HPHEAL, MPHEAL, STATUSHEAL, TOOL, KEY, WEAPON, OFFHAND, HEAD, CHEST, ARMS, LEGS, ACCESSORY }
 
 enum BattleUse {CANNOT, CAN, ONLY}
 enum FieldTargeting { ONE, ALL }
@@ -22,14 +22,14 @@ enum BattleTargeting { ONE, PARTY, ALL }
 ##Name of the item
 @export var name : String = ""
 ##Sort ID of the item[br]
-##Heal:0000[br]MPHEAL:1000[br]STATUSHEAL:2000[br]TOOL:3000[br]KEY:4000[br]WEAPON:5000[br] OFFHAND:6000[br]HEAD:7000[br]CHEST:8000[br]ARMS:9000[br]LEGS:10000[br]ACCESSORY:11000
+##HPHEAL:0000[br]MPHEAL:1000[br]STATUSHEAL:2000[br]TOOL:3000[br]KEY:4000[br]WEAPON:5000[br] OFFHAND:6000[br]HEAD:7000[br]CHEST:8000[br]ARMS:9000[br]LEGS:10000[br]ACCESSORY:11000
 @export var sort_id : int = 0000
 ##Highest quantity to hold in a stack
 @export_range(1, 999) var max_stack_size : int = 99
 ##If more than one stack can be made of this item
 @export var unique : bool = false
 ##Type of the item
-@export_enum("HEAL", "MPHEAL", "STATUSHEAL","TOOL", "KEY", "WEAPON", "OFFHAND", "HEAD", "CHEST", "ARMS", "LEGS", "ACCESSORY")
+@export_enum("HPHEAL", "MPHEAL", "STATUSHEAL","TOOL", "KEY", "WEAPON", "OFFHAND", "HEAD", "CHEST", "ARMS", "LEGS", "ACCESSORY")
 var type: int = ItemType.TOOL
 ##Sprite used for the item in the description
 @export var menu_sprite : Texture2D = null

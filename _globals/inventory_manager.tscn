@@ -17,7 +17,7 @@
 [sub_resource type="Resource" id="Resource_72dg7"]
 script = ExtResource("4_mjgim")
 item = ExtResource("2_72dg7")
-quantity = 4
+quantity = 3
 stringname = &"apple"
 metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
 

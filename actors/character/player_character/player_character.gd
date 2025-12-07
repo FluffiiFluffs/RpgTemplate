@@ -29,15 +29,6 @@ const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
 signal direction_changed( new_direction )
 
 func _ready()->void:
-	#region moved to scene_manager.make_player(), it did the same thing anyways
-	#prevents null error
-	#if CharDataKeeper.slot00 == null:
-		#CharDataKeeper.slot00 = _00_CHAR
-		#sprite_2d = CharDataKeeper.slot00.char_sprite_sheet
-	#CharDataKeeper.controlled_character_data = CharDataKeeper.slot00
-	#stores reference to this node in CharDataKeeper global so it can be accessed globally if needed
-	#CharDataKeeper.controlled_character = self
-	#endregion
 	state_machine.initialize(self)
 
 func _physics_process(_delta)->void:
@@ -47,8 +38,9 @@ func _process(_delta) -> void:
 	pass
 	
 func _unhandled_input(_event):
-	direction = Vector2( Input.get_axis("move_left",
-	"move_right"), Input.get_axis("move_up","move_down")).normalized()
+	if GameState.gamestate == 1:
+		direction = Vector2( Input.get_axis("move_left",
+		"move_right"), Input.get_axis("move_up","move_down")).normalized()
 
 ##Updates sprite_2d of controlled character for field movement when changed
 ##Slot00 is always the chararacter the player controls

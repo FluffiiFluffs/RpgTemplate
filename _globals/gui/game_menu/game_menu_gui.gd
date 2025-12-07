@@ -2,7 +2,7 @@
 ##global GameMenu
 extends CanvasLayer
 
-@onready var animation_player : AnimationPlayer = %AnimationPlayer
+
 #region Top Level variables
 ##Text property accessed to show the name of the UI element selected (on focus)
 @onready var selector_label : Label = %SelectorLabel
@@ -31,7 +31,7 @@ extends CanvasLayer
 @onready var toplevel_stats_3 : TopLevelStats = %ToplevelStats3
 ##Slot03 Name, Level, HP, MP, Buffs
 @onready var toplevel_stats_4 : TopLevelStats = %ToplevelStats4
-#endregion
+#endregion top level variables
 
 #region Inventory Variables
 ##InventoryItemButtons are instantiated into this box to create inventory entries
@@ -91,6 +91,8 @@ extends CanvasLayer
 ##Value of MAG Bonus
 @onready var magic_bonus_value : Label = %MagicBonusValue
 
+##Hbox containing options buttons for the inventory
+@onready var inventory_options_h_box : HBoxContainer = %InventoryOptionsHBox
 ##Inventory screen: focuses items list so items can be used
 @onready var use_items_button : InventoryOptionsButton = %UseItemsButton
 ##Inventory screen: sorts items automatically
@@ -99,7 +101,7 @@ extends CanvasLayer
 @onready var reorder_items_button : InventoryOptionsButton  = %ReorderItemsButton
 ##Inventory screen: exits to the top menu
 @onready var exit_items_button : InventoryOptionsButton  = %ExitItemsButton
-#endregion
+#endregion inventory variables
 
 
 
@@ -147,32 +149,44 @@ extends CanvasLayer
 #SortMenu
 @onready var sort_order_v_box : VBoxContainer = %SortOrderVBox
 @onready var sort_order_positioner : Control = %SortOrderPositioner
+#endregion Options Menu
+
+#region General Onready Variables
+##Audio Stream Player for UI sounds
+@onready var audio_stream_player : AudioStreamPlayer = %AudioStreamPlayer
+##Animation Player for controlling what's on screen
+@onready var animation_player : AnimationPlayer = %AnimationPlayer
+#endregion general onready variables
 
 
-
-#endregion
-
-const TOP_LEVEL_STATS = preload("uid://bw1yk70p3346y")
-const SORT_ORDER_ENTRY = preload("uid://dwhea87oe4shd")
-const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki")
-const DISABLED_COLOR = Color(0.41, 0.41, 0.41, 1.0)
+#region Constants
+const TOP_LEVEL_STATS = preload("uid://bw1yk70p3346y") #top level stats with button for selection.Shows party member's stats. instantiated.
+const SORT_ORDER_ENTRY = preload("uid://dwhea87oe4shd") #scene with customizable name and button to be instantiated. used in options menu to determine Options.item_sort_order
+const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki") #scene with button. instantiated into inventory menu to allow items to be selected/used/reorderd/sorted etc
+const DISABLED_COLOR = Color("696969ff") 
 const ENABLED_COLOR = Color("f1b400ff")
-const TRANS_COLOR = Color(0.0, 0.0, 0.0, 0.0)
-const WHITE_COLOR = Color(1.0, 1.0, 1.0, 1.0)
+const TRANS_COLOR = Color("00000000")
+const WHITE_COLOR = Color("ffffffff")
+#endregion constants
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USING_ITEM", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
+#region Variables
+
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP", "MAGIC", "STATS", "QUEST", "OPTIONS_MENU", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
 ##Stores button that is curretly focused by the UI
-var current_button_focused : Button = null
-var current_selected_inventory_button : InventoryItemButton = null
-var current_focused_party_member : int = 0
+#var current_button_focused : Button = null #not used since more specific things are needed
+var last_selected_inventory_options_button : InventoryOptionsButton = null
+var last_selected_inventory_button : InventoryItemButton = null
+#var current_focused_party_member : int = 0 #not used since the party member is held within the top_level_stats scene
 
-var current_selected_slider : Control = null
-
+var current_selected_slider : Control = null ##holds reference to the slider scene so it can refocus the button later
 
 @export  var sort_selected_index : int = -1
+
+#endregion variables
+
 
 func _ready()->void:
 	last_top_button_focused = items_button
@@ -188,13 +202,21 @@ func _ready()->void:
 
 
 #region Top Menu
+##Open top menu
 func top_menu_open()->void:
+	clear_top_level_stats_containers()
+	setup_top_level_stats()
+	visible = true
 	animation_player.play("top_menu_show")
 	#play top menu animation open
 	menu_state = "TOP_MENU_OPEN"
+	GameState.gamestate = 3 #in gamemenu
 	pass
-	
+
+##Closes top menu
 func top_menu_close()->void:
+	GameState.gamestate = 1 #back to field state
+	visible = false
 	animation_player.play("top_menu_hide")
 	#play top menu animation closed
 	menu_state = "TOP_MENU_CLOSED"
@@ -210,6 +232,7 @@ func setup_top_menu_button_presses()->void:
 	options_button.button.pressed.connect(on_top_options_button_pressed)
 	pass
 
+##Sets up TopMenuButton neighbors (manual/static, for now)
 func setup_top_menu_button_neighbors() -> void:
 	var items_btn  : Button = items_button.button
 	var equip_btn  : Button = equip_button.button
@@ -266,6 +289,7 @@ func setup_top_menu_button_neighbors() -> void:
 	options_btn.focus_previous   = quests_btn.get_path()
 	options_btn.focus_next  = items_btn.get_path()	
 
+##Focuses the TopMenuButton set in last_top_menu_button (must be set manually in code)
 func focus_last_top_menu_button()->void:
 	last_top_button_focused.button.grab_focus()
 
@@ -277,24 +301,30 @@ func setup_selector()->void:
 	stats_button.change_text.connect(change_selector_text)
 	quests_button.change_text.connect(change_selector_text)
 	options_button.change_text.connect(change_selector_text)
-	
-	pass
 
+##changes the selector_label's text to match the TopMenuButton's exported text.[br]
+##Signal change_text emits the export variable and is used as an argument in this function[br]
+##Signal is emitted upon focus_entered
 func change_selector_text(_text : String) ->void:
 	selector_label.text = _text
 
+##Opens inventory and focuses first item in inventory
 func on_top_items_button_pressed()->void:
-
 	open_inventory()
 	pass
+##Allows user to select a party member (top_level_stats.button) and then opens an equip page based on that.
 func on_top_equip_button_pressed()->void:
 	pass
+##Allows user to select a party member (top_level_stats.button) and then opens a magic page based on that
 func on_top_magic_button_pressed()->void:
 	pass
+##Allows user to select party member (top_level_stats.button) and then opens a status page based on that
 func on_top_stats_button_pressed()->void:
 	pass
+##Opens up quests page
 func on_top_quests_button_pressed()->void:
 	pass
+##Opens the options page
 func on_top_options_button_pressed()->void:
 	open_options()
 	pass
@@ -305,50 +335,91 @@ func load_party()->void:
 
 ##clears the party's top level stat containers
 func clear_top_level_stats_containers()->void:
-	for child in party_h_box_container:
+	for child in party_h_box_container.get_children():
 		party_h_box_container.remove_child(child)
 		child.queue_free()
-
 
 ##Instantiates top level stats scenes
 func setup_top_level_stats()->void:
 	for member in CharDataKeeper.party_members:
 		var new_stats_container = TOP_LEVEL_STATS.instantiate() as TopLevelStats
-		party_h_box_container.call_deferred("add_child", new_stats_container)
 		new_stats_container.party_member = member
+		party_h_box_container.call_deferred("add_child", new_stats_container)
+		await get_tree().process_frame
 		update_top_level_stats_box(new_stats_container)
+		setup_top_level_stats_button_neighbors()
 
+func update_top_level_stats_box(stats_box) -> void:
+	if stats_box == null:
+		return
 
-##updates a single stats box
-func update_top_level_stats_box(stats_box : TopLevelStats)->void:
-	##needs to figure out what box is trying to be updated and update it
 	var pmember = stats_box.party_member
-	stats_box.set_class_color(return_class_color(pmember.char_resource.char_class))
-	stats_box.hp_progress_bar.max_hp = pmember.get_max_hp()
+	if pmember == null:
+		return
+
+	# name
+	stats_box.char_name_label.text = pmember.char_resource.char_name
+
+	# class color
+	var class_col = return_class_color(pmember.char_resource.char_class)
+	stats_box.set_class_color(class_col)
+
+	# border color should match HP state
+	if pmember.current_hp <= 0:
+		stats_box.set_border_color_when_dead()
+	else:
+		stats_box.set_border_color_to_class()
+
+	# HP and MP bars
+	stats_box.hp_progress_bar.max_value = pmember.get_max_hp()
 	stats_box.hp_progress_bar.value = pmember.current_hp
-	stats_box.mp_progress_bar.max_mp = pmember.get_max_mp()
+	stats_box.mp_progress_bar.max_value = pmember.get_max_mp()
 	stats_box.mp_progress_bar.value = pmember.current_mp
-	stats_box.update_buffs() ##TODO This function needs to be filled out later when buffs are implemented
-	pass
 
+	stats_box.update_buffs()
 
-func setup_top_level_stats_focus_neighbors_for_item(_item:Item)->void:
-	#takes item for argument and if the item can be used, then it is a valid focus neighbor for left/right
-	#focus needs to wrap to allow user to rapidly press left/right for selection if they wish (in the same way the items menu wraps from last item to first item and first to last)
-	#up/down focus neighbors always need to be set to itself so selection doesn't go anywhere else in the UI
-	#if the item is not valid to be used by the party member (hp is full, mp is full, does not have status that the item affects, etc), then that particular top level stats box needs to call set_border_color_to_disable() and not be allowed to be focused for the duration of attempting to use the item
-	#if no party members can use the item, then do nothing and return focus to the item that was trying to be used (this can later be hooked up to an error sound)
-	pass
-	
-##TODO setup magic
-func setup_top_level_stats_focus_neighbors_for_magic(_spell)->void:
-	pass
+func setup_top_level_stats_button_neighbors() -> void:
+	var stats_boxes: Array[TopLevelStats] = []
 
-func setup_top_level_stats_focus_neighbors_for_equip(_item:Item)->void:
-	##TODO set this up later for the equip menu, should work similar to the item function above, but check Item.can_equip flags to enable and disable the boxes and setup which neighbors are skipped or not.
-	pass
+	# Collect only TopLevelStats children, in order
+	for child in party_h_box_container.get_children():
+		if child is TopLevelStats:
+			stats_boxes.append(child)
 
+	var count = stats_boxes.size()
+	if count == 0:
+		return
 
+	# Only one entry, everything points to itself
+	if count == 1:
+		var only_stats: TopLevelStats = stats_boxes[0]
+		var _button: Button = only_stats.button
+		var path = _button.get_path()
+
+		_button.focus_neighbor_top = path
+		_button.focus_neighbor_bottom = path
+		_button.focus_neighbor_left = path
+		_button.focus_neighbor_right = path
+		return
+
+	# Two or more entries, use wrap for left and right
+	for i in range(count):
+		var stats_box: TopLevelStats = stats_boxes[i]
+		var _button: Button = stats_box.button
+		if _button == null:
+			continue
+
+		var prev_index = (i - 1 + count) % count
+		var next_index = (i + 1) % count
+
+		var prev_button: Button = stats_boxes[prev_index].button
+		var next_button: Button = stats_boxes[next_index].button
+
+		var self_path = _button.get_path()
+		_button.focus_neighbor_top = self_path
+		_button.focus_neighbor_bottom = self_path
+		_button.focus_neighbor_left = prev_button.get_path()
+		_button.focus_neighbor_right = next_button.get_path()
 
 func return_class_color(classnum : int)->Color:
 	match classnum:
@@ -363,7 +434,7 @@ func return_class_color(classnum : int)->Color:
 		_:
 			return Color(1.0, 1.0, 1.0, 1.0)
 
-#endregion
+#endregion top menu
 
 
 #region Inventory
@@ -381,7 +452,9 @@ func open_inventory()->void:
 	call_deferred("focus_first_inventory_item")
 		#play inventory open animation
 	menu_state = "USE_ITEMS" #inventory open
-	last_top_button_focused = items_button
+	use_items_button.is_active = true
+	update_inventory_options_buttons_color()
+	last_selected_inventory_options_button = use_items_button
 	pass
 	
 ##Grabs focus of first inventory item in the list.
@@ -400,6 +473,30 @@ func focus_first_inventory_item() -> void:
 			child.item_button.grab_focus()
 			return
 
+func focus_inventory_item_index(index : int) -> void:
+	var ilist := items_list_v_box.get_children()
+	var count = ilist.size()
+
+	# No inventory entries, fall back to the exit button
+	if count == 0:
+		if exit_items_button and exit_items_button.button:
+			exit_items_button.button.grab_focus()
+		return
+
+	if index < 0:
+		index = 0
+	if index >= count:
+		index = count - 1
+
+	var child = ilist[index]
+	if child is InventoryItemButton:
+		(child as InventoryItemButton).grab_button_focus()
+	else:
+		# Fallback, just grab the first InventoryItemButton in the list
+		for node in ilist:
+			if node is InventoryItemButton:
+				(node as InventoryItemButton).grab_button_focus()
+				break
 
 ##Generates the inventory list
 func generate_items_list()->void:
@@ -407,12 +504,14 @@ func generate_items_list()->void:
 	for i in Inventory.current_inventory:
 		make_item_button(i)
 
+##Makes an item button from an InventorySlot in Inventory.current_inventory
 func make_item_button(invslot : InventorySlot) -> void:
 	var islot = invslot
 	var _item = islot.item
 	var new_inventory_item_button : InventoryItemButton = INVENTORY_ITEM_BUTTON.instantiate()
 	items_list_v_box.add_child(new_inventory_item_button)
 	new_inventory_item_button.item = _item
+	new_inventory_item_button.islot = islot
 	new_inventory_item_button.self_modulate = TRANS_COLOR
 	new_inventory_item_button.item_button.text = str(_item.name)
 	new_inventory_item_button.item_qty_label.text = str(islot.quantity)
@@ -421,22 +520,24 @@ func make_item_button(invslot : InventorySlot) -> void:
 		func()->void:
 		select_item(new_inventory_item_button)
 		new_inventory_item_button.self_modulate = ENABLED_COLOR)
+		
 	new_inventory_item_button.item_button.focus_entered.connect(func button_focused()->void:
 		update_item_description(islot)
 		if not new_inventory_item_button.is_selected:
 			new_inventory_item_button.self_modulate = WHITE_COLOR
 		)
+		
 	new_inventory_item_button.item_button.focus_exited.connect(func button_unfocused()->void:
 		if not new_inventory_item_button.is_selected:
 			new_inventory_item_button.self_modulate = TRANS_COLOR
 		)
 
-
+##does various things depending on what state the menu is in. used for InventoryItemButtons
 func select_item(item_button : InventoryItemButton)->void:
 	match menu_state:
 		"REORDER_ITEMS":
 			#stores first item selected
-			current_selected_inventory_button = item_button
+			last_selected_inventory_button = item_button
 			#marks the selection as selected
 			var ilist := items_list_v_box.get_children()
 			for child in ilist:
@@ -446,11 +547,11 @@ func select_item(item_button : InventoryItemButton)->void:
 			
 		"REORDER_ITEMS_REORDERING":
 			#picks second item and swaps or cancels out if the same item is selected
-			if item_button == current_selected_inventory_button:
+			if item_button == last_selected_inventory_button:
 				cancel_reorder_selection()
 				return
 			var ilist := items_list_v_box.get_children()
-			var from_index : int = ilist.find(current_selected_inventory_button)
+			var from_index : int = ilist.find(last_selected_inventory_button)
 			var to_index : int = ilist.find(item_button)
 			if from_index == -1 or to_index == -1:
 				cancel_reorder_selection()
@@ -464,12 +565,68 @@ func select_item(item_button : InventoryItemButton)->void:
 				var new_button = new_list[to_index]
 				if new_button is InventoryItemButton:
 					(new_button as InventoryItemButton).grab_button_focus()
-			
 		"USE_ITEMS":
+			# using an item from the inventory list
+			# make sure there is actually a party on screen
+			if party_h_box_container.get_children().is_empty():
+				play_error_sound() # no party present, testing edge case
+				return
 
-			#use the item, trigger effect in item_button.item.effects
-			#if can use item, use it
-			#if decrement_on_use, decrement count
+			# get the item from this button
+			var slot = item_button.islot
+			if slot == null or slot.item == null:
+				play_error_sound()
+				return
+			var item : Item = slot.item
+
+			# if the item has no effects, reject immediately
+			if item.effects.is_empty():
+				# TODO: play "cannot use this" sound
+				play_error_sound()
+				return
+
+			# find the first TopLevelStats whose member can be targeted
+			var first_valid_stats : TopLevelStats = null
+
+			for child in party_h_box_container.get_children():
+				if not (child is TopLevelStats):
+					continue
+				var stats_box : TopLevelStats = child
+				var member : PartyMemberData = stats_box.party_member
+				var can_use_on_this = false
+
+				for effect in item.effects:
+					if effect == null:
+						continue
+					# item effects expose can_use_on_member
+					if effect.can_use_on_member(member):
+						can_use_on_this = true
+						break
+
+				if can_use_on_this:
+					first_valid_stats = stats_box
+					break
+
+			# no valid targets
+			if first_valid_stats == null:
+				# the HP heal case will hit here if everyone is dead or full
+				play_error_sound()
+				return
+
+			# store selected item button globally so TopLevelStats can read it
+			last_selected_inventory_button = item_button
+
+			# mark selection on the inventory list, so focus exit does not clear the highlight
+			var ilist = items_list_v_box.get_children()
+			for child in ilist:
+				if child is InventoryItemButton:
+					(child as InventoryItemButton).set_selected(child == item_button)
+
+			# we are now in the "choose target" phase
+			menu_state = "USE_ITEMS_USING"
+
+			# focus the first valid party member's button
+			first_valid_stats.grab_button_focus()
 			pass
 	
 
@@ -541,6 +698,9 @@ func on_items_use_button_pressed()->void:
 		return
 	var first_child = ilist[0]
 	first_child.item_button.grab_focus()
+	use_items_button.is_active = true
+	update_inventory_options_buttons_color()
+	last_selected_inventory_options_button = use_items_button
 	menu_state = "USE_ITEMS"
 	
 func on_items_sort_button_pressed()->void:
@@ -550,6 +710,10 @@ func on_items_sort_button_pressed()->void:
 	Inventory.sort_inventory_by_current_options()
 	update_items_list()
 	focus_first_inventory_item()  # this will trigger update_item_description for that slot
+	last_selected_inventory_options_button = use_items_button
+	use_items_button.is_active = true
+	update_inventory_options_buttons_color()
+	menu_state = "USE_ITEMS"
 
 func on_items_reorder_button_pressed()->void:
 	#not enough items, don't do anything
@@ -558,20 +722,25 @@ func on_items_reorder_button_pressed()->void:
 	#Clears previous selection, enter reorder state
 	cancel_reorder_selection()
 	menu_state = "REORDER_ITEMS"
+	last_selected_inventory_options_button = reorder_items_button
+	reorder_items_button.is_active = true
+	update_inventory_options_buttons_color()
 	focus_first_inventory_item()
-	pass
+
+func update_inventory_options_buttons_color()->void:
+	for child in inventory_options_h_box.get_children():
+		child.set_color()
+	
 	
 func cancel_reorder_selection()->void:
-	if current_selected_inventory_button != null:
-		current_selected_inventory_button.self_modulate = WHITE_COLOR
-	current_selected_inventory_button = null
+	if last_selected_inventory_button != null:
+		last_selected_inventory_button.self_modulate = WHITE_COLOR
+	last_selected_inventory_button = null
 	var ilist := items_list_v_box.get_children()
 	for child in ilist:
 		if child is InventoryItemButton:
 			(child as InventoryItemButton).set_selected(false)
 	menu_state = "REORDER_ITEMS"
-	
-	
 	
 func on_items_exit_pressed()->void:
 	close_inventory()
@@ -584,6 +753,8 @@ func close_inventory()->void:
 	menu_state = "TOP_MENU_OPEN" #back to top level
 	#Clear items list
 	clear_items_list()
+	for child in inventory_options_h_box.get_children():
+		child.is_active = false
 
 func update_items_list()->void:
 	clear_items_list()
@@ -617,29 +788,95 @@ func update_item_description(islot:InventorySlot)->void:
 
 	desc_qty_text.text = str(islot.quantity)
 	desc_text_label.text = _item.description
-
-
-	pass
 	
-func sort_pressed()->void:
-	
-	pass
+	if _item.sort_id <= 5000:
+		desc_equip_container.visible = false
+	else:
+		desc_equip_container.visible = true
 
+		##checks bit value of can_equip and then sets the modulate of the label to ENABLED_COLOR or DISABLED_COLOR depending on if it can be equipped by that class
+		var equip_flags = _item.can_equip
+		if (equip_flags & _item.EquipClass.WARRIOR) != 0:
+			slot_00_can_use_label.modulate = ENABLED_COLOR
+		else:
+			slot_00_can_use_label.modulate = DISABLED_COLOR
+		
+		if (equip_flags & Item.EquipClass.THIEF) != 0:
+			slot_01_can_use_label.modulate = ENABLED_COLOR
+		else:
+			slot_01_can_use_label.modulate = DISABLED_COLOR
+			
+		if (equip_flags & Item.EquipClass.MAGE) != 0:
+			slot_02_can_use_label.modulate = ENABLED_COLOR
+		else:
+			slot_02_can_use_label.modulate = DISABLED_COLOR
+		
+		if (equip_flags & Item.EquipClass.HEALER) != 0:
+			slot_03_can_use_label.modulate = ENABLED_COLOR
+		else:
+			slot_03_can_use_label.modulate = DISABLED_COLOR
+		
+		if _item.hp_bonus != 0:
+			hp_bonus_h_box.modulate = ENABLED_COLOR
+			hp_bonus_value.text = str(_item.hp_bonus)
+		else:
+			hp_bonus_h_box.modulate = DISABLED_COLOR
+			hp_bonus_value.text = "0"
+		
+		if _item.mp_bonus != 0:
+			mp_bonus_h_box.modulate = ENABLED_COLOR
+			mp_bonus_value.text = str(_item.mp_bonus)
+		else:
+			mp_bonus_h_box.modulate = DISABLED_COLOR
+			mp_bonus_value.text = "0"
+		
+		if _item.atk_bonus != 0:
+			atk_bonus_h_box.modulate = ENABLED_COLOR
+			atk_bonus_value.text = str(_item.atk_bonus)
+		else:
+			atk_bonus_h_box.modulate = DISABLED_COLOR
+			atk_bonus_value.text = "0"
+		
+		if _item.def_bonus != 0:
+			def_bonus_h_box.modulate = ENABLED_COLOR
+			def_bonus_value.text = str(_item.def_bonus)
+		else:
+			def_bonus_h_box.modulate = DISABLED_COLOR
+			def_bonus_value.text = "0"
+			
+		if _item.strength_bonus != 0:
+			strength_bonus_h_box.modulate = ENABLED_COLOR
+			strength_bonus_value.text = str(_item.strength_bonus)
+		else:
+			strength_bonus_h_box.modulate = DISABLED_COLOR
+			strength_bonus_value.text = "0"
 
-func reorder_pressed()->void:
-	#Insert item above selected item (or below?)
-	pass
-	
-func use_button_pressed()->void:
-	#focus first item in item list
-	pass
-
-func use_item()->void:
-	#update items list
+		if _item.stamina_bonus != 0:
+			stamina_bonus_h_box.modulate = ENABLED_COLOR
+			stamina_bonus_value.text = str(_item.stamina_bonus)
+		else:
+			stamina_bonus_h_box.modulate = DISABLED_COLOR
+			stamina_bonus_value.text = "0"
+		if _item.speed_bonus != 0:
+			speed_bonus_h_box.modulate = ENABLED_COLOR
+			speed_bonus_value.text = str(_item.speed_bonus)
+		else:
+			speed_bonus_h_box.modulate = DISABLED_COLOR
+			speed_bonus_value.text = "0"
+		
+		if _item.magic_bonus != 0:
+			magic_bonus_h_box.modulate = ENABLED_COLOR
+			magic_bonus_value.text = str(_item.magic_bonus)
+		else:
+			magic_bonus_h_box.modulate = DISABLED_COLOR
+			magic_bonus_value.text = "0"
 	pass
 
 func focus_inventory_options()->void:
 	use_items_button.button.grab_focus()
+
+func focus_last_inventory_options_button()->void:
+	last_selected_inventory_options_button.grab_button_focus()
 
 func _swap_inventory_slots(a : int, b : int)->void:
 	var inv = Inventory.current_inventory
@@ -650,14 +887,8 @@ func _swap_inventory_slots(a : int, b : int)->void:
 	var tmp = inv[a]
 	inv[a] = inv[b]
 	inv[b] = tmp
-		
 
-			
-		
-		
-#endregion
-
-#@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "INVENTORY_LIST", "EQUIP", "MAGIC", "STATS", "QUEST", "SYSTEM") var menu_state : int = 0
+#endregion inventory
 
 
 #region Options Menu
@@ -684,8 +915,6 @@ func setup_options_menu()->void:
 	m_speed.set_speed_label()
 	bm_speed.set_speed_label()
 	
-
-
 func connect_options_buttons()->void:
 	v_type_button.toggled.connect(v_type_toggled)
 	p_type_button.toggled.connect(p_type_toggled)
@@ -697,8 +926,6 @@ func connect_options_buttons()->void:
 	opt_in_game_stats_button.pressed.connect(opt_in_game_stats_button_pressed)
 	load_game_button.pressed.connect(load_game_button_pressed)
 	exit_game_button.pressed.connect(exit_game_button_pressed)
-
-	pass
 
 func setup_options_focus()->void:
 	opt_music_slider.button.focus_neighbor_top = opt_music_slider.button.get_path()
@@ -756,7 +983,6 @@ func setup_options_focus()->void:
 	batt_mem_button.focus_neighbor_right = batt_mem_button.get_path()
 	batt_mem_button.focus_previous = menu_mem_button.get_path()
 	batt_mem_button.focus_next = opt_sort_order_button.get_path()
-
 
 func ui_set_volume()->void:
 	opt_music_slider.h_slider.value = Options.music_volume
@@ -866,9 +1092,6 @@ func slider_active(_slider)->void:
 func slider_inactive()->void:
 	current_selected_slider = null
 	menu_state = "OPTIONS_MENU"
-
-
-
 
 #region SortOrderMenu
 
@@ -1014,23 +1237,34 @@ func cancel_sort_selection()->void:
 
 
 
+#endregion sort order menu
+
+
+#endregion Options menu
+
+#region Audio
+
+##Plays error sound through GameMenu's AudioStreamPlayer[br]
+##TODO Need to source a sound
+func play_error_sound()->void:
+	#audio_stream_player.play(ERROR_SFX)
+	pass
+
 #endregion
-
-
-#endregion
-
-
 
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
 		top_menu_open()
 		focus_last_top_menu_button()
+	#if GameMenu.current_selected_slider != null:
+			#return
 	if Input.is_action_just_pressed("cancel_input"):
 		match menu_state:
 			"TOP_MENU_CLOSED": #TOP_MENU_CLOSED
 				return
 			"TOP_MENU_OPEN":
 				top_menu_close()
+
 				menu_state = "TOP_MENU_CLOSED"
 			"INVENTORY_OPTIONS":
 				#close the inventory completely, open top menu
@@ -1038,15 +1272,23 @@ func _unhandled_input(_event):
 				menu_state = "TOP_MENU_OPEN"
 				focus_last_top_menu_button()
 			"USE_ITEMS":
-				focus_inventory_options()
+				use_items_button.is_active = false
+				update_inventory_options_buttons_color()
+				focus_last_inventory_options_button()
 				menu_state = "INVENTORY_OPTIONS"
-			"USING_ITEM":
+			"USE_ITEMS_USING":
+				last_selected_inventory_button.set_selected(false)
+				await get_tree().process_frame
+				last_selected_inventory_button.grab_button_focus()
+				menu_state = "USE_ITEMS"
 				pass
 			"REORDER_ITEMS":
-				focus_inventory_options()
+				reorder_items_button.is_active = false
+				update_inventory_options_buttons_color()
+				focus_last_inventory_options_button()
 				menu_state = "INVENTORY_OPTIONS"
 			"REORDER_ITEMS_REORDERING":
-				var first_button := current_selected_inventory_button
+				var first_button := last_selected_inventory_button
 				cancel_reorder_selection()
 				if first_button != null and is_instance_valid(first_button):
 					first_button.grab_button_focus()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=45 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://behka6od7l4m3" path="res://_assets/ui/icons_24/top_level/system_24_gray.png" id="13_so8r6"]
 [ext_resource type="PackedScene" uid="uid://bhfhqwlqdj6ki" path="res://_globals/gui/game_menu/inventory_item_button.tscn" id="14_003g3"]
 [ext_resource type="Texture2D" uid="uid://c8cyj8nn5drx2" path="res://_assets/ui/icons_24/top_level/system_24_color.png" id="14_8gqqd"]
-[ext_resource type="PackedScene" uid="uid://bw1yk70p3346y" path="res://_globals/gui/game_menu/TopLevelStats.tscn" id="14_rmrhr"]
+[ext_resource type="PackedScene" uid="uid://bw1yk70p3346y" path="res://_globals/gui/game_menu/top_level_stats.tscn" id="14_rmrhr"]
 [ext_resource type="Texture2D" uid="uid://b7du4w5bfx6hm" path="res://_assets/ui/ui_elements/black_ninepatch.png" id="15_3l8ib"]
 [ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="17_qx86f"]
 [ext_resource type="PackedScene" uid="uid://dxex6icbm6dkj" path="res://_globals/gui/game_menu/opt_volume_slider.tscn" id="22_so8r6"]
@@ -53,6 +53,10 @@ border_width_bottom = 2
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_e31sb"]
 color = Color(1, 1, 1, 0)
 vertical = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_26r4l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_012yt"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_rmrhr"]
 color = Color(1, 1, 1, 1)
@@ -321,6 +325,7 @@ offset_right = 200.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
+mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
@@ -359,7 +364,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.73800004
 offset_right = 0.00018310547
-offset_bottom = 15.949997
+offset_bottom = 8.949997
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -379,26 +384,27 @@ theme_override_constants/margin_bottom = 2
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer"]
+[node name="InventoryOptionsHBox" type="HBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="UseItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("17_qx86f")]
+[node name="UseItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "USE"
 
-[node name="SortItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("17_qx86f")]
+[node name="SortItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "SORT"
 
-[node name="ReorderItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("17_qx86f")]
+[node name="ReorderItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "REORDER"
 
-[node name="ExitItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("17_qx86f")]
+[node name="ExitItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 layout_mode = 2
 text = "EXIT"
@@ -447,9 +453,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -0.0004119873
-offset_right = -0.0005645752
-offset_bottom = -43.0
+offset_left = -0.0004272461
+offset_right = -0.0005493164
+offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
@@ -467,34 +473,55 @@ theme_override_constants/margin_bottom = 2
 
 [node name="DescNameIconHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="VSeparator" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
 
-[node name="DescItemTexture" type="TextureRect" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_26r4l")
+
+[node name="DescItemTexture" type="TextureRect" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("2_ww2n6")
 stretch_mode = 3
 
 [node name="VSeparator2" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
 
-[node name="DescItemName" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
-unique_name_in_owner = true
+[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_012yt")
+
+[node name="DescItemName" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
-theme_override_font_sizes/font_size = 12
-text = "Item Name"
+theme_override_font_sizes/font_size = 10
+text = "SORT OF GOOD ITEM
+WITH A LONG NAME"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="VSeparator3" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
@@ -544,10 +571,11 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
 [node name="DescItemContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 4
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 2
+theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
@@ -813,7 +841,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 225.0
-offset_bottom = 225.00073
+offset_bottom = 225.00076
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -1253,3 +1281,7 @@ layout_mode = 2
 [node name="SortOrderEntry" parent="SortOrderPositioner/PanelContainer/MarginContainer/SortOrderVBox" instance=ExtResource("23_so8r6")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+bus = &"SFX"

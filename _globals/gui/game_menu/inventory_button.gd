@@ -4,7 +4,7 @@ extends PanelContainer
 
 @onready var button : Button = %Button
 @export var text : String = ""
-
+var is_active = false
 
 func _process(_delta)->void:
 	if Engine.is_editor_hint():
@@ -22,4 +22,14 @@ func button_focused()->void:
 	pass
 
 func button_unfocused()->void:
-	self_modulate = GameMenu.WHITE_COLOR
+	if !is_active:
+		self_modulate = GameMenu.WHITE_COLOR
+		
+func set_color()->void:
+	if is_active == true:
+		self_modulate = GameMenu.ENABLED_COLOR
+	else:
+		self_modulate = GameMenu.WHITE_COLOR
+
+func grab_button_focus()->void:
+	button.grab_focus()
