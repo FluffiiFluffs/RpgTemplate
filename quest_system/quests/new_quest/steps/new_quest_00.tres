@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dywu7aeq0a26d" path="res://quest_system/base/quest_step_resource.gd" id="1_6v7qv"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_6v7qv")
 step_name = "Start Quest"
 step_type = 3

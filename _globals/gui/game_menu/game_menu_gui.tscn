@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=58 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -24,6 +24,8 @@
 [ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="17_qx86f"]
 [ext_resource type="PackedScene" uid="uid://dxex6icbm6dkj" path="res://_globals/gui/game_menu/opt_volume_slider.tscn" id="22_so8r6"]
 [ext_resource type="PackedScene" uid="uid://cimj2et0tktwp" path="res://_globals/gui/game_menu/opt_m_speed.tscn" id="23_8gqqd"]
+[ext_resource type="PackedScene" uid="uid://rh6ff4x1jimv" path="res://_globals/gui/game_menu/quest_type_button.tscn" id="23_c6y0t"]
+[ext_resource type="PackedScene" uid="uid://ddiywckqcwvou" path="res://_globals/gui/game_menu/quest_button.tscn" id="23_seyew"]
 [ext_resource type="PackedScene" uid="uid://dwhea87oe4shd" path="res://_globals/gui/game_menu/sort_order_entry.tscn" id="23_so8r6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_003g3"]
@@ -72,14 +74,14 @@ border_width_bottom = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnvkg"]
 draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke5u3"]
+content_margin_top = 4.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0rp3"]
+content_margin_top = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l35h"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_26r4l"]
 color = Color(1, 1, 1, 1)
@@ -89,6 +91,16 @@ grow_end = -8.0
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldqiu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uyx8q"]
+content_margin_top = 8.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_c6y0t"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y334l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so8r6"]
 bg_color = Color(0, 0, 0, 1)
@@ -875,23 +887,25 @@ layout_mode = 2
 
 [node name="StatsPortraitContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(52, 52)
+custom_minimum_size = Vector2(92, 136)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mnvkg")
 
 [node name="StatsPortrait" type="TextureRect" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/StatsPortraitContainer"]
-custom_minimum_size = Vector2(92, 163)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 136)
 layout_mode = 2
 stretch_mode = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 16
 
 [node name="NameContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
@@ -900,6 +914,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
 
 [node name="StatsNameLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/NameContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("1_xubta")
@@ -927,6 +942,7 @@ text = "CLASS"
 [node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4l35h")
 
 [node name="StatsClassLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer2"]
 unique_name_in_owner = true
@@ -953,62 +969,62 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="StatsCurrLevelHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox"]
+[node name="StatsCurrLevelHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsLevelTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox/PanelContainer"]
+[node name="StatsLevelTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 7
 text = "Level"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsLevelValueLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsCurrLevelHBox/PanelContainer2"]
+[node name="StatsLevelValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 7
 text = "99"
 
-[node name="StatsNextLvLVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="StatsNextLvLVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 6
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsNextLvLTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox/PanelContainer"]
+[node name="StatsNextLvLTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "EXP to Next LvL"
 vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsNextLvLValueLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsNextLvLVBox/PanelContainer2"]
+[node name="StatsNextLvLValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10000000"
 horizontal_alignment = 1
-
-[node name="HSeparator2" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
 
 [node name="StatsEquipVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -1035,6 +1051,7 @@ size_flags_horizontal = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsMainHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("3_003g3")
@@ -1062,6 +1079,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsOffHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
@@ -1088,6 +1106,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsHeadText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
@@ -1114,10 +1133,38 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsChestText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER STURDY ARMOR "
+
+[node name="StatsArmsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsArmsTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "ARMS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsArmsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER BIG SLEEVES"
 
 [node name="StastsLegsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
 layout_mode = 2
@@ -1140,6 +1187,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsLegsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
@@ -1165,7 +1213,8 @@ text = "ACCY1"
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsAcc1Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer2"]
+[node name="StatsAccy1Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
@@ -1192,6 +1241,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsAccy2Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
@@ -1200,6 +1250,7 @@ text = "SUPER RARE ACCESSORy"
 [node name="VBoxContainer2" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="StatsHPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
@@ -1223,7 +1274,9 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsCurrHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
@@ -1245,226 +1298,403 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
 [node name="StatsMaxHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer4"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsHPHBox2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsMPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsHPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer"]
+[node name="StatsMPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MP"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsCurrHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer2"]
+[node name="StatsCurrMPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer3"]
+[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer3"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 8
 text = "/"
 
-[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2"]
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMaxHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox2/PanelContainer4"]
+[node name="StatsMaxMPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer4"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="HSeparator" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
-theme_override_constants/separation = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uyx8q")
 
-[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsATKHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox/PanelContainer"]
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsATKHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsATKHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsATKHBox/PanelContainer2"]
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsATKHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsDEFHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsDEFHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsDEFHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsDEFTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox/PanelContainer"]
+[node name="StatsDEFTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsDEFHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "DEF"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsDEFHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsDEFValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsDEFHBox/PanelContainer2"]
+[node name="StatsDEFValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsDEFHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSTRHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsSTRHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTRHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTRTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox/PanelContainer"]
+[node name="StatsSTRTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTRHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STR"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTRHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTRValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTRHBox/PanelContainer2"]
+[node name="StatsSTRValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTRHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSTMHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsSTMHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTMHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTMTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox/PanelContainer"]
+[node name="StatsSTMTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTMHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STM"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTMHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTMValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSTMHBox/PanelContainer2"]
+[node name="StatsSTMValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSTMHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSPDHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSPDTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox/PanelContainer"]
+[node name="StatsSPDTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSPDHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SPD"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSPDHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSPDValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPDHBox/PanelContainer2"]
+[node name="StatsSPDValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsSPDHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsMAGHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsMAGHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsMAGHBox"]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMagTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox/PanelContainer"]
+[node name="StatsMagTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsMAGHBox/PanelContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MAG"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsMAGHBox"]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMAGValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMAGHBox/PanelContainer2"]
+[node name="StatsMAGValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/VBoxContainer/StatsMAGHBox/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
+
+[node name="QuestsPositionerLeft" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_right = -400.00082
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_xubta")
+
+[node name="QuestsLeftPanel" type="PanelContainer" parent="QuestsPositionerLeft"]
+custom_minimum_size = Vector2(192, 166)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.73800004
+offset_right = 0.00018310547
+offset_bottom = 58.949997
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3l8ib")
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerLeft/QuestsLeftPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="QuestsTypeHBox" type="HBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="QuestsCurrentButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" instance=ExtResource("23_c6y0t")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+type = "CURRENT"
+
+[node name="QuestsCompletedButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" instance=ExtResource("23_c6y0t")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="QuestsListVBox" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="QuestButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" instance=ExtResource("23_seyew")]
+layout_mode = 2
+
+[node name="QuestButton2" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" instance=ExtResource("23_seyew")]
+layout_mode = 2
+
+[node name="QuestsPositionerRight" type="Control" parent="."]
+custom_minimum_size = Vector2(200, 225)
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_right = 200.00012
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="DescriptionPanel" type="PanelContainer" parent="QuestsPositionerRight"]
+custom_minimum_size = Vector2(200, 166)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.0004272461
+offset_right = -0.0005493164
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(58.000427, 79)
+theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerRight/DescriptionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
+
+[node name="QuestTitle" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER DEDUPER HARD LONG QUEST NAME"
+horizontal_alignment = 1
+
+[node name="QuestDescHSep1" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
+
+[node name="PanelContainer2" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
+
+[node name="QuestDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "SUPER DUPER LONG QUEST DESCRIPTION TO DESCRIBE AN EXTREMELY DUPER HARD QUEST OF SOME SORT BECAUSE IT WOULD MAYBE NEED TO TELL THE PLAYER A LOT OF STUFF. BUT THIS SHOULD BE A GENERAL DESCRIPTION"
+autowrap_mode = 3
+
+[node name="QuestDescHSep2" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
+
+[node name="PanelContainer3" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
+
+[node name="QuestStepDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 7
+text = "THIS IS A SUPER DUPER LONG QUEST STEP DESCRIPTION THAT SHOULD PROBABLY TELL THE PLAYER A LOT ABOUT WHERE THEY WOULD NEED TO GO TO COMPLETE THE STEP OTHERWISE THEY WILL MOST LIKELY GET LOST"
+autowrap_mode = 3
 
 [node name="OptionsPositioner" type="Control" parent="."]
 layout_mode = 3

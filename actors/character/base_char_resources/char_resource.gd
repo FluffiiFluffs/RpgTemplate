@@ -13,6 +13,8 @@ extends Resource
 @export var char_sprite_sheet:Texture
 ##Sprite sheet used for battle
 @export var battle_sprite_sheet:Texture
+##Sprite Used for stats page portrait
+@export var stats_sprite : Texture
 ##Default level of the actor
 @export var char_level:int=1
 ##Default max_hp of the Actor. Modified by Stamina.
@@ -44,3 +46,17 @@ extends Resource
 @export var alert_range : float = 100.0
 ##How fast the enemy will move in alert mode
 @export var alert_move_speed : float = 125.0
+
+
+func _class_name()->String:
+	match char_class:
+		0:
+			return "WARRIOR"
+		1:
+			return "THIEF"
+		2:
+			return "MAGE"
+		3:
+			return "HEALER"
+		_:
+			return ""

@@ -65,6 +65,8 @@ var type: int = ItemType.TOOL
 @export_category("Equip")
 ##Who can equip the item
 @export_flags( "Warrior", "Thief" ,"Mage", "Healer", "Enemy", "Boss" ) var can_equip: int = EquipClass.NONE
+##If the weapon type is a 2 handed weapon.
+@export var two_hand : bool = false
 ##Effects that activate when equipped
 @export var equip_effect : Array[EquipEffect] = []
 ##Adds to character's max_hp when equipped

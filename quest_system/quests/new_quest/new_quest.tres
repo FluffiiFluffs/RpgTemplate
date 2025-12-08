@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://b2nou5f3kjxyc" path="res://quest_system/quests/new_quest/steps/new_quest_02.tres" id="5_oei3j"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_llbcy")
 quest_id = &"0001"
 quest_name = "First Quest"

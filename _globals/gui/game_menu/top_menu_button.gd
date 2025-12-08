@@ -13,6 +13,7 @@ extends PanelContainer
 ##Should be colored
 @export var selected : Texture2D = null
 @export var ui_name : String = ""
+var is_active : bool = false
 
 signal change_text(ui_name)
 
@@ -36,7 +37,11 @@ func button_focused()->void:
 	pass
 
 func button_unfocused()->void:
-	self_modulate = GameMenu.DISABLED_COLOR
-	button.icon = unselected
+	if is_active == false:
+		self_modulate = GameMenu.DISABLED_COLOR
+		button.icon = unselected
+	else:
+		self_modulate = GameMenu.ENABLED_COLOR
+		button.icon = selected
 	
 	pass

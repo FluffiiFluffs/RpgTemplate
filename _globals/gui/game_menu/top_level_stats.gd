@@ -41,68 +41,76 @@ func on_button_pressed()->void:
 	if Engine.is_editor_hint():
 		return
 
-	if GameMenu.menu_state != "USE_ITEMS_USING":
-		return
+	match GameMenu.menu_state:
+		"USE_ITEMS_USING":
+			var inv_button = GameMenu.last_selected_inventory_button
+			if inv_button == null:
+				GameMenu.play_error_sound()
+				return
 
-	var inv_button = GameMenu.last_selected_inventory_button
-	if inv_button == null:
-		GameMenu.play_error_sound()
-		return
+			var slot = inv_button.islot
+			if slot == null or slot.item == null:
+				GameMenu.play_error_sound()
+				return
 
-	var slot = inv_button.islot
-	if slot == null or slot.item == null:
-		GameMenu.play_error_sound()
-		return
+			var item : Item = slot.item
 
-	var item : Item = slot.item
+			var any_effect_applied = false
+			for effect in item.effects:
+				if effect == null:
+					continue
+				if effect.apply_to_member(party_member):
+					any_effect_applied = true
 
-	var any_effect_applied = false
-	for effect in item.effects:
-		if effect == null:
-			continue
-		if effect.apply_to_member(party_member):
-			any_effect_applied = true
+			if not any_effect_applied:
+				return
 
-	if not any_effect_applied:
-		return
+			# Where was this slot in the inventory list before we change it
+			var original_index = Inventory.current_inventory.find(slot)
 
-	# Where was this slot in the inventory list before we change it
-	var original_index = Inventory.current_inventory.find(slot)
+			if item.one_less_on_use:
+				slot.quantity -= 1
 
-	if item.one_less_on_use:
-		slot.quantity -= 1
+				if slot.quantity <= 0:
+					# Remove the slot from the data
+					Inventory.current_inventory.erase(slot)
+					GameMenu.last_selected_inventory_button = null
 
-		if slot.quantity <= 0:
-			# Remove the slot from the data
-			Inventory.current_inventory.erase(slot)
-			GameMenu.last_selected_inventory_button = null
+					# Rebuild UI and stats
+					GameMenu.update_items_list()
+					GameMenu.update_top_level_stats_box(self)
 
-			# Rebuild UI and stats
-			GameMenu.update_items_list()
+					var new_count = Inventory.current_inventory.size()
+					GameMenu.menu_state = "USE_ITEMS"
+
+					if new_count > 0:
+						if original_index < 0:
+							original_index = 0
+						if original_index >= new_count:
+							original_index = new_count - 1
+
+						# Focus neighbor item according to the original position
+						GameMenu.focus_inventory_item_index(original_index)
+					else:
+						# No items left, fall back to the inventory options row
+						GameMenu.focus_inventory_options()
+
+					return
+				else:
+					if GameMenu.last_selected_inventory_button != null:
+						GameMenu.last_selected_inventory_button.item_qty_label.text = str(slot.quantity)
+
 			GameMenu.update_top_level_stats_box(self)
-
-			var new_count = Inventory.current_inventory.size()
-			GameMenu.menu_state = "USE_ITEMS"
-
-			if new_count > 0:
-				if original_index < 0:
-					original_index = 0
-				if original_index >= new_count:
-					original_index = new_count - 1
-
-				# Focus neighbor item according to the original position
-				GameMenu.focus_inventory_item_index(original_index)
-			else:
-				# No items left, fall back to the inventory options row
-				GameMenu.focus_inventory_options()
-
-			return
-		else:
-			if GameMenu.last_selected_inventory_button != null:
-				GameMenu.last_selected_inventory_button.item_qty_label.text = str(slot.quantity)
-
-	GameMenu.update_top_level_stats_box(self)
-
+		"STATS_SELECTION":
+			GameMenu.setup_stats_menu(self)
+			GameMenu.open_stats_menu()
+			GameMenu.menu_state = "STATS_OPEN"
+		"STATS_OPEN":
+			GameMenu.setup_stats_menu(self)
+			
+			pass
+	#Selecting top level stats button opens stats page, passes self as argument to setup the stats menu
+	#opens stats menu
 
 
 func on_button_focus_entered()->void:

@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://rh6ff4x1jimv"]
+
+[ext_resource type="Script" uid="uid://cmydaboiwvfb6" path="res://_globals/gui/game_menu/quest_type_button.gd" id="1_puprd"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_ybaqa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5t42"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 0.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_puprd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ybaqa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5s4ki"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lthud"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ayo1d"]
+
+[node name="QuestTypeButton" type="PanelContainer"]
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
+script = ExtResource("1_puprd")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ybaqa")
+theme_override_font_sizes/font_size = 7
+text = "COMPLETED"
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_puprd")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ybaqa")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5s4ki")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_lthud")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ayo1d")
