@@ -102,12 +102,20 @@ func on_button_pressed()->void:
 
 			GameMenu.update_top_level_stats_box(self)
 		"STATS_SELECTION":
+			GameMenu.last_top_level_stats_focused = self
 			GameMenu.setup_stats_menu(self)
 			GameMenu.open_stats_menu()
 			GameMenu.menu_state = "STATS_OPEN"
 		"STATS_OPEN":
+			GameMenu.last_top_level_stats_focused = self
 			GameMenu.setup_stats_menu(self)
-			
+		"EQUIP_PARTY_SELECT":
+			GameMenu.last_top_level_stats_focused = self
+			GameMenu.current_selected_party_member = party_member
+			GameMenu.curr_main_hand.grab_button_focus()
+			GameMenu.equip_panel_container.self_modulate = class_color
+			GameMenu.menu_state = "EQUIP_EQUIP_SELECT"
+			GameMenu.animation_player.play("equip_menu_show")
 			pass
 	#Selecting top level stats button opens stats page, passes self as argument to setup the stats menu
 	#opens stats menu

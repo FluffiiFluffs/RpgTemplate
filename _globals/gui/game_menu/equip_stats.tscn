@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://yms2njo83j7u"]
+
+[ext_resource type="Script" uid="uid://ce8ejeokicv3u" path="res://_globals/gui/game_menu/equip_stats.gd" id="1_i57s2"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_nq37o"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
+
+[node name="EquipStats" type="HBoxContainer"]
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+script = ExtResource("1_i57s2")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="EquipStatsTitle" type="Label" parent="PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_nq37o")
+theme_override_font_sizes/font_size = 7
+text = "HP"
+
+[node name="PanelContainer4" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="EquipStatsBase" type="Label" parent="PanelContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_nq37o")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="PanelContainer5" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="EquipPlusMinus" type="Label" parent="PanelContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_nq37o")
+theme_override_font_sizes/font_size = 7
+text = "+"
+horizontal_alignment = 2
+
+[node name="PanelContainer6" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="EquipStatsModValue" type="Label" parent="PanelContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_nq37o")
+theme_override_font_sizes/font_size = 7
+text = "99999"

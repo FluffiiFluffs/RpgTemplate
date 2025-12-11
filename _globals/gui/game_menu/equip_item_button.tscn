@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0guj5cenunp"]
+
+[ext_resource type="Script" uid="uid://bqb0hvopylut4" path="res://_globals/gui/game_menu/equip_item_button.gd" id="1_iuyh6"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_kdjrl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5t42"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 0.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cbxp7"]
+
+[node name="EquipItemButton" type="PanelContainer"]
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
+script = ExtResource("1_iuyh6")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kdjrl")
+theme_override_font_sizes/font_size = 7
+text = "super duper long item name"
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_cbxp7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_cbxp7")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cbxp7")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_cbxp7")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cbxp7")

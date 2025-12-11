@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=60 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -24,7 +24,9 @@
 [ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="17_qx86f"]
 [ext_resource type="PackedScene" uid="uid://dxex6icbm6dkj" path="res://_globals/gui/game_menu/opt_volume_slider.tscn" id="22_so8r6"]
 [ext_resource type="PackedScene" uid="uid://cimj2et0tktwp" path="res://_globals/gui/game_menu/opt_m_speed.tscn" id="23_8gqqd"]
+[ext_resource type="PackedScene" uid="uid://bju67ey0myd2f" path="res://_globals/gui/game_menu/current_equip_button.tscn" id="23_012yt"]
 [ext_resource type="PackedScene" uid="uid://rh6ff4x1jimv" path="res://_globals/gui/game_menu/quest_type_button.tscn" id="23_c6y0t"]
+[ext_resource type="PackedScene" uid="uid://yms2njo83j7u" path="res://_globals/gui/game_menu/equip_stats.tscn" id="23_ke5u3"]
 [ext_resource type="PackedScene" uid="uid://ddiywckqcwvou" path="res://_globals/gui/game_menu/quest_button.tscn" id="23_seyew"]
 [ext_resource type="PackedScene" uid="uid://dwhea87oe4shd" path="res://_globals/gui/game_menu/sort_order_entry.tscn" id="23_so8r6"]
 
@@ -72,16 +74,8 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnvkg"]
-draw_center = false
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke5u3"]
 content_margin_top = 4.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0rp3"]
-content_margin_top = 4.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l35h"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_26r4l"]
 color = Color(1, 1, 1, 1)
@@ -89,6 +83,14 @@ grow_begin = -8.0
 grow_end = -8.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldqiu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnvkg"]
+draw_center = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0rp3"]
+content_margin_top = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l35h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
 
@@ -247,48 +249,49 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="ButtonHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+[node name="TopMenuButtonHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="ItemsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="ItemsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("5_es6ld")
 selected = ExtResource("6_mngg1")
 ui_name = "Inventory"
 
-[node name="EquipButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="EquipButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("7_e31sb")
 selected = ExtResource("8_40ivv")
 ui_name = "Equip"
 
-[node name="MagicButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="MagicButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("9_qx86f")
 selected = ExtResource("10_es6ld")
 ui_name = "Magic"
 
-[node name="StatsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="StatsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("11_es6ld")
 selected = ExtResource("12_mngg1")
 ui_name = "Stats"
 
-[node name="QuestsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="QuestsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("11_40ivv")
 selected = ExtResource("12_qx86f")
 ui_name = "Quests"
 
-[node name="OptionsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/ButtonHBox" instance=ExtResource("3_xubta")]
+[node name="OptionsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("13_so8r6")
@@ -430,21 +433,25 @@ size_flags_horizontal = 4
 
 [node name="UseItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "USE"
 
 [node name="SortItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "SORT"
 
 [node name="ReorderItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "REORDER"
 
 [node name="ExitItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "EXIT"
 
@@ -843,10 +850,209 @@ text = "10"
 
 [node name="EquipPositioner" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 10
 anchor_right = 1.0
+anchor_bottom = 0.77800006
+offset_top = -225.0
+offset_bottom = -175.05002
 grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
+
+[node name="EquipPanelContainer" type="PanelContainer" parent="EquipPositioner"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q0rp3")
+
+[node name="MarginContainer" type="MarginContainer" parent="EquipPositioner/EquipPanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameContainer" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(145, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
+
+[node name="EquipNameLabel" type="Label" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/NameContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_xubta")
+theme_override_fonts/font = ExtResource("3_003g3")
+theme_override_font_sizes/font_size = 17
+text = "WARRIOR"
+horizontal_alignment = 1
+
+[node name="EquipOptionsHBox" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EquipEquipButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" instance=ExtResource("17_qx86f")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+text = "EQUIP"
+
+[node name="EquipRemoveButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" instance=ExtResource("17_qx86f")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+text = "REMOVE"
+
+[node name="EquipRemAllButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" instance=ExtResource("17_qx86f")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+text = "REM ALL"
+
+[node name="HSeparator2" type="HSeparator" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+
+[node name="MarginContainer" type="MarginContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+
+[node name="EquipStatGridContainer" type="GridContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 4
+
+[node name="EquipStatsHP" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "HP"
+
+[node name="EquipStatsMP" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "MP"
+
+[node name="EquipStatsATK" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "ATK"
+
+[node name="EquipStatsDEF" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "DEF"
+
+[node name="EquipStatsSTR" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "STR"
+
+[node name="EquipStatsSTM" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "STM"
+
+[node name="EquipStatsSPD" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "SPD"
+
+[node name="EquipStatsMAG" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "MAG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="CurrentEquipContainer" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
+
+[node name="CurrEquipVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CurrMainHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "MAIN HAND"
+
+[node name="CurrOffHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "OFF-HAND"
+
+[node name="CurrHead" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "HEAD"
+
+[node name="CurrChest" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "OFF-HAND"
+
+[node name="CurrArms" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "ARMS"
+
+[node name="CurrLegs" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "LEGS"
+
+[node name="CurrAccy1" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "ACCY1"
+
+[node name="CurrAccy2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+equip_title = "ACCY2"
+
+[node name="CurrentEquipContainer2" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2"]
+layout_mode = 2
+
+[node name="EquipEquippingVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="MagicPositioner" type="Control" parent="."]
 layout_mode = 3
@@ -856,6 +1062,7 @@ grow_horizontal = 2
 mouse_filter = 2
 
 [node name="StatsPositioner" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchor_right = 1.0
 anchor_bottom = 0.77800006
@@ -1533,6 +1740,7 @@ theme_override_font_sizes/font_size = 7
 text = "99999"
 
 [node name="QuestsPositionerLeft" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -1572,6 +1780,7 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="QuestsTypeHBox" type="HBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 

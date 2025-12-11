@@ -1,9 +1,13 @@
 ##game_menu_gui.gd
 ##global GameMenu
 extends CanvasLayer
+##Runs the game menu
 
 
-#region Top Level variables
+
+#region Top Menu variables
+##Holds top menu buttons
+@onready var top_menu_button_h_box : HBoxContainer= %TopMenuButtonHBox
 ##Text property accessed to show the name of the UI element selected (on focus)
 @onready var selector_label : Label = %SelectorLabel
 ##Button takes player to the inventory screen
@@ -31,6 +35,7 @@ extends CanvasLayer
 @onready var toplevel_stats_3 : TopLevelStats = %ToplevelStats3
 ##Slot03 Name, Level, HP, MP, Buffs
 @onready var toplevel_stats_4 : TopLevelStats = %ToplevelStats4
+
 #endregion top level variables
 
 #region Inventory Variables
@@ -104,6 +109,34 @@ extends CanvasLayer
 #endregion inventory variables
 
 #region equip menu variables
+@onready var curr_main_hand : CurrentEquipButton = %CurrMainHand
+@onready var curr_off_hand : CurrentEquipButton = %CurrOffHand
+@onready var curr_head : CurrentEquipButton = %CurrHead
+@onready var curr_chest : CurrentEquipButton = %CurrChest
+@onready var curr_arms : CurrentEquipButton = %CurrArms
+@onready var curr_legs : CurrentEquipButton = %CurrLegs
+@onready var curr_accy_1 : CurrentEquipButton = %CurrAccy1
+@onready var curr_accy_2 : CurrentEquipButton = %CurrAccy2
+@onready var equip_panel_container : PanelContainer = %EquipPanelContainer
+@onready var equip_equip_button : InventoryOptionsButton = %EquipEquipButton
+@onready var equip_remove_button : InventoryOptionsButton = %EquipRemoveButton
+@onready var equip_rem_all_button : InventoryOptionsButton = %EquipRemAllButton
+@onready var equip_options_h_box : HBoxContainer = %EquipOptionsHBox
+@onready var curr_equip_v_box : VBoxContainer = %CurrEquipVBox
+@onready var equip_stats_hp : EquipStats = %EquipStatsHP
+@onready var equip_stats_mp : EquipStats = %EquipStatsMP
+@onready var equip_stats_atk : EquipStats = %EquipStatsATK
+@onready var equip_stats_def : EquipStats = %EquipStatsDEF
+@onready var equip_stats_str : EquipStats = %EquipStatsSTR
+@onready var equip_stats_stm : EquipStats = %EquipStatsSTM
+@onready var equip_stats_spd : EquipStats = %EquipStatsSPD
+@onready var equip_stats_mag : EquipStats = %EquipStatsMAG
+@onready var equip_name_label : Label = %EquipNameLabel
+@onready var equip_stat_grid_container : GridContainer = %EquipStatGridContainer
+@onready var equip_equipping_v_box : VBoxContainer = %EquipEquippingVBox
+
+
+
 #endregion
 
 #region magic menu variables
@@ -171,6 +204,8 @@ extends CanvasLayer
 @onready var quests_completed_button : QuestTypeButton = %QuestsCompletedButton
 @onready var quest_desc_h_sep_1 : HSeparator = %QuestDescHSep1
 @onready var quest_desc_h_sep_2 : HSeparator = %QuestDescHSep2
+@onready var quests_type_h_box : HBoxContainer = %QuestsTypeHBox
+
 #endregion quest menu variables
 
 
@@ -234,15 +269,18 @@ const TOP_LEVEL_STATS = preload("uid://bw1yk70p3346y") #top level stats with but
 const SORT_ORDER_ENTRY = preload("uid://dwhea87oe4shd") #scene with customizable name and button to be instantiated. used in options menu to determine Options.item_sort_order
 const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki") #scene with button. instantiated into inventory menu to allow items to be selected/used/reorderd/sorted etc
 const QUEST_BUTTON = preload("uid://ddiywckqcwvou") #quest button scene for instantiation to show title of quest
+const EQUIP_ITEM_BUTTON = preload("uid://d0guj5cenunp") #Instantiated for equipping items
 const DISABLED_COLOR = Color("696969ff") 
 const ENABLED_COLOR = Color("f1b400ff")
 const TRANS_COLOR = Color("00000000")
 const WHITE_COLOR = Color("ffffffff")
+const MINUS_COLOR = Color("9b3800ff")
+
 #endregion constants
 
 #region General Variables
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP_PARTY_SELECT", "EQUIP_MENU_OPEN", "EQUIP_MENU_EQUIPPING", "EQUIP_MENU_REMOVE", "MAGIC_PARTY_SELECT", "MAGIC_SELECT_SPELL", "MAGIC_SPELL_USE_PARTY_SELECTION", "STATS_SELECTION", "STATS_OPEN", "QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", "OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP_PARTY_SELECT","EQUIP_OPTIONS", "EQUIP_EQUIP_SELECT", "EQUIP_MENU_EQUIPPING", "EQUIP_MENU_REMOVE", "MAGIC_PARTY_SELECT", "MAGIC_SELECT_SPELL", "MAGIC_SPELL_USE_PARTY_SELECTION", "STATS_SELECTION", "STATS_OPEN", "QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", "OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
@@ -262,21 +300,28 @@ var current_selected_slider : Control = null ##holds reference to the slider sce
 
 var sort_selected_index : int = -1
 
+var current_selected_party_member : PartyMemberData = null
+
+var current_selected_party_member_equip_slot = null
+
 #endregion general variables
 
-
+#region ready function
 func _ready()->void:
 	last_top_button_focused = items_button
 	setup_top_menu_button_presses()
-	setup_top_menu_button_neighbors()
+	setup_horizontal_focus_neighbors(top_menu_button_h_box)
 	setup_inventory_options_buttons()
-	setup_quests_type_button_neighbors()
+	setup_horizontal_focus_neighbors(quests_type_h_box)
+	setup_horizontal_focus_neighbors(equip_options_h_box)
+	setup_vertical_focus_neighbors(curr_equip_v_box)
+	setup_equip_options_button_presses()
 	setup_selector()
 	setup_options_menu()
 	setup_options_focus()
-	connect_options_buttons()
+	setup_options_buttons_presses()
 	sort_order_positioner.visible = true
-	
+#endregion ready function
 
 
 #region Top Menu
@@ -310,63 +355,6 @@ func setup_top_menu_button_presses()->void:
 	options_button.button.pressed.connect(on_top_options_button_pressed)
 	pass
 
-##Sets up TopMenuButton neighbors (manual/static, for now)
-func setup_top_menu_button_neighbors() -> void:
-	var items_btn  : Button = items_button.button
-	var equip_btn  : Button = equip_button.button
-	var magic_btn  : Button = magic_button.button
-	var stats_btn  : Button = stats_button.button
-	var quests_btn : Button = quests_button.button
-	var options_btn : Button = options_button.button
-
-	# Items
-	items_btn.focus_neighbor_top    = items_btn.get_path()
-	items_btn.focus_neighbor_bottom = items_btn.get_path()
-	items_btn.focus_neighbor_left   = options_btn.get_path()
-	items_btn.focus_neighbor_right  = equip_btn.get_path()
-	items_btn.focus_previous   = options_btn.get_path()
-	items_btn.focus_next  = equip_btn.get_path()
-	
-	# Equip
-	equip_btn.focus_neighbor_top    = equip_btn.get_path()
-	equip_btn.focus_neighbor_bottom = equip_btn.get_path()
-	equip_btn.focus_neighbor_left   = items_btn.get_path()
-	equip_btn.focus_neighbor_right  = magic_btn.get_path()
-	equip_btn.focus_previous   = items_btn.get_path()
-	equip_btn.focus_next  = magic_btn.get_path()
-
-	# Magic
-	magic_btn.focus_neighbor_top    = magic_btn.get_path()
-	magic_btn.focus_neighbor_bottom = magic_btn.get_path()
-	magic_btn.focus_neighbor_left   = equip_btn.get_path()
-	magic_btn.focus_neighbor_right  = stats_btn.get_path()
-	magic_btn.focus_previous   = equip_btn.get_path()
-	magic_btn.focus_next  = stats_btn.get_path()
-
-	# Stats
-	stats_btn.focus_neighbor_top    = stats_btn.get_path()
-	stats_btn.focus_neighbor_bottom = stats_btn.get_path()
-	stats_btn.focus_neighbor_left   = magic_btn.get_path()
-	stats_btn.focus_neighbor_right  = quests_btn.get_path()
-	stats_btn.focus_previous   = magic_btn.get_path()
-	stats_btn.focus_next  = quests_btn.get_path()
-
-	# Quests
-	quests_btn.focus_neighbor_top    = quests_btn.get_path()
-	quests_btn.focus_neighbor_bottom = quests_btn.get_path()
-	quests_btn.focus_neighbor_left   = stats_btn.get_path()
-	quests_btn.focus_neighbor_right  = options_btn.get_path()
-	quests_btn.focus_previous   = stats_btn.get_path()
-	quests_btn.focus_next  = options_btn.get_path()
-
-	# System
-	options_btn.focus_neighbor_top    = options_btn.get_path()
-	options_btn.focus_neighbor_bottom = options_btn.get_path()
-	options_btn.focus_neighbor_left   = quests_btn.get_path()
-	options_btn.focus_neighbor_right  = items_btn.get_path()
-	options_btn.focus_previous   = quests_btn.get_path()
-	options_btn.focus_next  = items_btn.get_path()	
-
 ##Focuses the TopMenuButton set in last_top_menu_button (must be set manually in code)
 func focus_last_top_menu_button()->void:
 	last_top_button_focused.button.grab_focus()
@@ -392,6 +380,7 @@ func on_top_items_button_pressed()->void:
 	pass
 ##Allows user to select a party member (top_level_stats.button) and then opens an equip page based on that.
 func on_top_equip_button_pressed()->void:
+	enter_equip_selection()
 	pass
 ##Allows user to select a party member (top_level_stats.button) and then opens a magic page based on that
 func on_top_magic_button_pressed()->void:
@@ -441,8 +430,8 @@ func update_top_level_stats_box(stats_box) -> void:
 	stats_box.char_name_label.text = pmember.char_resource.char_name
 
 	# class color
-	var class_col = return_class_color(pmember.char_resource.char_class)
-	stats_box.set_class_color(class_col)
+	stats_box.class_color = return_class_color(pmember.char_resource.char_class)
+	stats_box.set_class_color(stats_box.class_color)
 
 	# border color should match HP state
 	if pmember.current_hp <= 0:
@@ -524,6 +513,58 @@ func focus_last_top_level_stats()->void:
 		else:
 			last_top_level_stats_focused.grab_button_focus()
 			
+func setup_horizontal_focus_neighbors(_hbox : HBoxContainer) -> void:
+	var ilist := _hbox.get_children()
+	var count := ilist.size()
+
+		# Two or more entries, use wraparound for top and bottom
+	for i in range(count):
+		
+		var child = ilist[i]
+		var btn = child.button
+
+		var left_index := (i - 1 + count) % count
+		var right_index := (i + 1) % count
+		var left_btn = ilist[left_index].button
+		var right_btn = ilist[right_index].button
+
+		var self_path = btn.get_path()
+		btn.focus_neighbor_top = self_path
+		btn.focus_neighbor_bottom = self_path
+		btn.focus_neighbor_left = left_btn.get_path()
+		btn.focus_neighbor_right = right_btn.get_path()
+		btn.focus_previous = left_btn.get_path()
+		btn.focus_next = right_btn.get_path()
+		
+		
+func setup_vertical_focus_neighbors(_vbox : VBoxContainer)->void:
+	var ilist := _vbox.get_children()
+	var count := ilist.size()
+
+		# Two or more entries, use wraparound for top and bottom
+	for i in range(count):
+		
+		var child = ilist[i]
+		var btn = child.button
+
+		var top_index := (i - 1 + count) % count
+		var bottom_index := (i + 1) % count
+		var top_btn = ilist[top_index].button
+		var bottom_btn = ilist[bottom_index].button
+
+		var self_path = btn.get_path()
+		btn.focus_neighbor_top = top_btn.get_path()
+		btn.focus_neighbor_bottom = bottom_btn.get_path()
+		btn.focus_neighbor_left = self_path
+		btn.focus_neighbor_right = self_path
+		btn.focus_previous = top_btn.get_path()
+		btn.focus_next = bottom_btn.get_path()
+
+##menu_state = "TOP_MENU_OPEN", last_top_button_focused = false, focus_last_top_menu_button()
+func close_to_top_menu()->void:
+	menu_state = "TOP_MENU_OPEN"
+	last_top_button_focused.is_active = false
+	focus_last_top_menu_button()
 #endregion top menu
 
 
@@ -847,7 +888,7 @@ func close_inventory()->void:
 	clear_items_list()
 	for child in inventory_options_h_box.get_children():
 		child.is_active = false
-	items_button.is_active = false
+
 	
 func update_items_list()->void:
 	clear_items_list()
@@ -983,7 +1024,189 @@ func _swap_inventory_slots(a : int, b : int)->void:
 
 #endregion inventory
 
-#region equip menu
+#region Equip Menu
+func enter_equip_selection()->void:
+	if !party_h_box_container.get_children().is_empty():
+		equip_button.is_active = true
+		equip_equip_button.is_active = true
+		equip_equip_button.self_modulate = ENABLED_COLOR
+		last_top_button_focused = equip_button
+		focus_last_top_level_stats()
+		menu_state = "EQUIP_PARTY_SELECT"
+
+func update_equip_menu_stats_labels(member : PartyMemberData)->void:
+	equip_name_label.text = str(member.char_resource.char_name)
+	equip_stats_hp.equip_stats_base.text = str(member.get_max_hp())
+	equip_stats_mp.equip_stats_base.text = str(member.get_max_mp())
+	equip_stats_atk.equip_stats_base.text = str(member.get_atk_value())
+	equip_stats_def.equip_stats_base.text = str(member.get_def_value())
+	equip_stats_str.equip_stats_base.text = str(member.get_strength())
+	equip_stats_stm.equip_stats_base.text = str(member.get_stamina())
+	equip_stats_spd.equip_stats_base.text = str(member.get_speed())
+	equip_stats_mag.equip_stats_base.text = str(member.get_magic())
+
+func update_equip_menu_equipment_labels(member : PartyMemberData)->void:
+	if member.mainhand != null:
+		curr_main_hand.label.text = member.mainhand.name
+	else:
+		curr_main_hand.label.text = "EMPTY"
+	if member.two_handing == true:
+		curr_off_hand.label.text = member.mainhand.name
+	else:
+		if member.offhand != null:
+			curr_off_hand.label.text = member.offhand.name
+		else:
+			curr_off_hand.label.text = "EMPTY"
+	if member.headslot != null:
+		curr_head.label.text = member.headslot.name
+	else:
+		curr_head.label.text = "EMPTY"
+	if member.chestslot != null:
+		curr_chest.label.text = member.chestslot.name
+	else:
+		curr_chest.label.text = "EMPTY"
+	if member.armslot != null:
+		curr_arms.label.text = member.armslot.name
+	else:
+		curr_arms.label.text = "EMPTY"
+	if member.legslot != null:
+		curr_legs.label.text = member.legslot.name
+	else:
+		curr_legs.label.text = "EMPTY"
+	if member.accy01 != null:
+		curr_accy_1.label.text = member.accy01.name
+	else:
+		curr_accy_1.label.text = "EMTPY"
+	if member.accy02 != null:
+		curr_accy_2.label.text = member.accy01.name
+	else:
+		curr_accy_2.label.text = "EMTPY"
+	
+	pass
+
+func show_all_equip_difference()->void:
+	for child in equip_stat_grid_container.get_children():
+		if child is EquipStats:
+			child.show_difference()
+	pass
+
+func hide_all_equip_differences()->void:
+	for child in equip_stat_grid_container.get_children():
+		if child is EquipStats:
+			child.hide_difference()
+	pass
+
+
+func close_equip_menu()->void:
+	menu_state = "TOP_MENU_OPEN"
+	animation_player.play("equip_menu_hide")
+	pass
+
+func cancel_equip_selection()->void:
+	equip_equip_button.grab_button_focus()
+	equip_equip_button.is_active = false
+	pass
+
+func cancel_remove_selection()->void:
+	equip_equip_button.grab_button_focus()
+	equip_remove_button.is_active = false
+
+func cancel_equip_equipping()->void:
+	curr_main_hand.grab_button_focus()
+	menu_state = "EQUIP_EQUIP_SELECT"
+	pass
+	
+func open_equip_menu(stats_box: TopLevelStats)->void:
+	current_selected_party_member = stats_box.party_member
+	curr_main_hand.grab_button_focus()
+	equip_panel_container.self_modulate = stats_box.class_color
+	menu_state = "EQUIP_EQUIP_SELECT"
+	animation_player.play("equip_menu_open")
+	pass
+
+func setup_equip_options_button_presses()->void:
+	equip_equip_button.button.pressed.connect(equip_equip_button_pressed)
+	equip_remove_button.button.pressed.connect(equip_remove_button_pressed)
+	equip_rem_all_button.button.pressed.connect(equip_rem_all_button_pressed)
+	
+	
+func equip_equip_button_pressed()->void:
+	curr_main_hand.grab_button_focus()
+	menu_state = "EQUIP_EQUIP_SELECT"
+	pass
+	
+func equip_remove_button_pressed()->void:
+	curr_main_hand.grab_button_focus()
+	menu_state = "EQUIP_MENU_REMOVE"
+	pass
+	
+func equip_rem_all_button_pressed()->void:
+	pass
+
+func setup_curr_equip_button_presses()->void:
+	curr_main_hand.button.pressed.connect(on_curr_main_hand_button_pressed)
+	curr_off_hand.button.pressed.connect(on_curr_off_hand_button_pressed)
+	curr_head.button.pressed.connect(on_curr_head_button_pressed)
+	curr_chest.button.pressed.connect(on_curr_chest_button_pressed)
+	curr_arms.button.pressed.connect(on_curr_arms_button_pressed)
+	curr_legs.button.pressed.connect(on_curr_legs_button_pressed)
+	curr_accy_1.button.pressed.connect(on_curr_accy1_button_pressed)
+	curr_accy_2.button.pressed.connect(on_curr_accy2_button_pressed)
+	pass
+
+func on_curr_main_hand_button_pressed()->void:
+	for islot in Inventory.current_inventory:
+		var _item = islot.item
+		if _item.type == Item.ItemType.WEAPON:
+			if _item.can_equip == current_selected_party_member.char_resource.char_class:
+				
+				pass
+	pass
+	
+func on_curr_off_hand_button_pressed()->void:
+	pass
+	
+func on_curr_head_button_pressed()->void:
+	pass
+	
+func on_curr_chest_button_pressed()->void:
+	pass
+
+func on_curr_arms_button_pressed()->void:
+	pass
+	
+func on_curr_legs_button_pressed()->void:
+	pass
+	
+func on_curr_accy1_button_pressed()->void:
+	pass
+	
+func on_curr_accy2_button_pressed()->void:
+	pass
+
+func make_equip_equipping_button(_item : Item, _slot)->void:
+	var new_equip_button = EQUIP_ITEM_BUTTON.instantiate()
+	equip_equipping_v_box.add_child(new_equip_button)
+	new_equip_button.label.text = _item.name
+	new_equip_button.item = _item
+	new_equip_button.slot = _slot	
+	pass
+
+func show_equip_equipping_list()->void:
+	equip_equipping_v_box.set_deferred("visible", true)
+
+func hide_equip_equipping_list()->void:
+	equip_equipping_v_box.set_deferred("visible", false)
+	
+func clear_equip_equipping_list()->void:
+	for child in equip_equipping_v_box.get_children():
+		equip_equipping_v_box.remove_child(child)
+		child.queue_free()
+
+func equip_item(_item1 : Item, _item2 : Item)->void:
+	pass
+
+
 #endregion equip menu
 
 #region magic menu
@@ -1076,7 +1299,7 @@ func open_stats_menu()->void:
 func close_stats_menu()->void:
 	animation_player.play("stats_menu_hide")
 	menu_state = "STATS_SELECTION"
-	stats_button.is_active = false
+	focus_last_top_level_stats()
 	pass
 
 #endregion stats menu
@@ -1104,12 +1327,10 @@ func close_quests_menu()->void:
 	#plays menu close animation
 	animation_player.play("quests_menu_hide")
 	clear_quests_list()
-	focus_last_top_menu_button()
 	quests_completed_button.is_active = false
 	quests_current_button.is_active = false
 	quests_current_button.self_modulate = TRANS_COLOR
 	quests_completed_button.self_modulate = TRANS_COLOR
-	menu_state = "TOP_MENU_OPEN"
 	pass
 
 func open_current_quests()->void:
@@ -1209,7 +1430,6 @@ func update_quest_description(quest : Quest)->void:
 		else:
 			quest_step_desc.text = step.description
 			break
-	pass
 
 
 func setup_quests_focus_neighbors() -> void:
@@ -1249,28 +1469,6 @@ func setup_quests_focus_neighbors() -> void:
 			btn.focus_neighbor_right = self_path
 
 
-func setup_quests_type_button_neighbors()->void:
-	var curb = quests_current_button.button
-	var comb = quests_completed_button.button
-	
-	curb.focus_neighbor_top = curb.get_path()
-	curb.focus_neighbor_bottom = curb.get_path()
-	curb.focus_neighbor_left = comb.get_path()
-	curb.focus_neighbor_right = comb.get_path()
-	curb.focus_next = comb.get_path()
-	curb.focus_previous = comb.get_path()
-	
-	comb.focus_neighbor_top = comb.get_path()
-	comb.focus_neighbor_bottom = comb.get_path()
-	comb.focus_neighbor_left = curb.get_path()
-	comb.focus_neighbor_right = curb.get_path()
-	comb.focus_next = curb.get_path()
-	comb.focus_previous = curb.get_path()
-	
-	
-	pass
-
-
 #endregion quest menu
 
 #region Options Menu
@@ -1285,8 +1483,7 @@ func open_options()->void:
 	
 func close_options()->void:
 	animation_player.play("options_hide")
-	menu_state = "TOP_MENU_OPEN"
-	options_button.is_active = false
+
 
 func setup_options_menu()->void:
 	ui_set_v_type()
@@ -1299,7 +1496,7 @@ func setup_options_menu()->void:
 	m_speed.set_speed_label()
 	bm_speed.set_speed_label()
 	
-func connect_options_buttons()->void:
+func setup_options_buttons_presses()->void:
 	v_type_button.toggled.connect(v_type_toggled)
 	p_type_button.toggled.connect(p_type_toggled)
 	menu_mem_button.toggled.connect(menu_mem_toggled)
@@ -1311,6 +1508,7 @@ func connect_options_buttons()->void:
 	load_game_button.pressed.connect(load_game_button_pressed)
 	exit_game_button.pressed.connect(exit_game_button_pressed)
 
+##Custom setup due to menu being non-linear
 func setup_options_focus()->void:
 	opt_music_slider.button.focus_neighbor_top = opt_music_slider.button.get_path()
 	opt_music_slider.button.focus_neighbor_bottom = v_type_button.get_path()
@@ -1638,6 +1836,8 @@ func play_error_sound()->void:
 
 #endregion
 
+
+#region Input
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
 		top_menu_open()
@@ -1655,8 +1855,7 @@ func _unhandled_input(_event):
 			"INVENTORY_OPTIONS":
 				#close the inventory completely, open top menu
 				close_inventory()
-				menu_state = "TOP_MENU_OPEN"
-				focus_last_top_menu_button()
+				close_to_top_menu()
 			"USE_ITEMS":
 				use_items_button.is_active = false
 				update_inventory_options_buttons_color()
@@ -1679,6 +1878,34 @@ func _unhandled_input(_event):
 				if first_button != null and is_instance_valid(first_button):
 					first_button.grab_button_focus()
 				pass
+				
+			"EQUIP_PARTY_SELECT":
+				close_to_top_menu()
+				pass
+			"EQUIP_OPTIONS":
+				animation_player.play("equip_menu_hide")
+				menu_state = "EQUIP_PARTY_SELECT"
+				focus_last_top_level_stats()
+				pass
+				
+			"EQUIP_EQUIP_SELECT":
+				menu_state = "EQUIP_OPTIONS"
+				for child in equip_options_h_box.get_children():
+					child.is_active = false
+				equip_equip_button.grab_button_focus()
+				pass
+			"EQUIP_MENU_REMOVE":
+				##return to "EQUIP_OPTIONS"
+				menu_state = "EQUIP_OPTIONS"
+				for child in equip_options_h_box.get_children():
+					child.is_active = false
+				equip_equip_button.grab_button_focus()
+				pass
+			"EQUIP_MENU_EQUIPPING":
+				menu_state = "EQUIP_EQUIP_SELECT"
+				##return to last selected curre
+				pass
+				
 			"STATS_SELECTION":
 				menu_state = "TOP_MENU_OPEN"
 				stats_button.is_active = false
@@ -1688,6 +1915,7 @@ func _unhandled_input(_event):
 				#menu_state = "STATS_SELECTION"
 			"QUESTS_SELECT_TYPE":
 				close_quests_menu()
+				close_to_top_menu()
 				pass
 			"QUESTS_CURRENT_QUESTS":
 				cancel_to_quest_type_selection()
@@ -1698,7 +1926,7 @@ func _unhandled_input(_event):
 			"OPTIONS_OPEN":
 				##close the options menu, open the top menu
 				close_options()
-				focus_last_top_menu_button()
+				close_to_top_menu()
 			"OPTIONS_SLIDER":
 				#refocuses the button attached to the slider
 				#handled by the button itself
@@ -1714,3 +1942,4 @@ func _unhandled_input(_event):
 						var entry := slist[idx]
 						if entry is SortOrderButton:
 							(entry as SortOrderButton).grab_button_focus()
+#endregion input
