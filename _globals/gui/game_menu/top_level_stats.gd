@@ -118,6 +118,7 @@ func on_button_pressed()->void:
 			GameMenu.update_equip_menu_stats_labels(party_member)
 			GameMenu.clear_equip_equipping_list()
 			GameMenu.hide_equip_equipping_list()
+			GameMenu.equip_equip_button.self_modulate = GameMenu.ENABLED_COLOR
 			GameMenu.menu_state = "EQUIP_EQUIP_SELECT"
 			GameMenu.animation_player.play("equip_menu_show")
 			pass

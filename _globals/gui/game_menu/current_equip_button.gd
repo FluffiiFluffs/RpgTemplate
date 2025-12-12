@@ -70,10 +70,37 @@ func _get_eqtype_id() -> int:
 			return -1
 
 
-
-func on_button_focus_entered()->void:
+func on_button_focus_entered() -> void:
 	self_modulate = GameMenu.ENABLED_COLOR
-	pass
+
+	if Engine.is_editor_hint():
+		return
+	if GameMenu == null:
+		return
+
+	# Allow preview refresh in both equip select and remove modes
+	if GameMenu.menu_state != "EQUIP_EQUIP_SELECT" and GameMenu.menu_state != "EQUIP_MENU_REMOVE":
+		return
+
+	var eqtype = _get_eqtype_id()
+	if eqtype == -1:
+		return
+
+	# In remove mode, if OFFHAND is mirroring MAINHAND due to two handing,
+	# preview the weapon list instead of hiding the list.
+	if GameMenu.menu_state == "EQUIP_MENU_REMOVE":
+		var member: PartyMemberData = GameMenu.current_selected_party_member
+		if member != null and eqtype == Item.ItemType.OFFHAND:
+			if member.two_handing == true and member.mainhand != null:
+				eqtype = Item.ItemType.WEAPON
+
+		# Ensure no stale deltas remain visible while removing
+		GameMenu.hide_all_equip_differences()
+
+	GameMenu.equip_preview_owner = self
+	GameMenu.make_equipping_buttons_list(eqtype, false)
+
+
 	
 func on_button_focus_exited()->void:
 	if is_active:

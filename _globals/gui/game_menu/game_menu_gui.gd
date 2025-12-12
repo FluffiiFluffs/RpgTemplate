@@ -320,9 +320,11 @@ var current_selected_party_member : PartyMemberData = null
 
 var last_curr_equip_slot_button : CurrentEquipButton = null
 
-var equip_preview_owner = null
+var equip_preview_owner : CurrentEquipButton = null
 
 var last_selected_equip_option_button : InventoryOptionsButton = null
+
+
 
 #endregion general variables
 
@@ -351,6 +353,7 @@ func top_menu_open()->void:
 	clear_top_level_stats_containers()
 	setup_top_level_stats()
 	visible = true
+	animation_player.play("RESET")
 	animation_player.play("top_menu_show")
 	#play top menu animation open
 	menu_state = "TOP_MENU_OPEN"
@@ -1172,11 +1175,16 @@ func equip_equip_button_pressed()->void:
 	pass
 	
 func equip_remove_button_pressed()->void:
+	clear_equip_equipping_list()
+	hide_equip_equipping_list()
+	hide_all_equip_differences()
+
 	equip_remove_button.is_active = true
 	equip_equip_button.is_active = false
 	curr_main_hand.grab_button_focus()
 	menu_state = "EQUIP_MENU_REMOVE"
 	pass
+
 	#
 #func equip_rem_all_button_pressed()->void:
 	#if current_selected_party_member == null:
@@ -1294,32 +1302,33 @@ func equip_rem_all_button_pressed() -> void:
 	focus_last_equip_option_button()
 
 
-
-
-func make_equipping_buttons_list(eqtype : int)->void:
-	# we must have a selected member
+func make_equipping_buttons_list(eqtype : int, enter_list : bool = true)->void:
 	if current_selected_party_member == null:
 		return
 
 	var member = current_selected_party_member
-	
-	if eqtype == Item.ItemType.OFFHAND:
-		if current_selected_party_member != null:
-			if current_selected_party_member.mainhand != null:
-				if current_selected_party_member.mainhand.two_hand == true:
-					# play_error_sound()
-					return
-	# capture which current slot button triggered this list
+
 	var focused_slot = _get_focused_curr_equip_button()
 	if focused_slot != null:
-		last_curr_equip_slot_button = focused_slot
+		equip_preview_owner = focused_slot
 
-	# safety fallback
-	if last_curr_equip_slot_button == null:
-		last_curr_equip_slot_button = curr_main_hand
+	if equip_preview_owner == null:
+		equip_preview_owner = curr_main_hand
 
-	# start with a clean list
+	if eqtype == Item.ItemType.OFFHAND:
+		if member.mainhand != null and member.mainhand.two_hand == true:
+			clear_equip_equipping_list()
+			hide_equip_equipping_list()
+			hide_all_equip_differences()
+			if enter_list and last_curr_equip_slot_button != null:
+				last_curr_equip_slot_button.is_active = false
+			return
+
+	if enter_list:
+		last_curr_equip_slot_button = equip_preview_owner
+
 	clear_equip_equipping_list()
+
 	for islot in Inventory.current_inventory:
 		if islot == null:
 			continue
@@ -1329,28 +1338,28 @@ func make_equipping_buttons_list(eqtype : int)->void:
 		var _item = islot.item
 		if _item.type != eqtype:
 			continue
-		if not _item.can_be_used_by_member(current_selected_party_member):
+		if not _item.can_be_used_by_member(member):
 			continue
 
-		make_equip_equipping_button(_item, islot)
-	if equip_equipping_v_box.get_children().is_empty():
-		last_curr_equip_slot_button.is_active = false
-	else:
-		last_curr_equip_slot_button.is_active = true
-	
-	
-	# update visibility and state
-	if equip_equipping_v_box.get_child_count() > 0:
+		make_equip_equipping_button(_item, islot, enter_list)
+
+	var has_any = equip_equipping_v_box.get_child_count() > 0
+
+	if enter_list:
+		if last_curr_equip_slot_button != null:
+			last_curr_equip_slot_button.is_active = has_any
+
+	if has_any:
 		show_equip_equipping_list()
-		setup_equip_equipping_list_focus_neighbors()
-		focus_first_equip_equipping()
-		menu_state = "EQUIP_MENU_EQUIPPING"
+		if enter_list:
+			setup_equip_equipping_list_focus_neighbors()
+			focus_first_equip_equipping()
+			menu_state = "EQUIP_MENU_EQUIPPING"
 	else:
 		hide_equip_equipping_list()
-		# play_error_sound()
 
 
-func make_equip_equipping_button(_item : Item, _slot : InventorySlot)->void:
+func make_equip_equipping_button(_item : Item, _slot : InventorySlot, focusable : bool)->void:
 	if _item == null:
 		return
 	if _slot == null:
@@ -1362,7 +1371,13 @@ func make_equip_equipping_button(_item : Item, _slot : InventorySlot)->void:
 	new_equip_button.label.text = _item.name
 	new_equip_button.item = _item
 	new_equip_button.slot = _slot
-	new_equip_button.curr_slot_scene = last_curr_equip_slot_button
+	new_equip_button.curr_slot_scene = equip_preview_owner
+
+	if focusable:
+		new_equip_button.button.focus_mode = Control.FOCUS_ALL
+	else:
+		new_equip_button.button.focus_mode = Control.FOCUS_NONE
+
 
 
 func show_equip_equipping_list()->void:
@@ -1372,7 +1387,6 @@ func hide_equip_equipping_list()->void:
 	equip_equipping_v_box.set_deferred("visible", false)
 	
 func clear_equip_equipping_list() -> void:
-	equip_preview_owner = null
 	for child in equip_equipping_v_box.get_children():
 		equip_equipping_v_box.remove_child(child)
 		child.queue_free()
@@ -1508,12 +1522,20 @@ func equip_item(_item: Item, _slot: InventorySlot, curr_slot_scene: CurrentEquip
 	curr_slot_scene.grab_button_focus()
 
 
-	
 func remove_equipped_item(curr_slot_scene: CurrentEquipButton) -> void:
 	if current_selected_party_member == null:
 		return
 	if curr_slot_scene == null:
 		return
+
+	# Cache which list we should preview after the unequip.
+	# Edge case: if the offhand is mirroring the mainhand due to two-handing,
+	# the removed item is actually the weapon, so preview the WEAPON list.
+	var preview_eqtype = _eqtype_from_curr_button(curr_slot_scene)
+	var member = current_selected_party_member
+	if curr_slot_scene == curr_off_hand and member != null:
+		if member.two_handing == true and member.mainhand != null:
+			preview_eqtype = Item.ItemType.WEAPON
 
 	var slot_key = _slot_key_from_curr_button(curr_slot_scene)
 	if slot_key == -1:
@@ -1525,6 +1547,12 @@ func remove_equipped_item(curr_slot_scene: CurrentEquipButton) -> void:
 		return
 
 	update_current_equipment_buttons()
+
+	# Refresh the equipping list preview so the player can immediately see the item
+	# returned to inventory.
+	if preview_eqtype != -1:
+		make_equipping_buttons_list(preview_eqtype, false)
+
 	curr_slot_scene.grab_button_focus()
 
 
@@ -1656,6 +1684,25 @@ func update_current_equipment_buttons() -> void:
 	update_equip_menu_stats_labels(current_selected_party_member)
 	update_equip_menu_equipment_labels(current_selected_party_member)
 
+func _eqtype_from_curr_button(curr_slot_scene: CurrentEquipButton) -> int:
+	if curr_slot_scene == curr_main_hand:
+		return Item.ItemType.WEAPON
+	if curr_slot_scene == curr_off_hand:
+		return Item.ItemType.OFFHAND
+	if curr_slot_scene == curr_head:
+		return Item.ItemType.HEAD
+	if curr_slot_scene == curr_chest:
+		return Item.ItemType.CHEST
+	if curr_slot_scene == curr_arms:
+		return Item.ItemType.ARMS
+	if curr_slot_scene == curr_legs:
+		return Item.ItemType.LEGS
+	if curr_slot_scene == curr_accy_1:
+		return Item.ItemType.ACCESSORY
+	if curr_slot_scene == curr_accy_2:
+		return Item.ItemType.ACCESSORY
+
+	return -1
 
 
 #endregion equip menu
@@ -2348,7 +2395,11 @@ func _unhandled_input(_event):
 					if child is CurrentEquipButton:
 						child.is_active = false
 						child.self_modulate = TRANS_COLOR
+				clear_equip_equipping_list()
+				hide_equip_equipping_list()
+				hide_all_equip_differences()
 				equip_equip_button.grab_button_focus()
+				
 				pass
 			"EQUIP_MENU_REMOVE":
 				##return to "EQUIP_OPTIONS"

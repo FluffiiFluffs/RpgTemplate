@@ -43,7 +43,7 @@ func on_button_focus_entered() -> void:
 	if _ensure_curr_slot_scene() == false:
 		return
 
-	GameMenu.equip_preview_owner = self
+
 
 	var member : PartyMemberData = GameMenu.current_selected_party_member
 	var deltas = _get_stat_deltas_for_candidate(member, item, curr_slot_scene)
@@ -241,12 +241,17 @@ func _hide_all_equip_differences() -> void:
 		equip_stats.hide_difference()
 		equip_stats.reset_label_colors()
 
-
 func _ensure_curr_slot_scene() -> bool:
 	if curr_slot_scene != null:
 		return true
+	if GameMenu == null:
+		return false
 
-	if GameMenu != null and GameMenu.last_curr_equip_slot_button != null:
+	if GameMenu.equip_preview_owner != null:
+		curr_slot_scene = GameMenu.equip_preview_owner
+		return true
+
+	if GameMenu.last_curr_equip_slot_button != null:
 		curr_slot_scene = GameMenu.last_curr_equip_slot_button
 		return true
 

@@ -178,7 +178,6 @@ border_width_bottom = 1
 [node name="GameMenuUI" type="CanvasLayer"]
 layer = 10
 script = ExtResource("1_id8es")
-menu_state = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
