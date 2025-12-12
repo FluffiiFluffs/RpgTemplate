@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=61 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -29,6 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://yms2njo83j7u" path="res://_globals/gui/game_menu/equip_stats.tscn" id="23_ke5u3"]
 [ext_resource type="PackedScene" uid="uid://ddiywckqcwvou" path="res://_globals/gui/game_menu/quest_button.tscn" id="23_seyew"]
 [ext_resource type="PackedScene" uid="uid://dwhea87oe4shd" path="res://_globals/gui/game_menu/sort_order_entry.tscn" id="23_so8r6"]
+[ext_resource type="PackedScene" uid="uid://d0guj5cenunp" path="res://_globals/gui/game_menu/equip_item_button.tscn" id="25_q0rp3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_003g3"]
 bg_color = Color(0, 0, 0, 1)
@@ -177,6 +178,7 @@ border_width_bottom = 1
 [node name="GameMenuUI" type="CanvasLayer"]
 layer = 10
 script = ExtResource("1_id8es")
+menu_state = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -192,6 +194,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopPositioner" type="Control" parent="TopLevel"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -340,6 +343,7 @@ text = "0"
 vertical_alignment = 1
 
 [node name="BottomPositioner" type="Control" parent="TopLevel"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -388,6 +392,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="InventoryPositionerLeft" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -480,6 +485,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="InventoryPositionerRight" type="Control" parent="."]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 225)
 layout_mode = 3
 anchor_left = 0.5
@@ -849,6 +855,7 @@ theme_override_font_sizes/font_size = 7
 text = "10"
 
 [node name="EquipPositioner" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchor_right = 1.0
 anchor_bottom = 0.77800006
@@ -997,64 +1004,103 @@ unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "MAIN HAND"
+eq_item_type = "WEAPON"
 
 [node name="CurrOffHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "OFF-HAND"
+eq_item_type = "OFFHAND"
 
 [node name="CurrHead" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "HEAD"
+eq_item_type = "HEAD"
 
 [node name="CurrChest" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
-equip_title = "OFF-HAND"
+equip_title = "CHEST"
+eq_item_type = "CHEST"
 
 [node name="CurrArms" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "ARMS"
+eq_item_type = "ARMS"
 
 [node name="CurrLegs" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "LEGS"
+eq_item_type = "LEGS"
 
 [node name="CurrAccy1" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "ACCY1"
+eq_item_type = "ACCESSORY"
 
 [node name="CurrAccy2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "ACCY2"
+eq_item_type = "ACCESSORY"
 
 [node name="CurrentEquipContainer2" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_horizontal = 6
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2"]
 layout_mode = 2
+size_flags_horizontal = 4
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
 
 [node name="EquipEquippingVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
+
+[node name="EquipItemButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton3" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton4" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton5" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton6" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton7" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton8" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
+
+[node name="EquipItemButton9" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+layout_mode = 2
 
 [node name="MagicPositioner" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
@@ -1062,6 +1108,7 @@ grow_horizontal = 2
 mouse_filter = 2
 
 [node name="StatsPositioner" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 3
 anchor_right = 1.0
@@ -1740,6 +1787,7 @@ theme_override_font_sizes/font_size = 7
 text = "99999"
 
 [node name="QuestsPositionerLeft" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -1821,6 +1869,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="QuestsPositionerRight" type="Control" parent="."]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 225)
 layout_mode = 3
 anchor_left = 0.5
@@ -1906,6 +1955,7 @@ text = "THIS IS A SUPER DUPER LONG QUEST STEP DESCRIPTION THAT SHOULD PROBABLY T
 autowrap_mode = 3
 
 [node name="OptionsPositioner" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

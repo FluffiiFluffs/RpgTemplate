@@ -114,6 +114,10 @@ func on_button_pressed()->void:
 			GameMenu.current_selected_party_member = party_member
 			GameMenu.curr_main_hand.grab_button_focus()
 			GameMenu.equip_panel_container.self_modulate = class_color
+			GameMenu.update_equip_menu_equipment_labels(party_member)
+			GameMenu.update_equip_menu_stats_labels(party_member)
+			GameMenu.clear_equip_equipping_list()
+			GameMenu.hide_equip_equipping_list()
 			GameMenu.menu_state = "EQUIP_EQUIP_SELECT"
 			GameMenu.animation_player.play("equip_menu_show")
 			pass

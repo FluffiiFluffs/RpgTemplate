@@ -13,6 +13,31 @@ extends Node2D
 #How many slots have an item in them
 @export var slots_filled : int = 0
 
+signal inventory_changed
+signal equipment_changed(member:PartyMemberData)
+
+enum EquipResultCode {
+	OK,
+	INVALID_ARGS,
+	INVENTORY_SLOT_NOT_FOUND,
+	NO_QUANTITY,
+	NO_ITEM,
+	SLOT_MISMATCH,
+	CLASS_LOCKED,
+	OFFHAND_LOCKED_BY_TWO_HAND,
+}
+
+enum EquipSlotKey {
+	MAINHAND,
+	OFFHAND,
+	HEAD,
+	CHEST,
+	ARMS,
+	LEGS,
+	ACCESSORY_1,
+	ACCESSORY_2
+}
+
 
 func _ready()->void:
 	pass
@@ -280,6 +305,278 @@ func sort_inventory_by_current_options()->void:
 		return
 	current_inventory.sort_custom(Callable(self, "_compare_slots_by_sort_order"))
 
+
+static func _get_equipped_item(member: PartyMemberData, slot_key: int) -> Item:
+	if slot_key == EquipSlotKey.MAINHAND:
+		return member.mainhand
+	if slot_key == EquipSlotKey.OFFHAND:
+		return member.offhand
+	if slot_key == EquipSlotKey.HEAD:
+		return member.headslot
+	if slot_key == EquipSlotKey.CHEST:
+		return member.chestslot
+	if slot_key == EquipSlotKey.ARMS:
+		return member.armslot
+	if slot_key == EquipSlotKey.LEGS:
+		return member.legslot
+	if slot_key == EquipSlotKey.ACCESSORY_1:
+		return member.accy01
+	if slot_key == EquipSlotKey.ACCESSORY_2:
+		return member.accy02
+	return null
+
+
+static func _set_equipped_item(member: PartyMemberData, slot_key: int, item: Item) -> void:
+	if slot_key == EquipSlotKey.MAINHAND:
+		member.mainhand = item
+		return
+	if slot_key == EquipSlotKey.OFFHAND:
+		member.offhand = item
+		return
+	if slot_key == EquipSlotKey.HEAD:
+		member.headslot = item
+		return
+	if slot_key == EquipSlotKey.CHEST:
+		member.chestslot = item
+		return
+	if slot_key == EquipSlotKey.ARMS:
+		member.armslot = item
+		return
+	if slot_key == EquipSlotKey.LEGS:
+		member.legslot = item
+		return
+	if slot_key == EquipSlotKey.ACCESSORY_1:
+		member.accy01 = item
+		return
+	if slot_key == EquipSlotKey.ACCESSORY_2:
+		member.accy02 = item
+		return
+func _expected_item_type_for_slot(slot_key: int) -> int:
+	match slot_key:
+		EquipSlotKey.MAINHAND:
+			return Item.ItemType.WEAPON
+		EquipSlotKey.OFFHAND:
+			return Item.ItemType.OFFHAND
+		EquipSlotKey.HEAD:
+			return Item.ItemType.HEAD
+		EquipSlotKey.CHEST:
+			return Item.ItemType.CHEST
+		EquipSlotKey.ARMS:
+			return Item.ItemType.ARMS
+		EquipSlotKey.LEGS:
+			return Item.ItemType.LEGS
+		EquipSlotKey.ACCESSORY_1, EquipSlotKey.ACCESSORY_2:
+			return Item.ItemType.ACCESSORY
+		_:
+			return -1
+
+func _enforce_equipment_invariants(member: PartyMemberData) -> void:
+	if member == null:
+		return
+
+	if member.mainhand != null:
+		if member.mainhand.two_hand == true:
+			# Two hand weapon locks offhand, keep UI and data consistent
+			member.two_handing = true
+			member.offhand = null
+		else:
+			member.two_handing = false
+	else:
+		member.two_handing = false
+
+
+func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventorySlot, slot_key: int) -> Dictionary:
+	var result = {
+		"ok": false,
+		"code": EquipResultCode.INVALID_ARGS,
+		"message_key": &"equip_error_invalid_args",
+		"old_item": null,
+		"new_item": null,
+		"slot_key": slot_key
+	}
+
+	if member == null:
+		return result
+	if inv_slot == null:
+		return result
+
+	var inv_index = current_inventory.find(inv_slot)
+	if inv_index == -1:
+		result.code = EquipResultCode.INVENTORY_SLOT_NOT_FOUND
+		result.message_key = &"equip_error_slot_missing"
+		return result
+
+	if inv_slot.quantity <= 0:
+		result.code = EquipResultCode.NO_QUANTITY
+		result.message_key = &"equip_error_no_quantity"
+		return result
+
+	var chosen_item = inv_slot.item
+	if chosen_item == null:
+		result.code = EquipResultCode.NO_ITEM
+		result.message_key = &"equip_error_no_item"
+		return result
+
+	var expected_type = _expected_item_type_for_slot(slot_key)
+	if expected_type == -1:
+		result.code = EquipResultCode.INVALID_ARGS
+		result.message_key = &"equip_error_invalid_slot"
+		return result
+
+	if chosen_item.type != expected_type:
+		result.code = EquipResultCode.SLOT_MISMATCH
+		result.message_key = &"equip_error_slot_mismatch"
+		return result
+
+	# Offhand blocked while two hand is equipped
+	if slot_key == EquipSlotKey.OFFHAND:
+		if member.mainhand != null:
+			if member.mainhand.two_hand == true:
+				result.code = EquipResultCode.OFFHAND_LOCKED_BY_TWO_HAND
+				result.message_key = &"equip_error_offhand_locked"
+				return result
+
+	# Class restriction hook
+	if member.has_method("can_equip_item"):
+		var can_equip = member.can_equip_item(chosen_item)
+		if can_equip == false:
+			result.code = EquipResultCode.CLASS_LOCKED
+			result.message_key = &"equip_error_class_locked"
+			return result
+
+	var old_item = _get_equipped_item(member, slot_key)
+
+	# Commit equipment
+	_set_equipped_item(member, slot_key, chosen_item)
+
+	# If equipping a two hand weapon, forcibly unequip offhand into inventory
+	if slot_key == EquipSlotKey.MAINHAND:
+		if chosen_item.two_hand == true:
+			if member.offhand != null:
+				add_item(member.offhand.item_id, 1)
+				member.offhand = null
+
+	_enforce_equipment_invariants(member)
+
+	# Commit inventory changes
+	if inv_slot.quantity > 1:
+		inv_slot.quantity -= 1
+		if old_item != null:
+			add_item(old_item.item_id, 1)
+	else:
+		# quantity == 1
+		if old_item != null:
+			inv_slot.item = old_item
+			inv_slot.stringname = old_item.item_id
+			inv_slot.quantity = 1
+		else:
+			current_inventory.erase(inv_slot)
+
+	result.ok = true
+	result.code = EquipResultCode.OK
+	result.message_key = &"equip_ok"
+	result.old_item = old_item
+	result.new_item = chosen_item
+
+	emit_signal("equipment_changed", member)
+	emit_signal("inventory_changed")
+
+	return result
+
+
+
+func try_unequip_to_inventory(member: PartyMemberData, slot_key: int) -> Dictionary:
+	var result = {
+		"ok": false,
+		"code": EquipResultCode.INVALID_ARGS,
+		"message_key": &"unequip_error_invalid_args",
+		"old_item": null,
+		"slot_key": slot_key
+	}
+	var actual_slot_key = slot_key
+	if slot_key == EquipSlotKey.OFFHAND:
+		if member.mainhand != null and member.mainhand.two_hand == true:
+			actual_slot_key = EquipSlotKey.MAINHAND
+			
+	if member == null:
+		return result
+
+	var old_item = _get_equipped_item(member, actual_slot_key)
+	if old_item == null:
+		result.code = EquipResultCode.OK
+		result.message_key = &"unequip_nothing"
+		result.ok = true
+		return result
+
+	_set_equipped_item(member, actual_slot_key, null)
+	add_item(old_item.item_id, 1)
+
+	_enforce_equipment_invariants(member)
+
+	result.ok = true
+	result.code = EquipResultCode.OK
+	result.message_key = &"unequip_ok"
+	result.old_item = old_item
+
+	emit_signal("equipment_changed", member)
+	emit_signal("inventory_changed")
+
+	return result
+
+
+func try_remove_all_equipment_to_inventory(member: PartyMemberData) -> Dictionary:
+	var result = {
+		"ok": false,
+		"code": EquipResultCode.INVALID_ARGS,
+		"message_key": &"rem_all_error_invalid_args",
+		"moved_count": 0
+	}
+
+	if member == null:
+		return result
+
+	var moved := 0
+
+	# Cache the mainhand before we start clearing, so we can avoid a two hand mirror edge case.
+	var cached_mainhand: Item = _get_equipped_item(member, EquipSlotKey.MAINHAND)
+
+	var keys = [
+		EquipSlotKey.MAINHAND,
+		EquipSlotKey.OFFHAND,
+		EquipSlotKey.HEAD,
+		EquipSlotKey.CHEST,
+		EquipSlotKey.ARMS,
+		EquipSlotKey.LEGS,
+		EquipSlotKey.ACCESSORY_1,
+		EquipSlotKey.ACCESSORY_2
+	]
+
+	for k in keys:
+		var item: Item = _get_equipped_item(member, k)
+		if item == null:
+			continue
+
+		# Safety: if OFFHAND is mirroring a two hand mainhand, do not add it twice.
+		if k == EquipSlotKey.OFFHAND and cached_mainhand != null:
+			if cached_mainhand.two_hand == true and item == cached_mainhand:
+				_set_equipped_item(member, k, null)
+				continue
+
+		_set_equipped_item(member, k, null)
+		add_item(item.item_id, 1)
+		moved += 1
+
+	_enforce_equipment_invariants(member)
+
+	result.ok = true
+	result.code = EquipResultCode.OK
+	result.message_key = &"rem_all_ok"
+	result.moved_count = moved
+
+	emit_signal("equipment_changed", member)
+	emit_signal("inventory_changed")
+
+	return result
 
 
 #endregion

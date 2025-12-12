@@ -1,18 +1,21 @@
-[gd_scene load_steps=24 format=3 uid="uid://c3vfphoul8ljv"]
+[gd_scene load_steps=28 format=3 uid="uid://c3vfphoul8ljv"]
 
 [ext_resource type="Script" uid="uid://dkyyrcfv7i40r" path="res://_globals/inventory_manager.gd" id="1_d2cym"]
 [ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="2_72dg7"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="2_e84fm"]
 [ext_resource type="Resource" uid="uid://byt08a2lu57w8" path="res://inventory/items/1000_mpheal/1001_banana.tres" id="4_7dsqp"]
 [ext_resource type="Script" uid="uid://cbuwt4xsxq6jy" path="res://inventory/base/inventory_slot.gd" id="4_mjgim"]
+[ext_resource type="Resource" uid="uid://cwf18di3ut70w" path="res://inventory/items/2000_statusheal/2001_orange.tres" id="5_2grj5"]
 [ext_resource type="Resource" uid="uid://5qv0eey8n7wc" path="res://inventory/items/5000_weapon/5001_sword.tres" id="6_8we1o"]
 [ext_resource type="Resource" uid="uid://bl6pvt6gcced5" path="res://inventory/items/6000_offhand/6001_shield.tres" id="7_bt3a0"]
 [ext_resource type="Resource" uid="uid://dhd14qjuye01s" path="res://inventory/items/8000_chest/8001_armor.tres" id="8_t7542"]
 [ext_resource type="Resource" uid="uid://c2w3p6uipkdyi" path="res://inventory/items/10000_legs/10001_greaves.tres" id="9_ecu7t"]
 [ext_resource type="Resource" uid="uid://c2c202pjp3ykj" path="res://inventory/items/3000_tool/3001_fire_potion.tres" id="10_2k8hq"]
+[ext_resource type="Resource" uid="uid://d0gxsrinoroon" path="res://inventory/items/7000_head/7001_helmet.tres" id="10_g4cso"]
 [ext_resource type="Resource" uid="uid://b8is1mnqf7r8h" path="res://inventory/items/11000_accessory/11002_ring.tres" id="11_oms01"]
 [ext_resource type="Resource" uid="uid://dh7gnwyaag2iq" path="res://inventory/items/9000_arms/9001_sleeves.tres" id="12_s5mrw"]
 [ext_resource type="Resource" uid="uid://bxevh0vmlere2" path="res://inventory/items/4000_key/4001_key.tres" id="13_221cp"]
+[ext_resource type="Resource" uid="uid://cw2exte0summv" path="res://inventory/items/11000_accessory/11001_ring.tres" id="14_03nll"]
 
 [sub_resource type="Resource" id="Resource_72dg7"]
 script = ExtResource("4_mjgim")
@@ -84,7 +87,14 @@ quantity = 1
 stringname = &"key"
 metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
 
+[sub_resource type="Resource" id="Resource_2grj5"]
+script = ExtResource("4_mjgim")
+item = ExtResource("10_g4cso")
+quantity = 2
+stringname = &"helmet"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
 [node name="InventoryManager" type="Node2D"]
 script = ExtResource("1_d2cym")
-all_items = Array[ExtResource("2_e84fm")]([ExtResource("2_72dg7"), ExtResource("4_7dsqp")])
-current_inventory = Array[ExtResource("4_mjgim")]([SubResource("Resource_72dg7"), SubResource("Resource_e84fm"), SubResource("Resource_bt3a0"), SubResource("Resource_t7542"), SubResource("Resource_ecu7t"), SubResource("Resource_2k8hq"), SubResource("Resource_oms01"), SubResource("Resource_s5mrw"), SubResource("Resource_221cp"), SubResource("Resource_tcweg")])
+all_items = Array[ExtResource("2_e84fm")]([ExtResource("2_72dg7"), ExtResource("4_7dsqp"), ExtResource("5_2grj5"), ExtResource("10_2k8hq"), ExtResource("13_221cp"), ExtResource("6_8we1o"), ExtResource("7_bt3a0"), ExtResource("10_g4cso"), ExtResource("8_t7542"), ExtResource("12_s5mrw"), ExtResource("9_ecu7t"), ExtResource("14_03nll"), ExtResource("11_oms01")])
+current_inventory = Array[ExtResource("4_mjgim")]([SubResource("Resource_72dg7"), SubResource("Resource_e84fm"), SubResource("Resource_bt3a0"), SubResource("Resource_t7542"), SubResource("Resource_ecu7t"), SubResource("Resource_2k8hq"), SubResource("Resource_oms01"), SubResource("Resource_s5mrw"), SubResource("Resource_221cp"), SubResource("Resource_tcweg"), SubResource("Resource_2grj5")])

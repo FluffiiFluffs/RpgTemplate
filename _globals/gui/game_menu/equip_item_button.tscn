@@ -17,6 +17,8 @@ border_width_bottom = 1
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cbxp7"]
 
 [node name="EquipItemButton" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(140, 0)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
 script = ExtResource("1_iuyh6")

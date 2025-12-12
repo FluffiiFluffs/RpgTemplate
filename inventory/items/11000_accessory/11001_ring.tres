@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/item_effect.gd" id="1_1pcv1"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_t4f01"]
-[ext_resource type="Texture2D" uid="uid://rmo0kj6rdwun" path="res://_assets/ui/icons_large/shield.png" id="3_1ls12"]
+[ext_resource type="Texture2D" uid="uid://c3nw7sjlqc3nv" path="res://_assets/ui/icons_large/apple.png" id="3_uqgrp"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="4_a1gxe"]
 
 [resource]
@@ -12,7 +12,7 @@ item_id = &"applering"
 name = "Apple Ring"
 sort_id = 11001
 type = 11
-menu_sprite = ExtResource("3_1ls12")
+menu_sprite = ExtResource("3_uqgrp")
 description = "A ring with an jeweled apple."
 one_less_on_use = false
 buy_price = 60

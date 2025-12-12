@@ -85,3 +85,19 @@ var type: int = ItemType.TOOL
 @export var speed_bonus : int = 0
 ##Adds to character's magic when equipped
 @export var magic_bonus : int = 0
+
+
+func can_be_used_by_member(member) -> bool:
+	if member == null:
+		return false
+	if member.char_resource == null:
+		return false
+
+	# member.char_resource.char_class uses your @export_enum("WARRIOR","THIEF","MAGE","HEALER")
+	var class_index = int(member.char_resource.char_class)
+
+	# Convert enum index to bit flag that matches EquipClass values
+	# 0 -> 1 (WARRIOR), 1 -> 2 (THIEF), 2 -> 4 (MAGE), 3 -> 8 (HEALER)
+	var class_flag = 1 << class_index
+
+	return (can_equip & class_flag) != 0

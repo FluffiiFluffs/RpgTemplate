@@ -8,6 +8,9 @@ extends PanelContainer
 @onready var equipment_label : Label = %EquipmentLabel
 
 @export var equip_title : String = ""
+@export var eq_item_type : String = ""
+
+var equipment : Item = null
 
 var is_active : bool = false
 
@@ -17,13 +20,56 @@ func _ready()->void:
 	title_label.text = equip_title
 	button.focus_entered.connect(on_button_focus_entered)
 	button.focus_exited.connect(on_button_focus_exited)
+	button.pressed.connect(on_button_pressed)
 
 	if Engine.is_editor_hint():
 		return
 	pass
 
 #func on_button_pressed()->void:
-	#setup by GameMenu script, since it needs a custom function
+	#GameMenu.make_equipping_buttons_list(return_item_type(eq_item_type))
+
+func on_button_pressed() -> void:
+	if GameMenu == null:
+		return
+
+	if GameMenu.menu_state == "EQUIP_MENU_REMOVE":
+		GameMenu.remove_equipped_item(self)
+		return
+
+	# Treat both of these as "equip from this slot"
+	if GameMenu.menu_state == "EQUIP_EQUIP_SELECT" or GameMenu.menu_state == "EQUIP_MENU_EQUIPPING":
+		var eqtype = _get_eqtype_id()
+		if eqtype == -1:
+			return
+
+		GameMenu.last_curr_equip_slot_button = self
+		GameMenu.make_equipping_buttons_list(eqtype)
+		return
+
+
+func _get_eqtype_id() -> int:
+	var key = eq_item_type.strip_edges().to_upper()
+	match key:
+		"WEAPON":
+			return Item.ItemType.WEAPON
+		"OFFHAND":
+			return Item.ItemType.OFFHAND
+		"HEAD":
+			return Item.ItemType.HEAD
+		"CHEST":
+			return Item.ItemType.CHEST
+		"ARMS":
+			return Item.ItemType.ARMS
+		"LEGS":
+			return Item.ItemType.LEGS
+		"ACCESSORY":
+			return Item.ItemType.ACCESSORY
+		_:
+			printerr("CurrentEquipButton: unknown eq_item_type: " + eq_item_type)
+			return -1
+
+
 
 func on_button_focus_entered()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
