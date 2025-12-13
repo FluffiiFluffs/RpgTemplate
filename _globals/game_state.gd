@@ -1,21 +1,34 @@
-##game_state.gd
-##global script GameState
-extends Node2D
-##Keeps track of the game state so elements do not interfere with each other.
+## game_state.gd
+## Global script GameState
+extends Node
 
+signal gamestate_changed(previous: int, current: int)
 
-@export_enum(
-	"STARTMENU0",
-	"FIELD1",
-	"BATTLE2",
-	"GAMEMENU3",
-	"INTERACTING4",
-	"CUTSCENE5",
-	"PAUSEMENU6",
-	"TRANSITION7",
-	"LOADING8",
-	"GAMEOVER9",
-	"SHOP10",
-	"DIALOGUE11"
-)
-var gamestate: int = 1
+enum State {
+	STARTMENU,
+	FIELD,
+	BATTLE,
+	GAMEMENU,
+	INTERACTING,
+	CUTSCENE,
+	PAUSEMENU,
+	TRANSITION,
+	LOADING,
+	GAMEOVER,
+	SHOP,
+	DIALOGUE
+}
+
+var gamestate: int = State.STARTMENU:
+	set(value):
+		_set_gamestate(value)
+
+func _set_gamestate(value: int) -> void:
+	if gamestate == value:
+		return
+	var prev = gamestate
+	gamestate = value
+	gamestate_changed.emit(prev, gamestate)
+
+func is_field() -> bool:
+	return gamestate == State.FIELD

@@ -1,6 +1,6 @@
 ##scene_manager.gd
 ##Global Script SceneManager
-extends Node2D
+extends Node
 
 #region State
 
@@ -18,10 +18,31 @@ var party_spawn_point
 ## Starts as the player, then becomes the last follower that was added
 var last_party_actor : Node2D = null
 
+## Tracks only the party actor nodes spawned by SceneManager so they can be freed safely
+## without touching map authored NPCs or other field nodes.
+var spawned_party_actors : Array[Node2D] = []
+
 #endregion
 
 
 #region Internal helpers (lookup and basic data)
+
+
+## Returns the Node that should own party actor nodes (player and followers).
+## Under the persistent Main scene, this is Main/FieldRoot/FieldActors.
+## Falls back to get_tree().current_scene if that path is not present (useful for test scenes).
+func _get_field_actors_parent() -> Node:
+	var cs = get_tree().current_scene
+	if cs == null:
+		return null
+
+	var actors = cs.get_node_or_null("FieldRoot/FieldActors")
+	if actors != null:
+		return actors
+
+	return cs
+
+
 
 ## Returns the world position where the party leader should be spawned.
 ## If party_spawn_point is a Node2D, uses its global_position.
@@ -54,6 +75,23 @@ func _get_leader_member() -> PartyMemberData:
 		return null
 	return CharDataKeeper.get_member(idx)
 
+
+
+## Frees only the party actor nodes spawned by SceneManager.
+## Required now that party actors live under a persistent Main scene and will not
+## be implicitly destroyed by unloading a field scene.
+func _free_spawned_party_actors() -> void:
+	for actor in spawned_party_actors:
+		if actor != null and is_instance_valid(actor):
+			actor.queue_free()
+	spawned_party_actors.clear()
+
+	player_is_made = false
+	party_is_made = false
+	last_party_actor = null
+	CharDataKeeper.controlled_character = null
+
+
 #endregion
 
 
@@ -61,16 +99,19 @@ func _get_leader_member() -> PartyMemberData:
 
 ## Instantiates the player character node for the given PartyMemberData and
 ## places it at the provided position. Also sets CharDataKeeper.controlled_character.
-## Called by both "no party yet" and "existing party" flows.
 func _instantiate_player_for_member(member : PartyMemberData, position : Vector2) -> PlayerCharacter:
 	if member == null:
+		return null
+
+	var actors_parent = _get_field_actors_parent()
+	if actors_parent == null:
 		return null
 
 	var new_player : PlayerCharacter = CharDataKeeper.PLAYER_CHARACTER.instantiate()
 	new_player.global_position = position
 
 	CharDataKeeper.controlled_character = new_player
-	get_tree().current_scene.call_deferred("add_child", new_player)
+	actors_parent.call_deferred("add_child", new_player)
 	await get_tree().process_frame
 
 	if member.char_resource != null:
@@ -79,25 +120,28 @@ func _instantiate_player_for_member(member : PartyMemberData, position : Vector2
 
 	player_is_made = true
 	last_party_actor = new_player
+	spawned_party_actors.append(new_player)
 
 	return new_player
+
 
 #endregion
 
 
+
+
 #region Scenario 1: spawn player when there is no player yet
 
-## Spawns a player character into the current scene when none exists.
-## If there is no party yet, this seeds the party with all_party_members[0]
-## (for example, warrior) and uses that as the leader.
 func spawn_player_when_no_party() -> void:
 	## A player already exists, nothing to do
-	if player_is_made and CharDataKeeper.controlled_character != null:
+	if CharDataKeeper.controlled_character != null and is_instance_valid(CharDataKeeper.controlled_character):
+		player_is_made = true
+		last_party_actor = CharDataKeeper.controlled_character
 		return
 
 	var member : PartyMemberData = _get_leader_member()
 
-	## No current party, so seed from all_party_members[0] for new game or testing
+	## No current party, seed from all_party_members[0]
 	if member == null and CharDataKeeper.party_members.is_empty():
 		if CharDataKeeper.all_party_members.size() > 0:
 			var warrior_data : PartyMemberData = CharDataKeeper.all_party_members[0]
@@ -106,7 +150,6 @@ func spawn_player_when_no_party() -> void:
 				CharDataKeeper.controlled_index = 0
 				member = warrior_data
 
-	## Still nothing to control, bail out
 	if member == null:
 		return
 
@@ -118,10 +161,6 @@ func spawn_player_when_no_party() -> void:
 
 #region Follower instantiation helpers
 
-## Internal helper that spawns a follower NPC for the given PartyMemberData and
-## attaches it to the follow chain by setting actor_to_follow.
-## The follower is placed exactly one pixel above the previous actor
-## which is important for clean Y sorting.
 func _spawn_follower_for_member(member : PartyMemberData, previous_actor : Node2D) -> Node2D:
 	if member == null:
 		return null
@@ -129,8 +168,12 @@ func _spawn_follower_for_member(member : PartyMemberData, previous_actor : Node2
 		return null
 	if previous_actor == null:
 		return null
+	if is_instance_valid(previous_actor) == false:
+		return null
 
 	var parent = previous_actor.get_parent()
+	if parent == null:
+		parent = _get_field_actors_parent()
 	if parent == null:
 		return null
 
@@ -138,8 +181,6 @@ func _spawn_follower_for_member(member : PartyMemberData, previous_actor : Node2
 	follower.npc_data = member.char_resource
 	follower.is_following = true
 	follower.collisions_on = false
-
-	## Place follower one pixel above the previous actor for Y sorting
 	follower.global_position = previous_actor.global_position + Vector2(0, -1)
 
 	parent.call_deferred("add_child", follower)
@@ -147,7 +188,6 @@ func _spawn_follower_for_member(member : PartyMemberData, previous_actor : Node2
 
 	follower.actor_to_follow = previous_actor
 
-	## Remove standard detection logic so this behaves as a pure follower
 	if follower.p_det_timer != null:
 		if follower.p_det_timer.timeout.is_connected(follower._check_for_player):
 			follower.p_det_timer.timeout.disconnect(follower._check_for_player)
@@ -157,25 +197,20 @@ func _spawn_follower_for_member(member : PartyMemberData, previous_actor : Node2
 		follower.p_det_area.call_deferred("queue_free")
 
 	follower.name = member._get_name()
+	spawned_party_actors.append(follower)
 
 	return follower
 
 #endregion
 
 
-#region Scenario 3: respawn full party on scene change
+#region Scenario 3: respawn full party (tests and later map transitions)
 
-## For scene changes when CharDataKeeper.party_members is not empty.
-## Rebuilds the player and all followers at the spawn point in the new scene.
-## Every follower is placed one pixel above the previous actor.
 func spawn_existing_party_at_spawn_point() -> void:
 	if CharDataKeeper.party_members.is_empty():
 		return
 
-	## Reset SceneManager state for this new scene
-	player_is_made = false
-	party_is_made = false
-	last_party_actor = null
+	_free_spawned_party_actors()
 
 	var leader_index = _get_leader_index()
 	if leader_index == -1:
@@ -194,7 +229,6 @@ func spawn_existing_party_at_spawn_point() -> void:
 	var spawned_any : bool = false
 	var count = CharDataKeeper.party_members.size()
 
-	## Spawn followers for every non leader party member
 	for i in range(count):
 		if i == leader_index:
 			continue
@@ -219,15 +253,6 @@ func spawn_existing_party_at_spawn_point() -> void:
 
 #region Scenario 2: add one party member and spawn follower
 
-## Adds a single party member from CharDataKeeper.all_party_members and, when appropriate,
-## spawns a follower for that member in the current scene.
-## This is suitable for join events where you recruit one member at a time.
-##
-## Example mapping:
-##   index 0 = warrior_party_member_data.tres
-##   index 1 = thief_party_member_data.tres
-##   index 2 = mage_party_member_data.tres
-##   index 3 = healer_party_member_data.tres
 func add_party_member_from_all(index : int) -> void:
 	if index < 0:
 		return
@@ -239,33 +264,24 @@ func add_party_member_from_all(index : int) -> void:
 	if base_member == null:
 		return
 
-	## Prevent adding the same PartyMemberData reference twice
 	if CharDataKeeper.party_members.has(base_member):
 		return
 
 	CharDataKeeper.add_party_member(base_member)
 
-	## If this is the first member ever, make this member the leader and spawn the player
 	if CharDataKeeper.party_members.size() == 1:
 		CharDataKeeper.controlled_index = 0
 		await spawn_player_when_no_party()
 		return
 
-	## Ensure the player and any existing followers are present in the scene
-	## If there is no player yet, this will spawn the full party including the new member
-	if not player_is_made or CharDataKeeper.controlled_character == null:
+	if CharDataKeeper.controlled_character == null or is_instance_valid(CharDataKeeper.controlled_character) == false:
 		await spawn_existing_party_at_spawn_point()
-		return
-
-	var player : Node2D = CharDataKeeper.controlled_character
-	if player == null:
 		return
 
 	var previous_actor : Node2D = last_party_actor
 	if previous_actor == null:
-		previous_actor = player
+		previous_actor = CharDataKeeper.controlled_character
 
-	## The member we just appended is the last entry in party_members
 	var member_index = CharDataKeeper.party_members.size() - 1
 	var member : PartyMemberData = CharDataKeeper.get_member(member_index)
 
@@ -279,19 +295,11 @@ func add_party_member_from_all(index : int) -> void:
 
 #region Public API
 
-## Convenience entry point for scenes that only care about
-## "make sure a player exists".
-## If there is no party yet, this will seed from all_party_members[0].
 func make_player_in_scene() -> void:
 	await spawn_player_when_no_party()
 
 
-## Convenience entry point for test scenes where you want the full party
-## from all_party_members to appear in the scene, even if the run time party
-## is empty. After seeding, it respawns the full party at party_spawn_point.
 func make_party_in_scene() -> void:
-	## For testing, if run time party is empty but all_party_members has entries,
-	## copy them into party_members so you get a full party at once.
 	if CharDataKeeper.party_members.is_empty() and CharDataKeeper.all_party_members.size() > 0:
 		for base_member in CharDataKeeper.all_party_members:
 			if base_member != null:
@@ -301,22 +309,7 @@ func make_party_in_scene() -> void:
 	await spawn_existing_party_at_spawn_point()
 
 
-## Optional helper for handling scene changes through SceneManager.
-## You can expand this later to also handle fade transitions or similar.
-func load_scene(_scene : PackedScene) -> void:
-	## Example pattern:
-	## 1) Clear node references from the old scene if needed
-	##    CharDataKeeper.controlled_character = null
-	##    player_is_made = false
-	##    party_is_made = false
-	##    last_party_actor = null
-	##
-	## 2) Change to the new scene
-	##    get_tree().change_scene_to_packed(_scene)
-	##
-	## 3) In the new scene script _ready, set:
-	##       SceneManager.party_spawn_point = $PartySpawnPoint
-	##       SceneManager.spawn_existing_party_at_spawn_point()
-	pass
+func set_party_spawn_point(spawn_point) -> void:
+	party_spawn_point = spawn_point
 
 #endregion

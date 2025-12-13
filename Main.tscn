@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8e5dflrg8xre"]
+
+[ext_resource type="Script" uid="uid://8mk4fr1fy0gk" path="res://main.gd" id="1_glv2v"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_glv2v")
+
+[node name="FieldRoot" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="FieldSceneContainer" type="Node2D" parent="FieldRoot"]
+unique_name_in_owner = true
+
+[node name="FieldActors" type="Node2D" parent="FieldRoot"]
+unique_name_in_owner = true
+
+[node name="FieldVFX" type="Node2D" parent="FieldRoot"]
+unique_name_in_owner = true
+
+[node name="FieldCameraRig" type="Node2D" parent="FieldRoot"]
+unique_name_in_owner = true
+
+[node name="FieldCamera" type="Camera2D" parent="FieldRoot/FieldCameraRig"]
+unique_name_in_owner = true
+
+[node name="TitleMenuLayer" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="BattleRoot" type="Node2D" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="BattleSceneContainer" type="Node2D" parent="BattleRoot"]
+unique_name_in_owner = true
+
+[node name="BattleVFX" type="Node2D" parent="BattleRoot"]
+unique_name_in_owner = true
+
+[node name="BattleCameraRig" type="Node2D" parent="BattleRoot"]
+unique_name_in_owner = true
+
+[node name="BattleCamera" type="Camera2D" parent="BattleRoot/BattleCameraRig"]
+unique_name_in_owner = true
+enabled = false
+
+[node name="TransitionLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="AudioRoot" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Runtime" type="Node" parent="."]
+unique_name_in_owner = true

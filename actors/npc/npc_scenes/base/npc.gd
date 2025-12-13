@@ -113,18 +113,46 @@ func _ready()->void:
 
 ##Setup routine for NPC
 func setup_npc()->void:
-	sprite_2d.texture = npc_data.char_sprite_sheet #gets texture from resource
-	walk_center = global_position #Sets walk center to NPC global position
-	state_machine.initialize(self) #Initializes state_machine script to be the this node
-	p_det_timer.timeout.connect(_check_for_player) #Connects timeout signal to _check_for_player()
+	sprite_2d.texture = npc_data.char_sprite_sheet
+	walk_center = global_position
+	state_machine.initialize(self)
+
+	if is_following == true:
+		_setup_as_follower()
+		collision_toggle()
+		return
+
+	p_det_timer.timeout.connect(_check_for_player)
 	collision_toggle()
 	coll_timer.wait_time = coll_off_wait_time
 	coll_timer.timeout.connect(collisions_disabled)
 	pcolldettrue.connect(ptimercolloff)
 	pcolldetfalse.connect(ptimercollon)
 	
-	
-	pass
+func _setup_as_follower() -> void:
+	## Followers should not use detection logic or collision timers
+	player_detected = false
+	will_walk = false
+	will_patrol = false
+	coll_off_with_timer = false
+	collisions_on = false
+
+	if p_det_timer != null and is_instance_valid(p_det_timer):
+		p_det_timer.stop()
+		p_det_timer.process_mode = Node.PROCESS_MODE_DISABLED
+
+	if p_det_area != null and is_instance_valid(p_det_area):
+		p_det_area.monitoring = false
+		p_det_area.monitorable = false
+
+	if coll_timer != null and is_instance_valid(coll_timer):
+		coll_timer.stop()
+		coll_timer.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+
+
+
 ##Determines if walk_area shows up in debug. Sets up walk_area size. Places walk_area at NPC's position but does not move with NPC.[br]
 ##If a WalkCenterPoint is defined, makes it the walk_center instead of NPC origin position.
 func if_walking()->void:

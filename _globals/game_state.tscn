@@ -2,7 +2,5 @@
 
 [ext_resource type="Script" uid="uid://tacjx7ww04j3" path="res://_globals/game_state.gd" id="1_5djp3"]
 
-[node name="GameState" type="Node2D"]
+[node name="GameState" type="Node"]
 script = ExtResource("1_5djp3")
-game_state = 1
-

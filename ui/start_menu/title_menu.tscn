@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1m31ca257aty"]
+
+[ext_resource type="Script" uid="uid://cx60puht5mo8d" path="res://ui/start_menu/title_menu.gd" id="1_4dldf"]
+[ext_resource type="PackedScene" uid="uid://bblnqpa3nksw1" path="res://ui/start_menu/title_button.tscn" id="2_vl5hu"]
+
+[sub_resource type="Gradient" id="Gradient_4dldf"]
+colors = PackedColorArray(0, 0, 0, 1, 0.292925, 0.292925, 0.29292497, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vl5hu"]
+gradient = SubResource("Gradient_4dldf")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[node name="StartMenu" type="CanvasLayer"]
+script = ExtResource("1_4dldf")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_vl5hu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="TitleLabel" type="Label" parent="Control/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "GAME TITLE"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="Control/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="NewGameButton" parent="Control/VBoxContainer/VBoxContainer3/GridContainer" instance=ExtResource("2_vl5hu")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+button_text = "New Game"
+
+[node name="LoadGameButton" parent="Control/VBoxContainer/VBoxContainer3/GridContainer" instance=ExtResource("2_vl5hu")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+button_text = "Load Game"
+
+[node name="OptionsButton" parent="Control/VBoxContainer/VBoxContainer3/GridContainer" instance=ExtResource("2_vl5hu")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+button_text = "Options"
+
+[node name="ExitButton" parent="Control/VBoxContainer/VBoxContainer3/GridContainer" instance=ExtResource("2_vl5hu")]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 0)
+layout_mode = 2
+button_text = "Exit Game"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
