@@ -12,7 +12,7 @@ config_version=5
 
 config/name="RPG Template"
 config/description="This is the template for RPG Systems"
-run/main_scene="uid://4hqnw34m4ovo"
+run/main_scene="uid://c8e5dflrg8xre"
 config/features=PackedStringArray("4.5", "Forward Plus")
 run/max_fps=45
 config/icon="res://icon.svg"
@@ -61,6 +61,7 @@ folder_colors={
 "res://battle/": "pink",
 "res://dialogue/": "blue",
 "res://field/": "green",
+"res://main/": "red",
 "res://quest_system/": "yellow",
 "res://ui/": "blue"
 }

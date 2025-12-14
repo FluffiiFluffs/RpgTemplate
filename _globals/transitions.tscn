@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://mlwy2ak77pt4"]
-
-[ext_resource type="Script" uid="uid://brqy0w5palsl7" path="res://_globals/transitions.gd" id="1_fc237"]
-
-[node name="Transitions" type="Node2D"]
-script = ExtResource("1_fc237")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

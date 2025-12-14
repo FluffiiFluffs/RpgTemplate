@@ -67,8 +67,37 @@ func on_button_9_pressed()->void:
 	pass
 
 func on_button_10_pressed()->void:
-	for child in get_tree().current_scene.get_children():
-		if child is Enemy:
-			child.queue_free()
-		elif child is EnemySpawner:
-			child._remove_all_enemies()
+	var main = SceneManager.main_scene
+	if main == null:
+		printerr("DevMenu: SceneManager.main_scene is null")
+		return
+
+	var nodes : Array[Node] = []
+	_collect_descendants(main, nodes)
+
+	var spawners : Array[EnemySpawner] = []
+	var loose_enemies : Array[Enemy] = []
+
+	for n in nodes:
+		if n is EnemySpawner:
+			spawners.append(n)
+		elif n is Enemy:
+			var e : Enemy = n
+			if e.enemy_spawner != null and is_instance_valid(e.enemy_spawner):
+				continue
+			loose_enemies.append(e)
+
+	for s in spawners:
+		s._remove_all_enemies()
+
+	for e in loose_enemies:
+		e.queue_free()
+
+
+
+func _collect_descendants(root: Node, out: Array[Node]) -> void:
+	if root == null:
+		return
+	for child in root.get_children():
+		out.append(child)
+		_collect_descendants(child, out)

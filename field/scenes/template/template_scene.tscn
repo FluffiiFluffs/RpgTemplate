@@ -1,0 +1,72 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv4uk4tsv1a6t"]
+
+[ext_resource type="Script" uid="uid://bjyew63ska2p1" path="res://field/scenes/template/field_scene.gd" id="1_57cnb"]
+
+[node name="FieldScene" type="Node2D"]
+script = ExtResource("1_57cnb")
+
+[node name="Tile" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Ground1" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="Ground2" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="Ground3" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="Ground4" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="Ground5" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="DecorBottom" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="DecorTop" type="TileMapLayer" parent="Tile"]
+unique_name_in_owner = true
+
+[node name="FieldActors" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="PlacedEnemies" type="Node2D" parent="FieldActors"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="EnemySpawners" type="Node2D" parent="FieldActors"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="PlacedNPCs" type="Node2D" parent="FieldActors"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Navigation" type="NavigationRegion2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Markers" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="PlayerSpawn" type="Node2D" parent="Markers"]
+unique_name_in_owner = true
+
+[node name="Interactables" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Triggers" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Audio" type="Node2D" parent="Triggers"]
+unique_name_in_owner = true
+
+[node name="Cutscene" type="Node2D" parent="Triggers"]
+unique_name_in_owner = true
+
+[node name="Encounter" type="Node2D" parent="Triggers"]
+unique_name_in_owner = true
+
+[node name="TransitionAreas" type="Node2D" parent="Triggers"]
+unique_name_in_owner = true

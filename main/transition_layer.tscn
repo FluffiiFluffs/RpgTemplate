@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=3 uid="uid://lcgogxjtiq0y"]
+
+[ext_resource type="Script" uid="uid://bhydr1oq5ujhk" path="res://main/transition_layer.gd" id="1_r65wi"]
+
+[sub_resource type="Animation" id="Animation_nsnam"]
+resource_name = "L_TO_R_BEGIN"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-600, 112), Vector2(200, 112)]
+}
+
+[sub_resource type="Animation" id="Animation_r65wi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-600, 112)]
+}
+
+[sub_resource type="Animation" id="Animation_j0fh3"]
+resource_name = "L_TO_R_END"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 112), Vector2(1000, 112)]
+}
+
+[sub_resource type="Animation" id="Animation_yvx1l"]
+resource_name = "L_TO_R_DURING"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 112)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r65wi"]
+_data = {
+&"L_TO_R_BEGIN": SubResource("Animation_nsnam"),
+&"L_TO_R_DURING": SubResource("Animation_yvx1l"),
+&"L_TO_R_END": SubResource("Animation_j0fh3"),
+&"RESET": SubResource("Animation_r65wi")
+}
+
+[sub_resource type="Gradient" id="Gradient_nsnam"]
+offsets = PackedFloat32Array(0, 0.33, 0.5, 0.66, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r65wi"]
+gradient = SubResource("Gradient_nsnam")
+width = 1200
+height = 250
+
+[node name="TransitionLayer" type="CanvasLayer"]
+script = ExtResource("1_r65wi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_r65wi")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-600, 112)
+texture = SubResource("GradientTexture2D_r65wi")

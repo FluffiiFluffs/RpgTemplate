@@ -4,6 +4,8 @@ extends Node
 
 #region State
 
+enum SIDE {UP, DOWN, LEFT, RIGHT}
+
 ## True when a player node has been instantiated in the current scene
 var player_is_made : bool = false
 
@@ -22,6 +24,21 @@ var last_party_actor : Node2D = null
 ## without touching map authored NPCs or other field nodes.
 var spawned_party_actors : Array[Node2D] = []
 
+var main_scene = null
+
+var current_field_scene : FieldScene = null
+
+var last_direction_faced : int = SIDE.DOWN
+var spawn_direction : int = SIDE.DOWN
+
+var spawn_offset : Vector2 = Vector2.ZERO
+
+var transition_entry_offset : Vector2 = Vector2.ZERO
+
+
+signal load_started
+signal load_completed
+
 #endregion
 
 
@@ -29,28 +46,40 @@ var spawned_party_actors : Array[Node2D] = []
 
 
 ## Returns the Node that should own party actor nodes (player and followers).
-## Under the persistent Main scene, this is Main/FieldRoot/FieldActors.
-## Falls back to get_tree().current_scene if that path is not present (useful for test scenes).
+## With the current architecture, this is the active field scene's FieldActors node.
 func _get_field_actors_parent() -> Node:
-	var cs = get_tree().current_scene
-	if cs == null:
+	if current_field_scene == null or is_instance_valid(current_field_scene) == false:
+		push_warning("SceneManager: current_field_scene is null; cannot find FieldActors")
 		return null
 
-	var actors = cs.get_node_or_null("FieldRoot/FieldActors")
-	if actors != null:
-		return actors
-
-	return cs
-
+	var container : Node2D = current_field_scene.get_actor_container()
+	if container == null:
+		push_warning("SceneManager: current_field_scene has no actor container (FieldActors).")
+	return container
 
 
-## Returns the world position where the party leader should be spawned.
-## If party_spawn_point is a Node2D, uses its global_position.
-## Otherwise returns Vector2.ZERO as a safe default.
 func _get_spawn_position() -> Vector2:
-	if party_spawn_point != null and party_spawn_point is Node2D:
-		return party_spawn_point.global_position
-	return Vector2.ZERO
+	var pos : Vector2 = Vector2.ZERO
+
+	if party_spawn_point == null:
+		pos = Vector2.ZERO
+	elif party_spawn_point is Node2D:
+		pos = (party_spawn_point as Node2D).global_position
+	elif party_spawn_point is StringName or party_spawn_point is String:
+		if current_field_scene != null and is_instance_valid(current_field_scene):
+			var spawn_id : StringName = StringName(str(party_spawn_point))
+
+			var t = _get_destination_transitioner(spawn_id)
+			if t != null:
+				pos = t.global_position
+			elif current_field_scene.has_method("get_spawn_global_position"):
+				pos = current_field_scene.get_spawn_global_position(spawn_id)
+			else:
+				pos = Vector2.ZERO
+
+
+	return pos + spawn_offset
+
 
 
 ## Returns the index of the current party leader in CharDataKeeper.party_members.
@@ -91,6 +120,57 @@ func _free_spawned_party_actors() -> void:
 	last_party_actor = null
 	CharDataKeeper.controlled_character = null
 
+func _get_destination_transitioner(spawn_id : StringName) -> SceneTransitioner:
+	if current_field_scene == null or is_instance_valid(current_field_scene) == false:
+		return null
+
+	var node : Node = current_field_scene.find_child(String(spawn_id), true, false)
+	if node == null:
+		return null
+
+	return node as SceneTransitioner
+
+
+func _sync_spawn_settings_from_destination() -> void:
+	spawn_offset = Vector2.ZERO
+
+	if party_spawn_point is StringName == false and party_spawn_point is String == false:
+		return
+
+	var spawn_id : StringName = StringName(str(party_spawn_point))
+	var t = _get_destination_transitioner(spawn_id)
+	if t == null:
+		push_warning("SceneManager: spawn id '" + String(spawn_id) + "' did not resolve to a SceneTransitioner in the loaded field.")
+		return
+
+	spawn_direction = int(t.spawn_direction)
+	spawn_offset = t.compute_spawn_offset(transition_entry_offset)
+
+
+func _side_to_vector(side : int) -> Vector2:
+	match side:
+		SIDE.UP:
+			return Vector2.UP
+		SIDE.DOWN:
+			return Vector2.DOWN
+		SIDE.LEFT:
+			return Vector2.LEFT
+		SIDE.RIGHT:
+			return Vector2.RIGHT
+	return Vector2.DOWN
+
+
+func _apply_spawn_facing_to_player(player : PlayerCharacter) -> void:
+	if player == null:
+		return
+
+	last_direction_faced = spawn_direction
+
+	var v := _side_to_vector(spawn_direction)
+	if player.has_method("force_face_direction"):
+		player.call("force_face_direction", v)
+
+
 
 #endregion
 
@@ -121,6 +201,7 @@ func _instantiate_player_for_member(member : PartyMemberData, position : Vector2
 	player_is_made = true
 	last_party_actor = new_player
 	spawned_party_actors.append(new_player)
+	_apply_spawn_facing_to_player(new_player)
 
 	return new_player
 
@@ -133,6 +214,9 @@ func _instantiate_player_for_member(member : PartyMemberData, position : Vector2
 #region Scenario 1: spawn player when there is no player yet
 
 func spawn_player_when_no_party() -> void:
+	if CharDataKeeper.controlled_character != null and 	is_instance_valid(CharDataKeeper.controlled_character) == false:
+		CharDataKeeper.controlled_character = null
+	
 	## A player already exists, nothing to do
 	if CharDataKeeper.controlled_character != null and is_instance_valid(CharDataKeeper.controlled_character):
 		player_is_made = true
@@ -155,6 +239,9 @@ func spawn_player_when_no_party() -> void:
 
 	var spawn_pos = _get_spawn_position()
 	await _instantiate_player_for_member(member, spawn_pos)
+	spawn_offset = Vector2.ZERO
+	transition_entry_offset = Vector2.ZERO
+
 
 #endregion
 
@@ -222,6 +309,9 @@ func spawn_existing_party_at_spawn_point() -> void:
 
 	var spawn_pos = _get_spawn_position()
 	var player = await _instantiate_player_for_member(leader_member, spawn_pos)
+	spawn_offset = Vector2.ZERO
+	transition_entry_offset = Vector2.ZERO
+
 	if player == null:
 		return
 
@@ -311,5 +401,23 @@ func make_party_in_scene() -> void:
 
 func set_party_spawn_point(spawn_point) -> void:
 	party_spawn_point = spawn_point
+	_sync_spawn_settings_from_destination()
+
+	
+
+func set_current_field_scene(field_scene : FieldScene) -> void:
+	current_field_scene = field_scene
+	_sync_spawn_settings_from_destination()
+
+	
+## Clears party runtime references without queue_free.
+## Use this when you are about to unload the field scene anyway.
+func reset_party_runtime_state() -> void:
+	spawned_party_actors.clear()
+	player_is_made = false
+	party_is_made = false
+	last_party_actor = null
+	CharDataKeeper.controlled_character = null
+
 
 #endregion

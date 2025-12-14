@@ -56,12 +56,11 @@ func setup_title_menu_button_pressees():
 
 
 func on_new_game_button_pressed()->void:
-	#start a new game
-	var main = get_tree().get_first_node_in_group("main")
+	var main = SceneManager.main_scene
 	if main == null:
+		printerr("TitleMenu: SceneManager.main_scene is null")
 		return
 	main.start_new_game()
-	pass
 	
 func on_load_game_button_pressed()->void:
 	#open load game menu

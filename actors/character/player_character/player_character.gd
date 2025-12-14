@@ -83,3 +83,29 @@ func set_anim_direction() -> String:
 		return "left"
 	else:
 		return "right"
+
+
+
+func force_face_direction(new_facing : Vector2) -> void:
+	if new_facing == Vector2.ZERO:
+		return
+
+	direction = Vector2.ZERO
+
+	if abs(new_facing.x) > abs(new_facing.y):
+		if new_facing.x < 0.0:
+			cardinal_direction = Vector2.LEFT
+		else:
+			cardinal_direction = Vector2.RIGHT
+	else:
+		if new_facing.y < 0.0:
+			cardinal_direction = Vector2.UP
+		else:
+			cardinal_direction = Vector2.DOWN
+
+	direction_changed.emit(cardinal_direction)
+
+	if animation_player != null:
+		var anim_name = "idle_" + set_anim_direction()
+		if animation_player.has_animation(anim_name):
+			animation_player.play(anim_name)
