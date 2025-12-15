@@ -7,27 +7,35 @@ script = ExtResource("1_57cnb")
 
 [node name="Tile" type="Node2D" parent="."]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Ground1" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Ground2" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Ground3" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Ground4" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Ground5" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="DecorBottom" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="DecorTop" type="TileMapLayer" parent="Tile"]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="FieldActors" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -41,6 +49,10 @@ unique_name_in_owner = true
 y_sort_enabled = true
 
 [node name="PlacedNPCs" type="Node2D" parent="FieldActors"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Party" type="Node2D" parent="FieldActors"]
 unique_name_in_owner = true
 y_sort_enabled = true
 

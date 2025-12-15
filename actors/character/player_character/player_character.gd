@@ -15,6 +15,8 @@ extends Actor
 @onready var interact_area_trigger_2d = %InteractAreaTrigger2D #area for interaction detection
 @onready var collision_shape_2d:CollisionShape2D = %CollisionShape2D #Collision shape for player
 @onready var state_machine:StateMachine= %StateMachine #State Machine reference
+@onready var idle : PlayerIdle = %Idle
+@onready var walk : PlayerWalk = %Walk
 
 @export var move_speed : float = 115.0
 @export var run_speed : float = move_speed * 2.0
@@ -30,6 +32,7 @@ signal direction_changed( new_direction )
 
 func _ready()->void:
 	state_machine.initialize(self)
+	setup_move_speed()
 
 func _physics_process(_delta)->void:
 	move_and_slide()
@@ -109,3 +112,10 @@ func force_face_direction(new_facing : Vector2) -> void:
 		var anim_name = "idle_" + set_anim_direction()
 		if animation_player.has_animation(anim_name):
 			animation_player.play(anim_name)
+
+
+func setup_move_speed()->void:
+	if Options.always_run == true:
+		move_speed = run_speed
+	elif Options.always_run == false:
+		move_speed = original_move_speed

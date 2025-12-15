@@ -1,5 +1,6 @@
 ##Main.gd
 ##Main scene
+class_name Main
 extends Node
 
 #region Node References
@@ -32,11 +33,13 @@ extends Node
 
 
 
-#region State
+#region Variables
 var current_field_scene : Node = null
 var current_battle_scene : Node = null
 var title_menu_instance : CanvasLayer = null
-#endregion State
+
+
+#endregion Variables
 
 #region Lifecycle
 
@@ -84,48 +87,13 @@ func start_new_game()->void:
 	
 	if GameState != null:
 		GameState.gamestate = GameState.State.FIELD
-	if starting_field_scene != null:
-		await change_field_to(starting_field_scene, starting_spawn_id)
-
-func change_field_to(field_scene : PackedScene, spawn_id : StringName) -> void:
-
-	if field_scene == null:
+	#if starting_field_scene != null:
+		#await change_field_to(starting_field_scene, starting_spawn_id)
+		
+func field_camera_to_player()->void:
+	if CharDataKeeper.controlled_character == null:
+		printerr("Field camera could not be placed on player (NULL)")
 		return
+	##make camera rig follow the player
 
-	## Run exit hook if the current field supports it
-	if current_field_scene != null and is_instance_valid(current_field_scene):
-		if current_field_scene.has_method("on_field_exit"):
-			current_field_scene.call("on_field_exit")
-
-
-		## Party actor nodes are field owned now, so clearing references is enough
-		if SceneManager != null:
-			SceneManager.reset_party_runtime_state()
-
-		current_field_scene.queue_free()
-		current_field_scene = null
-
-	## Instance the new field
-	var new_field = field_scene.instantiate()
-	field_scene_container.add_child(new_field)
-	await new_field.ready
-
-	current_field_scene = new_field
-
-	## Tell SceneManager which field is active so it can spawn party into FieldActors
-	if SceneManager != null:
-		SceneManager.set_current_field_scene(new_field)
-
-		## Spawn target can be a spawn id (recommended for TransitionAreas)
-		SceneManager.set_party_spawn_point(spawn_id)
-
-	## Run field enter hook if available
-	if new_field.has_method("on_field_enter"):
-		await new_field.call("on_field_enter", spawn_id)
-
-
-	## Spawn the party into the field
-	if SceneManager != null:
-		await SceneManager.make_party_in_scene()
-
-	pass
+#region Helpers

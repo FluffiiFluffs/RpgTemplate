@@ -7,7 +7,7 @@ func _ready()->void:
 	state_machine = get_parent()
 	#Stops player from moving when dialogue starts
 	DialogueManager.dialogue_started.connect(_started_dialogue)
-
+	
 ## What happens when the state is entered
 func enter() -> void:
 	actor.animation_player.play("idle" + "_" + actor.set_anim_direction())
@@ -37,6 +37,11 @@ func init():
 
 ##Prevents player from moving when dialogue starts
 func _started_dialogue(_resource:Resource)->void:
+	state_machine.change_state(self)
+	actor.direction = Vector2.ZERO
+	actor.velocity = Vector2.ZERO
+
+func force_idle()->void:
 	state_machine.change_state(self)
 	actor.direction = Vector2.ZERO
 	actor.velocity = Vector2.ZERO

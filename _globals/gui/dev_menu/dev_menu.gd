@@ -16,6 +16,12 @@ var dev_menu_open : bool = false
 @onready var button_9 = %Button9
 @onready var button_10 = %Button10
 
+
+const TEST01_SCENE : PackedScene = preload("uid://my8hd4okxhcq")
+const TEST01_SPAWN_ID : StringName = &"SceneTransition"
+
+var _test01_is_loading : bool = false
+
 func _ready()->void:
 	button_1.pressed.connect(on_button_1_pressed)
 	button_2.pressed.connect(on_button_2_pressed)
@@ -39,21 +45,53 @@ func _unhandled_input(_event):
 			animation_player.play("dev_menu_close")	
 			dev_menu_open = false
 
+
+##load test scene
 func on_button_1_pressed()->void:
-	SceneManager.make_player_in_scene()
+	if SceneManager.main_scene != null:
+		#instantiate scene to main
+		var main = SceneManager.main_scene as Main
+		var test_scene = TEST01_SCENE.instantiate()
+		main.field_scene_container.add_child(test_scene)
+		main.field_root.visible = true
+		var field_scene = null
+		for child in main.field_scene_container.get_children():
+			if child is FieldScene:
+				field_scene = child
+		SceneManager.current_field_scene = field_scene
+		#setup spawn point
+		var spawnp = null
+		for child in SceneManager.current_field_scene.player_spawn.get_children():
+			if child is SceneTransitioner:
+				if child.target_transition_area == &"":
+					spawnp = child
+				else:
+					continue
+		SceneManager.party_spawn_point = spawnp
+		SceneManager.spawn_offset = SceneManager.party_spawn_point.compute_spawn_offset(SceneManager.party_spawn_point.global_position)
+		GameState._set_gamestate(1)
+		SceneManager.make_player_at_first_spawn_point()
+		main.field_camera_rig.follow_player()
+	pass
 
+##load player
 func on_button_2_pressed()->void:
-	SceneManager._instantiate_player_for_member(CharDataKeeper.all_party_members[1], Vector2.ZERO)
+	var main = SceneManager.main_scene as Main
+	SceneManager.make_player_at_first_spawn_point()
+	main.field_camera_rig.follow_player()
 	
+
 func on_button_3_pressed()->void:
-	SceneManager.make_party_in_scene()
-	
-func on_button_4_pressed()->void:
-	pass
-	
-func on_button_5_pressed()->void:
 	pass
 
+func on_button_4_pressed() -> void:
+
+	pass
+	
+	
+	
+func on_button_5_pressed() -> void:
+	pass
 func on_button_6_pressed()->void:
 	pass
 	
@@ -101,3 +139,33 @@ func _collect_descendants(root: Node, out: Array[Node]) -> void:
 	for child in root.get_children():
 		out.append(child)
 		_collect_descendants(child, out)
+
+
+func _get_field_from_main(main: Node) -> Node:
+	if main == null:
+		return null
+
+	# Preferred: Main’s tracked field scene
+	if "current_field_scene" in main:
+		var tracked = main.current_field_scene
+		if tracked != null and is_instance_valid(tracked):
+			return tracked
+
+	# Fallback: last child in FieldSceneContainer (covers “scene is visible but Main didn’t assign it yet”)
+	if "field_scene_container" in main and main.field_scene_container != null:
+		var c: Node = main.field_scene_container
+		var count = c.get_child_count()
+		if count > 0:
+			var candidate = c.get_child(count - 1)
+			if candidate != null and is_instance_valid(candidate):
+				return candidate
+
+	return null
+
+
+func _await_node_ready_if_needed(n: Node) -> void:
+	if n == null:
+		return
+	# Prevent “await ready” hangs if it is already ready
+	if n.is_node_ready() == false:
+		await n.ready

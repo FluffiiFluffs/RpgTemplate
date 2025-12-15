@@ -357,6 +357,8 @@ func top_menu_open()->void:
 	animation_player.play("top_menu_show")
 	#play top menu animation open
 	menu_state = "TOP_MENU_OPEN"
+	if CharDataKeeper.controlled_character:
+		CharDataKeeper.controlled_character.idle.force_idle()
 	GameState.gamestate = 3 #in gamemenu
 	pass
 
@@ -1861,17 +1863,23 @@ func ui_set_move_type()->void:
 	if Options.always_run == false:
 		m_type_button.button_pressed = false
 		m_type_label.text = "WALK OR RUN"
+
 	else:
 		m_type_button.button_pressed = true
 		m_type_label.text = "ALWAYS RUN"
+
 
 func m_type_button_toggled(_toggle : bool)->void:
 	if _toggle == false:
 		Options.always_run = false
 		m_type_label.text = "WALK OR RUN"
+		if CharDataKeeper.controlled_character:
+			CharDataKeeper.controlled_character.move_speed = CharDataKeeper.controlled_character.original_move_speed
 	else:
 		Options.always_run = true
 		m_type_label.text = "ALWAYS RUN"
+		if CharDataKeeper.controlled_character:
+			CharDataKeeper.controlled_character.move_speed = CharDataKeeper.controlled_character.run_speed
 
 func menu_mem_toggled(_toggle : bool)->void:
 	if _toggle == false:

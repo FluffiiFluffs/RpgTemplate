@@ -22,6 +22,16 @@ func exit() -> void:
 	
 ## What happens during _process(): update while state is running
 func process (_delta : float) -> State:
+	if Options.always_run == false:
+		if Input.is_action_pressed("cancel_input"):
+			actor.move_speed = actor.run_speed
+		if Input.is_action_just_released("cancel_input"):
+			actor.move_speed = actor.original_move_speed
+	elif Options.always_run == true:
+		if Input.is_action_pressed("cancel_input"):
+			actor.move_speed = actor.original_move_speed
+		if Input.is_action_just_released("cancel_input"):
+			actor.move_speed = actor.run_speed
 	if actor.direction == Vector2.ZERO:
 		return idle
 		
@@ -29,16 +39,15 @@ func process (_delta : float) -> State:
 	if actor.set_direction():
 		actor.animation_player.play("walk" + "_" + actor.set_anim_direction())
 	return null
-
 ## What happens during _physics_process(): update state is running
 func physics( _delta: float) -> State:
 	return null	
 	
 ## What happens with input events while this state is running
-func handle_input( _event: InputEvent) -> State:
-	if _event.is_action_pressed("cancel_input"):
-		actor.move_speed = actor.run_speed
-	if _event.is_action_released("cancel_input"):
-		actor.move_speed = actor.original_move_speed
-		
-	return null
+#func unhandled_input( _event: InputEvent) -> State:
+	#if _event.is_action_pressed("cancel_input"):
+		#actor.move_speed = actor.run_speed
+	#if _event.is_action_released("cancel_input"):
+		#actor.move_speed = actor.original_move_speed
+		#
+	#return null

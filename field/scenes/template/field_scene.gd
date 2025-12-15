@@ -26,10 +26,12 @@ extends Node2D
 @onready var triggers_encounter : Node2D = %Encounter
 @onready var transition_areas : Node2D = %TransitionAreas
 
+
 @onready var field_actors : Node2D = %FieldActors
 @onready var placed_enemies : Node2D = %PlacedEnemies
 @onready var enemy_spawners : Node2D = %EnemySpawners
 @onready var placed_npcs : Node2D = %PlacedNPCs
+@onready var party : Node2D = %Party
 
 func on_field_enter(spawn_id : StringName) -> void:
 	if enforce_draw_order:

@@ -332,6 +332,7 @@ script = ExtResource("4_31ora")
 [node name="Node2D6" type="Node2D" parent="StateMachine"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D"]
 visible = false

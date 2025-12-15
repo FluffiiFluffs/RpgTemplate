@@ -19,16 +19,21 @@ enum State {
 	DIALOGUE
 }
 
-var gamestate: int = State.STARTMENU:
+var _gamestate : int = State.STARTMENU
+
+var gamestate : int:
+	get:
+		return _gamestate
 	set(value):
 		_set_gamestate(value)
 
 func _set_gamestate(value: int) -> void:
-	if gamestate == value:
+	if _gamestate == value:
 		return
-	var prev = gamestate
-	gamestate = value
-	gamestate_changed.emit(prev, gamestate)
+
+	var prev : int = _gamestate
+	_gamestate = value
+	gamestate_changed.emit(prev, _gamestate)
 
 func is_field() -> bool:
-	return gamestate == State.FIELD
+	return _gamestate == State.FIELD
