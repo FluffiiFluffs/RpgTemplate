@@ -8,11 +8,11 @@ extends Resource
 ##Class of the Actor
 @export_enum("WARRIOR","THIEF","MAGE","HEALER") var char_class:int
 ##Default walk speed of the Actor
-@export var move_speed : float = 115.0
+@export var move_speed : float = 115.0 #ALERT To be transferred to scene!
 ##Sprite sheet of the Actor
-@export var char_sprite_sheet:Texture
+@export var char_sprite_sheet:Texture #ALERT To be transferred to scene!
 ##Sprite sheet used for battle
-@export var battle_sprite_sheet:Texture
+@export var battle_sprite_sheet:Texture #ALERT To be transferred to scene!
 ##Sprite Used for stats page portrait
 @export var stats_sprite : Texture
 ##Default level of the actor
@@ -33,19 +33,23 @@ extends Resource
 @export var stamina:int=10
 ##Default Magic of the Actor. Determines effectiveness of magic. 
 @export var magic:int=10
+
+#TODO Transfer to PartyMemberResource! Enemies should have their own array held in scene export!
 ##Array of default actions that can be taken in battle by the actor.
 @export var battle_actions:BattleActions
-@export_category("Enemy Specific")
-##How an enemy will react to the player's presence.[br]Scared: Enemy will run when in alert range[br]Cautious: Enemy will chase when in alert range[br]Aggressive: Enemy will chase when in caution range
-@export_enum("SCARED", "CAUTIOUS", "AGGRESSIVE") var alert_type : int = 1
-##Radius of see_range
-@export var see_range : float = 300.0
-##Radius of caution range
-@export var caution_range : float = 250.0
-##Radius of alert range.
-@export var alert_range : float = 100.0
-##How fast the enemy will move in alert mode
-@export var alert_move_speed : float = 125.0
+
+#ALERT NO LONGER USED, held within enemy scene!
+#@export_category("Enemy Specific")
+###How an enemy will react to the player's presence.[br]Scared: Enemy will run when in alert range[br]Cautious: Enemy will chase when in alert range[br]Aggressive: Enemy will chase when in caution range
+#@export_enum("SCARED", "CAUTIOUS", "AGGRESSIVE") var alert_type : int = 1
+###Radius of see_range
+#@export var see_range : float = 300.0
+###Radius of caution range
+#@export var caution_range : float = 250.0
+###Radius of alert range.
+#@export var alert_range : float = 100.0
+###How fast the enemy will move in alert mode
+#@export var alert_move_speed : float = 125.0
 
 
 func _class_name()->String:

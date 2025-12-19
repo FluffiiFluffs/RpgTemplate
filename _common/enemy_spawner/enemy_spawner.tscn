@@ -30,8 +30,7 @@ unique_name_in_owner = true
 modulate = Color(1, 0, 0, 1)
 texture = SubResource("GradientTexture2D_rsq5p")
 
-[node name="WaitLabel" type="Label" parent="Sprite2D"]
-unique_name_in_owner = true
+[node name="SpawnerTitle" type="Label" parent="Sprite2D"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

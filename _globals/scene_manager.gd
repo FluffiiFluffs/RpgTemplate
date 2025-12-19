@@ -121,8 +121,8 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				CharDataKeeper.controlled_character = pmember
 				pmember.name = p_data.char_resource.char_name
-				pmember.force_face_direction(_side_to_vector(party_spawn_point.spawn_direction))
-				pmember.global_position = party_spawn_point.global_position + spawn_offset
+				pmember.force_face_direction(_side_to_vector(spoint.spawn_direction))
+				pmember.global_position = spoint.global_position + spawn_offset
 				last_party_actor = pmember
 			else:
 				var pmember = CharDataKeeper._NPC.instantiate() as NPC

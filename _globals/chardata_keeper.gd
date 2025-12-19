@@ -6,8 +6,6 @@ extends Node2D
 
 #preloads here so other scripts can access the scenes easier
 const PLAYER_CHARACTER = preload("uid://bita6dnrj87wq")
-const _NPC = preload("uid://56kk082o8ck1")
-const ENEMY = preload("uid://dt3hw6ocf2cl7")
 
 
 @export_category("Party Setup")

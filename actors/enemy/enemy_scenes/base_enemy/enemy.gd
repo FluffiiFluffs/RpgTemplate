@@ -1,12 +1,10 @@
 @tool
-##enemy.gd
 class_name Enemy
 extends Actor
-
-@onready var sprite_2d = %Sprite2D
+@onready var field_sprite = %FieldSprite
+@onready var battle_sprite = %BattleSprite
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var audio_stream_player_2d : AudioStreamPlayer2D = %AudioStreamPlayer2D
-@onready var audio_listener_2d : AudioListener2D = %AudioListener2D #should be default listener
 #Other areas look to see if this overlaps, monitorable
 @onready var body_collision_shape_2d : CollisionShape2D = %BodyCollisionShape2D #Collision shape for player
 @onready var state_machine: StateMachine = %StateMachine #State Machine reference
@@ -26,11 +24,10 @@ extends Actor
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
 @onready var coll_timer : Timer = %CollTimer
 
-
-
 @export_category("Enemy Data Resource")
 ##Data Resource for this NPC. Must be set!
 @export var enemy_data:CharResource = null
+
 @export_category("Enemy Options")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on will_patrol will disable this!
 @export var will_walk : bool = false
@@ -46,6 +43,26 @@ extends Actor
 @export var move_speed : float = 30.0
 ##If walk speed is altered, this is what walk speed will be set back to default = move_speed
 @export var default_move_speed : float = move_speed
+
+@export_category("Battle Options")
+@export var loot_table : Array[LootDrop]
+@export var steal_table : Array[LootDrop]
+@export var money : int = 0
+@export var experience : int = 0
+@export var difficulty : float = 1.0
+
+@export_category("Alert Options")
+##How an enemy will react to the player's presence.[br]Scared: Enemy will run when in alert range[br]Cautious: Enemy will chase when in alert range[br]Aggressive: Enemy will chase when in caution range
+@export_enum("SCARED", "CAUTIOUS", "AGGRESSIVE") var alert_type : int = 1
+##How far the enemy sees the player (but does not go into a mode, used for despawn if spawned).
+@export var see_range : float = 300.0
+##Radius to trigger caution state. Set by setup_detection_ranges on load
+@export var caution_range : float = 250.0
+##Radius to trigger alert state. Set by setup_detection_ranges on load
+@export var alert_range : float = 100.0
+##How quickly the enemy moves while in alert status
+@export var alert_move_speed : float = 120.0
+
 @export_category("Spawned by Spawner Options")
 ##For Debugging.[br]Bool for if this enemy was spawned by an EnemySpawner node
 @export var was_spawned : bool = false
@@ -55,7 +72,7 @@ extends Actor
 @export var despawn_with_distance : bool = false
 ##How far the player must be to despawn the enemy if despawn_with_distance = true.[br]Usually set by the EnemySpawner parent node
 @export var despawn_distance : float = 500
-
+@export var enemy_group : EnemyGroup = null
 
 ##Determines default idle parameters, but usually overwritten by using other states.
 @export_category("Idle State AI")
@@ -100,9 +117,7 @@ var walk_duration : float = 1.0
 @export var is_following : bool = false
 
 
-@export_category("Alert AI")
-##Determines how the enemy acts in caution and alert phases. set by setup_detection_ranges on load
-@export_enum("SCARED", "CAUTIOUS", "AGGRESSIVE") var alert_type : int
+@export_category("Alert DEBUG")
 ##If the enemy can see the player
 @export var see_player : bool = false
 ##If the enemy has seen the player. Used for despawning.
@@ -111,26 +126,19 @@ var walk_duration : float = 1.0
 @export var has_chased_player : bool = false
 ##If the enemy is chasing the player
 @export var chasing_player : bool = false
-##How quickly the enemy moves while in alert status
-@export var alert_move_speed : float = 120.0
 ##If enemy is in caution mode
 @export var caution_mode : bool = false
 ##If enemy is in alert mode
 @export var alert_mode : bool = false
-##How far the enemy sees the player (but does not go into a mode, used for despawn if spawned).
-@export var see_range : float = 300.0
-##Radius to trigger caution state. Set by setup_detection_ranges on load
-@export var caution_range : float = 250.0
-##Radius to trigger alert state. Set by setup_detection_ranges on load
-@export var alert_range : float = 100.0
-
+##If the enemy is in battle or on the field
+@export var battle_mode : bool = false
 
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO
 ##Name of the direction the NPC is facing.
 var direction_name : String = "down"
-###Was the player found?
-#var player_detected : bool = false
+##Was the player found?
+#var player_detected : bool = false #Don't need, alert state bools cover this
 
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
 
@@ -139,12 +147,15 @@ signal alerting
 #signal direction_changed( new_direction )
 
 func _ready()->void:
+	see_shape.shape.radius = see_range
+	caution_shape.shape.radius = caution_range
+	alert_shape.shape.radius = alert_range
+	
 	if Engine.is_editor_hint():
 		return
 	setup_enemy()
 	if_walking()
 	tree_exited.connect(wareafree)
-	pass
 
 ##Setup routine for NPC
 func setup_enemy()->void:
@@ -152,20 +163,39 @@ func setup_enemy()->void:
 		printerr("enemy_data is not set! Removing enemy ")
 		queue_free()
 		return
+
 	move_speed = enemy_data.move_speed
 	walk_area_2d.original_parent = self
 	walk_area_2d.was_spawned = was_spawned
-	sprite_2d.texture = enemy_data.char_sprite_sheet #gets texture from resource
 	walk_center = global_position #Sets walk center to NPC global position
 	state_machine.initialize(self) #Initializes state_machine script to be the this node
 	detect_timer.timeout.connect(_check_for_player) #Connects timeout signal to _check_for_player()
-	setup_detection_ranges()
+	#setup_detection_ranges()
 	collision_toggle()
 	coll_timer.wait_time = coll_off_wait_time
 	coll_timer.timeout.connect(collisions_disabled)
+	if battle_mode == true:
+		field_sprite.visible = false
+		battle_sprite.visible = true
+	else:
+		field_sprite.visible = true
+		battle_sprite.visible = false
 
-	
+func _process(_delta) -> void:
+	if Engine.is_editor_hint():
+		if walk_area_2d:
+			if will_walk == true:
+				walk_area_2d.visible = true
+				walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
+			elif will_walk == false:
+				walk_area_2d.visible = false
+				
+		see_shape.shape.radius = see_range
+		caution_shape.shape.radius = caution_range
+		alert_shape.shape.radius = alert_range
+		return
 	pass
+
 ##Determines if walk_area shows up in debug. Sets up walk_area size. Places walk_area at NPC's position but does not move with NPC.[br]
 ##If a WalkCenterPoint is defined, makes it the walk_center instead of NPC origin position.
 func if_walking()->void:
@@ -192,17 +222,6 @@ func _physics_process(_delta)->void:
 	if Engine.is_editor_hint():
 		return	
 	move_and_slide()
-
-func _process(_delta) -> void:
-	if Engine.is_editor_hint():
-		if walk_area_2d:
-			if will_walk == true:
-				walk_area_2d.visible = true
-				walk_shape_2d.shape.size = (Vector2(walk_range*tile_size*2,walk_range*tile_size*2 ))
-			elif will_walk == false:
-				walk_area_2d.visible = false
-		return
-	pass
 
 ##Updates animation. Needs state's (String) name as argument.
 ##Make sure to update_direction_name() before this is called!
@@ -243,35 +262,6 @@ func update_direction(_target_position:Vector2)->void:
 func set_walk_center_point(_wcp:WalkCenterPoint)->void:
 	walk.walkcenterpoint = _wcp.global_position
 
-###Checks to see if the player is wtihin p_det_area. Fires signals and toggles bool.
-#func _check_for_player()->void:
-	#if CharDataKeeper.controlled_character != null:
-		#var sees = see_area_2d.overlaps_body(CharDataKeeper.controlled_character)
-		#var alerted = alert_area_2d.overlaps_body(CharDataKeeper.controlled_character)
-		#var cautioned = caution_area_2d.overlaps_body(CharDataKeeper.controlled_character)
-		##player is within alert AND caution radius...
-		#if alerted and cautioned:
-			#caution_mode = false
-			#alert_mode = true
-			#alerting.emit()
-			##print(str(name) + " ALERT MODE!")
-		##player is outside of alert range, but within caution range...
-		#elif !alerted and cautioned:
-			#caution_mode = true
-			#alert_mode = false
-			#cautioning.emit()
-			##print(str(name) + " CAUTION MODE!")
-		#elif !alerted and !cautioned:
-			#caution_mode = false
-			#alert_mode = false
-			#
-		##Determines if player is seen at all
-		#if sees:
-			#see_player = true #used to determine if the enemy is actively seeing the player
-			#has_seen_player = true #used to despawn enemy during idle state after the spawner despawns all other nodes
-		#elif !sees:
-			#see_player = false
-
 ##Checks to see if the player is wtihin p_det_area. Fires signals and toggles bool.
 func _check_for_player()->void:
 	if CharDataKeeper.controlled_character != null:
@@ -297,34 +287,6 @@ func _check_for_player()->void:
 			has_seen_player = true #used to despawn enemy during idle state after the spawner despawns all other nodes
 		elif !sees:
 			see_player = false
-
-			
-func setup_detection_ranges()->void:
-	if enemy_data != null:
-		alert_type = enemy_data.alert_type
-		alert_move_speed = enemy_data.alert_move_speed 
-		see_range = enemy_data.see_range
-		caution_range = enemy_data.caution_range
-		alert_range = enemy_data.alert_range
-		see_shape.shape.radius = see_range
-		caution_shape.shape.radius = caution_range
-		alert_shape.shape.radius = alert_range
-		
-
-
-##Starts coll_timer. coll_timer timeout triggrs collsions_disabled()
-#func ptimercolloff()->void:
-	#if coll_timer.is_stopped():
-		#coll_timer.start()
-	#pass
-
-###Turns collision shape back on once player exits p_det_area. stops coll_timer.
-#func ptimercollon()->void:
-	#if coll_timer.time_left > 0:
-		#if player_is_not_detected:
-			#coll_timer.stop()
-	#body_collision_shape_2d.set_deferred("disabled", false)
-	#pass
 
 ##Turns body collision shape on or off determined by collisions_on toggle in inspector
 func collision_toggle()->void:

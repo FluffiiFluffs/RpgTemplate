@@ -20,7 +20,6 @@ var dev_menu_open : bool = false
 const TEST01_SCENE : PackedScene = preload("uid://my8hd4okxhcq")
 const TEST01_SPAWN_ID : StringName = &"SceneTransition"
 
-var _test01_is_loading : bool = false
 
 func _ready()->void:
 	button_1.pressed.connect(on_button_1_pressed)

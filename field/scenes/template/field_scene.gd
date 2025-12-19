@@ -32,81 +32,85 @@ extends Node2D
 @onready var enemy_spawners : Node2D = %EnemySpawners
 @onready var placed_npcs : Node2D = %PlacedNPCs
 @onready var party : Node2D = %Party
-
-func on_field_enter(spawn_id : StringName) -> void:
-	if enforce_draw_order:
-		_apply_draw_order_defaults()
-
-	if field_actors != null:
-		field_actors.y_sort_enabled = true
-
-	if Engine.is_editor_hint() == false:
-		if adopt_placed_actors_on_enter:
-			_adopt_placed_actors()
-
-	_restore_field_state()
-
-func on_field_exit() -> void:
-	_capture_field_state()
+#
 
 
-func get_actor_container() -> Node2D:
-	return field_actors
-
-func get_spawn_global_position(spawn_id : StringName) -> Vector2:
-	if player_spawn == null:
-		return global_position
-
-	var want = String(spawn_id)
-
-	for child in player_spawn.get_children():
-		if child == null:
-			continue
-		if child.name != want:
-			continue
-		if child is Node2D:
-			return (child as Node2D).global_position
-
-	for child in player_spawn.get_children():
-		if child is Node2D:
-			return (child as Node2D).global_position
-
-	return global_position
-
-func _apply_draw_order_defaults() -> void:
-	if ground1 != null:
-		ground1.z_index = 0
-	if decor_bottom != null:
-		decor_bottom.z_index = 10
-	if field_actors != null:
-		field_actors.z_index = 20
-	if decor_top != null:
-		decor_top.z_index = 100
-
-func _adopt_placed_actors() -> void:
-	if field_actors == null:
-		return
-
-	_adopt_children(placed_npcs, field_actors)
-	_adopt_children(placed_enemies, field_actors)
-
-func _adopt_children(from_node : Node, to_node : Node) -> void:
-	if from_node == null:
-		return
-	if to_node == null:
-		return
-
-	var children = from_node.get_children()
-	for child in children:
-		if child == null:
-			continue
-
-		from_node.remove_child(child)
-		to_node.add_child(child)
-
-func _restore_field_state() -> void:
-	pass
-
-
-func _capture_field_state() -> Dictionary:
-	return {}
+#region unused
+#func on_field_enter(spawn_id : StringName) -> void:
+	#if enforce_draw_order:
+		#_apply_draw_order_defaults()
+#
+	#if field_actors != null:
+		#field_actors.y_sort_enabled = true
+#
+	#if Engine.is_editor_hint() == false:
+		#if adopt_placed_actors_on_enter:
+			#_adopt_placed_actors()
+#
+	#_restore_field_state()
+#
+#func on_field_exit() -> void:
+	#_capture_field_state()
+#
+#
+#func get_actor_container() -> Node2D:
+	#return field_actors
+#
+#func get_spawn_global_position(spawn_id : StringName) -> Vector2:
+	#if player_spawn == null:
+		#return global_position
+#
+	#var want = String(spawn_id)
+#
+	#for child in player_spawn.get_children():
+		#if child == null:
+			#continue
+		#if child.name != want:
+			#continue
+		#if child is Node2D:
+			#return (child as Node2D).global_position
+#
+	#for child in player_spawn.get_children():
+		#if child is Node2D:
+			#return (child as Node2D).global_position
+#
+	#return global_position
+#
+#func _apply_draw_order_defaults() -> void:
+	#if ground1 != null:
+		#ground1.z_index = 0
+	#if decor_bottom != null:
+		#decor_bottom.z_index = 10
+	#if field_actors != null:
+		#field_actors.z_index = 20
+	#if decor_top != null:
+		#decor_top.z_index = 100
+#
+#func _adopt_placed_actors() -> void:
+	#if field_actors == null:
+		#return
+#
+	#_adopt_children(placed_npcs, field_actors)
+	#_adopt_children(placed_enemies, field_actors)
+#
+#func _adopt_children(from_node : Node, to_node : Node) -> void:
+	#if from_node == null:
+		#return
+	#if to_node == null:
+		#return
+#
+	#var children = from_node.get_children()
+	#for child in children:
+		#if child == null:
+			#continue
+#
+		#from_node.remove_child(child)
+		#to_node.add_child(child)
+#
+#func _restore_field_state() -> void:
+	#pass
+#
+#
+#func _capture_field_state() -> Dictionary:
+	#return {}
+#endregion unused

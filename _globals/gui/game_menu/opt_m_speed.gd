@@ -69,7 +69,7 @@ func slider_changed(_value:float)->void:
 			m_speed_value.text = str(_value)
 	set_speed_label()
 
-func _unhandled_input(event):
+func _unhandled_input(_event):
 	if GameMenu.current_selected_slider == self:
 		if Input.is_action_just_pressed("cancel_input"):
 			button.grab_focus()
