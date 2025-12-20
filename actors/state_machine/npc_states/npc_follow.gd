@@ -14,6 +14,7 @@ func _ready()->void:
 func enter() -> void:
 	actor = get_parent().get_parent()
 	state_machine = get_parent()
+	actor.state_label.text = "F"
 
 ## What happens when the state is exited
 func exit() -> void:

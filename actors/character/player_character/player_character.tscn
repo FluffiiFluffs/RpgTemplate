@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://bita6dnrj87wq"]
+[gd_scene load_steps=20 format=3 uid="uid://bita6dnrj87wq"]
 
 [ext_resource type="Script" uid="uid://dktt53hbh57f5" path="res://actors/character/player_character/player_character.gd" id="1_5dlv1"]
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="3_t0tay"]
 [ext_resource type="Script" uid="uid://ebmcasvilahp" path="res://actors/state_machine/player_states/player_idle.gd" id="4_6oia8"]
 [ext_resource type="Script" uid="uid://plkn7epwt71w" path="res://actors/state_machine/player_states/player_walk.gd" id="4_31ora"]
+[ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="5_6oia8"]
+[ext_resource type="Script" uid="uid://cbjff145wa7wn" path="res://actors/state_machine/base_state_machine_scripts/cutscene.gd" id="5_b0cue"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -268,9 +270,6 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
 size = Vector2(16, 18)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0cue"]
-size = Vector2(398, 224)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6oia8"]
 size = Vector2(696.5, 392)
 
@@ -323,23 +322,15 @@ script = ExtResource("4_6oia8")
 unique_name_in_owner = true
 script = ExtResource("4_31ora")
 
-[node name="Talking" type="Node2D" parent="StateMachine"]
-
 [node name="CutScene" type="Node2D" parent="StateMachine"]
+script = ExtResource("5_b0cue")
 
-[node name="Node2D5" type="Node2D" parent="StateMachine"]
-
-[node name="Node2D6" type="Node2D" parent="StateMachine"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-enabled = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D"]
-visible = false
-shape = SubResource("RectangleShape2D_b0cue")
-debug_color = Color(0.8862745, 0, 0.8039216, 0)
+[node name="Follow" type="Node2D" parent="StateMachine"]
+unique_name_in_owner = true
+script = ExtResource("5_6oia8")
 
 [node name="EnemySpawnTrigger" type="Area2D" parent="."]
+unique_name_in_owner = true
 visible = false
 collision_layer = 524288
 collision_mask = 0

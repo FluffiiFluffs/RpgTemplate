@@ -52,7 +52,7 @@ func _process(_delta)->void:
 
 
 func on_body_entered(body : Node2D)->void:
-	var player = body as PlayerCharacter
+	var player = body as PartyMember
 
 	if scene_to_load == "":
 		return

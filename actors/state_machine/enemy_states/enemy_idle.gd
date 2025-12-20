@@ -20,6 +20,7 @@ func _ready()->void:
 	state_timer.timeout.connect(_on_timer_timeout)
 
 
+
 ## What happens during _process(): update while state is running
 func process (_delta : float) -> State:
 	actor.velocity = Vector2.ZERO
@@ -58,7 +59,7 @@ func enter() -> void:
 	actor.update_animation("idle")
 	#await get_tree().create_timer(idle_duration,false).timeout ##Causes memory leak if timer is not done and enemy is queue_free()'d!!!!!
 	use_timer(randf_range(actor.idle_min, actor.idle_max))
-	
+	actor.state_label.text = "I"
 	
 	##TODO Fix this
 	#If the enemy is outside of caution and alert range, wait 5 seconds and then despawn.

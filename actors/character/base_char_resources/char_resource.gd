@@ -8,13 +8,13 @@ extends Resource
 ##Class of the Actor
 @export_enum("WARRIOR","THIEF","MAGE","HEALER") var char_class:int
 ##Default walk speed of the Actor
-@export var move_speed : float = 115.0 #ALERT To be transferred to scene!
+#@export var move_speed : float = 115.0 #ALERT To be transferred to scene!
 ##Sprite sheet of the Actor
-@export var char_sprite_sheet:Texture #ALERT To be transferred to scene!
+#@export var char_sprite_sheet:Texture #ALERT To be transferred to scene!
 ##Sprite sheet used for battle
-@export var battle_sprite_sheet:Texture #ALERT To be transferred to scene!
-##Sprite Used for stats page portrait
-@export var stats_sprite : Texture
+#@export var battle_sprite_sheet:Texture #ALERT To be transferred to scene!
+###Sprite Used for stats page portrait
+#@export var stats_sprite : Texture #ALERT Moved to party_member_data
 ##Default level of the actor
 @export var char_level:int=1
 ##Default max_hp of the Actor. Modified by Stamina.

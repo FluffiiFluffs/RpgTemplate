@@ -28,6 +28,7 @@ func _ready() -> void:
 
 ## What happens when the state is entered
 func enter() -> void:
+	actor.state_label.text = "P"
 	if patrol_locations.size() < 2:
 		printerr("NPC" + str(actor.name) + " DOES NOT HAVE ANY PATROL LOCATIONS AS CHILDREN!")
 		printerr("NPC " + str(actor.name) + " SET TO WANDER MODE")

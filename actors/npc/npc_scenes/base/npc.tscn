@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://56kk082o8ck1"]
+[gd_scene load_steps=23 format=3 uid="uid://56kk082o8ck1"]
 
 [ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/npc/npc_scenes/base/npc.gd" id="1_3jjbx"]
 [ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/npc/npc_resources/base/base_npc_resource.tres" id="2_3jjbx"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/state_machine/npc_states/npc_walk.gd" id="5_06j4l"]
 [ext_resource type="Script" uid="uid://c24ccuf0y06bn" path="res://actors/state_machine/npc_states/npc_patrol.gd" id="6_06j4l"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="6_i2mv8"]
+[ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="9_4pkct"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -208,11 +209,7 @@ libraries = {
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 max_polyphony = 5
-
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
-unique_name_in_owner = true
-process_mode = 1
-current = true
+bus = &"SFX"
 
 [node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -233,8 +230,6 @@ unique_name_in_owner = true
 script = ExtResource("5_06j4l")
 next_state = NodePath("../Idle")
 
-[node name="Talking" type="Node2D" parent="StateMachine"]
-
 [node name="Patrol" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
 script = ExtResource("6_06j4l")
@@ -242,8 +237,6 @@ script = ExtResource("6_06j4l")
 [node name="Follow" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
 script = ExtResource("6_i2mv8")
-
-[node name="Node2D6" type="Node2D" parent="StateMachine"]
 
 [node name="P_Det_Area" type="Area2D" parent="."]
 unique_name_in_owner = true
@@ -274,3 +267,15 @@ autostart = true
 [node name="CollTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
+
+[node name="StateLabel" type="Label" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+offset_left = -6.0
+offset_top = -43.0
+offset_right = 8.0
+offset_bottom = -28.0
+theme_override_fonts/font = ExtResource("9_4pkct")
+theme_override_font_sizes/font_size = 8
+text = "I"
+horizontal_alignment = 1

@@ -88,12 +88,13 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 func make_player_at_first_spawn_point()->void:
 	if CharDataKeeper.party_members.is_empty():
 		CharDataKeeper.party_members.append(CharDataKeeper.all_party_members[0])
-	var player = CharDataKeeper.PLAYER_CHARACTER.instantiate() as PlayerCharacter
-	current_field_scene.party.add_child(player)
+	var player = CharDataKeeper.party_members[0]
+	var player_scene = player.party_member_scene.instantiate() as PartyMember
+	current_field_scene.party.add_child(player_scene)
 	var player_data = CharDataKeeper.party_members[0]
-	player.sprite_2d.texture = player_data.char_resource.char_sprite_sheet
-	player.name = player_data.char_resource.char_name
-	CharDataKeeper.controlled_character = player
+	#player.sprite_2d.texture = player_data.char_resource.char_sprite_sheet
+	player_scene.name = player_data.char_resource.char_name
+	CharDataKeeper.controlled_character = player_scene
 	if !current_field_scene.player_spawn.get_children().is_empty():
 		for child in current_field_scene.player_spawn.get_children():
 			party_spawn_point = child
@@ -102,9 +103,9 @@ func make_player_at_first_spawn_point()->void:
 			for child in current_field_scene.transition_areas.get_children():
 				party_spawn_point = child
 		else:
-			printerr("Tried to spawn player, but spawn points!")		
-	player.force_face_direction(_side_to_vector(party_spawn_point.spawn_direction))
-	player.global_position = party_spawn_point.global_position + party_spawn_point.compute_spawn_offset(party_spawn_point.global_position)
+			printerr("Tried to spawn player, but spawn no points!")		
+	player_scene.force_face_direction(_side_to_vector(party_spawn_point.spawn_direction))
+	player_scene.global_position = party_spawn_point.global_position + party_spawn_point.compute_spawn_offset(party_spawn_point.global_position)
 
 func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 	var party = CharDataKeeper.party_members
@@ -115,28 +116,32 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 			return
 		else:
 			if index == 0:
-				var pmember = CharDataKeeper.PLAYER_CHARACTER.instantiate() as PlayerCharacter
-				current_field_scene.party.add_child(pmember)
+				var pmember = CharDataKeeper.party_members[index]
+				var pmemberscene = pmember.party_member_scene.instantiate() as PartyMember
+				current_field_scene.party.add_child(pmemberscene)
 				var p_data = party[index]
-				pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
-				CharDataKeeper.controlled_character = pmember
-				pmember.name = p_data.char_resource.char_name
-				pmember.force_face_direction(_side_to_vector(spoint.spawn_direction))
-				pmember.global_position = spoint.global_position + spawn_offset
-				last_party_actor = pmember
+				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
+				CharDataKeeper.controlled_character = pmemberscene
+				pmemberscene.name = p_data.char_resource.char_name
+				pmemberscene.force_face_direction(_side_to_vector(spoint.spawn_direction))
+				pmemberscene.global_position = spoint.global_position + spawn_offset
+				pmemberscene.set_controlled_on()
+				last_party_actor = pmemberscene
+				pmemberscene.is_controlled = true
 			else:
-				var pmember = CharDataKeeper._NPC.instantiate() as NPC
+				var pmember = CharDataKeeper.party_members[index]
+				var pmemberscene = pmember.party_member_scene.instantiate() as PartyMember
 				var p_data = party[index]
-				pmember.actor_to_follow = last_party_actor
-				pmember.is_following = true
-				current_field_scene.party.add_child(pmember)
-				pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
-				pmember.name = p_data.char_resource.char_name
-				pmember.p_det_area.queue_free()
-				pmember.p_det_timer.queue_free()
-				pmember.coll_timer.queue_free()
-				pmember.global_position = last_party_actor.global_position + Vector2(0, -1)
-				last_party_actor = pmember
+				pmemberscene.actor_to_follow = last_party_actor
+				pmemberscene.is_controlled = false
+				pmemberscene.is_following = true
+				
+				current_field_scene.party.add_child(pmemberscene)
+				pmemberscene.set_controlled_off()
+				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
+				pmemberscene.name = p_data.char_resource.char_name
+				pmemberscene.global_position = last_party_actor.global_position + Vector2(0, -1)
+				last_party_actor = pmemberscene
 
 #endregion Instantiate Player + Party
 

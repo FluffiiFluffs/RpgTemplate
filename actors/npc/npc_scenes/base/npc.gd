@@ -6,7 +6,6 @@ extends Actor
 @onready var sprite_2d = %Sprite2D
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var audio_stream_player_2d : AudioStreamPlayer2D = %AudioStreamPlayer2D
-@onready var audio_listener_2d : AudioListener2D = %AudioListener2D #should be default listener
 #Other areas look to see if this overlaps, monitorable
 @onready var body_collision_shape_2d : CollisionShape2D = %BodyCollisionShape2D #Collision shape for player
 @onready var state_machine: StateMachine = %StateMachine #State Machine reference
@@ -19,6 +18,7 @@ extends Actor
 @onready var p_det_area : Area2D = %P_Det_Area
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
 @onready var coll_timer : Timer = %CollTimer
+@onready var state_label : Label = %StateLabel
 
 
 
@@ -92,7 +92,6 @@ var player_detected : bool = false
 
 
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
-const _00_CHAR = preload("uid://prpth3t5akim")
 
 signal player_is_detected ##Signal for if the player is detected
 signal player_is_not_detected ##Signal for if the player was not detected
@@ -105,15 +104,17 @@ signal pcolldetfalse ##Signal to turn collisions back on once player exits detec
 
 func _ready()->void:
 	if Engine.is_editor_hint():
-		sprite_2d.texture = npc_data.char_sprite_sheet
+		#sprite_2d.texture = npc_data.char_sprite_sheet # no longer needed, npcs will be unique scenes
 		return
 	setup_npc()
 	if_walking()
+	if !Options.show_states:
+		state_label.visible = false
 	pass
 
 ##Setup routine for NPC
 func setup_npc()->void:
-	sprite_2d.texture = npc_data.char_sprite_sheet
+	#sprite_2d.texture = npc_data.char_sprite_sheet #no longer needed since NPCs will be their own scene
 	walk_center = global_position
 	state_machine.initialize(self)
 
@@ -280,44 +281,3 @@ func collisions_disabled()->void:
 func collisions_enabled()->void:
 	body_collision_shape_2d.set_deferred("disabled", false)
 	pass
-
-func _unhandled_input(_event):
-	#if Input.is_action_just_pressed("test1"):
-		#if node_to_follow != null:
-			#print(str(name) + " is following " + str(node_to_follow.name))
-		#else:
-			#print(str(name) + "node_to_follow not ready")
-	pass
-
-#for player control, may not need
-#func set_direction() -> bool:
-	#if direction == Vector2.ZERO:
-		#return false
-#
-	#var direction_id : int = int( round( ( direction + cardinal_direction * 0.1 ).angle() / TAU * DIR_4.size() ) )
-	#var new_dir = DIR_4 [ direction_id ]
-		#
-	#if new_dir == cardinal_direction:
-		#return false
-		#
-	#cardinal_direction = new_dir
-	#direction_changed.emit( new_dir )
-	#
-	#return true
-
-
-#may be superceded by update_direction_name
-#func set_anim_direction() -> String:
-	#if direction == Vector2.DOWN:
-		##print(str(name) + " going down")
-		#return "down"
-	#elif direction == Vector2.UP:
-		##print(str(name) + " going up")
-		#return "up"
-	#elif direction == Vector2.LEFT:
-		##print(str(name) + " going left")		
-		#return "left"
-	#else:
-		##print(str(name) + " going right")		
-		#return "right"
-##

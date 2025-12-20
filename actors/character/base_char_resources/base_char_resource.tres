@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_fabqv")
+char_name = "Thief"
 metadata/_custom_type_script = "uid://dekkhepva31dh"

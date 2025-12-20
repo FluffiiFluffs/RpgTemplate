@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csnb1y2gl7gec"
-path="res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
+uid="uid://bq6k5ndopsyvb"
+path="res://.godot/imported/thief_sprite_sheet.png-ab059bdf226539b18a6888572abe8819.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://_assets/character/player/speak_player_spritesheet.png"
-dest_files=["res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"]
+source_file="res://_assets/character/party/thief/thief_sprite_sheet.png"
+dest_files=["res://.godot/imported/thief_sprite_sheet.png-ab059bdf226539b18a6888572abe8819.ctex"]
 
 [params]
 

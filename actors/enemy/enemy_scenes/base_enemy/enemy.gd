@@ -20,6 +20,8 @@ extends Actor
 @onready var see_shape : CollisionShape2D = %SeeShape2D
 @onready var caution_shape : CollisionShape2D = %CautionShape2D
 @onready var alert_shape : CollisionShape2D = %AlertShape2D
+@onready var state_label : Label = %StateLabel
+
 
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
 @onready var coll_timer : Timer = %CollTimer
@@ -132,6 +134,7 @@ var walk_duration : float = 1.0
 @export var alert_mode : bool = false
 ##If the enemy is in battle or on the field
 @export var battle_mode : bool = false
+@export var is_defeated : bool = false #maybe useful for playing an animation on the field once an enemy is dead
 
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO
@@ -156,6 +159,8 @@ func _ready()->void:
 	setup_enemy()
 	if_walking()
 	tree_exited.connect(wareafree)
+	if !Options.show_states:
+		state_label.visible = false
 
 ##Setup routine for NPC
 func setup_enemy()->void:
@@ -164,7 +169,7 @@ func setup_enemy()->void:
 		queue_free()
 		return
 
-	move_speed = enemy_data.move_speed
+	#move_speed = enemy_data.move_speed
 	walk_area_2d.original_parent = self
 	walk_area_2d.was_spawned = was_spawned
 	walk_center = global_position #Sets walk center to NPC global position

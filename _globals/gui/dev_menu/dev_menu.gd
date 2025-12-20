@@ -69,7 +69,7 @@ func on_button_1_pressed()->void:
 		SceneManager.party_spawn_point = spawnp
 		SceneManager.spawn_offset = SceneManager.party_spawn_point.compute_spawn_offset(SceneManager.party_spawn_point.global_position)
 		GameState._set_gamestate(1)
-		SceneManager.make_player_at_first_spawn_point()
+		SceneManager.make_party_at_spawn_point(spawnp)
 		main.field_camera_rig.follow_player()
 	pass
 

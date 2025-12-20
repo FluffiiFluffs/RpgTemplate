@@ -4,21 +4,20 @@
 extends Node2D
 
 
-#preloads here so other scripts can access the scenes easier
-const PLAYER_CHARACTER = preload("uid://bita6dnrj87wq")
-
 
 @export_category("Party Setup")
 ##All recruitable characters with base stats.
 @export var all_party_members : Array[PartyMemberData] = []
 ##Size of the party
 @export_range(1,4,1) var party_size : int = 4
-##Party members. Index 0 is always controlled by the player.
+##Party members in the party
 @export var party_members : Array[PartyMemberData] = []
+##Party members not in party, but are not default
+@export var outside_members : Array[PartyMemberData]
 
 @export_category("Field Control")
 ##Reference to the controlled character node on the field
-@export var controlled_character : PlayerCharacter
+@export var controlled_character : PartyMember
 ##Index for the controlled character
 var controlled_index : int = 0 : set = set_controlled_index
 

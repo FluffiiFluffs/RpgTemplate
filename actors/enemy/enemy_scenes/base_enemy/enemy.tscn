@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dt3hw6ocf2cl7"]
+[gd_scene load_steps=28 format=3 uid="uid://dt3hw6ocf2cl7"]
 
 [ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_0bajq"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_ntjkm"]
@@ -9,14 +9,16 @@
 [ext_resource type="Script" uid="uid://bfnnu6w6usg8o" path="res://actors/state_machine/enemy_states/enemy_caution.gd" id="8_a7sam"]
 [ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_alert.gd" id="8_ntjkm"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="8_ordjh"]
+[ext_resource type="Script" uid="uid://c25l2yai4t66r" path="res://actors/state_machine/enemy_states/enemy_battle.gd" id="10_a7sam"]
 [ext_resource type="Script" uid="uid://dsqepnvdhvj58" path="res://actors/enemy/enemy_scenes/base_enemy/walk_area.gd" id="10_q6shg"]
+[ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="12_usjcl"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -32,7 +34,7 @@ length = 0.03333667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -48,7 +50,7 @@ length = 0.03333667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -64,7 +66,7 @@ length = 0.03333667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -80,7 +82,7 @@ length = 0.03333667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -98,7 +100,7 @@ step = 0.016666668
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -116,7 +118,7 @@ step = 0.016666668
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -134,7 +136,7 @@ step = 0.016666668
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -152,7 +154,7 @@ step = 0.016666668
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("FieldSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -182,7 +184,7 @@ size = Vector2(16, 18)
 radius = 300.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q6shg"]
-radius = 150.0
+radius = 250.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a7sam"]
 radius = 100.0
@@ -199,7 +201,27 @@ script = ExtResource("1_0bajq")
 will_walk = true
 default_move_speed = 30.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="StateLabel" type="Label" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+offset_left = -19.0
+offset_top = -43.0
+offset_right = 21.0
+offset_bottom = -28.0
+theme_override_fonts/font = ExtResource("12_usjcl")
+theme_override_font_sizes/font_size = 8
+text = "W"
+horizontal_alignment = 1
+
+[node name="FieldSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("2_ntjkm")
+offset = Vector2(0, -15)
+hframes = 4
+vframes = 3
+frame = 4
+
+[node name="BattleSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 texture = ExtResource("2_ntjkm")
 offset = Vector2(0, -15)
@@ -241,8 +263,6 @@ unique_name_in_owner = true
 script = ExtResource("5_ntjkm")
 next_state = NodePath("../Idle")
 
-[node name="Talking" type="Node2D" parent="StateMachine"]
-
 [node name="Patrol" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
 script = ExtResource("6_ntjkm")
@@ -258,6 +278,9 @@ script = ExtResource("8_a7sam")
 [node name="Alert" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
 script = ExtResource("8_ntjkm")
+
+[node name="Battle" type="Node2D" parent="StateMachine"]
+script = ExtResource("10_a7sam")
 
 [node name="SeeArea2D" type="Area2D" parent="."]
 unique_name_in_owner = true

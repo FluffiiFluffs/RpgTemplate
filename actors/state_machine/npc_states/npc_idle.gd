@@ -20,6 +20,7 @@ func _ready()->void:
 func enter() -> void:
 	if_npc()
 	start_idle()
+	actor.state_label.text = "I"
 	
 ##Checks if the state is being used by an NPC.	
 func if_npc()->void:

@@ -19,6 +19,7 @@ func _ready()->void:
 ## What happens when the state is entered
 func enter() -> void:
 	print(str(actor.name) + " entered alert state")
+	actor.state_label.text = "A"
 	if actor.has_chased_player == false:
 		actor.has_chased_player = true
 

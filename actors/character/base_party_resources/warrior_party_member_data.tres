@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="PartyMemberData" load_steps=4 format=3 uid="uid://d0cbou2irbwf"]
+[gd_resource type="Resource" script_class="PartyMemberData" load_steps=5 format=3 uid="uid://d0cbou2irbwf"]
 
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="1_5o3im"]
-[ext_resource type="Resource" uid="uid://prpth3t5akim" path="res://actors/character/base_char_resources/warrior_char.tres" id="1_djn1j"]
+[ext_resource type="Resource" uid="uid://cijblivq4cj24" path="res://actors/character/base_char_resources/warrior_char_resource.tres" id="1_bjdxp"]
 [ext_resource type="Resource" uid="uid://dhd14qjuye01s" path="res://inventory/items/8000_chest/8001_armor.tres" id="2_bjdxp"]
+[ext_resource type="PackedScene" uid="uid://drj2rcxjqg0lg" path="res://actors/character/party_members/warrior_party_member.tscn" id="3_jstep"]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_5o3im")
-id = &"warrior"
-char_resource = ExtResource("1_djn1j")
+id = &"warrior01"
+char_resource = ExtResource("1_bjdxp")
+party_member_scene = ExtResource("3_jstep")
 current_hp = 29
 current_mp = 20
 chestslot = ExtResource("2_bjdxp")

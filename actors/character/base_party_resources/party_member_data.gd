@@ -7,6 +7,8 @@ extends Resource
 @export var id : StringName = ""
 ##CharResource file used as a base for this party member.
 @export var char_resource : CharResource
+@export var stats_sprite : Texture2D
+@export var party_member_scene : PackedScene
 
 @export_category("Progression")
 ##Current level of party member.
@@ -26,14 +28,14 @@ extends Resource
 @export var current_buffs :Array= []
 
 @export_category("Equipment")
+@export var mainhand : Item
+@export var offhand : Item
 @export var headslot : Item
 @export var chestslot : Item
 @export var armslot : Item
 @export var legslot : Item
 @export var accy01 : Item
 @export var accy02 : Item
-@export var mainhand : Item
-@export var offhand : Item
 @export var two_handing : bool = false
 
 #should use resource based approach

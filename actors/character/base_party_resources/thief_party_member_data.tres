@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="PartyMemberData" load_steps=3 format=3 uid="uid://b5wmbkov323pp"]
+[gd_resource type="Resource" script_class="PartyMemberData" load_steps=4 format=3 uid="uid://b5wmbkov323pp"]
 
-[ext_resource type="Resource" uid="uid://uad4ipmuyu6j" path="res://actors/character/base_char_resources/thief_char.tres" id="1_3mg7y"]
+[ext_resource type="Resource" uid="uid://dodamc25dwjh8" path="res://actors/character/base_char_resources/thief_char_resource.tres" id="1_3mg7y"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="1_ng66m"]
+[ext_resource type="PackedScene" uid="uid://bvuhnuj24if74" path="res://actors/character/party_members/thief_party_member.tscn" id="2_ab6kp"]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_ng66m")
-id = &"thief"
+id = &"thief02"
 char_resource = ExtResource("1_3mg7y")
+party_member_scene = ExtResource("2_ab6kp")
 current_hp = 0
 current_mp = 30
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

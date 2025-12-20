@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://vfsshe7gmbtm"]
+[gd_scene load_steps=28 format=3 uid="uid://vfsshe7gmbtm"]
 
 [ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_kmea5"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_avj5y"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bfnnu6w6usg8o" path="res://actors/state_machine/enemy_states/enemy_caution.gd" id="8_twj61"]
 [ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_alert.gd" id="9_j0aw1"]
 [ext_resource type="Script" uid="uid://dsqepnvdhvj58" path="res://actors/enemy/enemy_scenes/base_enemy/walk_area.gd" id="10_8nbig"]
+[ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="12_fkhpq"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -200,7 +201,6 @@ script = ExtResource("1_kmea5")
 enemy_data = ExtResource("2_tn6sb")
 will_walk = true
 default_move_speed = 30.0
-experience = null
 
 [node name="FieldSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -311,3 +311,15 @@ autostart = true
 [node name="CollTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
+
+[node name="StateLabel" type="Label" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+offset_left = -19.0
+offset_top = -43.0
+offset_right = 21.0
+offset_bottom = -28.0
+theme_override_fonts/font = ExtResource("12_fkhpq")
+theme_override_font_sizes/font_size = 8
+text = "W"
+horizontal_alignment = 1

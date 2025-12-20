@@ -45,10 +45,6 @@ func _unhandled_input(_event):
 		direction = Vector2( Input.get_axis("move_left",
 		"move_right"), Input.get_axis("move_up","move_down")).normalized()
 
-##Updates sprite_2d of controlled character for field movement when changed
-##Slot00 is always the chararacter the player controls
-func update_player_character()->void:
-	sprite_2d = CharDataKeeper.slot00.char_sprite_sheet
 	
 
 func set_direction() -> bool:
@@ -86,8 +82,6 @@ func set_anim_direction() -> String:
 		return "left"
 	else:
 		return "right"
-
-
 
 func force_face_direction(new_facing : Vector2) -> void:
 	if new_facing == Vector2.ZERO:
