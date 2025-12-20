@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://blua5ubemhmb0"]
-
-[ext_resource type="Script" uid="uid://pc355i54482y" path="res://_globals/chardata_keeper_original.gd" id="1_l7x17"]
-
-[node name="ChardataKeeper" type="Node2D"]
-script = ExtResource("1_l7x17")
