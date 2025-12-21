@@ -1,7 +1,7 @@
 ##game_menu_gui.gd
 ##global GameMenu
 extends CanvasLayer
-##Runs the game menu
+##Runs the game menu in its entirety. 
 
 
 
@@ -348,8 +348,23 @@ func _ready()->void:
 
 
 #region Top Menu
-##Open top menu
+##Open top menu on the field
 func top_menu_open()->void:
+	if GameState.gamestate == GameState.State.FIELD:
+		clear_top_level_stats_containers()
+		setup_top_level_stats()
+		visible = true
+		animation_player.play("RESET")
+		animation_player.play("top_menu_show")
+		#play top menu animation open
+		menu_state = "TOP_MENU_OPEN"
+		if CharDataKeeper.controlled_character:
+			CharDataKeeper.controlled_character.idle.force_idle()
+		GameState.gamestate = GameState.State.GAMEMENU #in gamemenu
+	pass
+
+##Forces the top menu open, and disregards the game state.
+func force_top_menu_open()->void:
 	clear_top_level_stats_containers()
 	setup_top_level_stats()
 	visible = true
@@ -359,12 +374,13 @@ func top_menu_open()->void:
 	menu_state = "TOP_MENU_OPEN"
 	if CharDataKeeper.controlled_character:
 		CharDataKeeper.controlled_character.idle.force_idle()
-	GameState.gamestate = 3 #in gamemenu
+	#GameState.gamestate = GameState.State.GAMEMENU #in gamemenu
 	pass
+
 
 ##Closes top menu
 func top_menu_close()->void:
-	GameState.gamestate = 1 #back to field state
+	GameState.gamestate = GameState.State.FIELD #back to field state
 	visible = false
 	animation_player.play("top_menu_hide")
 	#play top menu animation closed
@@ -2087,8 +2103,9 @@ func play_error_sound()->void:
 #region Input
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("test3"):
-		top_menu_open()
-		focus_last_top_menu_button()
+		if GameState.gamestate == GameState.State.FIELD:
+			top_menu_open()
+			focus_last_top_menu_button()
 	#if GameMenu.current_selected_slider != null:
 			#return
 	if Input.is_action_just_pressed("cancel_input"):

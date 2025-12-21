@@ -1,6 +1,6 @@
 [gd_scene load_steps=61 format=3 uid="uid://cyw8elamdnchs"]
 
-[ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_gui.gd" id="1_id8es"]
+[ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_ui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
 [ext_resource type="AnimationLibrary" uid="uid://dht31f2qwuj1o" path="res://animations/ui_animations.res" id="2_26r4l"]
 [ext_resource type="Texture2D" uid="uid://15cocjn2s06n" path="res://_assets/ui/icons_large/banana.png" id="2_ww2n6"]
@@ -410,7 +410,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.73800004
 offset_right = 0.00018310547
-offset_bottom = 8.949997
+offset_bottom = 8.687988
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -491,7 +491,8 @@ anchor_left = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_right = 200.00012
+offset_right = 200.00018
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 8
@@ -506,7 +507,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.0004272461
 offset_right = -0.0005493164
-offset_bottom = -50.0
+offset_bottom = -51.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
@@ -1108,7 +1109,6 @@ mouse_filter = 2
 
 [node name="StatsPositioner" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchor_right = 1.0
 anchor_bottom = 0.77800006
@@ -1787,13 +1787,12 @@ text = "99999"
 
 [node name="QuestsPositionerLeft" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -200.0
-offset_right = -400.00082
+offset_right = -400.0008
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -1806,7 +1805,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.73800004
 offset_right = 0.00018310547
-offset_bottom = 58.949997
+offset_bottom = 58.68799
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -1876,6 +1875,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
 offset_right = 200.00012
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 8
@@ -1889,6 +1889,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.0004272461
 offset_right = -0.0005493164
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(58.000427, 79)
@@ -1960,7 +1961,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 225.0
-offset_bottom = 225.00076
+offset_bottom = 225.0008
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -1970,6 +1971,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -0.00079345703
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_so8r6")

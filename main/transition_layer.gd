@@ -1,5 +1,9 @@
 class_name TransitionLayer
 extends CanvasLayer
+##transition_layer.gd
+##attached to TransitionLayer.tscn within Main.tscn
+##Controls transition animations along with the animationplayer within the scene
+
 
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 

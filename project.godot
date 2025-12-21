@@ -21,7 +21,7 @@ config/icon="res://icon.svg"
 
 GameState="*res://_globals/game_state.tscn"
 Options="*res://_globals/options.tscn"
-GameMenu="*res://_globals/gui/game_menu/game_menu_gui.tscn"
+GameMenu="*res://_globals/gui/game_menu/game_menu_ui.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 Save="*res://_globals/save_manager.tscn"
@@ -40,7 +40,7 @@ editor/wrap_long_lines=true
 [display]
 
 window/size/viewport_width=400
-window/size/viewport_height=225
+window/size/viewport_height=224
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 

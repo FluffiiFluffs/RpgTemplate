@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://h63ncjrxunau"]
+
+[ext_resource type="Script" uid="uid://ccrcb1ncfvdgb" path="res://battle/battle_scene.gd" id="1_u2cu5"]
+[ext_resource type="Texture2D" uid="uid://co84vhcqtwvrm" path="res://_assets/battle/background/placeholder_battle_back_mountain_400.png" id="2_1otyf"]
+[ext_resource type="Texture2D" uid="uid://c20mvrvtr6ypa" path="res://_assets/character/mog_idle_down.png" id="3_04fg8"]
+
+[sub_resource type="Gradient" id="Gradient_n6te2"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nbjvm"]
+gradient = SubResource("Gradient_n6te2")
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_u2cu5")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+z_index = 10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+offset_top = 100.0
+offset_right = 238.0
+offset_bottom = 131.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "VICTORY"
+
+[node name="Background" type="Sprite2D" parent="."]
+modulate = Color(0.5370987, 0.5370987, 0.5370987, 1)
+z_index = -1
+texture = ExtResource("2_1otyf")
+offset = Vector2(200, 112.5)
+
+[node name="EnemyLayerBack" type="Node2D" parent="."]
+
+[node name="BackLeft" type="Marker2D" parent="EnemyLayerBack"]
+position = Vector2(100, 100)
+
+[node name="BackMid" type="Marker2D" parent="EnemyLayerBack"]
+position = Vector2(200, 100)
+
+[node name="BackRight" type="Marker2D" parent="EnemyLayerBack"]
+position = Vector2(300, 100)
+
+[node name="EnemyLayerFront" type="Node2D" parent="."]
+z_index = 1
+
+[node name="FrontLeft" type="Marker2D" parent="EnemyLayerFront"]
+position = Vector2(100, 150)
+
+[node name="FrontMid" type="Marker2D" parent="EnemyLayerFront"]
+position = Vector2(200, 150)
+
+[node name="FrontRight" type="Marker2D" parent="EnemyLayerFront"]
+position = Vector2(300, 150)
+
+[node name="PartyLayer" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="PartyLayer"]
+position = Vector2(80, 200)
+
+[node name="Marker2D2" type="Marker2D" parent="PartyLayer"]
+position = Vector2(160, 200)
+
+[node name="Marker2D3" type="Marker2D" parent="PartyLayer"]
+position = Vector2(240, 200)
+
+[node name="Marker2D4" type="Marker2D" parent="PartyLayer"]
+position = Vector2(320, 200)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(53, 83)
+texture = SubResource("GradientTexture2D_nbjvm")
+
+[node name="MogIdleDown" type="Sprite2D" parent="."]
+position = Vector2(81, 161)
+texture = ExtResource("3_04fg8")

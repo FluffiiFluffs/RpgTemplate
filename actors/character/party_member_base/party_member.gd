@@ -1,11 +1,9 @@
-##This node is the field sprite
-##It only handles movement, graphical display, and interaction detection
-##It is NOT used in battle
-##Instantiated in every scene
-##Reference to this node is held within global script CharControl
-####
 class_name PartyMember
 extends Actor
+##PartyMember.gd
+##Attached to party_member.tscn root node
+
+
 
 @onready var field_sprite : Sprite2D = %FieldSprite
 @onready var battle_sprite : Sprite2D = %BattleSprite
@@ -59,11 +57,9 @@ func _process(_delta) -> void:
 	
 func _unhandled_input(_event):
 	if is_controlled:
-		if GameState.gamestate == 1:
+		if GameState.gamestate == GameState.State.FIELD:
 			direction = Vector2( Input.get_axis("move_left",
 			"move_right"), Input.get_axis("move_up","move_down")).normalized()
-
-		
 
 func set_direction() -> bool:
 	if direction == Vector2.ZERO:

@@ -18,6 +18,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(-600, 112), Vector2(200, 112)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_yvx1l"]
 resource_name = "L_TO_R_DURING"
@@ -37,7 +49,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_j0fh3"]
 resource_name = "L_TO_R_END"
-length = 0.15
+length = 0.16
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -49,6 +61,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(200, 112), Vector2(1000, 112)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_r65wi"]
@@ -64,6 +88,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-600, 112)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r65wi"]
@@ -95,3 +131,6 @@ libraries = {
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-600, 112)
 texture = SubResource("GradientTexture2D_r65wi")
+
+[node name="BSprite" type="Sprite2D" parent="."]
+visible = false

@@ -1,5 +1,8 @@
 class_name FieldCameraRig
 extends Node2D
+##field_camera_rig.gd
+##attached to FieldCameraRig in main.tscn
+##Controls the field camera
 
 
 
@@ -29,6 +32,7 @@ func activate()->void:
 	
 func deactivate()->void:
 	field_camera.enabled = false
+
 
 func set_target(new_target : Node2D, snap_now : bool = false)->void:
 	target = new_target

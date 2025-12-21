@@ -1,6 +1,9 @@
-## game_state.gd
-## Global script GameState
+##Global Script GameState
 extends Node
+## game_state.gd
+##Keeps track of the state of the game via enums
+##Typical usage example: GameState.State.FIELD, no need to use integers for control or comparisons
+
 
 signal gamestate_changed(previous: int, current: int)
 

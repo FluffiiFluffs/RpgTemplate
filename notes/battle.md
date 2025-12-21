@@ -16,9 +16,6 @@ var _enemies
 var _party
 var _actor
 
-
-
-
 How does battle work?
 
 
@@ -114,3 +111,27 @@ When it is an _actor turn...
 				_actor_performs_defensive_action(target)
 			await action_finished
 			next_actor_turn()
+
+
+
+How battle is handled:
+	Enemies run around the field, once they are in alert mode, they chase the controlled party member. 
+	Once the enemy touches the controlled party member, GameState changes to BATTLE (2)
+	the enemy scene bumping into the party member is saved in a variable (so it can be deleted once it is defeated, should probably done by the enemy itself, but called by the battle system)
+	The enemy's enemy_group is recorded in a variable within the battle system in order to instantiate the enemies for battle.
+	scene transition called to hide scene change (plays beginning transition)
+	main.field_root is hidden and paused 
+	
+	battle system instantiates enemies within the battle scene
+	battle system draws players
+	battle system draws UI
+	battle system figures out turn order
+	scene transition finishes (plays end transition)
+	battle starts
+	All actors take turns in order until one side(party or enemy party) is dead
+	Assuming the party is victorious (usually), loot/experience is given.
+	scene transition called to hide scene change (plays beginning transition)
+	battle scene queue free'd
+	main.field_root is unhidden and unpaused
+	enemy calls a destroy function
+	scene transition finishes (plays end transition)

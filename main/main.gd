@@ -1,7 +1,8 @@
-##Main.gd
-##Main scene
 class_name Main
 extends Node
+##Main.gd
+##Main scene
+##The main scene of the game. Used to manage almost all aspects of the game outside of global functions.
 
 #region Node References
 @onready var field_root : Node2D = %FieldRoot
@@ -45,7 +46,7 @@ var title_menu_instance : CanvasLayer = null
 
 func _ready()->void:
 	SceneManager.main_scene = self
-	_show_start_menu()
+	#_show_start_menu()
 	
 	pass
 	

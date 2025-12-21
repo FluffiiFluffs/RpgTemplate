@@ -1,6 +1,8 @@
 2D Top Down RPG
 
-Resolution 398x224
+Resolution 400x224
+
+Party Battle Sprite Size 96x96 max
 
 Free Movement with walk/run
 Tile Size: 16x16

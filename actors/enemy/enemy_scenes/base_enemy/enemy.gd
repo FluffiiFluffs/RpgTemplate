@@ -1,6 +1,12 @@
 @tool
 class_name Enemy
 extends Actor
+##Enemy.gd
+##Attached to Enemy scene on the root node.
+
+
+
+
 @onready var field_sprite = %FieldSprite
 @onready var battle_sprite = %BattleSprite
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
