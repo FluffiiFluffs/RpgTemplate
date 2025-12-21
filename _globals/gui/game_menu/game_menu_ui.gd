@@ -464,7 +464,7 @@ func update_top_level_stats_box(stats_box) -> void:
 	if stats_box == null:
 		return
 
-	var pmember = stats_box.party_member
+	var pmember = stats_box.party_member as PartyMemberData
 	if pmember == null:
 		return
 
@@ -472,7 +472,7 @@ func update_top_level_stats_box(stats_box) -> void:
 	stats_box.char_name_label.text = pmember.char_resource.char_name
 
 	# class color
-	stats_box.class_color = return_class_color(pmember.char_resource.char_class)
+	stats_box.class_color = pmember.class_color
 	stats_box.set_class_color(stats_box.class_color)
 
 	# border color should match HP state
@@ -1486,7 +1486,7 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 	if _toplevelstats.party_member == null:
 		return
 	var _member = _toplevelstats.party_member
-	stats_panel_container.self_modulate = return_class_color(_member.char_resource.char_class)
+	stats_panel_container.self_modulate = _member.class_color
 	stats_portrait.texture = _member.stats_sprite
 	stats_name_label.text = _member.char_resource.char_name
 	stats_class_label.text = _member.char_resource._class_name()

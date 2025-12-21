@@ -51,16 +51,16 @@ extends Node2D
 
 
 #region Dev Options
-#region Class-Specific colors
-@export_category("Class Colors")
-##DEV OPTION[br]Class color for Warrior
-@export var class_color_warrior : Color = Color("7c0000ff")
-##DEV OPTION[br]Class color for Thief
-@export var class_color_thief : Color = Color("7c5900ff")
-##DEV OPTION[br]Class color for mage
-@export var class_color_mage : Color = Color("7c007cff")
-##DEV OPTION[br]Class color for healer
-@export var class_color_healer : Color = Color("007c7cff")
+#ALERT Class colors moved to PartyMemberData!
+#@export_category("Class Colors")
+###DEV OPTION[br]Class color for Warrior
+#@export var class_color_warrior : Color = Color("7c0000ff")
+###DEV OPTION[br]Class color for Thief
+#@export var class_color_thief : Color = Color("7c5900ff")
+###DEV OPTION[br]Class color for mage
+#@export var class_color_mage : Color = Color("7c007cff")
+###DEV OPTION[br]Class color for healer
+#@export var class_color_healer : Color = Color("007c7cff")
 
 @export var show_states : bool = true
 #endregion

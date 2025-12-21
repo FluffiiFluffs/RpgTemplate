@@ -4,9 +4,6 @@ extends Actor
 ##Enemy.gd
 ##Attached to Enemy scene on the root node.
 
-
-
-
 @onready var field_sprite = %FieldSprite
 @onready var battle_sprite = %BattleSprite
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
@@ -34,7 +31,7 @@ extends Actor
 
 @export_category("Enemy Data Resource")
 ##Data Resource for this NPC. Must be set!
-@export var enemy_data:CharResource = null
+@export var enemy_data:EnemyData = null
 
 @export_category("Enemy Options")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on will_patrol will disable this!
@@ -319,3 +316,15 @@ func collisions_enabled()->void:
 func wareafree():
 	if walk_area_2d:
 		walk_area_2d.queue_free()
+		
+func touched_player()->void:
+	
+	
+	pass
+
+
+func enemy_killed()->void:
+	if was_spawned:
+		enemy_spawner.spawn_count -= 1
+	queue_free()
+	pass

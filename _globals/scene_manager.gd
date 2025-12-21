@@ -89,7 +89,7 @@ func make_player_at_first_spawn_point()->void:
 	if CharDataKeeper.party_members.is_empty():
 		CharDataKeeper.party_members.append(CharDataKeeper.all_party_members[0])
 	var player = CharDataKeeper.party_members[0]
-	var player_scene = player.party_member_scene.instantiate() as PartyMember
+	var player_scene = player.field_scene.instantiate() as PartyMember
 	current_field_scene.party.add_child(player_scene)
 	var player_data = CharDataKeeper.party_members[0]
 	#player.sprite_2d.texture = player_data.char_resource.char_sprite_sheet
@@ -117,7 +117,7 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 		else:
 			if index == 0:
 				var pmember = CharDataKeeper.party_members[index]
-				var pmemberscene = pmember.party_member_scene.instantiate() as PartyMember
+				var pmemberscene = pmember.field_scene.instantiate() as PartyMember
 				current_field_scene.party.add_child(pmemberscene)
 				var p_data = party[index]
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
@@ -130,7 +130,7 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				pmemberscene.is_controlled = true
 			else:
 				var pmember = CharDataKeeper.party_members[index]
-				var pmemberscene = pmember.party_member_scene.instantiate() as PartyMember
+				var pmemberscene = pmember.field_scene.instantiate() as PartyMember
 				var p_data = party[index]
 				pmemberscene.actor_to_follow = last_party_actor
 				pmemberscene.is_controlled = false

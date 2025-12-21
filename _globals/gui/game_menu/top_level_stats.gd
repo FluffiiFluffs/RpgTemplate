@@ -19,7 +19,7 @@ extends Control
 var party_member : PartyMemberData
 var is_selected : bool = false
 var is_disabled : bool = false   # no longer used for visuals
-var class_color : Color = Options.class_color_warrior
+var class_color : Color
 
 const FLASH_COLOR1 : Color = Color("ff24bbff")
 const FLASH_COLOR2 : Color = Color(1.0, 0.0, 0.0, 1.0)

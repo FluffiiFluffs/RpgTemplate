@@ -66,3 +66,8 @@ func setup_button_icon()->void:
 
 func grab_button_focus()->void:
 	button.grab_focus()
+
+func activate_button()->void:
+	button.disabled = false
+func deactivate_button()->void:
+	button.disabled = true

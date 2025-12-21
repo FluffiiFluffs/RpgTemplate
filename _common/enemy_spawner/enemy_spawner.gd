@@ -210,6 +210,8 @@ func remove_all_enemies(_area:Area2D = null)->void:
 				child.queue_free() 
 				spawn_count -= 1
 				print("Removed enemy, enemy_count: " + str(spawn_count))
+	if get_children().is_empty(): #if no children...
+		spawn_count = 0 #for safety
 
 
 

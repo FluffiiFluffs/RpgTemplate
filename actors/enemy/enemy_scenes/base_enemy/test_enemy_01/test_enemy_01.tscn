@@ -1,8 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://vfsshe7gmbtm"]
+[gd_scene load_steps=27 format=3 uid="uid://vfsshe7gmbtm"]
 
 [ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_kmea5"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_avj5y"]
-[ext_resource type="Resource" uid="uid://bthhoxi0h52di" path="res://actors/enemy/enemy_resources/base/base_enemy_resource.tres" id="2_tn6sb"]
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="3_6yfr8"]
 [ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="4_0agat"]
 [ext_resource type="Script" uid="uid://cl15npn1uos1n" path="res://actors/state_machine/enemy_states/enemy_walk.gd" id="5_cqagw"]
@@ -198,7 +197,6 @@ collision_layer = 8
 collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_kmea5")
-enemy_data = ExtResource("2_tn6sb")
 will_walk = true
 default_move_speed = 30.0
 
