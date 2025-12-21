@@ -1487,7 +1487,7 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 		return
 	var _member = _toplevelstats.party_member
 	stats_panel_container.self_modulate = return_class_color(_member.char_resource.char_class)
-	stats_portrait.texture = _member.char_resource.stats_sprite
+	stats_portrait.texture = _member.stats_sprite
 	stats_name_label.text = _member.char_resource.char_name
 	stats_class_label.text = _member.char_resource._class_name()
 	stats_level_value.text = str(_member.level)

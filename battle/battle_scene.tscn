@@ -1,13 +1,30 @@
-[gd_scene load_steps=6 format=3 uid="uid://h63ncjrxunau"]
+[gd_scene load_steps=10 format=3 uid="uid://h63ncjrxunau"]
 
 [ext_resource type="Script" uid="uid://ccrcb1ncfvdgb" path="res://battle/battle_scene.gd" id="1_u2cu5"]
-[ext_resource type="Texture2D" uid="uid://co84vhcqtwvrm" path="res://_assets/battle/background/placeholder_battle_back_mountain_400.png" id="2_1otyf"]
-[ext_resource type="Texture2D" uid="uid://c20mvrvtr6ypa" path="res://_assets/character/mog_idle_down.png" id="3_04fg8"]
+[ext_resource type="Texture2D" uid="uid://da0c7finyihvv" path="res://_assets/battle/background/TMZBattleBackExtended.png" id="2_4ui5s"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="4_4ui5s"]
+[ext_resource type="Script" uid="uid://bkbb3k44willv" path="res://main/battle_camera_rig.gd" id="4_n6te2"]
+[ext_resource type="PackedScene" uid="uid://due5rm071mmh6" path="res://battle/battle_stats.tscn" id="4_nbjvm"]
+[ext_resource type="Script" uid="uid://2btepossqywg" path="res://battle/battle_vfx.gd" id="5_nbjvm"]
 
 [sub_resource type="Gradient" id="Gradient_n6te2"]
+colors = PackedColorArray(0.7058824, 0, 0.76862746, 0.3372549, 0.70490134, 0, 0.7704825, 0.337)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_nbjvm"]
 gradient = SubResource("Gradient_n6te2")
+width = 92
+height = 92
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nbjvm"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_u2cu5")
@@ -27,12 +44,14 @@ grow_vertical = 2
 text = "VICTORY"
 
 [node name="Background" type="Sprite2D" parent="."]
-modulate = Color(0.5370987, 0.5370987, 0.5370987, 1)
 z_index = -1
-texture = ExtResource("2_1otyf")
-offset = Vector2(200, 112.5)
+position = Vector2(200, 112)
+texture = ExtResource("2_4ui5s")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 224)
 
 [node name="EnemyLayerBack" type="Node2D" parent="."]
+visible = false
 
 [node name="BackLeft" type="Marker2D" parent="EnemyLayerBack"]
 position = Vector2(100, 100)
@@ -44,6 +63,7 @@ position = Vector2(200, 100)
 position = Vector2(300, 100)
 
 [node name="EnemyLayerFront" type="Node2D" parent="."]
+visible = false
 z_index = 1
 
 [node name="FrontLeft" type="Marker2D" parent="EnemyLayerFront"]
@@ -57,22 +77,98 @@ position = Vector2(300, 150)
 
 [node name="PartyLayer" type="Node2D" parent="."]
 
-[node name="Marker2D" type="Marker2D" parent="PartyLayer"]
-position = Vector2(80, 200)
-
-[node name="Marker2D2" type="Marker2D" parent="PartyLayer"]
-position = Vector2(160, 200)
-
-[node name="Marker2D3" type="Marker2D" parent="PartyLayer"]
-position = Vector2(240, 200)
-
-[node name="Marker2D4" type="Marker2D" parent="PartyLayer"]
-position = Vector2(320, 200)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(53, 83)
+[node name="Sprite2D" type="Sprite2D" parent="PartyLayer"]
+position = Vector2(50, 164)
 texture = SubResource("GradientTexture2D_nbjvm")
 
-[node name="MogIdleDown" type="Sprite2D" parent="."]
-position = Vector2(81, 161)
-texture = ExtResource("3_04fg8")
+[node name="BattleCameraRig" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_n6te2")
+
+[node name="BattleCamera" type="Camera2D" parent="BattleCameraRig"]
+unique_name_in_owner = true
+enabled = false
+
+[node name="BattleUI" type="CanvasLayer" parent="."]
+
+[node name="PartyUI" type="Control" parent="BattleUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 224.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleUI/PartyUI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="BattleStats" parent="BattleUI/PartyUI/HBoxContainer" instance=ExtResource("4_nbjvm")]
+layout_mode = 2
+
+[node name="BattleStats2" parent="BattleUI/PartyUI/HBoxContainer" instance=ExtResource("4_nbjvm")]
+layout_mode = 2
+
+[node name="BattleStats3" parent="BattleUI/PartyUI/HBoxContainer" instance=ExtResource("4_nbjvm")]
+layout_mode = 2
+
+[node name="BattleStats4" parent="BattleUI/PartyUI/HBoxContainer" instance=ExtResource("4_nbjvm")]
+layout_mode = 2
+
+[node name="CommandUI" type="Control" parent="BattleUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NotifyUI" type="Control" parent="BattleUI"]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="BattleUI/NotifyUI"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_right = 64
+
+[node name="PanelContainer" type="PanelContainer" parent="BattleUI/NotifyUI/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nbjvm")
+
+[node name="NotifyLabel" type="Label" parent="BattleUI/NotifyUI/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4ui5s")
+theme_override_font_sizes/font_size = 7
+text = "This is a text box used to notify the player about things happening in battle and should be used for a lot of stuff"
+autowrap_mode = 3
+
+[node name="TurnUI" type="Control" parent="BattleUI"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="BattleVFX" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_nbjvm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

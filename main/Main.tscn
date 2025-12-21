@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8e5dflrg8xre"]
+[gd_scene load_steps=5 format=3 uid="uid://c8e5dflrg8xre"]
 
 [ext_resource type="Script" uid="uid://8mk4fr1fy0gk" path="res://main/main.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://bwiudxjxceld0" path="res://main/field_camera_rig.gd" id="2_5kcm4"]
 [ext_resource type="PackedScene" uid="uid://lcgogxjtiq0y" path="res://main/transition_layer.tscn" id="2_i85ao"]
-[ext_resource type="Script" uid="uid://bkbb3k44willv" path="res://main/battle_camera_rig.gd" id="3_cmtxc"]
 [ext_resource type="Script" uid="uid://hpiuuxugmwqp" path="res://main/battle_manager.gd" id="3_tv7ag"]
 
 [node name="Main" type="Node"]
@@ -32,22 +31,6 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 visible = false
 script = ExtResource("3_tv7ag")
-
-[node name="BattleSceneContainer" type="Node2D" parent="BattleRoot"]
-unique_name_in_owner = true
-
-[node name="BattleVFX" type="Node2D" parent="BattleRoot"]
-unique_name_in_owner = true
-
-[node name="BattleCameraRig" type="Node2D" parent="BattleRoot"]
-unique_name_in_owner = true
-script = ExtResource("3_cmtxc")
-
-[node name="BattleCamera" type="Camera2D" parent="BattleRoot/BattleCameraRig"]
-unique_name_in_owner = true
-enabled = false
-
-[node name="BattleUI" type="CanvasLayer" parent="BattleRoot"]
 
 [node name="TransitionLayer" parent="." instance=ExtResource("2_i85ao")]
 unique_name_in_owner = true

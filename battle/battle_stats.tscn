@@ -1,0 +1,205 @@
+[gd_scene load_steps=10 format=3 uid="uid://due5rm071mmh6"]
+
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_m0en3"]
+[ext_resource type="Script" uid="uid://cou62otm3wjw7" path="res://battle/battle_stats.gd" id="1_xjkr3"]
+[ext_resource type="PackedScene" uid="uid://76laxtdwkaco" path="res://battle/command_button.tscn" id="2_xjkr3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04fg8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_04fg8"]
+content_margin_left = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n6te2"]
+content_margin_top = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nbjvm"]
+bg_color = Color(0.735357, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6te2"]
+bg_color = Color(0, 0, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ui5s"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[node name="BattleStats" type="Control"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+script = ExtResource("1_xjkr3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_top = -14.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="StatsPanelContainer" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_04fg8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/StatsPanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 5
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="HPPanelContainer" type="PanelContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_04fg8")
+
+[node name="HPTitleLabel" type="Label" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2/HPPanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_m0en3")
+theme_override_font_sizes/font_size = 5
+text = "HP"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(20, 7)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n6te2")
+
+[node name="HPValue" type="Label" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("1_m0en3")
+theme_override_font_sizes/font_size = 5
+text = "99999"
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_04fg8")
+
+[node name="HPProgressBar" type="ProgressBar" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer/PanelContainer2"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_nbjvm")
+value = 100.0
+show_percentage = false
+
+[node name="SpacerControl" type="Control" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_04fg8")
+
+[node name="MPTitleLabel" type="Label" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_m0en3")
+theme_override_font_sizes/font_size = 5
+text = "MP"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(20, 7)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n6te2")
+
+[node name="MPValue" type="Label" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("1_m0en3")
+theme_override_font_sizes/font_size = 5
+text = "99999"
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_04fg8")
+
+[node name="MPProgressBar" type="ProgressBar" parent="VBoxContainer/StatsPanelContainer/VBoxContainer/HBoxContainer4/HBoxContainer3/VBoxContainer/PanelContainer2"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_n6te2")
+value = 100.0
+show_percentage = false
+
+[node name="PartyMemberMarker" type="Marker2D" parent="VBoxContainer/StatsPanelContainer"]
+position = Vector2(50, 0)
+
+[node name="CommandContainer" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_4ui5s")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/CommandContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CommandContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+
+[node name="AttackButton" parent="VBoxContainer/CommandContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_xjkr3")]
+layout_mode = 2
+button_type = "attack"
+
+[node name="SkillButton" parent="VBoxContainer/CommandContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_xjkr3")]
+layout_mode = 2
+button_type = "skill"
+
+[node name="ItemButton" parent="VBoxContainer/CommandContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_xjkr3")]
+layout_mode = 2
+button_type = "item"
+
+[node name="DefendButton" parent="VBoxContainer/CommandContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_xjkr3")]
+layout_mode = 2
+button_type = "defend"
+
+[node name="RunButton" parent="VBoxContainer/CommandContainer/MarginContainer/HBoxContainer" instance=ExtResource("2_xjkr3")]
+layout_mode = 2
+button_type = "run"

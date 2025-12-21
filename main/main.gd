@@ -11,10 +11,6 @@ extends Node
 @onready var field_camera_rig : Node2D= %FieldCameraRig
 @onready var field_camera : Camera2D = %FieldCamera
 @onready var battle_root : Node2D = %BattleRoot
-@onready var battle_scene_container : Node2D = %BattleSceneContainer
-@onready var battle_vfx : Node2D = %BattleVFX
-@onready var battle_camera_rig : Node2D = %BattleCameraRig
-@onready var battle_camera : Camera2D  = %BattleCamera
 @onready var transition_layer : CanvasLayer = %TransitionLayer
 @onready var audio_root : Node = %AudioRoot
 @onready var runtime : Node = %Runtime
@@ -60,7 +56,6 @@ func _show_start_menu()->void:
 	field_root.visible = false
 	battle_root.visible = false
 	field_camera.enabled = false
-	battle_camera.enabled = false
 	if GameMenu != null:
 		GameMenu.visible = false
 		
@@ -83,7 +78,6 @@ func start_new_game()->void:
 	field_root.visible = true
 	battle_root.visible = false
 	field_camera.enabled = true
-	battle_camera.enabled = false
 	field_camera.make_current()
 	
 	if GameState != null:

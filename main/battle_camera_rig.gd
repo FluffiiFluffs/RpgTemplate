@@ -10,7 +10,7 @@ extends Node2D
 var main : Main = null
 
 func _ready()->void:
-	main = get_parent().get_parent()
+	main = SceneManager.main_scene
 
 func activate()->void:
 	battle_camera.enabled = true
