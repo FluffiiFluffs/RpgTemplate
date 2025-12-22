@@ -279,7 +279,7 @@ size = Vector2(16, 20)
 
 [node name="Mage" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_mask = 60
+collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_2udy1")
 
@@ -288,13 +288,6 @@ unique_name_in_owner = true
 texture = ExtResource("2_2udy1")
 offset = Vector2(0, -15)
 hframes = 4
-
-[node name="BattleSprite" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-offset = Vector2(0, -15)
-hframes = 4
-vframes = 3
-frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -334,8 +327,6 @@ script = ExtResource("4_iv8gj")
 [node name="Follow" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
 script = ExtResource("6_d7ne4")
-
-[node name="Battle" type="Node2D" parent="StateMachine"]
 
 [node name="EnemySpawnTrigger" type="Area2D" parent="."]
 unique_name_in_owner = true

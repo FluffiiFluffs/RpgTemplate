@@ -25,7 +25,7 @@ var spawned_party_actors : Array[Node2D] = []
 
 var main_scene : Main = null
 
-var current_field_scene : FieldScene = null
+#var current_field_scene : FieldScene = null
 
 var spawn_direction : int = SIDE.DOWN
 var next_scene_transitioner_name : String = ""
@@ -63,8 +63,8 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	#use scene path string to instantiate a scene under main_scene.field_scene_container
 	var new_scene = load(scene_path).instantiate()
 	main_scene.field_scene_container.add_child(new_scene)
-	current_field_scene = new_scene
-	party_spawn_point = find_transitioner(current_field_scene, next_scene_transitioner_name)
+	main_scene.current_field_scene = new_scene
+	party_spawn_point = find_transitioner(main_scene.current_field_scene, next_scene_transitioner_name)
 	spawn_offset = party_spawn_point.compute_spawn_offset(transition_entry_offset)
 	make_party_at_spawn_point(party_spawn_point)
 	main_scene.field_camera_rig.follow_player()
@@ -89,18 +89,18 @@ func make_player_at_first_spawn_point()->void:
 	if CharDataKeeper.party_members.is_empty():
 		CharDataKeeper.party_members.append(CharDataKeeper.all_party_members[0])
 	var player = CharDataKeeper.party_members[0]
-	var player_scene = player.field_scene.instantiate() as PartyMember
-	current_field_scene.party.add_child(player_scene)
+	var player_scene = player.field_scene.instantiate() as FieldPartyMember
+	main_scene.current_field_scene.party.add_child(player_scene)
 	var player_data = CharDataKeeper.party_members[0]
 	#player.sprite_2d.texture = player_data.char_resource.char_sprite_sheet
 	player_scene.name = player_data.char_resource.char_name
 	CharDataKeeper.controlled_character = player_scene
-	if !current_field_scene.player_spawn.get_children().is_empty():
-		for child in current_field_scene.player_spawn.get_children():
+	if !main_scene.current_field_scene.player_spawn.get_children().is_empty():
+		for child in main_scene.current_field_scene.player_spawn.get_children():
 			party_spawn_point = child
 	else:
-		if !current_field_scene.transition_areas.get_children().is_empty():
-			for child in current_field_scene.transition_areas.get_children():
+		if !main_scene.current_field_scene.transition_areas.get_children().is_empty():
+			for child in main_scene.current_field_scene.transition_areas.get_children():
 				party_spawn_point = child
 		else:
 			printerr("Tried to spawn player, but spawn no points!")		
@@ -117,8 +117,8 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 		else:
 			if index == 0:
 				var pmember = CharDataKeeper.party_members[index]
-				var pmemberscene = pmember.field_scene.instantiate() as PartyMember
-				current_field_scene.party.add_child(pmemberscene)
+				var pmemberscene = pmember.field_scene.instantiate() as FieldPartyMember
+				main_scene.current_field_scene.party.add_child(pmemberscene)
 				var p_data = party[index]
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				CharDataKeeper.controlled_character = pmemberscene
@@ -130,13 +130,13 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				pmemberscene.is_controlled = true
 			else:
 				var pmember = CharDataKeeper.party_members[index]
-				var pmemberscene = pmember.field_scene.instantiate() as PartyMember
+				var pmemberscene = pmember.field_scene.instantiate() as FieldPartyMember
 				var p_data = party[index]
 				pmemberscene.actor_to_follow = last_party_actor
 				pmemberscene.is_controlled = false
 				pmemberscene.is_following = true
 				
-				current_field_scene.party.add_child(pmemberscene)
+				main_scene.current_field_scene.party.add_child(pmemberscene)
 				pmemberscene.set_controlled_off()
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				pmemberscene.name = p_data.char_resource.char_name
@@ -158,8 +158,7 @@ func _side_to_vector(side : int) -> Vector2:
 		SIDE.RIGHT:
 			return Vector2.RIGHT
 	return Vector2.DOWN
-	
-	
+		
 ##Finds the scene transitioner by name in the next field scene and returns it
 func find_transitioner(fscene : FieldScene, tname : String )->SceneTransitioner:
 	for child in fscene.transition_areas.get_children():

@@ -33,7 +33,7 @@ func _start_dialog()->void:
 
 func set_self_to_global()->void:
 	Interact.interact_node = self
-	
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not area_active:
 		return

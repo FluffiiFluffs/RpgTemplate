@@ -1,11 +1,10 @@
 @tool
-class_name Enemy
-extends Actor
-##Enemy.gd
+class_name FieldEnemy
+extends FieldActor
+##field_enemy.gd
 ##Attached to Enemy scene on the root node.
 
-@onready var field_sprite = %FieldSprite
-@onready var battle_sprite = %BattleSprite
+@onready var field_sprite : Sprite2D = %FieldSprite
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var audio_stream_player_2d : AudioStreamPlayer2D = %AudioStreamPlayer2D
 #Other areas look to see if this overlaps, monitorable
@@ -24,14 +23,15 @@ extends Actor
 @onready var caution_shape : CollisionShape2D = %CautionShape2D
 @onready var alert_shape : CollisionShape2D = %AlertShape2D
 @onready var state_label : Label = %StateLabel
+@onready var encounter_area : Area2D = %EncounterArea
 
 
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
 @onready var coll_timer : Timer = %CollTimer
 
-@export_category("Enemy Data Resource")
-##Data Resource for this NPC. Must be set!
-@export var enemy_data:EnemyData = null
+#@export_category("Enemy Data Resource")
+##Data Resource for this NPC. Must be set! #This now works in reverse, the enemy_data holds the enemy scene, not the other way around.
+#@export var enemy_data:EnemyData = null
 
 @export_category("Enemy Options")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on will_patrol will disable this!
@@ -49,12 +49,6 @@ extends Actor
 ##If walk speed is altered, this is what walk speed will be set back to default = move_speed
 @export var default_move_speed : float = move_speed
 
-@export_category("Battle Options")
-@export var loot_table : Array[LootDrop]
-@export var steal_table : Array[LootDrop]
-@export var money : int = 0
-@export var experience : int = 0
-@export var difficulty : float = 1.0
 
 @export_category("Alert Options")
 ##How an enemy will react to the player's presence.[br]Scared: Enemy will run when in alert range[br]Cautious: Enemy will chase when in alert range[br]Aggressive: Enemy will chase when in caution range
@@ -117,7 +111,7 @@ var walk_duration : float = 1.0
 
 @export_category("Follow AI")
 ##The actor this node will attempt to follow in the follow state
-@export var actor_to_follow : Actor = null
+@export var actor_to_follow : FieldActor = null
 ##If set to true, Enemy will attempt to follow actor_to_follow
 @export var is_following : bool = false
 
@@ -129,15 +123,11 @@ var walk_duration : float = 1.0
 @export var has_seen_player: bool = false
 ##If the enemy has chased the player
 @export var has_chased_player : bool = false
-##If the enemy is chasing the player
-@export var chasing_player : bool = false
 ##If enemy is in caution mode
 @export var caution_mode : bool = false
 ##If enemy is in alert mode
 @export var alert_mode : bool = false
-##If the enemy is in battle or on the field
-@export var battle_mode : bool = false
-@export var is_defeated : bool = false #maybe useful for playing an animation on the field once an enemy is dead
+
 
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO
@@ -145,6 +135,9 @@ var direction : Vector2 = Vector2.ZERO
 var direction_name : String = "down"
 ##Was the player found?
 #var player_detected : bool = false #Don't need, alert state bools cover this
+var touched_player : bool = false
+
+
 
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
 
@@ -164,14 +157,10 @@ func _ready()->void:
 	tree_exited.connect(wareafree)
 	if !Options.show_states:
 		state_label.visible = false
+	encounter_area.body_entered.connect(on_encounter_area_entered)
 
 ##Setup routine for NPC
 func setup_enemy()->void:
-	if enemy_data == null:
-		printerr("enemy_data is not set! Removing enemy ")
-		queue_free()
-		return
-
 	#move_speed = enemy_data.move_speed
 	walk_area_2d.original_parent = self
 	walk_area_2d.was_spawned = was_spawned
@@ -182,12 +171,7 @@ func setup_enemy()->void:
 	collision_toggle()
 	coll_timer.wait_time = coll_off_wait_time
 	coll_timer.timeout.connect(collisions_disabled)
-	if battle_mode == true:
-		field_sprite.visible = false
-		battle_sprite.visible = true
-	else:
-		field_sprite.visible = true
-		battle_sprite.visible = false
+
 
 func _process(_delta) -> void:
 	if Engine.is_editor_hint():
@@ -316,15 +300,24 @@ func collisions_enabled()->void:
 func wareafree():
 	if walk_area_2d:
 		walk_area_2d.queue_free()
-		
-func touched_player()->void:
-	
-	
-	pass
-
 
 func enemy_killed()->void:
-	if was_spawned:
-		enemy_spawner.spawn_count -= 1
+	#if was_spawned:
+		#enemy_spawner.spawn_count -= 1
 	queue_free()
 	pass
+	
+	
+func on_encounter_area_entered(body : CharacterBody2D)->void:
+	if body is FieldPartyMember:
+		if body == CharDataKeeper.controlled_character:
+			if !touched_player:
+				if !enemy_group.enemies.is_empty():
+					touched_player = true
+					SceneManager.main_scene.battling_field_enemy_scene = self
+					SceneManager.main_scene.call_deferred("start_battle",enemy_group.duplicate())
+				else:
+					printerr(name + ": enemy_group.enemies is empty!")
+			else:
+				printerr(name + " already touched player!")
+		

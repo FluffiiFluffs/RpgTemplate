@@ -1,25 +1,25 @@
-##dev_menu.gd
-##Global script Dev
 extends CanvasLayer
-@onready var animation_player = %AnimationPlayer
+##Global script Dev
+##dev_menu.gd
+##Developer menu. Does various things to make development easier.
+
+
+@onready var animation_player : AnimationPlayer = %AnimationPlayer
+@onready var button_1 : Button = %Button1
+@onready var button_2 : Button = %Button2
+@onready var button_3 : Button = %Button3
+@onready var button_4 : Button = %Button4
+@onready var button_5 : Button = %Button5
+@onready var button_6 : Button = %Button6
+@onready var button_7 : Button = %Button7
+@onready var button_8 : Button = %Button8
+@onready var button_9 : Button = %Button9
+@onready var button_10 : Button = %Button10
 
 var dev_menu_open : bool = false
 
-@onready var button_1 = %Button1
-@onready var button_2 = %Button2
-@onready var button_3 = %Button3
-@onready var button_4 = %Button4
-@onready var button_5 = %Button5
-@onready var button_6 = %Button6
-@onready var button_7 = %Button7
-@onready var button_8 = %Button8
-@onready var button_9 = %Button9
-@onready var button_10 = %Button10
-
-
 const TEST01_SCENE : PackedScene = preload("uid://my8hd4okxhcq")
 const TEST01_SPAWN_ID : StringName = &"SceneTransition"
-
 
 func _ready()->void:
 	button_1.pressed.connect(on_button_1_pressed)
@@ -44,7 +44,6 @@ func _unhandled_input(_event):
 			animation_player.play("dev_menu_close")	
 			dev_menu_open = false
 
-
 ##load test scene
 func on_button_1_pressed()->void:
 	if SceneManager.main_scene != null:
@@ -57,10 +56,10 @@ func on_button_1_pressed()->void:
 		for child in main.field_scene_container.get_children():
 			if child is FieldScene:
 				field_scene = child
-		SceneManager.current_field_scene = field_scene
+		SceneManager.main_scene.current_field_scene = field_scene
 		#setup spawn point
 		var spawnp = null
-		for child in SceneManager.current_field_scene.player_spawn.get_children():
+		for child in SceneManager.main_scene.current_field_scene.player_spawn.get_children():
 			if child is SceneTransitioner:
 				if child.target_transition_area == &"":
 					spawnp = child
@@ -78,17 +77,13 @@ func on_button_2_pressed()->void:
 	var main = SceneManager.main_scene as Main
 	SceneManager.make_player_at_first_spawn_point()
 	main.field_camera_rig.follow_player()
-	
 
 func on_button_3_pressed()->void:
 	pass
 
 func on_button_4_pressed() -> void:
-
 	pass
-	
-	
-	
+
 func on_button_5_pressed() -> void:
 	pass
 func on_button_6_pressed()->void:
@@ -113,13 +108,13 @@ func on_button_10_pressed()->void:
 	_collect_descendants(main, nodes)
 
 	var spawners : Array[EnemySpawner] = []
-	var loose_enemies : Array[Enemy] = []
+	var loose_enemies : Array[FieldEnemy] = []
 
 	for n in nodes:
 		if n is EnemySpawner:
 			spawners.append(n)
-		elif n is Enemy:
-			var e : Enemy = n
+		elif n is FieldEnemy:
+			var e : FieldEnemy = n
 			if e.enemy_spawner != null and is_instance_valid(e.enemy_spawner):
 				continue
 			loose_enemies.append(e)
@@ -129,8 +124,6 @@ func on_button_10_pressed()->void:
 
 	for e in loose_enemies:
 		e.queue_free()
-
-
 
 func _collect_descendants(root: Node, out: Array[Node]) -> void:
 	if root == null:

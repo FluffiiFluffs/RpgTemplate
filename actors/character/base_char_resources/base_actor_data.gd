@@ -4,7 +4,7 @@ extends Resource
 @export_category("REQUIRED")
 @export var field_scene : PackedScene = null
 @export var battle_scene : PackedScene = null
-@export var battle_icon : PackedScene = null
+@export var battle_icon : Texture2D = null
 @export var char_resource : CharResource = null
 
 @export_category("Identity")

@@ -1,7 +1,7 @@
 @tool
 ##npc.gd
 class_name NPC
-extends Actor
+extends FieldActor
 
 @onready var sprite_2d = %Sprite2D
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
@@ -74,13 +74,11 @@ var walk_duration : float = 1.0
 
 @export_category("Follow AI")
 ##The actor this node will attempt to follow in the follow state
-@export var actor_to_follow : Actor = null
+@export var actor_to_follow : FieldActor = null
 ##If set to true, NPC will attempt to follow actor_to_follow
 @export var is_following : bool = false
 ##Set in follow state script, equal to actor_to_follow.move_speed 
 @export var follow_speed : float = 50.0
-
-
 
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO
@@ -98,9 +96,6 @@ signal player_is_not_detected ##Signal for if the player was not detected
 signal pcolldettrue ##Signal to turn off collisions after a certain time.
 signal pcolldetfalse ##Signal to turn collisions back on once player exits detection area.
 #signal direction_changed( new_direction )
-
-
-
 
 func _ready()->void:
 	if Engine.is_editor_hint():
@@ -149,10 +144,6 @@ func _setup_as_follower() -> void:
 	if coll_timer != null and is_instance_valid(coll_timer):
 		coll_timer.stop()
 		coll_timer.process_mode = Node.PROCESS_MODE_DISABLED
-
-
-
-
 
 ##Determines if walk_area shows up in debug. Sets up walk_area size. Places walk_area at NPC's position but does not move with NPC.[br]
 ##If a WalkCenterPoint is defined, makes it the walk_center instead of NPC origin position.

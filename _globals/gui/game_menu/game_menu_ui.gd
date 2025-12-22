@@ -344,6 +344,7 @@ func _ready()->void:
 	setup_options_focus()
 	setup_options_buttons_presses()
 	sort_order_positioner.visible = true
+	visible = false
 #endregion ready function
 
 
@@ -1594,10 +1595,11 @@ func open_current_quests()->void:
 	clear_quests_list()
 	#iterate through QuestManager.completed_quests and instantiate buttons in list
 	for quest in QuestManager.current_quests:
-		var new_button = QUEST_BUTTON.instantiate()
-		quests_list_v_box.add_child(new_button)
-		new_button.label.text = quest.quest_name
-		new_button.quest = quest
+		if quest != null:
+			var new_button = QUEST_BUTTON.instantiate()
+			quests_list_v_box.add_child(new_button)
+			new_button.label.text = quest.quest_name
+			new_button.quest = quest
 	select_first_quest_in_list()
 	pass
 
@@ -1605,10 +1607,11 @@ func open_completed_quests()->void:
 	clear_quests_list()
 	#iterate through QuestManager.completed_quests and instantiate buttons in list
 	for quest in QuestManager.completed_quests:
-		var new_button = QUEST_BUTTON.instantiate()
-		quests_list_v_box.add_child(new_button)
-		new_button.label.text = quest.quest_name
-		new_button.quest = quest
+		if quest != null:
+			var new_button = QUEST_BUTTON.instantiate()
+			quests_list_v_box.add_child(new_button)
+			new_button.label.text = quest.quest_name
+			new_button.quest = quest
 	select_first_quest_in_list()
 	pass
 

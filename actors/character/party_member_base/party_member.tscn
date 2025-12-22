@@ -279,7 +279,7 @@ size = Vector2(16, 20)
 
 [node name="PartyMember" type="CharacterBody2D"]
 y_sort_enabled = true
-collision_mask = 60
+collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_odiw3")
 

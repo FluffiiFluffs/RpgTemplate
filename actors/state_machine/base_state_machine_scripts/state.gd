@@ -1,7 +1,7 @@
 class_name State extends Node2D
 
 ##Stores reference to the player that this PlayerState belongs to
-var actor:Actor
+var actor:FieldActor
 var state_machine: StateMachine
 
 func _init() -> void:

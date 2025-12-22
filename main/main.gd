@@ -15,7 +15,6 @@ extends Node
 @onready var audio_root : Node = %AudioRoot
 @onready var runtime : Node = %Runtime
 @onready var title_menu_layer : Node = %TitleMenuLayer
-
 #endregion Node References
 
 #region Export Variables
@@ -24,9 +23,6 @@ extends Node
 @export var starting_spawn_id : StringName = &"Start"
 
 const BATTLE_SCENE = preload("uid://h63ncjrxunau")
-
-
-
 #endregion Export Variables
 
 
@@ -34,9 +30,8 @@ const BATTLE_SCENE = preload("uid://h63ncjrxunau")
 #region Variables
 var current_field_scene : FieldScene = null
 var current_battle_scene : BattleScene = null
-var current_enemy_scene : Enemy = null
+var battling_field_enemy_scene : FieldEnemy = null
 var title_menu_instance : CanvasLayer = null
-
 #endregion Variables
 
 
@@ -45,19 +40,13 @@ func _ready()->void:
 
 
 
-func field_camera_to_player()->void:
-	if CharDataKeeper.controlled_character == null:
-		printerr("Field camera could not be placed on player (NULL)")
-		return
-	##make camera rig follow the player
-
 #region Battle
 func start_battle(egroup : EnemyGroup)->void:
 	transition_layer.play_begin() #play transition to black screen
+	field_root.process_mode = Node.PROCESS_MODE_DISABLED #stop processing the field
 	await transition_layer.animation_player.animation_finished #wait until it's fully black
 	field_camera_rig.deactivate() #deactivate the field camera
 	field_root.visible = false
-	field_root.process_mode = Node.PROCESS_MODE_DISABLED #stop processing the field
 	var new_battle_scene := BATTLE_SCENE.instantiate() as BattleScene #makes new battle scene
 	battle_root.add_child(new_battle_scene) #Puts the battle scene into the tree
 	current_battle_scene = new_battle_scene #Saves reference to battle scene for later
@@ -65,40 +54,41 @@ func start_battle(egroup : EnemyGroup)->void:
 	battle_root.visible = true #makes battle visible
 	new_battle_scene.battle_camera_rig.activate() #makes battle camera active camera
 	new_battle_scene.setup_all() #Sets up the battle (party, enemies, turns)
-	
-	
-	
-	
+
 	GameState.gamestate = GameState.State.BATTLE #swap game state to battle
 	
 	transition_layer.play_end()
-	
-	pass
 
 ##After battle is completely finished (loot,xp given), gets rid of the battle scene, sets game state back to field, etc	
-func end_battle()->void:
+func end_battle_victory_normal()->void:
 	transition_layer.play_begin() #fades the screen to black
 	await transition_layer.animation_player.animation_finished #waits until the screen is black
-	battle_root.vislble = false #Hides battle
+	battle_root.visible = false #Hides battle
 	current_battle_scene.queue_free() #Removes battle scene from memory
-	current_battle_scene = null #sets to null just to be safe
+	#current_battle_scene = null #sets to null just to be safe
 	field_root.process_mode = Node.PROCESS_MODE_INHERIT #allows field root to process
 	field_camera_rig.activate() #reactivates field camera
 	field_camera_rig.follow_player() #sets follow back to player
-	
-	
+	battling_field_enemy_scene.enemy_killed()
+	destroy_chasing_enemies()
 	GameState.gamestate = GameState.State.FIELD #swap game state back to field
+	field_root.set_deferred("visible", true)
 	transition_layer.play_end()
-	
 	await transition_layer.animation_player.animation_finished
-	
-	
-	pass
 
-
+#cleans up any enemies that have touched the player in case there were more than 1
+func destroy_chasing_enemies()->void:
+	for child in current_field_scene.enemy_spawners.get_children():
+		if child is EnemySpawner:
+			for en in child.get_children():
+				if en is FieldEnemy:
+					#if en.touched_player:
+					if en.has_chased_player:
+						en.queue_free()
 #endregion Battle
 
 
 
 
 #region Helpers
+#endregion Helpers

@@ -39,7 +39,7 @@ func process (_delta : float) -> State:
 
 ## What happens when the state is entered
 func enter() -> void:
-	print(str(actor.name) + " entered idle state")
+	#print(str(actor.name) + " entered idle state")
 	if actor.is_following == true:
 		next_state = follow
 		actor.will_walk = false

@@ -1,2 +1,2 @@
-class_name Actor
+class_name FieldActor
 extends CharacterBody2D

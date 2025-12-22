@@ -1,6 +1,5 @@
 class_name EnemyAlert extends State
 
-
 @onready var walk :State= %Walk
 @onready var alert : State = %Alert
 @onready var idle = %Idle
@@ -18,7 +17,7 @@ func _ready()->void:
 
 ## What happens when the state is entered
 func enter() -> void:
-	print(str(actor.name) + " entered alert state")
+	#print(str(actor.name) + " entered alert state")
 	actor.state_label.text = "A"
 	if actor.has_chased_player == false:
 		actor.has_chased_player = true

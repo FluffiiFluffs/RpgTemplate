@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://dodamc25dwjh8" path="res://actors/character/base_char_resources/thief_char_resource.tres" id="1_3mg7y"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="1_ng66m"]
-[ext_resource type="PackedScene" uid="uid://bvuhnuj24if74" path="res://actors/character/party_member_field_scenes/thief_party_member.tscn" id="2_ab6kp"]
+[ext_resource type="PackedScene" uid="uid://bvuhnuj24if74" path="res://actors/character/party_member_field_scenes/thief_field_scene.tscn" id="2_ab6kp"]
 
 [resource]
 resource_local_to_scene = true

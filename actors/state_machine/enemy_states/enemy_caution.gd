@@ -15,10 +15,10 @@ func _ready()->void:
 ## What happens when the state is entered
 func enter() -> void:
 	actor.state_label.text = "C"
-	if actor.alert_mode == true or actor.caution_mode == true and !actor.has_chased_player:
-		print(str(actor.name) + " entered caution state")
-	elif actor.alert_mode == true or actor.caution_mode == true and actor.has_chased_player:
-		print(str(actor.name) + " entered caution state, but has chased player. Chasing player")
+	#if actor.alert_mode == true or actor.caution_mode == true and !actor.has_chased_player:
+		#print(str(actor.name) + " entered caution state")
+	#elif actor.alert_mode == true or actor.caution_mode == true and actor.has_chased_player:
+		#print(str(actor.name) + " entered caution state, but has chased player. Chasing player")
 	pass
 
 ## What happens when the state is exited
@@ -35,7 +35,7 @@ func process (_delta : float) -> State:
 			actor.update_direction_name()
 			actor.update_animation("walk")
 		if actor.caution_mode == true:
-			var _player : PartyMember = CharDataKeeper.controlled_character
+			var _player : FieldPartyMember = CharDataKeeper.controlled_character
 			actor.direction = actor.global_position.direction_to(_player.global_position)
 			actor.update_direction_name()
 			actor.update_animation("idle")

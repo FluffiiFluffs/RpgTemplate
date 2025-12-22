@@ -7,6 +7,11 @@ extends Control
 @onready var stats_panel_container : PanelContainer = %StatsPanelContainer
 @onready var selection_button : Button = %SelectionButton
 @onready var command_h_box : HBoxContainer = %CommandHBox
+@onready var hp_value : Label = %HPValue
+@onready var hp_progress_bar := %HPProgressBar
+@onready var mp_value : Label = %MPValue
+@onready var mp_progress_bar = %MPProgressBar
+
 
 
 @onready var command_container_container : PanelContainer = %CommandContainerContainer
@@ -25,11 +30,66 @@ func _ready() -> void:
 	show_commands = false #for runtime
 	_apply_show_commands()
 
+
+#region Setup
 ##Uses member.class color to set border colors
 func set_class_color()->void:
 	if member != null:
 		stats_panel_container.self_modulate = member.class_color
 		command_container.self_modulate = member.class_color
+
+func setup_hpmp()->void:
+	hp_value.text = str(member.current_hp)
+	mp_value.text = str(member.current_mp)
+	hp_progress_bar.max_value = member.get_max_hp()
+	mp_progress_bar.max_value = member.get_max_mp()
+	hp_progress_bar.value = member.current_hp
+	mp_progress_bar.value = member.current_mp
+	if_hp_mp_full_or_empty()
+	
+	
+#endregion Setup
+
+#region Update Stats
+##Makes HP/MP value a different color if they are full
+func if_hp_mp_full_or_empty()->void:
+	if member.current_hp == member.get_max_hp():
+		hp_value.self_modulate = GameMenu.ENABLED_COLOR
+	else:
+		hp_value.self_modulate = GameMenu.WHITE_COLOR
+	if member.current_mp == member.get_max_mp():
+		mp_value.self_modulate = GameMenu.ENABLED_COLOR
+	else:
+		mp_value.self_modulate = GameMenu.WHITE_COLOR
+	if member.current_hp == 0:
+		hp_value.self_modulate = GameMenu.MINUS_COLOR
+	if member.current_mp == 0:
+		mp_value.self_modulate = GameMenu.MINUS_COLOR
+
+##Updates label to new HP value and animates the bar to show it.[br] Damage = -value, Heal = +value
+func hp_changed(value : int)->void:
+	var old_hp := member.current_hp
+	var new_hp := clampi(old_hp + value, 0, member.get_max_hp())
+	hp_value.text = str(new_hp)
+	var tween := Tween.new()
+	tween.tween_property(hp_progress_bar, "value", new_hp, 0.3)
+	await tween.finished
+	if_hp_mp_full_or_empty()
+	
+##Updates label to new MP value and animates the bar to show it.[br] Damage = -value, Heal = +value
+func mp_changed(value : int)->void:
+	var old_mp := member.current_mp
+	var new_mp := clampi(old_mp + value, 0, member.get_max_mp())
+	mp_value.text = str(new_mp)
+	var tween := Tween.new()
+	tween.tween_property(mp_progress_bar, "value", new_mp, 0.3)
+	await tween.finished
+	if_hp_mp_full_or_empty()
+	
+
+
+#endregion Update Stats
+
 
 #region Selection
 ##Activates selection_button so it can be selected with normal UI
@@ -54,6 +114,8 @@ func deactivate_all_command_buttons()->void:
 	for child in command_h_box.get_children():
 		if child is CommandButton:
 			child.deactivate_button()
+#endregion Selection
+
 
 #region Command Container
 ## for us in editor

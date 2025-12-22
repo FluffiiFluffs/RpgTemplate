@@ -1,6 +1,6 @@
-[gd_scene load_steps=27 format=3 uid="uid://vfsshe7gmbtm"]
+[gd_scene load_steps=28 format=3 uid="uid://vfsshe7gmbtm"]
 
-[ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_kmea5"]
+[ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/field_enemy.gd" id="1_kmea5"]
 [ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_avj5y"]
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="3_6yfr8"]
 [ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="4_0agat"]
@@ -191,10 +191,13 @@ radius = 100.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_muh4v"]
 size = Vector2(96, 96)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tn6sb"]
+size = Vector2(18, 20)
+
 [node name="TestEnemy01" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 8
-collision_mask = 16
+collision_mask = 25
 motion_mode = 1
 script = ExtResource("1_kmea5")
 will_walk = true
@@ -207,9 +210,6 @@ offset = Vector2(0, -15)
 hframes = 4
 vframes = 3
 frame = 4
-
-[node name="BattleSprite" type="Sprite2D" parent="."]
-unique_name_in_owner = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -321,3 +321,14 @@ theme_override_fonts/font = ExtResource("12_fkhpq")
 theme_override_font_sizes/font_size = 8
 text = "W"
 horizontal_alignment = 1
+
+[node name="EncounterArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterArea"]
+z_index = 1
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_tn6sb")
+debug_color = Color(1, 0, 0, 0)

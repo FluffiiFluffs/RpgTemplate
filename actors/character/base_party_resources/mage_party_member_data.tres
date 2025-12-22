@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://nnbekxtr3kn0" path="res://actors/character/base_char_resources/mage_char_resource.tres" id="1_5csrh"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/character/base_party_resources/party_member_data.gd" id="1_kx4ho"]
-[ext_resource type="PackedScene" uid="uid://dg6uqnl2ew63l" path="res://actors/character/party_member_field_scenes/mage_party_member.tscn" id="2_rd2pk"]
+[ext_resource type="PackedScene" uid="uid://dg6uqnl2ew63l" path="res://actors/character/party_member_field_scenes/mage_field_scene.tscn" id="2_rd2pk"]
 
 [resource]
 resource_local_to_scene = true

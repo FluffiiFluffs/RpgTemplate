@@ -23,7 +23,7 @@ func _unhandled_input(event) -> void:
 	
 
 ## Sets up state machine
-func initialize(_actor:Actor) -> void:
+func initialize(_actor:FieldActor) -> void:
 	states = []
 	#finds nodes with script type of State and appends them to an array
 	for child in get_children():

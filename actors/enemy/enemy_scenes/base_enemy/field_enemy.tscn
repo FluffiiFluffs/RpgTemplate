@@ -1,17 +1,16 @@
 [gd_scene load_steps=28 format=3 uid="uid://dt3hw6ocf2cl7"]
 
-[ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/enemy.gd" id="1_0bajq"]
-[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="2_ntjkm"]
-[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="4_laeoq"]
-[ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="4_ntjkm"]
-[ext_resource type="Script" uid="uid://cl15npn1uos1n" path="res://actors/state_machine/enemy_states/enemy_walk.gd" id="5_ntjkm"]
-[ext_resource type="Script" uid="uid://c3stcs3g00qcn" path="res://actors/state_machine/enemy_states/enemy_patrol.gd" id="6_ntjkm"]
-[ext_resource type="Script" uid="uid://bfnnu6w6usg8o" path="res://actors/state_machine/enemy_states/enemy_caution.gd" id="8_a7sam"]
-[ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_alert.gd" id="8_ntjkm"]
-[ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="8_ordjh"]
-[ext_resource type="Script" uid="uid://c25l2yai4t66r" path="res://actors/state_machine/enemy_states/enemy_battle.gd" id="10_a7sam"]
-[ext_resource type="Script" uid="uid://dsqepnvdhvj58" path="res://actors/enemy/enemy_scenes/base_enemy/walk_area.gd" id="10_q6shg"]
-[ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="12_usjcl"]
+[ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/enemy/enemy_scenes/base_enemy/field_enemy.gd" id="1_wc5j6"]
+[ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="2_7iqpm"]
+[ext_resource type="Texture2D" uid="uid://btc0385l67exe" path="res://_assets/enemy/placeholder_enemy_spritesheet.png" id="3_gqnjf"]
+[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/state_machine/base_state_machine_scripts/state_machine.gd" id="4_wilp7"]
+[ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/state_machine/enemy_states/enemy_idle.gd" id="5_8jyim"]
+[ext_resource type="Script" uid="uid://cl15npn1uos1n" path="res://actors/state_machine/enemy_states/enemy_walk.gd" id="6_5l6c4"]
+[ext_resource type="Script" uid="uid://c3stcs3g00qcn" path="res://actors/state_machine/enemy_states/enemy_patrol.gd" id="7_7l7c8"]
+[ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/state_machine/npc_states/npc_follow.gd" id="8_1gqnp"]
+[ext_resource type="Script" uid="uid://bfnnu6w6usg8o" path="res://actors/state_machine/enemy_states/enemy_caution.gd" id="9_oey0m"]
+[ext_resource type="Script" uid="uid://cq3703o6xaaa0" path="res://actors/state_machine/enemy_states/enemy_alert.gd" id="10_yp88a"]
+[ext_resource type="Script" uid="uid://dsqepnvdhvj58" path="res://actors/enemy/enemy_scenes/base_enemy/walk_area.gd" id="12_ggfyf"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
 length = 0.001
@@ -192,12 +191,15 @@ radius = 100.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_muh4v"]
 size = Vector2(96, 96)
 
-[node name="Enemy" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0bw1c"]
+size = Vector2(18, 20)
+
+[node name="FieldEnemy" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 8
-collision_mask = 16
+collision_mask = 25
 motion_mode = 1
-script = ExtResource("1_0bajq")
+script = ExtResource("1_wc5j6")
 will_walk = true
 default_move_speed = 30.0
 
@@ -208,22 +210,14 @@ offset_left = -19.0
 offset_top = -43.0
 offset_right = 21.0
 offset_bottom = -28.0
-theme_override_fonts/font = ExtResource("12_usjcl")
+theme_override_fonts/font = ExtResource("2_7iqpm")
 theme_override_font_sizes/font_size = 8
 text = "W"
 horizontal_alignment = 1
 
 [node name="FieldSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("2_ntjkm")
-offset = Vector2(0, -15)
-hframes = 4
-vframes = 3
-frame = 4
-
-[node name="BattleSprite" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-texture = ExtResource("2_ntjkm")
+texture = ExtResource("3_gqnjf")
 offset = Vector2(0, -15)
 hframes = 4
 vframes = 3
@@ -252,35 +246,32 @@ shape = SubResource("RectangleShape2D_b1uet")
 
 [node name="StateMachine" type="Node2D" parent="."]
 unique_name_in_owner = true
-script = ExtResource("4_laeoq")
+script = ExtResource("4_wilp7")
 
 [node name="Idle" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("4_ntjkm")
+script = ExtResource("5_8jyim")
 
 [node name="Walk" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("next_state")]
 unique_name_in_owner = true
-script = ExtResource("5_ntjkm")
+script = ExtResource("6_5l6c4")
 next_state = NodePath("../Idle")
 
 [node name="Patrol" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("6_ntjkm")
+script = ExtResource("7_7l7c8")
 
 [node name="Follow" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("8_ordjh")
+script = ExtResource("8_1gqnp")
 
 [node name="Caution" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("8_a7sam")
+script = ExtResource("9_oey0m")
 
 [node name="Alert" type="Node2D" parent="StateMachine"]
 unique_name_in_owner = true
-script = ExtResource("8_ntjkm")
-
-[node name="Battle" type="Node2D" parent="StateMachine"]
-script = ExtResource("10_a7sam")
+script = ExtResource("10_yp88a")
 
 [node name="SeeArea2D" type="Area2D" parent="."]
 unique_name_in_owner = true
@@ -318,12 +309,23 @@ collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
-script = ExtResource("10_q6shg")
+script = ExtResource("12_ggfyf")
 
 [node name="WalkShape2D" type="CollisionShape2D" parent="WalkArea2D"]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_muh4v")
 debug_color = Color(1, 0, 0.5372549, 0)
+
+[node name="EncounterArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterArea"]
+z_index = 1
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_0bw1c")
+debug_color = Color(1, 0, 0, 0)
 
 [node name="DetectTimer" type="Timer" parent="."]
 unique_name_in_owner = true

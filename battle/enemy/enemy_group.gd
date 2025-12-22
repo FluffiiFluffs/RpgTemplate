@@ -1,4 +1,4 @@
 class_name EnemyGroup
 extends Resource
 
-@export var enemies : Array[PackedScene] = []
+@export var enemies : Array[EnemyData] = []

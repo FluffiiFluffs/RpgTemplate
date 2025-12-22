@@ -1,12 +1,9 @@
-class_name PartyMember
-extends Actor
+class_name FieldPartyMember
+extends FieldActor
 ##PartyMember.gd
 ##Attached to party_member.tscn root node
 
-
-
 @onready var field_sprite : Sprite2D = %FieldSprite
-@onready var battle_sprite : Sprite2D = %BattleSprite
 
 @onready var animation_player :AnimationPlayer= %AnimationPlayer
 @onready var audio_stream_player_2d :AudioStreamPlayer2D= %AudioStreamPlayer2D
@@ -28,7 +25,7 @@ extends Actor
 
 @export_category("Follow AI")
 ##The actor this node will attempt to follow in the follow state
-@export var actor_to_follow : Actor = null
+@export var actor_to_follow : FieldActor = null
 ##If set to true, NPC will attempt to follow actor_to_follow
 @export var is_following : bool = false
 ##Set in follow state script, equal to actor_to_follow.move_speed 
@@ -53,13 +50,17 @@ func _physics_process(_delta)->void:
 	move_and_slide()
 
 func _process(_delta) -> void:
-	pass
-	
-func _unhandled_input(_event):
 	if is_controlled:
 		if GameState.gamestate == GameState.State.FIELD:
 			direction = Vector2( Input.get_axis("move_left",
 			"move_right"), Input.get_axis("move_up","move_down")).normalized()
+	pass
+	
+#func _unhandled_input(_event):
+	#if is_controlled:
+		#if GameState.gamestate == GameState.State.FIELD:
+			#direction = Vector2( Input.get_axis("move_left",
+			#"move_right"), Input.get_axis("move_up","move_down")).normalized()
 
 func set_direction() -> bool:
 	if direction == Vector2.ZERO:

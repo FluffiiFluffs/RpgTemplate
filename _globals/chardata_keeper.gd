@@ -17,7 +17,7 @@ extends Node2D
 
 @export_category("Field Control")
 ##Reference to the controlled character node on the field
-@export var controlled_character : PartyMember
+@export var controlled_character : FieldPartyMember
 ##Index for the controlled character
 var controlled_index : int = 0 : set = set_controlled_index
 

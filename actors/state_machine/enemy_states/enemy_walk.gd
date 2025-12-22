@@ -25,7 +25,7 @@ func _ready()->void:
 ## What happens when the state is entered
 func enter() -> void:
 	actor.state_label.text = "W"
-	print(str(actor.name) + " entered walk state")
+	#print(str(actor.name) + " entered walk state")
 	#Enemy will eventually walk towards the center point after being set.
 	#Possible use is for after-cutscene
 	if actor.walkcenterpoint:

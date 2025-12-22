@@ -93,8 +93,9 @@ func _find_quest(_quest_id:StringName)->Quest:
 ##Helper function to locate quest by ID in current_quests
 func _find_quest_current(_quest_id:StringName)->Quest:
 	for q in current_quests:
-		if q.quest_id == _quest_id:
-			return q
+		if q != null:
+			if q.quest_id == _quest_id:
+				return q
 	return null
 
 ##Disperses rewards (exp, money, items)
@@ -106,9 +107,11 @@ func give_step_rewards(_step:QuestStep)->void:
 
 ##Used to determine if quest exists in current_quests.
 func has_quest(_quest_id:StringName)->bool:
-	for q in current_quests:
-		if q.quest_id == _quest_id:
-			return true
+	if !current_quests.is_empty():
+		for q in current_quests:
+			if q != null:
+				if q.quest_id == _quest_id:
+					return true
 	return false
 
 ##Used quest_id to determine what step the current quest is on.
