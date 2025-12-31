@@ -382,8 +382,9 @@ func force_top_menu_open()->void:
 ##Closes top menu
 func top_menu_close()->void:
 	GameState.gamestate = GameState.State.FIELD #back to field state
-	visible = false
 	animation_player.play("top_menu_hide")
+	await animation_player.animation_finished
+	visible = false
 	#play top menu animation closed
 	menu_state = "TOP_MENU_CLOSED"
 	pass

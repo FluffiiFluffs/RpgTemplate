@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3 uid="uid://8mflur1rjcwr"]
+
+[ext_resource type="Texture2D" uid="uid://0su6q20xg6cu" path="res://_assets/battle/icons/enemy_battle_icon.png" id="1_rmuka"]
+[ext_resource type="Script" uid="uid://bt4mlekjm5cg8" path="res://actors/_common/loot_drop.gd" id="2_44s84"]
+[ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="3_wtw7p"]
+[ext_resource type="Script" uid="uid://dnf22m24hntjd" path="res://actors/_common/base_enemy_data/enemy_data.gd" id="4_rbs70"]
+
+[sub_resource type="Resource" id="Resource_n50ag"]
+script = ExtResource("2_44s84")
+loot = ExtResource("3_wtw7p")
+metadata/_custom_type_script = "uid://bt4mlekjm5cg8"
+
+[resource]
+script = ExtResource("4_rbs70")
+loot_table = Array[ExtResource("2_44s84")]([SubResource("Resource_n50ag")])
+money = 100
+experience = 100
+battle_icon = ExtResource("1_rmuka")
+metadata/_custom_type_script = "uid://dnf22m24hntjd"

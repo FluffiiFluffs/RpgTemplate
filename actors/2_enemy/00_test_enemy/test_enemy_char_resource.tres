@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CharResource" load_steps=2 format=3 uid="uid://c7inxxuskfap4"]
+
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/_common/char_resource.gd" id="1_jpquj"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_jpquj")
+char_faction = 2
+char_name = "TestEnemy01"
+metadata/_custom_type_script = "uid://dekkhepva31dh"

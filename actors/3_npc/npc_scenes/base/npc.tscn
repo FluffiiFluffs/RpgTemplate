@@ -1,0 +1,281 @@
+[gd_scene load_steps=23 format=3 uid="uid://56kk082o8ck1"]
+
+[ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/3_npc/npc_scenes/base/npc.gd" id="1_3jjbx"]
+[ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/3_npc/npc_resources/base/base_npc_resource.tres" id="2_3jjbx"]
+[ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="3_umrb1"]
+[ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/field_state_machine/base_state_machine_scripts/state_machine.gd" id="3_ve4uv"]
+[ext_resource type="Script" uid="uid://cojagurq1svt" path="res://actors/field_state_machine/npc_states/npc_idle.gd" id="4_3jjbx"]
+[ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/field_state_machine/npc_states/npc_walk.gd" id="5_06j4l"]
+[ext_resource type="Script" uid="uid://c24ccuf0y06bn" path="res://actors/field_state_machine/npc_states/npc_patrol.gd" id="6_06j4l"]
+[ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/field_state_machine/npc_states/npc_follow.gd" id="6_i2mv8"]
+[ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="9_4pkct"]
+
+[sub_resource type="Animation" id="Animation_b1uet"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_pflqk"]
+resource_name = "idle_down"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_y0uyn"]
+resource_name = "idle_left"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_gv10s"]
+resource_name = "idle_right"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_kujp3"]
+resource_name = "idle_up"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_pjn5c"]
+resource_name = "walk_down"
+length = 0.6
+loop_mode = 1
+step = 0.016666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_ry0v3"]
+resource_name = "walk_left"
+length = 0.6
+loop_mode = 1
+step = 0.016666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [9]
+}
+
+[sub_resource type="Animation" id="Animation_fbroj"]
+resource_name = "walk_right"
+length = 0.6
+loop_mode = 1
+step = 0.016666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
+[sub_resource type="Animation" id="Animation_7ar1o"]
+resource_name = "walk_up"
+length = 0.6
+loop_mode = 1
+step = 0.016666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b1uet"]
+_data = {
+&"RESET": SubResource("Animation_b1uet"),
+&"idle_down": SubResource("Animation_pflqk"),
+&"idle_left": SubResource("Animation_y0uyn"),
+&"idle_right": SubResource("Animation_gv10s"),
+&"idle_up": SubResource("Animation_kujp3"),
+&"walk_down": SubResource("Animation_pjn5c"),
+&"walk_left": SubResource("Animation_ry0v3"),
+&"walk_right": SubResource("Animation_fbroj"),
+&"walk_up": SubResource("Animation_7ar1o")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b1uet"]
+size = Vector2(16, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h05io"]
+size = Vector2(48, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_muh4v"]
+size = Vector2(96, 96)
+
+[node name="NPC" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 4
+collision_mask = 16
+motion_mode = 1
+script = ExtResource("1_3jjbx")
+npc_data = ExtResource("2_3jjbx")
+default_move_speed = 30.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("3_umrb1")
+offset = Vector2(0, -15)
+hframes = 4
+vframes = 3
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_b1uet")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+max_polyphony = 5
+bus = &"SFX"
+
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_b1uet")
+
+[node name="StateMachine" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_ve4uv")
+
+[node name="Idle" type="Node2D" parent="StateMachine"]
+unique_name_in_owner = true
+script = ExtResource("4_3jjbx")
+
+[node name="Walk" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("next_state")]
+unique_name_in_owner = true
+script = ExtResource("5_06j4l")
+next_state = NodePath("../Idle")
+
+[node name="Patrol" type="Node2D" parent="StateMachine"]
+unique_name_in_owner = true
+script = ExtResource("6_06j4l")
+
+[node name="Follow" type="Node2D" parent="StateMachine"]
+unique_name_in_owner = true
+script = ExtResource("6_i2mv8")
+
+[node name="P_Det_Area" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="P_Det_Area"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_h05io")
+debug_color = Color(0.49411765, 0, 1, 0)
+
+[node name="WalkArea2D" type="Area2D" parent="."]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+collision_mask = 0
+
+[node name="WalkShape2D" type="CollisionShape2D" parent="WalkArea2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_muh4v")
+debug_color = Color(1, 0, 0.5372549, 0)
+
+[node name="PDetTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.2
+autostart = true
+
+[node name="CollTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="StateLabel" type="Label" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+offset_left = -6.0
+offset_top = -43.0
+offset_right = 8.0
+offset_bottom = -28.0
+theme_override_fonts/font = ExtResource("9_4pkct")
+theme_override_font_sizes/font_size = 8
+text = "I"
+horizontal_alignment = 1

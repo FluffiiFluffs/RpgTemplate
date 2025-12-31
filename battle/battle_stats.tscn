@@ -118,15 +118,20 @@ script = ExtResource("1_xjkr3")
 show_commands = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_top = -14.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
 offset_right = 100.0
-grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 0
+alignment = 2
 
 [node name="StatsPanelContainerContainer" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="StatsPanelContainer" type="PanelContainer" parent="VBoxContainer/StatsPanelContainerContainer"]
 unique_name_in_owner = true
@@ -264,7 +269,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xjkr3")
 
 [node name="CommandContainerContainer" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
 
 [node name="CommandContainer" type="PanelContainer" parent="VBoxContainer/CommandContainerContainer"]
 unique_name_in_owner = true
@@ -309,6 +317,8 @@ layout_mode = 2
 button_type = "run"
 
 [node name="CommandFlasher" type="PanelContainer" parent="VBoxContainer/CommandContainerContainer"]
+unique_name_in_owner = true
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rh2e1")

@@ -11,9 +11,7 @@ extends Control
 @onready var hp_progress_bar := %HPProgressBar
 @onready var mp_value : Label = %MPValue
 @onready var mp_progress_bar = %MPProgressBar
-
-
-
+@onready var command_flasher : PanelContainer = %CommandFlasher
 @onready var command_container_container : PanelContainer = %CommandContainerContainer
 
 #toggles command container visibility
@@ -29,7 +27,7 @@ func _ready() -> void:
 		return
 	show_commands = false #for runtime
 	_apply_show_commands()
-
+	command_flasher.visible = true
 
 #region Setup
 ##Uses member.class color to set border colors

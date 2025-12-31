@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CharResource" load_steps=2 format=3 uid="uid://nnbekxtr3kn0"]
+
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/_common/char_resource.gd" id="1_w6jy8"]
+
+[resource]
+script = ExtResource("1_w6jy8")
+char_name = "Mage"
+char_class = 2
+metadata/_custom_type_script = "uid://dekkhepva31dh"

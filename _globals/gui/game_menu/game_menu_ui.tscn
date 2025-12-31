@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene load_steps=62 format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_ui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -40,6 +40,9 @@ border_width_bottom = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rmrhr"]
 texture = ExtResource("15_3l8ib")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c4co5"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l8ib"]
 bg_color = Color(0, 0, 0, 1)
@@ -356,6 +359,14 @@ grow_vertical = 0
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
+[node name="Hider" type="PanelContainer" parent="TopLevel/BottomPositioner"]
+layout_mode = 0
+offset_left = -200.0
+offset_top = -46.0
+offset_right = 200.0
+offset_bottom = 4.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_c4co5")
+
 [node name="PartyHBoxContainer" type="HBoxContainer" parent="TopLevel/BottomPositioner"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -380,14 +391,17 @@ layout_mode = 2
 
 [node name="ToplevelStats2" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="ToplevelStats3" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="ToplevelStats4" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="InventoryPositionerLeft" type="Control" parent="."]
@@ -397,7 +411,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -200.0
-offset_right = -400.00055
+offset_right = -400.00052
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -491,7 +505,7 @@ anchor_left = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_right = 200.00018
+offset_right = 200.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2

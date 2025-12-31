@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bqx4dkkysbkm2" path="res://_common/enemy_spawner/enemy_spawner.tscn" id="1_p55uj"]
 [ext_resource type="Script" uid="uid://bjyew63ska2p1" path="res://field/scenes/template/field_scene.gd" id="1_t6u4o"]
-[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/base_char_resources/char_resource.gd" id="2_5hyb6"]
-[ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/npc/npc_scenes/base/npc.tscn" id="4_sh68w"]
+[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/_common/char_resource.gd" id="2_5hyb6"]
+[ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/3_npc/npc_scenes/base/npc.tscn" id="4_sh68w"]
 [ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="6_4lsk8"]
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="7_y5hqn"]
 [ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="8_kacu3"]

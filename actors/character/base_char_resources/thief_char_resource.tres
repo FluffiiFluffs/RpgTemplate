@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="CharResource" load_steps=2 format=3 uid="uid://dodamc25dwjh8"]
-
-[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/character/base_char_resources/char_resource.gd" id="1_7ns25"]
-
-[resource]
-script = ExtResource("1_7ns25")
-char_name = "Thief"
-char_class = 1
-metadata/_custom_type_script = "uid://dekkhepva31dh"
