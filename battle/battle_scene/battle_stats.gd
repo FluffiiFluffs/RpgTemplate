@@ -13,6 +13,7 @@ extends Control
 @onready var mp_progress_bar = %MPProgressBar
 @onready var command_flasher : PanelContainer = %CommandFlasher
 @onready var command_container_container : PanelContainer = %CommandContainerContainer
+@onready var battle_scene_container : PanelContainer = %BattleSceneContainer
 
 #toggles command container visibility
 @export var show_commands : bool = false : set = set_show_commands
@@ -88,6 +89,22 @@ func mp_changed(value : int)->void:
 
 #endregion Update Stats
 
+#region Graphical Scene
+
+##Gets rid of editor placeholder and instantiates battle scene
+func update_battle_scene()->void:
+	if member.battle_scene != null and member != null:
+		for child in battle_scene_container.get_children():
+			child.queue_free()
+		await get_tree().process_frame
+		var new_battle_scene = member.battle_scene.instantiate()
+		battle_scene_container.add_child(new_battle_scene)
+	else:
+		if member == null:
+			printerr("NO PARTY MEMBER DATA!!")
+		else:
+			if member.battle_scene == null:
+				printerr(str(member.char_resource.char_name) + " HAS NO BATTLE SCENE SET!")
 
 #region Selection
 ##Activates selection_button so it can be selected with normal UI

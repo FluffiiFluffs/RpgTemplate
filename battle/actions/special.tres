@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://bplph2cvkhdu8"]
-
-[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/battle_action.gd" id="1_ja7aq"]
-
-[resource]
-script = ExtResource("1_ja7aq")
-bact_name = "special"
-bact_type = "magic"
-metadata/_custom_type_script = "uid://d0jhs6suuqlge"

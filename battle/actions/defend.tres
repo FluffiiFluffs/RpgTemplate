@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="BattleAction" load_steps=2 format=3 uid="uid://dsr8orbapmple"]
-
-[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/battle_action.gd" id="1_skjbh"]
-
-[resource]
-script = ExtResource("1_skjbh")
-bact_name = "Defend"
-bact_type = "defense"
-metadata/_custom_type_script = "uid://d0jhs6suuqlge"

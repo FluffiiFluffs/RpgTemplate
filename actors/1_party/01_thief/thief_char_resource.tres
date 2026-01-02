@@ -6,4 +6,5 @@
 script = ExtResource("1_7ns25")
 char_name = "Thief"
 char_class = 1
+speed = 15
 metadata/_custom_type_script = "uid://dekkhepva31dh"

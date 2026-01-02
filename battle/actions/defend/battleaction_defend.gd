@@ -1,0 +1,3 @@
+class_name BattleActionDefend
+extends BattleAction
+##battleaction_defend

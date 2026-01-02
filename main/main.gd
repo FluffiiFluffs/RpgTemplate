@@ -32,6 +32,8 @@ var current_field_scene : FieldScene = null
 var current_battle_scene : BattleScene = null
 var battling_field_enemy_scene : FieldEnemy = null
 var title_menu_instance : CanvasLayer = null
+
+
 #endregion Variables
 
 
@@ -53,11 +55,12 @@ func start_battle(egroup : EnemyGroup)->void:
 	new_battle_scene.enemy_group = egroup #Stores reference to the EnemyGroup from the enemy
 	battle_root.visible = true #makes battle visible
 	new_battle_scene.battle_camera_rig.activate() #makes battle camera active camera
-	new_battle_scene.setup_all() #Sets up the battle (party, enemies, turns)
-
-	GameState.gamestate = GameState.State.BATTLE #swap game state to battle
+	await new_battle_scene.setup_all() #Sets up the battle (party, enemies, turns)
+	await get_tree().process_frame
 	
 	transition_layer.play_end()
+	await transition_layer.animation_player.animation_finished
+	GameState.gamestate = GameState.State.BATTLE #swap game state to battle
 
 ##After battle is completely finished (loot,xp given), gets rid of the battle scene, sets game state back to field, etc	
 func end_battle_victory_normal()->void:

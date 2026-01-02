@@ -1,8 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://due5rm071mmh6"]
+[gd_scene load_steps=18 format=3 uid="uid://due5rm071mmh6"]
 
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_m0en3"]
-[ext_resource type="Script" uid="uid://cou62otm3wjw7" path="res://battle/battle_stats.gd" id="1_xjkr3"]
-[ext_resource type="PackedScene" uid="uid://76laxtdwkaco" path="res://battle/command_button.tscn" id="2_xjkr3"]
+[ext_resource type="Script" uid="uid://cou62otm3wjw7" path="res://battle/battle_scene/battle_stats.gd" id="1_xjkr3"]
+[ext_resource type="PackedScene" uid="uid://76laxtdwkaco" path="res://battle/battle_scene/command_button.tscn" id="2_xjkr3"]
+[ext_resource type="PackedScene" uid="uid://bx67oqk81de2j" path="res://actors/1_party/00_warrior/warrior_battle_scene.tscn" id="4_rh2e1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rh2e1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04fg8"]
 bg_color = Color(0, 0, 0, 1)
@@ -112,10 +115,28 @@ _data = {
 [node name="BattleStats" type="Control"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 100.0
+anchor_right = 0.25
 script = ExtResource("1_xjkr3")
-show_commands = true
+
+[node name="BattleSceneContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 92)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -106.0
+offset_right = 46.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(46, 92)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rh2e1")
+
+[node name="WarriorBattleScene" parent="BattleSceneContainer" instance=ExtResource("4_rh2e1")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -269,6 +290,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xjkr3")
 
 [node name="CommandContainerContainer" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0

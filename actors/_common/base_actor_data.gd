@@ -40,6 +40,9 @@ extends Resource
 @export var accy02 : Item
 @export var two_handing : bool = false
 
+##Array of default actions that can be taken in battle by the actor.
+@export var battle_actions:BattleActions
+
 #should use resource based approach
 #@export var poison : bool = false
 #@export var disease : bool = false

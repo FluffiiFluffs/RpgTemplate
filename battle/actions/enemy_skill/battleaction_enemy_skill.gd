@@ -1,0 +1,3 @@
+class_name BattleActionEnemySkill
+extends BattleAction
+#battleaction_enemy_skill.gd

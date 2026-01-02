@@ -34,9 +34,7 @@ extends Resource
 ##Default Magic of the Actor. Determines effectiveness of magic. 
 @export var magic:int=10
 
-#TODO Transfer to PartyMemberResource! Enemies should have their own array held in scene export!
-##Array of default actions that can be taken in battle by the actor.
-@export var battle_actions:BattleActions
+
 
 #ALERT NO LONGER USED, held within enemy scene!
 #@export_category("Enemy Specific")

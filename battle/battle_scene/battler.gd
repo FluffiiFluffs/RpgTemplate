@@ -13,3 +13,4 @@ enum Faction {PARTY, ENEMY}
 ##Reference to the battler's scene
 @export var battler_scene : PackedScene = null
 @export var battler_icon = null
+@export var tie_roll : int = 0

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bx67oqk81de2j"]
+
+[ext_resource type="Script" uid="uid://xpspfow807ky" path="res://actors/_common/battle_party.gd" id="1_d6v41"]
+
+[sub_resource type="Gradient" id="Gradient_d6v41"]
+colors = PackedColorArray(0.9448032, 0.70420504, 0, 0.70000005, 0, 0, 0, 0.70000005)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wh8qy"]
+gradient = SubResource("Gradient_d6v41")
+width = 92
+height = 92
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="WarriorBattleScene" type="Node2D"]
+position = Vector2(46, 92)
+script = ExtResource("1_d6v41")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+unique_name_in_owner = true
+
+[node name="BattleSprite" type="Sprite2D" parent="Marker2D"]
+unique_name_in_owner = true
+position = Vector2(0, -46)
+texture = SubResource("GradientTexture2D_wh8qy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true

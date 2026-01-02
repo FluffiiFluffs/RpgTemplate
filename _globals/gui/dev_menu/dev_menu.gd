@@ -33,6 +33,7 @@ func _ready()->void:
 	button_9.pressed.connect(on_button_9_pressed)
 	button_10.pressed.connect(on_button_10_pressed)
 
+
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("dev_menu"):
 		if animation_player.is_playing():
@@ -96,7 +97,10 @@ func on_button_8_pressed()->void:
 	pass
 	
 func on_button_9_pressed()->void:
-	pass
+	if SceneManager.main_scene.current_battle_scene != null:
+		var _not_ui = SceneManager.main_scene.current_battle_scene.battle_notify_ui
+		_not_ui.queue_notification("THIS IS A TEST MESSAGE.")
+		pass
 
 func on_button_10_pressed()->void:
 	var main = SceneManager.main_scene
