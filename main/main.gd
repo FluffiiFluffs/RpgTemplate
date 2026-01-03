@@ -10,7 +10,7 @@ extends Node
 @onready var field_vfx : Node2D = %FieldVFX
 @onready var field_camera_rig : FieldCameraRig= %FieldCameraRig
 @onready var field_camera : Camera2D = %FieldCamera
-@onready var battle_root : BattleManager = %BattleRoot
+@onready var battle_root := %BattleRoot
 @onready var transition_layer : TransitionLayer = %TransitionLayer
 @onready var audio_root : Node = %AudioRoot
 @onready var runtime : Node = %Runtime
@@ -44,6 +44,10 @@ func _ready()->void:
 
 #region Battle
 func start_battle(egroup : EnemyGroup)->void:
+	if GameState.gamestate == GameState.State.BATTLE:
+		printerr("ALREADY IN BATTLE STATE!")
+		return
+	GameState.gamestate = GameState.State.BATTLE #swap game state to battle
 	transition_layer.play_begin() #play transition to black screen
 	field_root.process_mode = Node.PROCESS_MODE_DISABLED #stop processing the field
 	await transition_layer.animation_player.animation_finished #wait until it's fully black
@@ -57,22 +61,22 @@ func start_battle(egroup : EnemyGroup)->void:
 	new_battle_scene.battle_camera_rig.activate() #makes battle camera active camera
 	await new_battle_scene.setup_all() #Sets up the battle (party, enemies, turns)
 	await get_tree().process_frame
-	
 	transition_layer.play_end()
 	await transition_layer.animation_player.animation_finished
-	GameState.gamestate = GameState.State.BATTLE #swap game state to battle
 
 ##After battle is completely finished (loot,xp given), gets rid of the battle scene, sets game state back to field, etc	
 func end_battle_victory_normal()->void:
 	transition_layer.play_begin() #fades the screen to black
 	await transition_layer.animation_player.animation_finished #waits until the screen is black
 	battle_root.visible = false #Hides battle
-	current_battle_scene.queue_free() #Removes battle scene from memory
+	
+	clear_battle_scene() #Removes any battle scenes from memory
 	#current_battle_scene = null #sets to null just to be safe
 	field_root.process_mode = Node.PROCESS_MODE_INHERIT #allows field root to process
 	field_camera_rig.activate() #reactivates field camera
 	field_camera_rig.follow_player() #sets follow back to player
-	battling_field_enemy_scene.enemy_killed()
+	if battling_field_enemy_scene != null:
+		battling_field_enemy_scene.enemy_killed()
 	destroy_chasing_enemies()
 	GameState.gamestate = GameState.State.FIELD #swap game state back to field
 	field_root.set_deferred("visible", true)
@@ -88,6 +92,16 @@ func destroy_chasing_enemies()->void:
 					#if en.touched_player:
 					if en.has_chased_player:
 						en.queue_free()
+					#if en.was_spawned: #ALERT This causes enemies to spawn constantly! BUG!
+						#en.enemy_spawner.spawn_count -= 1 
+
+##Find any battle scenes under battle root and gets rid of them
+func clear_battle_scene()->void:
+	for child in battle_root.get_children():
+		if child is BattleScene:
+			child.queue_free()
+			await get_tree().process_frame
+	pass
 #endregion Battle
 
 

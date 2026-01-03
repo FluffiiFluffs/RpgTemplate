@@ -16,16 +16,22 @@ extends Node2D
 "INTRO_MESSAGE", #Enemy introduction messaging
 "ROUND_SETUP", #When a new round is being setup
 "TURN_SETUP", #Setup phase for the next battler's turn
-"ACTION_SELECT", #During action selection for battler
-"ACTION_TARGETING", #During targeting state (for actions, skills, items)
-"SKILL_MENU_OPEN", #Skill menu is open
-"ITEM_MENU_OPEN", #Item Menu is open
 "ACTION_EXECUTE", #Action is being executed (enemy or party)
 "TURN_END",
 "ROUND_END",
 
 ) 
 var battle_state : String = ""
+
+
+@export_enum(
+"ACTION_SELECT", #During action selection for battler
+"ACTION_TARGETING", #During targeting state (for actions, skills, items)
+"SKILL_MENU_OPEN", #Skill menu is open
+"ITEM_MENU_OPEN", #Item Menu is open
+"NOTIFYING",
+) 
+var ui_state : String = ""
 
 var enemy_group : EnemyGroup = null
 var total_actors : int = 0
@@ -41,11 +47,13 @@ const BATTLE_STATS = preload("uid://due5rm071mmh6")
 func _ready()->void:
 	button.pressed.connect(_on_button_pressed)
 	
-	
 func _on_button_pressed()->void:
 	SceneManager.main_scene.end_battle_victory_normal()
 
+
+#region Initial Battle Setup
 func setup_all()->void:
+	battle_state = "SETUP"
 	new_randomize_seed()
 	battlers.make_battlers()
 	check_tie_rolls()
@@ -53,9 +61,8 @@ func setup_all()->void:
 	setup_enemies()
 	await get_tree().process_frame
 	sort_turn_order()
-	#print_turn_order() #For debugging
 	update_turn_order_ui()
-	
+	show_intro_message()
 
 ##Sets up party stats BattleStats windows. Data is from CharDataKeeper
 ##Also (should eventually) show the party member's in-battle graphics scene
@@ -89,7 +96,6 @@ func setup_enemies()->void:
 				pass
 	pass
 
-
 ##Ensures that all battler's tie_rolls are unique
 ##If found to be the same, the while function rolls a new random integer until it is different
 ##The while portion of this function is very unlikely to be needed, but exists for safety
@@ -98,10 +104,58 @@ func check_tie_rolls()->void:
 	for battler in turn_order:
 		var roll : int = battler.tie_roll
 		while used_rolls.has(roll):
+			print("BATTLERS HAVE THE SAME TIE_ROLL! ROLLING NEW VALUE!")
 			roll = randi()
 		used_rolls[roll] = true
 		battler.tie_roll = roll
+		
+func show_intro_message()->void:
+	var enemy_array : Array[Battler] = []
+	var enemy_name : String = ""
+	var randmindex : int = 0
+	var rmessages : Array[String] = []
+	for bat in battlers.get_children():
+		if bat.faction == Battler.Faction.ENEMY:
+			enemy_array.append(bat)
 			
+	var renemyindex : int = randi_range(0, enemy_array.size() - 1)
+	enemy_name = enemy_array[renemyindex].actor_data.char_resource.char_name
+	randmindex = randi_range(0, rmessages.size() - 1)
+	
+	if enemy_array.size() == 1: #if there's only one enemy
+		rmessages = [
+		enemy_name + " approaches.",
+		enemy_name + " suddenly attacks.",
+		enemy_name + " moves forward aggressively!",
+		]
+		randmindex = randi_range(0, rmessages.size() - 1)
+	elif enemy_array.size() > 1: #if there's more than one enemy
+
+		rmessages = [
+		enemy_name + " and its allies approach!",
+		enemy_name + " and cohorts suddenly attack!",
+		enemy_name + " and others moves forward aggressively!",
+		]
+		randmindex = randi_range(0, rmessages.size() - 1)
+	
+	var rand_message : String = rmessages[randmindex]
+	
+	battle_notify_ui.queue_notification(rand_message)
+	await battle_notify_ui.notify_final_end
+	
+	##Trigger first turn
+	print("starting first turn")
+	pass
+
+
+
+#endregion Initial Battle Setup
+
+		
+#region Turn Order
+##Clears turn_order[] of all entries
+func clear_turn_order()->void:
+	turn_order.clear()
 
 ##Sorts turn order array based on speed, stamina, current hp, and then tie_roll
 ##calls compare_battlers_for_turn_order within sort_custom()
@@ -124,16 +178,7 @@ func remove_dead_from_turn_order()->void:
 			turn_order.remove_at(i)
 		#status conditions should keep the actor in the turn_order array, so don't do that here
 
-##Clears turn_order[] of all entries
-func clear_turn_order()->void:
-	turn_order.clear()
 
-##for debugging
-func print_turn_order()->void:
-	return
-	#print(str(turn_order))
-	#for bat in turn_order:
-		#print(str(bat.tie_roll) + " " +str(bat.name))
 	
 ##Returns true if first battler should be placed before second battler in turn_order[]
 ##Speed > Stamina > HP > tie_roll
@@ -168,6 +213,16 @@ func update_turn_order_ui()->void:
 ##Creates new global randomize seed so random calls are not exactly the same each battle (for safety)
 func new_randomize_seed()->void:
 	randomize()
+
+##for debugging
+#func print_turn_order()->void:
+	#return
+	#print(str(turn_order))
+	#for bat in turn_order:
+		#print(str(bat.tie_roll) + " " +str(bat.name))
+
+#endregion Turn Order
+
 
 func battler_turn_next()->void:
 	if turn_order.size() != 0: #if there's still battler's in turn_order[]
