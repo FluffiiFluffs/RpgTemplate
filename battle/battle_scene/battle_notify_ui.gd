@@ -12,6 +12,8 @@ signal notify_begin
 signal notify_end
 signal notify_final_end
 
+
+var battle_scene : BattleScene = null
 var text_coefficient : float = 35.0 #The divisor of a message's text length. A higher value shortens the amount of time text is shown. 
 var notify_queue : Array = []
 var notifying : bool = false
@@ -20,6 +22,7 @@ func _ready()->void:
 	hide()
 	notify_end.connect(notify_ended)
 	notify_timer.timeout.connect(notify_timeout)
+	
 
 func notify_show()->void:
 	visible = true
@@ -44,6 +47,7 @@ func display_notification()->void:
 	if _note == null:
 		return
 	else:
+		battle_scene.ui_state = "NOTIFYING"
 		notifying = true
 		notify_begin.emit()
 		notify_label.text = _note.message

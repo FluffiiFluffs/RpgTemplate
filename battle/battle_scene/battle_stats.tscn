@@ -117,6 +117,7 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 3
 anchor_right = 0.25
 script = ExtResource("1_xjkr3")
+show_commands = true
 
 [node name="BattleSceneContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -290,7 +291,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xjkr3")
 
 [node name="CommandContainerContainer" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -319,22 +319,27 @@ size_flags_vertical = 4
 theme_override_constants/separation = 1
 
 [node name="AttackButton" parent="VBoxContainer/CommandContainerContainer/CommandContainer/MarginContainer/CommandHBox" instance=ExtResource("2_xjkr3")]
+unique_name_in_owner = true
 layout_mode = 2
 button_type = "attack"
 
 [node name="SkillButton" parent="VBoxContainer/CommandContainerContainer/CommandContainer/MarginContainer/CommandHBox" instance=ExtResource("2_xjkr3")]
+unique_name_in_owner = true
 layout_mode = 2
 button_type = "skill"
 
-[node name="ItemButton" parent="VBoxContainer/CommandContainerContainer/CommandContainer/MarginContainer/CommandHBox" instance=ExtResource("2_xjkr3")]
-layout_mode = 2
-button_type = "item"
-
 [node name="DefendButton" parent="VBoxContainer/CommandContainerContainer/CommandContainer/MarginContainer/CommandHBox" instance=ExtResource("2_xjkr3")]
+unique_name_in_owner = true
 layout_mode = 2
 button_type = "defend"
 
+[node name="ItemButton" parent="VBoxContainer/CommandContainerContainer/CommandContainer/MarginContainer/CommandHBox" instance=ExtResource("2_xjkr3")]
+unique_name_in_owner = true
+layout_mode = 2
+button_type = "item"
+
 [node name="RunButton" parent="VBoxContainer/CommandContainerContainer/CommandContainer/MarginContainer/CommandHBox" instance=ExtResource("2_xjkr3")]
+unique_name_in_owner = true
 layout_mode = 2
 button_type = "run"
 

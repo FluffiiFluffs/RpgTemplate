@@ -8,18 +8,40 @@ extends Control
 @onready var selection_button : Button = %SelectionButton
 @onready var command_h_box : HBoxContainer = %CommandHBox
 @onready var hp_value : Label = %HPValue
-@onready var hp_progress_bar := %HPProgressBar
+@onready var hp_progress_bar : ProgressBar = %HPProgressBar
 @onready var mp_value : Label = %MPValue
-@onready var mp_progress_bar = %MPProgressBar
+@onready var mp_progress_bar : ProgressBar = %MPProgressBar
 @onready var command_flasher : PanelContainer = %CommandFlasher
 @onready var command_container_container : PanelContainer = %CommandContainerContainer
 @onready var battle_scene_container : PanelContainer = %BattleSceneContainer
+@onready var attack_button : CommandButton = %AttackButton
+@onready var skill_button : CommandButton = %SkillButton
+@onready var defend_button : CommandButton = %DefendButton
+@onready var item_button : CommandButton = %ItemButton
+@onready var run_button : CommandButton = %RunButton
 
 #toggles command container visibility
 @export var show_commands : bool = false : set = set_show_commands
 
+var battle_scene : BattleScene = null
 #Party member to be represented by the window
 var member : PartyMemberData = null
+var battler : Battler = null
+var last_button_selected : CommandButton
+
+var attack_action : BattleAction = null
+var defend_action : BattleAction = null
+var run_action : BattleAction = null
+
+
+const ATTACK = preload("uid://sw7qauqi57bl")
+const DEFEND = preload("uid://dsddu45iui2g8")
+const ITEM = preload("uid://khupsuwtpksw")
+const RUN = preload("uid://pyut5kkgk1wd")
+const SKILL = preload("uid://dxepja5wakufl")
+
+
+
 
 func _ready() -> void:
 	_apply_show_commands()
@@ -27,8 +49,47 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	show_commands = false #for runtime
+	last_button_selected = attack_button
 	_apply_show_commands()
 	command_flasher.visible = true
+	attack_button.command_button_pressed.connect(attack_button_pressed)
+	skill_button.command_button_pressed.connect(skill_button_pressed)
+	defend_button.command_button_pressed.connect(defend_button_pressed)
+	item_button.command_button_pressed.connect(item_button_pressed)
+	run_button.command_button_pressed.connect(run_button_pressed)
+	#battle_scene = SceneManager.main_scene.current_battle_scene
+	
+
+#region Button Functions
+##Opens targeting selection for attack (anyone)
+func attack_button_pressed()->void:
+	battle_scene.open_attack_targeting(battler, attack_action)
+	pass
+
+##Shows the skill window within BattleScene. Passes member as argument to fill out the skills that can be selected.
+func skill_button_pressed()->void:
+	battle_scene.show_skill_window(battler)
+	pass
+	
+##Opens targeting selection (party only)
+func defend_button_pressed()->void:
+	battle_scene.open_defend_targeting(battler, defend_action)
+	pass
+	
+##Opens BattleScene item menu.
+func item_button_pressed()->void:
+	battle_scene.show_item_window()
+	pass
+
+
+##Attempts to run from battle
+func run_button_pressed()->void:
+	battle_scene.attempt_to_run(battler, run_action)
+	#shows attempt to run message
+	#rolls chance to run against certain factors (probably speed?)
+	pass
+#endregion Button Function
+
 
 #region Setup
 ##Uses member.class color to set border colors
@@ -169,5 +230,31 @@ func show_command_container_container()->void:
 func hide_command_container_container()->void:
 	command_container_container.visible = false
 
+##Sets up focus neighbors for command container
+func setup_command_container_focus_neighbors()->void:
+	var ilist := command_h_box.get_children()
+	var count := ilist.size()
+	for i in range(count):
+		var child := ilist[i]
+		var btn : Button = child.button
+		var left_index := (i - 1 + count) % count
+		var right_index := (i + 1) %count
+		var left_btn : Button = ilist[left_index].button
+		var right_btn : Button = ilist[right_index].button
+		var self_path = btn.get_path()
+		btn.focus_neighbor_top = self_path
+		btn.focus_neighbor_bottom = self_path
+		btn.focus_neighbor_left = left_btn.get_path()
+		btn.focus_neighbor_right = right_btn.get_path()
+		btn.focus_previous = left_btn.get_path()
+		btn.focus_next = right_btn.get_path()
+	
+##Selects the last command button pressed. By default, is attack button.
+##last_button_selected is set by the command button itself when pressed
+func select_last_button()->void:
+	last_button_selected.grab_focus()
+	
+func setup_commands()->void:
+	pass
 
 #endregion Command Container

@@ -63,6 +63,9 @@ func start_battle(egroup : EnemyGroup)->void:
 	await get_tree().process_frame
 	transition_layer.play_end()
 	await transition_layer.animation_player.animation_finished
+	await current_battle_scene.show_intro_message() #Displays intro message
+	current_battle_scene.round_next_setup() #Changes battle state to "ROUND_SETUP", sorts turn order, updates turn UI
+	
 
 ##After battle is completely finished (loot,xp given), gets rid of the battle scene, sets game state back to field, etc	
 func end_battle_victory_normal()->void:

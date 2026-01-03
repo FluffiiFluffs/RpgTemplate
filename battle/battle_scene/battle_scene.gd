@@ -34,14 +34,17 @@ var battle_state : String = ""
 var ui_state : String = ""
 
 var enemy_group : EnemyGroup = null
-var total_actors : int = 0
 var turn_order : Array[Battler] = []
-var round_count : int = 0
 var last_battler : Battler = null
 var acting_battler : Battler = null
 var next_battler : Battler = null
+#var total_actors : int = 0
+#var round_count : int = 0
 
 const BATTLE_STATS = preload("uid://due5rm071mmh6")
+
+signal turn_choice_finished
+signal turn_finished
 
 
 func _ready()->void:
@@ -53,16 +56,16 @@ func _on_button_pressed()->void:
 
 #region Initial Battle Setup
 func setup_all()->void:
-	battle_state = "SETUP"
-	new_randomize_seed()
-	battlers.make_battlers()
-	check_tie_rolls()
-	setup_party()
-	setup_enemies()
-	await get_tree().process_frame
-	sort_turn_order()
-	update_turn_order_ui()
-	show_intro_message()
+	battle_notify_ui.battle_scene = self
+	battle_state = "SETUP" #sets battle state
+	new_randomize_seed() #New global randomize seed
+	battlers.make_battlers() #Instantiates battlers from data
+	check_tie_rolls() #Ensures no battlers have the same tie_roll value
+	setup_party() #Instantiates party's battle stats and graphics
+	setup_enemies() #Instantiates enemy's graphics
+	await get_tree().process_frame #Waits a frame for safety
+	#show_intro_message() #done from main due to the await for transition to end
+	#round_next_setup() #done from main due to the await for transition to end
 
 ##Sets up party stats BattleStats windows. Data is from CharDataKeeper
 ##Also (should eventually) show the party member's in-battle graphics scene
@@ -80,6 +83,16 @@ func setup_party()->void:
 		new_battle_stats.setup_hpmp()
 		new_battle_stats.update_battle_scene() #Updates the graphics for the party member
 		new_battle_stats.name = str(new_battle_stats.member.char_resource.char_name) + "StatsBox" #Naming like this should be okay since party members will be unique
+		new_battle_stats.setup_command_container_focus_neighbors()
+	for bat in battlers.get_children():
+		if bat is Battler:
+			var batdata = bat.actor_data
+			for child in party_h_box.get_children():
+				if child is BattleStats:
+					if child.member == batdata:
+						bat.ui_element = child
+						bat.ui_element.battler = bat
+						bat.ui_element.battle_scene = self
 
 ##Sets up enemy visuals (make battlers should has already taken care of data setup)
 ##Scene pulled from battler.battler_scene
@@ -110,6 +123,7 @@ func check_tie_rolls()->void:
 		battler.tie_roll = roll
 		
 func show_intro_message()->void:
+	battle_state = "INTRO_MESSAGE"
 	var enemy_array : Array[Battler] = []
 	var enemy_name : String = ""
 	var randmindex : int = 0
@@ -142,12 +156,6 @@ func show_intro_message()->void:
 	
 	battle_notify_ui.queue_notification(rand_message)
 	await battle_notify_ui.notify_final_end
-	
-	##Trigger first turn
-	print("starting first turn")
-	pass
-
-
 
 #endregion Initial Battle Setup
 
@@ -222,16 +230,54 @@ func new_randomize_seed()->void:
 		#print(str(bat.tie_roll) + " " +str(bat.name))
 
 #endregion Turn Order
+##battle_state = "ROUND_SETUP", sorts turn order. updates turn order UI
+func round_next_setup()->void:
+	battle_state = "ROUND_SETUP"
+	sort_turn_order() #clears turn_order[], adds battlers to turn_order[]
+	update_turn_order_ui() #updates the UI to show the
+	await get_tree().process_frame #waits a frame for safety, there's a lot of looping going on
+	battler_turn_next()
+	pass
 
-
+##Advances to the next battler's turn
 func battler_turn_next()->void:
-	if turn_order.size() != 0: #if there's still battler's in turn_order[]
-		acting_battler = turn_order[0]
+	battle_state = "ROUND_SETUP"
+	acting_battler = turn_order.pop_front()
+	if acting_battler == null: #If the turn order array is empty
+		round_next_setup() #Setup the next round
+	else: #if the turn order array still has more
 		next_battler = turn_order[1]
-		pass
-	else: #if there's no more battlers in turn_order[]
-		#setup next round	
-		pass
+	#Determine if the battler is an enemy or a party member
+	match acting_battler.faction:
+		Battler.Faction.PARTY:
+			party_turn()
+		Battler.Faction.ENEMY:
+			enemy_turn()
+		_: #If for some reason there's something unaccounted for...
+			printerr("battle_turn_next(): " + str(acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
+			pass
+	await turn_choice_finished #waits for the battler to make an action choice
+	
+	
+func party_turn()->void:
+	#Pops up commands for the acting party member's BattleStats window
+	var pmember = acting_battler
+	var pmbstats = pmember.ui_element as BattleStats
+	pmbstats.show_commands = true
+	pmbstats.last_button_selected.grab_button_focus()
+	
+	pass
+	
+	#allow player to select their command choice
+	#command choice emits turn_choice_finished signal
+	pass
+
+func enemy_turn()->void:
+	#use enemy AI to determine what to do #TODO Make enemy AI somehow
+	#play messages (called from battleaction)
+	pass
+
+
 
 
 func battler_turn_done()->void:
@@ -242,19 +288,22 @@ func battler_turn_done()->void:
 	#calls battler_turn_next()
 	pass
 
-func round_next_setup()->void:
-	battle_state = "ROUND_SETUP"
-	sort_turn_order() #clears turn_order[], adds battlers to turn_order[]
-	update_turn_order_ui() #updates the UI to show the 
+
+#endregion Turn Order
+
+
+#region Command Button Functions
+func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
 	pass
 
-
-
-func show_skill_window()->void:
-	#propagate skills for current battler
+##Shows skill window based upon the skills available to the party member
+func show_skill_window(battler: Battler)->void:
+	#propagate skills for current party member
 	#show skill window
 	#change battle state to skill selection
 	pass
+	
+	
 func hide_skill_window()->void:
 	#hide skill window
 	#change battle state should be handled by the action taken
@@ -263,6 +312,11 @@ func hide_skill_window()->void:
 			#consume the battler's turn
 		pass
 
+##Opens targeting, passes who is defending, and the defense action
+func open_defend_targeting(defender : Battler, action : BattleAction)->void:
+	pass
+
+##Shows item list. Only shows battle-usable items.
 func show_item_window()->void:
 	#propagate items list
 	#show item window
@@ -276,3 +330,8 @@ func hide_item_window()->void:
 		#if item is used, then go into action playing state
 			#consume the battler's turn
 	pass
+
+##Attempts to run from battle immediately. Uses PartyMember's stats to attempt this
+func attempt_to_run(runner : Battler, action : BattleAction)->void:
+	pass
+#endregion Command Button Functions

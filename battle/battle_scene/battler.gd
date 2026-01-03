@@ -14,3 +14,4 @@ enum Faction {PARTY, ENEMY}
 @export var battler_scene : PackedScene = null
 @export var battler_icon = null
 @export var tie_roll : int = 0
+@export var ui_element = null
