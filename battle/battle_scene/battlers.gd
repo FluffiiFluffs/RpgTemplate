@@ -18,12 +18,7 @@ func _ready()->void:
 ##Instantiates battler nodes under battlers node
 ##Assigns battler to turn order array (unsorted)
 func make_battlers()->void:
-	#clears any battlers
-	for child in get_children():
-		if child is Battler:
-			child.queue_free()
-	#clears the turn order
-	battle_scene.turn_order.clear()
+
 	
 	for child in CharDataKeeper.party_members:
 		var new_battler : Battler = BATTLER.instantiate()

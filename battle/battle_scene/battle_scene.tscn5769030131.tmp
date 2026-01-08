@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://h63ncjrxunau"]
+[gd_scene load_steps=24 format=3 uid="uid://h63ncjrxunau"]
 
 [ext_resource type="Script" uid="uid://ccrcb1ncfvdgb" path="res://battle/battle_scene/battle_scene.gd" id="1_u2cu5"]
 [ext_resource type="Texture2D" uid="uid://da0c7finyihvv" path="res://_assets/battle/background/TMZBattleBackExtended.png" id="2_4ui5s"]
@@ -15,8 +15,9 @@
 [ext_resource type="Script" uid="uid://df6jff5gga0e2" path="res://battle/battle_scene/battlers.gd" id="12_yjq6l"]
 [ext_resource type="Script" uid="uid://3ykwd8cix115" path="res://battle/battle_scene/action_calculator.gd" id="14_55wru"]
 [ext_resource type="Script" uid="uid://dn83u3mxt7kkp" path="res://battle/battle_scene/action_resolver.gd" id="15_1xi1p"]
-[ext_resource type="Script" uid="uid://4nin0p3thxct" path="res://battle/battle_scene/command_controller.gd" id="16_wjvtq"]
+[ext_resource type="Script" uid="uid://4nin0p3thxct" path="res://battle/battle_scene/targeting_controller.gd" id="16_wjvtq"]
 [ext_resource type="Script" uid="uid://b1uk1a6a6ixhb" path="res://battle/battle_scene/status_system.gd" id="17_154v0"]
+[ext_resource type="Script" uid="uid://jbbspevsu5ha" path="res://battle/battle_scene/action_use.gd" id="18_3ur7f"]
 [ext_resource type="Script" uid="uid://dh7areqs7ffno" path="res://battle/battle_scene/turn_manager.gd" id="19_agadl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jj1aw"]
@@ -58,6 +59,48 @@ border_width_bottom = 1
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_u2cu5")
 
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(200, 112)
+texture = ExtResource("2_4ui5s")
+region_enabled = true
+region_rect = Rect2(0, 0, 400, 224)
+
+[node name="EnemyLayer" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 92)
+layout_mode = 3
+anchors_preset = 0
+offset_top = 26.0
+offset_right = 400.0
+offset_bottom = 118.0
+
+[node name="EnemyHBox" type="HBoxContainer" parent="EnemyLayer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="BattleEnemy" parent="EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+layout_mode = 2
+
+[node name="BattleEnemy2" parent="EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+layout_mode = 2
+
+[node name="BattleEnemy3" parent="EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+layout_mode = 2
+
+[node name="BattleEnemy4" parent="EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+layout_mode = 2
+
+[node name="BattleEnemy5" parent="EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+layout_mode = 2
+
 [node name="BattleCameraRig" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_n6te2")
@@ -70,55 +113,9 @@ enabled = false
 [node name="BattleUI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 
-[node name="Background" type="TextureRect" parent="BattleUI"]
-z_index = -1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_4ui5s")
-stretch_mode = 2
-
 [node name="BattleVFX" type="Node2D" parent="BattleUI"]
 unique_name_in_owner = true
 script = ExtResource("5_nbjvm")
-
-[node name="EnemyLayer" type="Control" parent="BattleUI"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 92)
-layout_mode = 3
-anchors_preset = 0
-offset_top = 26.0
-offset_right = 400.0
-offset_bottom = 118.0
-
-[node name="EnemyHBox" type="HBoxContainer" parent="BattleUI/EnemyLayer"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="BattleEnemy" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
-layout_mode = 2
-
-[node name="BattleEnemy2" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
-layout_mode = 2
-
-[node name="BattleEnemy3" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
-layout_mode = 2
-
-[node name="BattleEnemy4" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
-layout_mode = 2
-
-[node name="BattleEnemy5" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
-layout_mode = 2
 
 [node name="Button" type="Button" parent="BattleUI"]
 unique_name_in_owner = true
@@ -151,19 +148,18 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 [node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/SkillWindow"]
 layout_mode = 2
 
-[node name="SkillGridContainer" type="GridContainer" parent="BattleUI/SkillWindow/ScrollContainer"]
-unique_name_in_owner = true
+[node name="GridContainer" type="GridContainer" parent="BattleUI/SkillWindow/ScrollContainer"]
 layout_mode = 2
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -172,13 +168,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer2"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -187,13 +183,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer3" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer3"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer3"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -202,13 +198,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer4" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer4"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer4"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -217,13 +213,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer5" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer5" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer5"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer5"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -232,13 +228,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer6" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer6" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer6"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer6"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -247,13 +243,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer7" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer7" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer7"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer7"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -262,13 +258,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer8" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer8" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer8"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer8"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -277,13 +273,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer9" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer9" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer9"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer9"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -292,13 +288,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer10" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer10" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer10"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer10"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -307,13 +303,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer11" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer11" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer11"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer11"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -322,13 +318,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer12" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer12" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer12"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer12"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -337,13 +333,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer13" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer13" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer13"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer13"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -352,13 +348,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer14" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer14" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer14"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer14"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -367,13 +363,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer15" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer15" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer15"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer15"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -382,13 +378,13 @@ text = "spell name 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer16" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="PanelContainer16" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer16"]
+[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/GridContainer/PanelContainer16"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -413,20 +409,19 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 [node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/ItemWindow"]
 layout_mode = 2
 
-[node name="ItemGridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ScrollContainer"]
-unique_name_in_owner = true
+[node name="GridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ScrollContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -435,13 +430,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer2"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -450,13 +445,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer3" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer3"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer3"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -465,13 +460,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer4" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer4"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer4"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -480,13 +475,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer5" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer5" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer5"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer5"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -495,13 +490,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer6" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer6" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer6"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer6"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -510,13 +505,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer7" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer7" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer7"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer7"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -525,13 +520,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer8" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer8" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer8"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer8"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -540,13 +535,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer9" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer9" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer9"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer9"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -555,13 +550,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer10" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer10" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer10"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer10"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -570,13 +565,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer11" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer11" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer11"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer11"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -585,13 +580,13 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer12" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer"]
+[node name="PanelContainer12" type="PanelContainer" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer/PanelContainer12"]
+[node name="Label" type="Label" parent="BattleUI/ItemWindow/ScrollContainer/GridContainer/PanelContainer12"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("4_4ui5s")
@@ -736,7 +731,7 @@ script = ExtResource("14_55wru")
 unique_name_in_owner = true
 script = ExtResource("15_1xi1p")
 
-[node name="CommandController" type="Node" parent="."]
+[node name="TargetingController" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("16_wjvtq")
 
@@ -744,6 +739,9 @@ script = ExtResource("16_wjvtq")
 unique_name_in_owner = true
 script = ExtResource("17_154v0")
 
-[node name="TurnManager" type="Node" parent="."]
+[node name="ActionUse" type="Node" parent="."]
 unique_name_in_owner = true
+script = ExtResource("18_3ur7f")
+
+[node name="TurnManager" type="Node" parent="."]
 script = ExtResource("19_agadl")

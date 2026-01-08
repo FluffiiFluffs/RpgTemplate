@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BattleActionDefend" load_steps=2 format=3 uid="uid://dj5botfwwiv4s"]
+
+[ext_resource type="Script" uid="uid://txqlda50q5r6" path="res://battle/actions/defend/battleaction_defend.gd" id="1_lcx3w"]
+
+[resource]
+script = ExtResource("1_lcx3w")
+action_name = "defend"
+description = "Defends a target (any allies). Single target."
+category = 3
+type = 5
+target_side = 0
+message_template = "{user} defends {target}."
+metadata/_custom_type_script = "uid://txqlda50q5r6"

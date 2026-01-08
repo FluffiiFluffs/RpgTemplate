@@ -10,7 +10,7 @@ extends Control
 
 signal notify_begin
 signal notify_end
-signal notify_final_end
+#signal notify_final_end #superceded by notify_finished signal in battle_scene.gd
 
 
 var battle_scene : BattleScene = null
@@ -42,7 +42,8 @@ func queue_notification(_message: String)->void:
 ##Displays the next notification in the notify_queue[{}]. Starts notify_timer. Timer length dependent on the message length.
 func display_notification()->void:
 	if notify_queue.is_empty():
-		notify_final_end.emit()
+		battle_scene.notify_finished.emit()
+		return
 	var _note = notify_queue.pop_front()
 	if _note == null:
 		return

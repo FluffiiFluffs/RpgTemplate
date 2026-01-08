@@ -12,21 +12,25 @@ const TURN_ORDER_BOX = preload("uid://dn1a3xdymyc2j")
 
 
 func _ready()->void:
-	battle_scene = get_parent().get_parent()
+	pass
 
 ##clears turn order UI box
 ##Instantiates new turn_order_box (in order) from battle_scene.turn_order[]
 func update_turn_order_ui()->void:
 	#clears the turn order UI box so it can be freshly updated
-	for child in battle_turn_v_box.get_children():
-		child.queue_free()
+	clear_turn_order_ui()
 	var index = -1
 	for bat in battle_scene.turn_order:
 		index += 1
-		if index < 7:
+		if index < 6:
 			var new_turn_order_box : TurnOrderBox = TURN_ORDER_BOX.instantiate()
 			battle_turn_v_box.add_child(new_turn_order_box)
 			if bat.battler_icon != null:
 				new_turn_order_box.texture_rect.texture = bat.battler_icon
 			if index == 0:
 				new_turn_order_box.is_active = true
+
+func clear_turn_order_ui()->void:
+	for child in battle_turn_v_box.get_children():
+		battle_turn_v_box.remove_child(child)
+		child.queue_free()

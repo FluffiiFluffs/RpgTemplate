@@ -1,0 +1,2 @@
+class_name BattleActionRun
+extends BattleAction

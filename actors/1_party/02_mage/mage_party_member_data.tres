@@ -1,8 +1,18 @@
-[gd_resource type="Resource" script_class="PartyMemberData" load_steps=4 format=3 uid="uid://yuhvgw0ir1x7"]
+[gd_resource type="Resource" script_class="PartyMemberData" load_steps=10 format=3 uid="uid://yuhvgw0ir1x7"]
 
 [ext_resource type="Resource" uid="uid://nnbekxtr3kn0" path="res://actors/1_party/02_mage/mage_char_resource.tres" id="1_5csrh"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_kx4ho"]
+[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_uxqb8"]
+[ext_resource type="Resource" uid="uid://dbfk3ba0n2tfg" path="res://battle/actions/attack/battleaction_attack.tres" id="2_klwj0"]
 [ext_resource type="PackedScene" uid="uid://dg6uqnl2ew63l" path="res://actors/1_party/02_mage/mage_field_scene.tscn" id="2_rd2pk"]
+[ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/defend/battleaction_defend.tres" id="3_67xjt"]
+[ext_resource type="Resource" uid="uid://yyucdgb5imk3" path="res://battle/actions/run/battleaction_run.tres" id="4_rijue"]
+[ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="5_7xiv1"]
+
+[sub_resource type="Resource" id="Resource_vb56e"]
+script = ExtResource("5_7xiv1")
+battle_actions = Array[ExtResource("1_uxqb8")]([ExtResource("2_klwj0"), ExtResource("3_67xjt"), ExtResource("4_rijue")])
+metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [resource]
 resource_local_to_scene = true
@@ -11,6 +21,37 @@ class_color = Color(0.4862745, 0, 0.4862745, 1)
 field_scene = ExtResource("2_rd2pk")
 char_resource = ExtResource("1_5csrh")
 id = &"mage03"
+level = null
+current_exp = null
+next_level_exp = null
+total_exp = null
 current_hp = 70
 current_mp = 150
+current_buffs = null
+two_handing = null
+battle_actions = SubResource("Resource_vb56e")
+perm_max_hp_flat = null
+perm_max_mp_flat = null
+perm_atk_flat = null
+perm_def_flat = null
+perm_strength_flat = null
+perm_stamina_flat = null
+perm_speed_flat = null
+perm_magic_flat = null
+buff_max_hp_flat = null
+buff_max_mp_flat = null
+buff_atk_flat = null
+buff_def_flat = null
+buff_strength_flat = null
+buff_stamina_flat = null
+buff_speed_flat = null
+buff_magic_flat = null
+buff_max_hp_percent = null
+buff_max_mp_percent = null
+buff_atk_percent = null
+buff_def_percent = null
+buff_strength_percent = null
+buff_stamina_percent = null
+buff_speed_percent = null
+buff_magic_percent = null
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

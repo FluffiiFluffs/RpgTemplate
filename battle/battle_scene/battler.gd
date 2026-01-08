@@ -11,7 +11,8 @@ enum Faction {PARTY, ENEMY}
 ##Which side the battler is on
 @export var faction : Faction = Faction.PARTY
 ##Reference to the battler's scene
-@export var battler_scene : PackedScene = null
+@export var battler_scene = null
 @export var battler_icon = null
 @export var tie_roll : int = 0
+##Actual UI element for showing hp/mp/etc
 @export var ui_element = null

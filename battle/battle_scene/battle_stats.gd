@@ -19,6 +19,7 @@ extends Control
 @onready var defend_button : CommandButton = %DefendButton
 @onready var item_button : CommandButton = %ItemButton
 @onready var run_button : CommandButton = %RunButton
+@onready var animation_player : AnimationPlayer = %AnimationPlayer
 
 #toggles command container visibility
 @export var show_commands : bool = false : set = set_show_commands
@@ -28,6 +29,8 @@ var battle_scene : BattleScene = null
 var member : PartyMemberData = null
 var battler : Battler = null
 var last_button_selected : CommandButton
+var last_enemy_selected : Battler = null
+
 
 var attack_action : BattleAction = null
 var defend_action : BattleAction = null
@@ -52,42 +55,82 @@ func _ready() -> void:
 	last_button_selected = attack_button
 	_apply_show_commands()
 	command_flasher.visible = true
+	selection_button.pressed.connect(selection_button_pressed)
+	selection_button.focus_entered.connect(focused)
+	selection_button.focus_exited.connect(unfocused)
 	attack_button.command_button_pressed.connect(attack_button_pressed)
 	skill_button.command_button_pressed.connect(skill_button_pressed)
 	defend_button.command_button_pressed.connect(defend_button_pressed)
 	item_button.command_button_pressed.connect(item_button_pressed)
 	run_button.command_button_pressed.connect(run_button_pressed)
-	#battle_scene = SceneManager.main_scene.current_battle_scene
+	
 	
 
 #region Button Functions
+func selection_button_pressed()->void:
+	pass
+
+
 ##Opens targeting selection for attack (anyone)
 func attack_button_pressed()->void:
-	battle_scene.open_attack_targeting(battler, attack_action)
+	battle_scene.command_controller.open_attack_targeting(battler, attack_action)
 	pass
 
 ##Shows the skill window within BattleScene. Passes member as argument to fill out the skills that can be selected.
 func skill_button_pressed()->void:
-	battle_scene.show_skill_window(battler)
+	battle_scene.command_controller.show_skill_window(battler)
 	pass
 	
 ##Opens targeting selection (party only)
 func defend_button_pressed()->void:
-	battle_scene.open_defend_targeting(battler, defend_action)
+	battle_scene.command_controller.open_defend_targeting(battler, defend_action)
 	pass
 	
 ##Opens BattleScene item menu.
 func item_button_pressed()->void:
-	battle_scene.show_item_window()
+	battle_scene.command_controller.show_item_window()
 	pass
 
 
 ##Attempts to run from battle
 func run_button_pressed()->void:
-	battle_scene.attempt_to_run(battler, run_action)
+	battle_scene.command_controller.attempt_to_run(battler, run_action)
 	#shows attempt to run message
 	#rolls chance to run against certain factors (probably speed?)
 	pass
+	
+func focused()->void:
+	animation_player.play("flash")
+	pass
+	
+func unfocused()->void:
+	animation_player.play("RESET")
+	pass
+
+func activate_button()->void:
+	selection_button.disabled = false
+
+func deactivate_button()->void:
+	selection_button.disabled = true
+
+
+#Grabs selection_button focus
+func grab_button_focus()->void:
+	selection_button.grab_focus()
+
+##Enables all command buttons so they can be selected by the normal UI functions
+func activate_all_command_buttons()->void:
+	for child in command_h_box.get_children():
+		if child is CommandButton:
+			child.activate_button()
+
+##Disables all command buttons so they cannot be selected by the normal UI functions
+func deactivate_all_command_buttons()->void:
+	for child in command_h_box.get_children():
+		if child is CommandButton:
+			child.deactivate_button()
+
+
 #endregion Button Function
 
 
@@ -107,6 +150,22 @@ func setup_hpmp()->void:
 	mp_progress_bar.value = member.current_mp
 	if_hp_mp_full_or_empty()
 	
+func set_attack_action()->void:
+	for bact in battler.actor_data.battle_actions.battle_actions:
+		if bact is BattleActionAttack:
+			attack_action = bact
+			break
+func set_defend_action()->void:
+	for bact in battler.actor_data.battle_actions.battle_actions:
+		if bact is BattleActionDefend:
+			defend_action = bact
+			break
+			
+func set_run_action()->void:
+	for bact in battler.actor_data.battle_actions.battle_actions:
+		if bact is BattleActionRun:
+			run_action = bact
+			break
 	
 #endregion Setup
 
@@ -168,28 +227,7 @@ func update_battle_scene()->void:
 				printerr(str(member.char_resource.char_name) + " HAS NO BATTLE SCENE SET!")
 
 #region Selection
-##Activates selection_button so it can be selected with normal UI
-func activate_button()->void:
-	selection_button.disabled = false
-##Deactivates selection_button so it cannot be selected with normal UI
-func deactivate_button()->void:
-	selection_button.disabled = true
 
-#Grabs selection_button focus
-func grab_button_focus()->void:
-	selection_button.grab_focus()
-
-##Enables all command buttons so they can be selected by the normal UI functions
-func activate_all_command_buttons()->void:
-	for child in command_h_box.get_children():
-		if child is CommandButton:
-			child.activate_button()
-
-##Disables all command buttons so they cannot be selected by the normal UI functions
-func deactivate_all_command_buttons()->void:
-	for child in command_h_box.get_children():
-		if child is CommandButton:
-			child.deactivate_button()
 #endregion Selection
 
 

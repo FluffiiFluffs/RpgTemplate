@@ -745,5 +745,4 @@ unique_name_in_owner = true
 script = ExtResource("17_154v0")
 
 [node name="TurnManager" type="Node" parent="."]
-unique_name_in_owner = true
 script = ExtResource("19_agadl")

@@ -9,13 +9,20 @@ extends Node2D
 @onready var item_window : PanelContainer = %ItemWindow
 @onready var enemy_h_box : HBoxContainer = %EnemyHBox
 @onready var battle_notify_ui : BattleNotifyUI = %BattleNotifyUI
+@onready var notify_label : Label = %NotifyLabel
+##Node for keeping scripts that calculate things in battle so this script doesn't get too big.
+@onready var action_calculator : ActionCalculator = %ActionCalculator
+@onready var action_resolver : ActionResolver = %ActionResolver
+@onready var command_controller : CommandController = %CommandController
+@onready var status_system : StatusSystem = %StatusSystem
+@onready var turn_manager : TurnManager = %TurnManager
 
 @export_enum(
 "SETUP", #Initial battle setup (variable setup)
 "INTRO_FADE_IN", #Graphical fade in (maybe don't need this)
 "INTRO_MESSAGE", #Enemy introduction messaging
 "ROUND_SETUP", #When a new round is being setup
-"TURN_SETUP", #Setup phase for the next battler's turn
+"BATTLER_TURN", #Setup phase for the next battler's turn
 "ACTION_EXECUTE", #Action is being executed (enemy or party)
 "TURN_END",
 "ROUND_END",
@@ -26,7 +33,7 @@ var battle_state : String = ""
 
 @export_enum(
 "ACTION_SELECT", #During action selection for battler
-"ACTION_TARGETING", #During targeting state (for actions, skills, items)
+"ACTION_TARGETING", #During targeting state (for actions, skills, items) for player
 "SKILL_MENU_OPEN", #Skill menu is open
 "ITEM_MENU_OPEN", #Item Menu is open
 "NOTIFYING",
@@ -38,6 +45,9 @@ var turn_order : Array[Battler] = []
 var last_battler : Battler = null
 var acting_battler : Battler = null
 var next_battler : Battler = null
+var targeted_battler : Battler = null
+var battle_action_to_act : BattleAction = null
+var pending_action_use : ActionUse = null
 #var total_actors : int = 0
 #var round_count : int = 0
 
@@ -45,24 +55,55 @@ const BATTLE_STATS = preload("uid://due5rm071mmh6")
 
 signal turn_choice_finished
 signal turn_finished
-
+signal notify_finished
 
 func _ready()->void:
-	button.pressed.connect(_on_button_pressed)
+	button.pressed.connect(_on_button_pressed) #Victory button for testing.
+	clear_placeholders()
+	set_references_self()
 	
 func _on_button_pressed()->void:
 	SceneManager.main_scene.end_battle_victory_normal()
 
+##calls queue_free() on all nodes being used as placeholders within the editor during ready.
+func clear_placeholders()->void:
+	#clears turn order UI
+	battle_turn_ui.clear_turn_order_ui()
+	
+	#clears any battlers
+	for child in battlers.get_children():
+		if child is Battler:
+			child.free()
+			#child.queue_free()
+
+	#clears the turn order array
+	turn_order.clear()
+	
+	#clears enemies
+	for child in enemy_h_box.get_children():
+		if child is BattleEnemy:
+			child.free()
+			#child.queue_free()
+			
+	#clears party's battlestats
+	if !party_h_box.get_children().is_empty():
+		for child in party_h_box.get_children():
+			child.free()
+			#child.queue_free()
+	
+	#clears the notify label's text
+	notify_label.text = ""
 
 #region Initial Battle Setup
 func setup_all()->void:
-	battle_notify_ui.battle_scene = self
+
 	battle_state = "SETUP" #sets battle state
 	new_randomize_seed() #New global randomize seed
 	battlers.make_battlers() #Instantiates battlers from data
 	check_tie_rolls() #Ensures no battlers have the same tie_roll value
 	setup_party() #Instantiates party's battle stats and graphics
 	setup_enemies() #Instantiates enemy's graphics
+	hide_party_commands()
 	await get_tree().process_frame #Waits a frame for safety
 	#show_intro_message() #done from main due to the await for transition to end
 	#round_next_setup() #done from main due to the await for transition to end
@@ -70,10 +111,7 @@ func setup_all()->void:
 ##Sets up party stats BattleStats windows. Data is from CharDataKeeper
 ##Also (should eventually) show the party member's in-battle graphics scene
 func setup_party()->void:
-	##Gets rid of preexisting editor entries
-	if !party_h_box.get_children().is_empty():
-		for child in party_h_box.get_children():
-			child.queue_free()
+
 	#instantiate BattleStats as children under party_h_box for all party members
 	for child in CharDataKeeper.party_members:
 		var new_battle_stats = BATTLE_STATS.instantiate() as BattleStats
@@ -93,18 +131,23 @@ func setup_party()->void:
 						bat.ui_element = child
 						bat.ui_element.battler = bat
 						bat.ui_element.battle_scene = self
+						bat.ui_element.deactivate_button()
+						child.set_attack_action()
+						child.set_defend_action()
+						child.set_run_action()
 
 ##Sets up enemy visuals (make battlers should has already taken care of data setup)
 ##Scene pulled from battler.battler_scene
 func setup_enemies()->void:
-	for child in enemy_h_box.get_children():
-		child.queue_free()
-	await get_tree().process_frame
 	for child in battlers.get_children():
 		if child is Battler:
 			if child.faction == Battler.Faction.ENEMY:
 				var new_enemy_scene = child.battler_scene.instantiate()
 				enemy_h_box.add_child(new_enemy_scene)
+				child.ui_element = new_enemy_scene #ALERT this doesn't seem right, the UI element for the party is BattleStats but the UI element for the enemy is BattleEnemy. Both contain the graphical representation of their battler...
+				new_enemy_scene.battler = child
+				new_enemy_scene.battle_scene = self
+				new_enemy_scene.deactivate_button()
 				
 				pass
 	pass
@@ -121,217 +164,44 @@ func check_tie_rolls()->void:
 			roll = randi()
 		used_rolls[roll] = true
 		battler.tie_roll = roll
-		
+
+#
+##Shows the intro message for the battle. Intro message changes for how many enemies are in the enemy_group. Picks a random enemy's name as the "leader".
 func show_intro_message()->void:
-	battle_state = "INTRO_MESSAGE"
-	var enemy_array : Array[Battler] = []
-	var enemy_name : String = ""
-	var randmindex : int = 0
-	var rmessages : Array[String] = []
-	for bat in battlers.get_children():
-		if bat.faction == Battler.Faction.ENEMY:
-			enemy_array.append(bat)
-			
-	var renemyindex : int = randi_range(0, enemy_array.size() - 1)
-	enemy_name = enemy_array[renemyindex].actor_data.char_resource.char_name
-	randmindex = randi_range(0, rmessages.size() - 1)
+	await action_resolver.show_intro_message()
 	
-	if enemy_array.size() == 1: #if there's only one enemy
-		rmessages = [
-		enemy_name + " approaches.",
-		enemy_name + " suddenly attacks.",
-		enemy_name + " moves forward aggressively!",
-		]
-		randmindex = randi_range(0, rmessages.size() - 1)
-	elif enemy_array.size() > 1: #if there's more than one enemy
-
-		rmessages = [
-		enemy_name + " and its allies approach!",
-		enemy_name + " and cohorts suddenly attack!",
-		enemy_name + " and others moves forward aggressively!",
-		]
-		randmindex = randi_range(0, rmessages.size() - 1)
-	
-	var rand_message : String = rmessages[randmindex]
-	
-	battle_notify_ui.queue_notification(rand_message)
-	await battle_notify_ui.notify_final_end
-
-#endregion Initial Battle Setup
-
-		
-#region Turn Order
-##Clears turn_order[] of all entries
-func clear_turn_order()->void:
-	turn_order.clear()
-
-##Sorts turn order array based on speed, stamina, current hp, and then tie_roll
-##calls compare_battlers_for_turn_order within sort_custom()
-func sort_turn_order()->void:
-	clear_turn_order()
-	battlers.add_battlers_to_turn_order()
-
-	remove_dead_from_turn_order()
-	turn_order.sort_custom(self.compare_battlers_for_turn_order)
-	
-##Removes dead battlers from turn_order array
-func remove_dead_from_turn_order()->void:
-	for i in range(turn_order.size() -1, -1, -1):
-		var bat = turn_order[i]
-		if bat == null:
-			turn_order.remove_at(i)
-			continue
-		
-		if bat.actor_data.current_hp <= 0:
-			turn_order.remove_at(i)
-		#status conditions should keep the actor in the turn_order array, so don't do that here
+##Hides all top level commands for the party members.
+func hide_party_commands()->void:
+	for child in party_h_box.get_children():
+		if child is BattleStats:
+			child.show_commands = false
 
 
-	
-##Returns true if first battler should be placed before second battler in turn_order[]
-##Speed > Stamina > HP > tie_roll
-##Tie roll is guaranteed to be unique via check_tie_rolls()
-func compare_battlers_for_turn_order(first : Battler, second : Battler)->bool:
-	#print("SORTING")`
-	var first_speed = first.actor_data.get_speed()
-	var second_speed = second.actor_data.get_speed()
-	if first_speed != second_speed:
-		return first_speed > second_speed
-	
-	var first_stamina = first.actor_data.get_stamina()
-	var second_stamina = second.actor_data.get_stamina()
-	if first_stamina != second_stamina:
-		return first_stamina > second_stamina
-	
-	var first_hp = first.actor_data.current_hp
-	var second_hp = second.actor_data.current_hp
-	if first_hp != second_hp:
-		return first_hp > second_hp
-	
-	
-	return first.tie_roll > second.tie_roll
 
-##Updates the turn order UI (calls function of same name from battle_turn_ui node's script)[br]
-##clears turn order UI box[br]
-##Instantiates new turn_order_box (in order) from battle_scene.turn_order[]
-func update_turn_order_ui()->void:
-	battle_turn_ui.update_turn_order_ui()
+##Fills out references to the battle scene in its child nodes' scripts so they can function correctly.
+func set_references_self()->void:
+	action_calculator.battle_scene = self
+	action_resolver.battle_scene = self
+	command_controller.battle_scene = self
+	status_system.battle_scene = self
 
+	turn_manager.battle_scene = self
+	battle_turn_ui.battle_scene = self
+	battle_notify_ui.battle_scene = self
+
+	pass
 
 ##Creates new global randomize seed so random calls are not exactly the same each battle (for safety)
 func new_randomize_seed()->void:
 	randomize()
 
-##for debugging
-#func print_turn_order()->void:
-	#return
-	#print(str(turn_order))
-	#for bat in turn_order:
-		#print(str(bat.tie_roll) + " " +str(bat.name))
+#endregion Initial Battle Setup
 
+
+#region Turn Order
+##Updates the turn order UI (calls function of same name from battle_turn_ui node's script)[br]
+##clears turn order UI box[br]
+##Instantiates new turn_order_box (in order) from battle_scene.turn_order[]
+func update_turn_order_ui()->void:
+	battle_turn_ui.update_turn_order_ui()
 #endregion Turn Order
-##battle_state = "ROUND_SETUP", sorts turn order. updates turn order UI
-func round_next_setup()->void:
-	battle_state = "ROUND_SETUP"
-	sort_turn_order() #clears turn_order[], adds battlers to turn_order[]
-	update_turn_order_ui() #updates the UI to show the
-	await get_tree().process_frame #waits a frame for safety, there's a lot of looping going on
-	battler_turn_next()
-	pass
-
-##Advances to the next battler's turn
-func battler_turn_next()->void:
-	battle_state = "ROUND_SETUP"
-	acting_battler = turn_order.pop_front()
-	if acting_battler == null: #If the turn order array is empty
-		round_next_setup() #Setup the next round
-	else: #if the turn order array still has more
-		next_battler = turn_order[1]
-	#Determine if the battler is an enemy or a party member
-	match acting_battler.faction:
-		Battler.Faction.PARTY:
-			party_turn()
-		Battler.Faction.ENEMY:
-			enemy_turn()
-		_: #If for some reason there's something unaccounted for...
-			printerr("battle_turn_next(): " + str(acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
-			pass
-	await turn_choice_finished #waits for the battler to make an action choice
-	
-	
-func party_turn()->void:
-	#Pops up commands for the acting party member's BattleStats window
-	var pmember = acting_battler
-	var pmbstats = pmember.ui_element as BattleStats
-	pmbstats.show_commands = true
-	pmbstats.last_button_selected.grab_button_focus()
-	
-	pass
-	
-	#allow player to select their command choice
-	#command choice emits turn_choice_finished signal
-	pass
-
-func enemy_turn()->void:
-	#use enemy AI to determine what to do #TODO Make enemy AI somehow
-	#play messages (called from battleaction)
-	pass
-
-
-
-
-func battler_turn_done()->void:
-	turn_order.pop_front() #get rid of the current battler turn_order[]
-	update_turn_order_ui()
-	#determines if all party is dead, if so game over
-	#determines if all enemies are dead, if so, victory
-	#calls battler_turn_next()
-	pass
-
-
-#endregion Turn Order
-
-
-#region Command Button Functions
-func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
-	pass
-
-##Shows skill window based upon the skills available to the party member
-func show_skill_window(battler: Battler)->void:
-	#propagate skills for current party member
-	#show skill window
-	#change battle state to skill selection
-	pass
-	
-	
-func hide_skill_window()->void:
-	#hide skill window
-	#change battle state should be handled by the action taken
-		#if cancelled out, then go back to previous action selection state
-		#if skill is used, then go into action playing state
-			#consume the battler's turn
-		pass
-
-##Opens targeting, passes who is defending, and the defense action
-func open_defend_targeting(defender : Battler, action : BattleAction)->void:
-	pass
-
-##Shows item list. Only shows battle-usable items.
-func show_item_window()->void:
-	#propagate items list
-	#show item window
-	#change battle state to item window open
-	pass
-
-func hide_item_window()->void:
-	#hide item window
-	#change of battle state should be handled by action taken
-		#if cancelled out, then go back to the previous action selection state
-		#if item is used, then go into action playing state
-			#consume the battler's turn
-	pass
-
-##Attempts to run from battle immediately. Uses PartyMember's stats to attempt this
-func attempt_to_run(runner : Battler, action : BattleAction)->void:
-	pass
-#endregion Command Button Functions

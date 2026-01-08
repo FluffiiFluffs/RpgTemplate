@@ -1,9 +1,26 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3 uid="uid://8mflur1rjcwr"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=16 format=3 uid="uid://8mflur1rjcwr"]
 
+[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_oyh6x"]
 [ext_resource type="Texture2D" uid="uid://0su6q20xg6cu" path="res://_assets/battle/icons/enemy_battle_icon.png" id="1_rmuka"]
+[ext_resource type="Script" uid="uid://4j3b1prlfc8i" path="res://battle/enemy_ai/random_attack/enemy_ai_random_attack.gd" id="1_y8udo"]
+[ext_resource type="Resource" uid="uid://dbfk3ba0n2tfg" path="res://battle/actions/attack/battleaction_attack.tres" id="2_3nfps"]
 [ext_resource type="Script" uid="uid://bt4mlekjm5cg8" path="res://actors/_common/loot_drop.gd" id="2_44s84"]
+[ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="3_cfcbf"]
 [ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="3_wtw7p"]
 [ext_resource type="Script" uid="uid://dnf22m24hntjd" path="res://actors/_common/base_enemy_data/enemy_data.gd" id="4_rbs70"]
+[ext_resource type="PackedScene" uid="uid://nev1yaebovqi" path="res://actors/2_enemy/00_test_enemy/test_enemy_battle_scene.tscn" id="5_v5x1q"]
+[ext_resource type="Resource" uid="uid://c7inxxuskfap4" path="res://actors/2_enemy/00_test_enemy/test_enemy_char_resource.tres" id="6_2stbo"]
+[ext_resource type="PackedScene" uid="uid://vfsshe7gmbtm" path="res://actors/2_enemy/00_test_enemy/test_enemy_field_scene.tscn" id="7_y8udo"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/buffs/buff_base.gd" id="8_npti8"]
+
+[sub_resource type="Resource" id="Resource_mpmaf"]
+script = ExtResource("1_y8udo")
+metadata/_custom_type_script = "uid://4j3b1prlfc8i"
+
+[sub_resource type="Resource" id="Resource_v5x1q"]
+script = ExtResource("3_cfcbf")
+battle_actions = Array[ExtResource("1_oyh6x")]([ExtResource("2_3nfps")])
+metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [sub_resource type="Resource" id="Resource_n50ag"]
 script = ExtResource("2_44s84")
@@ -15,5 +32,10 @@ script = ExtResource("4_rbs70")
 loot_table = Array[ExtResource("2_44s84")]([SubResource("Resource_n50ag")])
 money = 100
 experience = 100
+ai = SubResource("Resource_mpmaf")
+field_scene = ExtResource("7_y8udo")
+battle_scene = ExtResource("5_v5x1q")
 battle_icon = ExtResource("1_rmuka")
+char_resource = ExtResource("6_2stbo")
+battle_actions = SubResource("Resource_v5x1q")
 metadata/_custom_type_script = "uid://dnf22m24hntjd"

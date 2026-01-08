@@ -15,6 +15,9 @@ extends Node
 @onready var audio_root : Node = %AudioRoot
 @onready var runtime : Node = %Runtime
 @onready var title_menu_layer : Node = %TitleMenuLayer
+
+
+
 #endregion Node References
 
 #region Export Variables
@@ -64,7 +67,7 @@ func start_battle(egroup : EnemyGroup)->void:
 	transition_layer.play_end()
 	await transition_layer.animation_player.animation_finished
 	await current_battle_scene.show_intro_message() #Displays intro message
-	current_battle_scene.round_next_setup() #Changes battle state to "ROUND_SETUP", sorts turn order, updates turn UI
+	current_battle_scene.turn_manager.round_next_setup() #Changes battle state to "ROUND_SETUP", sorts turn order, updates turn UI
 	
 
 ##After battle is completely finished (loot,xp given), gets rid of the battle scene, sets game state back to field, etc	

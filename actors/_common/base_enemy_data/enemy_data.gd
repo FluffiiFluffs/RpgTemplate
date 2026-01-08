@@ -7,3 +7,4 @@ extends ActorData
 @export var money : int = 0
 @export var experience : int = 0
 @export var difficulty : float = 1.0
+@export var ai : EnemyAI

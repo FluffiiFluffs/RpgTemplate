@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleActionRun" load_steps=2 format=3 uid="uid://yyucdgb5imk3"]
+
+[ext_resource type="Script" uid="uid://b837nwbupckgt" path="res://battle/actions/run/battleaction_run.gd" id="1_rxpt6"]
+
+[resource]
+script = ExtResource("1_rxpt6")
+action_name = "run"
+description = "Attempt to run from battle!"
+category = 4
+type = 6
+target_shape = 0
+target_side = 0
+message_template = "{user} tries to run from battle!"
+metadata/_custom_type_script = "uid://b837nwbupckgt"

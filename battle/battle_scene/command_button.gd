@@ -33,7 +33,8 @@ func on_button_focus_exited()->void:
 
 
 func on_button_pressed()->void:
-	command_button_pressed.emit(button_type)
+	battle_stats.last_button_selected = self
+	command_button_pressed.emit()
 
 func setup_button_icon()->void:
 	#makes button icon a particular icon depending on what button_type is
