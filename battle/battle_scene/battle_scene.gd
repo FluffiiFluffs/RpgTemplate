@@ -16,6 +16,10 @@ extends Node2D
 @onready var command_controller : CommandController = %CommandController
 @onready var status_system : StatusSystem = %StatusSystem
 @onready var turn_manager : TurnManager = %TurnManager
+@onready var animation_player : AnimationPlayer = %AnimationPlayer
+@onready var vic_def_label : Label = %VicDefLabel
+
+
 
 @export_enum(
 "SETUP", #Initial battle setup (variable setup)
@@ -26,6 +30,7 @@ extends Node2D
 "ACTION_EXECUTE", #Action is being executed (enemy or party)
 "TURN_END",
 "ROUND_END",
+"BATTLE_END"
 
 ) 
 var battle_state : String = ""
@@ -36,24 +41,29 @@ var battle_state : String = ""
 "ACTION_TARGETING", #During targeting state (for actions, skills, items) for player
 "SKILL_MENU_OPEN", #Skill menu is open
 "ITEM_MENU_OPEN", #Item Menu is open
-"NOTIFYING",
+"NOTIFYING", #When messages are playing
 ) 
 var ui_state : String = ""
 
-var enemy_group : EnemyGroup = null
-var turn_order : Array[Battler] = []
-var last_battler : Battler = null
-var acting_battler : Battler = null
-var next_battler : Battler = null
-var targeted_battler : Battler = null
-var battle_action_to_act : BattleAction = null
-var pending_action_use : ActionUse = null
+var enemy_group : EnemyGroup = null #EnemyGroup taken from the enemy touched by the player
+var turn_order : Array[Battler] = [] #turn order array 
+var last_battler : Battler = null #last battler that had an action
+var acting_battler : Battler = null #current acting battler
+var next_battler : Battler = null #next battler that will take action
+var targeted_battler : Battler = null #battler being targeted by an action
+var battle_action_to_act : BattleAction = null #BattleAction queued to act
+#var pending_action_use : ActionUse = null #ActionUse queued to act
+var exp_earned : int = 0
+var money_earned : int = 0
+var loot_earned : Array[Item] = []
 #var total_actors : int = 0
 #var round_count : int = 0
 
 const BATTLE_STATS = preload("uid://due5rm071mmh6")
+const BATTLEACTION_RUN = preload("uid://yyucdgb5imk3")
 
-signal turn_choice_finished
+
+#signal turn_choice_finished
 signal turn_finished
 signal notify_finished
 
@@ -205,3 +215,71 @@ func new_randomize_seed()->void:
 func update_turn_order_ui()->void:
 	battle_turn_ui.update_turn_order_ui()
 #endregion Turn Order
+
+
+#region End Of Battle
+##Plays end of battle victory sequence for normal battles
+func end_of_battle_normal_victory()->void:
+	battle_state = "BATTLE_END"
+	ui_state = "NOTIFYING"
+	battle_notify_ui.queue_notification("VICTORY!")
+	play_victory_swipe()
+	give_money()
+	give_xp()
+	give_items()
+	await notify_finished
+	SceneManager.main_scene.end_battle_victory_normal()
+	pass
+
+func end_of_battle_special()->void:
+	pass
+
+##Plays end of battle defeat sequence for normal battles
+func end_of_battle_normal_defeat()->void:
+	pass
+	
+func end_of_battle_special_defeat()->void:
+	pass
+
+##Gives experience to the party per each enemy killed
+func give_xp()->void:
+	if exp_earned != 0:
+		for bat in battlers.get_children():
+			if bat is Battler:
+				if bat.faction == Battler.Faction.PARTY:
+					if bat.actor_data.current_hp > 0:
+						bat.actor_data.current_exp += exp_earned
+		battle_notify_ui.queue_notification("Gained " + str(exp_earned) + " experience.")
+
+
+
+	pass
+	
+##Moves money accumulated during battle to the player[br]
+##Needs to have the word for money changed to whatever it is called in the world (zenny, gil, gold, etc)
+func give_money()->void:
+	if money_earned != 0:
+		CharDataKeeper.money += money_earned
+		battle_notify_ui.queue_notification("Found " + str(money_earned) + " money.")
+	pass
+
+##Gives items that were gained in battle
+##TODO This script currently assumes a quantity of 1 per each item, but should probably be changed later (likely will need dictionary support from the loot_earned variable instead of it being an array)
+func give_items()->void:
+	if !loot_earned.is_empty():
+		for it in loot_earned:
+			Inventory.add_item(it.item_id, 1)
+			battle_notify_ui.queue_notification(it.name + " was found.")
+			
+			
+func play_victory_swipe()->void:
+	vic_def_label.text = "VICTORY!"
+	animation_player.play("vicdef_show")
+	await animation_player.animation_finished
+	pass
+	
+func play_defeat_swipe()->void:
+	vic_def_label.text = "DEFEAT!"
+	animation_player.play("vicdef_show")
+	pass
+#endregion End of Battle

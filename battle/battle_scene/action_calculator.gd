@@ -17,11 +17,11 @@ func normal_attack(from : Battler, attack : BattleAction, to : Battler)->int:
 	#record total defense to battler
 	var todef : int = to.actor_data.get_def_value()
 	#calculate raw damage (atk and defense)
-	var damage : int = clampi(fromatk - todef/2, 0, 9999) #simpleplaceholder formula
+	var damage : int = clampi((fromatk*2) - (todef/2), 0, 9999) #simpleplaceholder formula
 	#roll to determine if there is a miss (considered dodge/parry) (return -1 for this so the UI can show the difference between 0 damage and miss)
 	var missvariance  = randi_range(-10,10)
 	var misschance = randi_range(0,100) + (missvariance)
-	var missroll = randi_range(0,100) + (from.actor_data.get_speed() / 2 )
+	var missroll = randi_range(0,100) + (from.actor_data.get_speed())
 	if missroll < misschance:
 		return -1	
 	#roll to determine if there is a block (highly mitigated damage)...figure this out later because it will be determined by stats and possibly what armor is being used. It probably needs a shield.
@@ -58,9 +58,29 @@ func spell_attack(from : Battler, spell : BattleAction, to : Battler)->int:
 
 ##Determines if the run chance was successful. Returns true if successful, false if not.
 ##Rolls a random number (1-100) for the runner and the threshold (1-100) they must meet in order to run. 
-##The runner's agility is added to their amount, the of the opposing side's agility is added to the threshold. 
-##If the runner's random number + agility is over the threshold random + opposing average agility, then run is successful.[br]
 ##If the runner is a party member, the entire party runs away. If the runner is an enemy, only the single enemy gets away.
 func run_success(runner : Battler)->bool:
+	if runner is Battler:
+		var runnerspd : float = runner.actor_data.get_speed()
+		var oppoidx : float = 0.0
+		var oppotot : float = 0.0
+		var oppoavg : float = 0.0
+		var rchance : float = randf_range(0.0,100.0)
+		var oppochance : float = randf_range(0.0,100.0)
+
+		if runner.faction == Battler.Faction.PARTY:
+			pass
+			for enemy in battle_scene.battlers.get_children():
+				if enemy is Battler:
+					if enemy.faction == Battler.Faction.ENEMY:
+						oppoidx += 1
+						oppotot += enemy.actor_data.get_speed()
+			oppoavg = (oppotot / oppoidx)
+			print("oppototal: " + str(oppoavg + oppochance) + "  runnertotal: " + str(runnerspd + rchance))
+			return (oppoavg + oppochance) < (runnerspd + rchance)
+					
+
+		elif runner.faction == Battler.Faction.ENEMY:
+			pass
 	pass
 	return false

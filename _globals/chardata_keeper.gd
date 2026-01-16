@@ -21,6 +21,10 @@ extends Node2D
 ##Index for the controlled character
 var controlled_index : int = 0 : set = set_controlled_index
 
+@export_category("PartyWide Data")
+@export var money : int = 0 ##How much money the party has
+@export var time_played : float = 0 ##How much time has elapsed during the playthrough
+
 
 func _ready() -> void:
 	_clean_party_array()

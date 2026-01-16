@@ -275,7 +275,7 @@ show_percentage = false
 [node name="PartyMemberMarker" type="Marker2D" parent="VBoxContainer/StatsPanelContainerContainer/StatsPanelContainer"]
 position = Vector2(50, 0)
 
-[node name="SelectionButton" type="Button" parent="VBoxContainer/StatsPanelContainerContainer/StatsPanelContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/StatsPanelContainerContainer/StatsPanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_xjkr3")

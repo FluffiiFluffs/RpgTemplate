@@ -5,7 +5,7 @@ extends Control
 ##Window showing hp/mp of current party member
 @onready var command_container : PanelContainer= %CommandContainer
 @onready var stats_panel_container : PanelContainer = %StatsPanelContainer
-@onready var selection_button : Button = %SelectionButton
+@onready var button : Button = %Button
 @onready var command_h_box : HBoxContainer = %CommandHBox
 @onready var hp_value : Label = %HPValue
 @onready var hp_progress_bar : ProgressBar = %HPProgressBar
@@ -37,11 +37,11 @@ var defend_action : BattleAction = null
 var run_action : BattleAction = null
 
 
-const ATTACK = preload("uid://sw7qauqi57bl")
-const DEFEND = preload("uid://dsddu45iui2g8")
-const ITEM = preload("uid://khupsuwtpksw")
-const RUN = preload("uid://pyut5kkgk1wd")
-const SKILL = preload("uid://dxepja5wakufl")
+const ATTACK = preload("uid://sw7qauqi57bl") #icon
+const DEFEND = preload("uid://dsddu45iui2g8") #icon
+const ITEM = preload("uid://khupsuwtpksw") #icon
+const RUN = preload("uid://pyut5kkgk1wd") #icon
+const SKILL = preload("uid://dxepja5wakufl") #icon
 
 
 
@@ -55,9 +55,9 @@ func _ready() -> void:
 	last_button_selected = attack_button
 	_apply_show_commands()
 	command_flasher.visible = true
-	selection_button.pressed.connect(selection_button_pressed)
-	selection_button.focus_entered.connect(focused)
-	selection_button.focus_exited.connect(unfocused)
+	button.pressed.connect(button_pressed)
+	button.focus_entered.connect(focused)
+	button.focus_exited.connect(unfocused)
 	attack_button.command_button_pressed.connect(attack_button_pressed)
 	skill_button.command_button_pressed.connect(skill_button_pressed)
 	defend_button.command_button_pressed.connect(defend_button_pressed)
@@ -67,7 +67,7 @@ func _ready() -> void:
 	
 
 #region Button Functions
-func selection_button_pressed()->void:
+func button_pressed()->void:
 	pass
 
 
@@ -94,10 +94,15 @@ func item_button_pressed()->void:
 
 ##Attempts to run from battle
 func run_button_pressed()->void:
-	battle_scene.command_controller.attempt_to_run(battler, run_action)
-	#shows attempt to run message
-	#rolls chance to run against certain factors (probably speed?)
-	pass
+	var runner = battle_scene.acting_battler
+	var run_action = battle_scene.BATTLEACTION_RUN
+	var controller = battle_scene.command_controller
+	var turn_id = controller.current_turn_id
+	var use = ActionUse.new(runner, run_action, [])
+	if runner.ui_element is BattleStats:
+		runner.ui_element.show_commands = false
+	controller.action_use_chosen.emit(turn_id, use)
+	
 	
 func focused()->void:
 	animation_player.play("flash")
@@ -108,15 +113,15 @@ func unfocused()->void:
 	pass
 
 func activate_button()->void:
-	selection_button.disabled = false
+	button.disabled = false
 
 func deactivate_button()->void:
-	selection_button.disabled = true
+	button.disabled = true
 
 
-#Grabs selection_button focus
+#Grabs button focus
 func grab_button_focus()->void:
-	selection_button.grab_focus()
+	button.grab_focus()
 
 ##Enables all command buttons so they can be selected by the normal UI functions
 func activate_all_command_buttons()->void:
@@ -160,13 +165,10 @@ func set_defend_action()->void:
 		if bact is BattleActionDefend:
 			defend_action = bact
 			break
-			
+
 func set_run_action()->void:
-	for bact in battler.actor_data.battle_actions.battle_actions:
-		if bact is BattleActionRun:
-			run_action = bact
-			break
-	
+	run_action = battle_scene.BATTLEACTION_RUN
+
 #endregion Setup
 
 #region Update Stats
@@ -185,22 +187,20 @@ func if_hp_mp_full_or_empty()->void:
 	if member.current_mp == 0:
 		mp_value.self_modulate = GameMenu.MINUS_COLOR
 
-##Updates label to new HP value and animates the bar to show it.[br] Damage = -value, Heal = +value
-func hp_changed(value : int)->void:
-	var old_hp := member.current_hp
-	var new_hp := clampi(old_hp + value, 0, member.get_max_hp())
+##Updates label to new HP value and animates the bar to show it. Does not touch the actual HP value, only animates the UI
+func hp_changed()->void:
+	var new_hp := member.current_hp
 	hp_value.text = str(new_hp)
-	var tween := Tween.new()
+	var tween := create_tween()
 	tween.tween_property(hp_progress_bar, "value", new_hp, 0.3)
 	await tween.finished
 	if_hp_mp_full_or_empty()
 	
-##Updates label to new MP value and animates the bar to show it.[br] Damage = -value, Heal = +value
-func mp_changed(value : int)->void:
-	var old_mp := member.current_mp
-	var new_mp := clampi(old_mp + value, 0, member.get_max_mp())
+##Updates label to new MP value and animates the bar to show it. Does not touch the actual MP value, only animates the UI
+func mp_changed()->void:
+	var new_mp := member.current_mp
 	mp_value.text = str(new_mp)
-	var tween := Tween.new()
+	var tween := create_tween()
 	tween.tween_property(mp_progress_bar, "value", new_mp, 0.3)
 	await tween.finished
 	if_hp_mp_full_or_empty()
@@ -211,7 +211,7 @@ func mp_changed(value : int)->void:
 
 #region Graphical Scene
 
-##Gets rid of editor placeholder and instantiates battle scene
+#Instantiates battle scene
 func update_battle_scene()->void:
 	if member.battle_scene != null and member != null:
 		for child in battle_scene_container.get_children():

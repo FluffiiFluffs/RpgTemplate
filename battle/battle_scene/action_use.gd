@@ -41,6 +41,7 @@ func _init(_user : Battler,	_action : BattleAction,	_targets : Array[Battler] = 
 	action = _action
 	targets = _targets.duplicate()
 	data = _data.duplicate()
+	action_type = action.type
 	
 func has_targets()-> bool: 
 	return !targets.is_empty()

@@ -11,6 +11,14 @@ extends Node
 var battle_scene : BattleScene = null
 var pending_user : Battler = null
 var pending_action : BattleAction = null
+var current_turn_id : int = -1
+
+signal action_use_chosen(turn_id : int, use : ActionUse)
+
+#region TurnID
+func begin_turn(turn_id : int)->void:
+	current_turn_id = turn_id
+#endregion TurnID
 
 #region Command Button Functions
 func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
@@ -28,31 +36,65 @@ func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
 	#If menu memory is on, targets last enemy selected. If it can't happen, then the first enemy is focused.
 	if Options.battle_menu_memory:
 		if pending_user.battler_scene.last_enemy_selected != null:
-			if pending_user.battler_scene.last_enemy_selected.actor_data.current_hp > 0:
-				pending_user.battler_scene.last_enemy_selected.grab_button_focus()
+			if pending_user.ui_element.last_enemy_selected.actor_data.current_hp > 0:
+				pending_user.ui_element.last_enemy_selected.grab_button_focus()
 			else:
 				target_first_enemy()
 		else:
 			target_first_enemy()
 	else:
 		target_first_enemy()
-	
+
+##Opens targeting, passes who is defending, and the defense action
+func open_defend_targeting(defender : Battler, action : BattleAction)->void:
+	pending_user = defender
+	pending_action = action
+	battle_scene.ui_state = "ACTION_TARGETING"
+	for bat in battle_scene.battlers.get_children():
+		if bat is Battler:
+			if bat.faction == Battler.Faction.PARTY:
+				if bat.actor_data.current_hp > 0:
+					bat.ui_element.activate_button()
+				elif bat.actor_data.current_hp <= 0:
+					bat.ui_element.deactivate_button()
+				pass
+			if bat.faction == Battler.Faction.ENEMY:
+				bat.ui_element.deactivate_button()
+				pass
+	defender.ui_element.grab_button_focus() #focus the defender by default
+
+
+##Button pressed function for when an enemy's button (selected) in battle.
+##TODO This needs to be changed to support skills and items as well!
 func on_enemy_pressed(target : Battler)->void:
-	_confirm_action([target])
+	_confirm_action_attack([target])
 
 	
-func _confirm_action(targets : Array[Battler])->void:
+func _confirm_action_attack(targets : Array[Battler])->void:
 	var use = ActionUse.new(pending_user, pending_action, targets)
-	battle_scene.pending_action_use = use
-	_end_targeting()
-	battle_scene.turn_choice_finished.emit()
-	
-func _end_targeting()->void:
-	#Disables all the buttons. Doesn't check for alive or dead this time to make it easier.
+	for tar in targets:
+		tar.ui_element.animation_player.play("RESET") #all battler ui elements should have this
 	for bat in battle_scene.battlers.get_children():
 		if bat is Battler:
 			bat.ui_element.deactivate_button()
-			
+		if battle_scene.acting_battler.ui_element is BattleStats:
+			battle_scene.acting_battler.ui_element.show_commands = false
+	_end_targeting()
+	if current_turn_id < 0:
+		printerr("CommandController: current_turn_id not set for this turn")
+		return
+	action_use_chosen.emit(current_turn_id, use)
+
+
+func _confirm_action_other()->void:
+	for bat in  battle_scene.battlers.get_children():
+		if bat is Battler:
+			bat.ui_element.deactivate_button()
+		if battle_scene.acting_battler.ui_element is BattleStats:
+			battle_scene.acting_battler.ui_element.show_commands = false
+
+##Sets pending_user and pending_action to null
+func _end_targeting()->void:
 	pending_user = null
 	pending_action = null
 	pass
@@ -75,10 +117,7 @@ func hide_skill_window()->void:
 			#consume the battler's turn
 		pass
 
-##Opens targeting, passes who is defending, and the defense action
-func open_defend_targeting(defender : Battler, action : BattleAction)->void:
-	battle_scene.ui_state = "ACTION_TARGETING"
-	pass
+
 
 ##Shows item list. Only shows battle-usable items.
 func show_item_window()->void:
@@ -97,8 +136,16 @@ func hide_item_window()->void:
 	pass
 
 ##Attempts to run from battle immediately. Uses PartyMember's stats to attempt this
-func attempt_to_run(runner : Battler, action : BattleAction)->void:
-	#attempts to run from battle passes battler and BattleActionRun on to ActionCalculator.party_run
+func attempt_to_run(runner : Battler)->void:
+	var run_action : BattleAction = battle_scene.BATTLEACTION_RUN
+	if runner.ui_element is BattleStats:
+		runner.ui_element.show_commands = false
+	_end_targeting()
+	if current_turn_id < 0:
+		printerr("CommandController: current_turn_id not set for this turn")
+		return
+	action_use_chosen.emit(current_turn_id, ActionUse.new(runner, run_action, []))
+	
 	pass
 #endregion Command Button Functions
 

@@ -89,6 +89,28 @@ func end_battle_victory_normal()->void:
 	transition_layer.play_end()
 	await transition_layer.animation_player.animation_finished
 
+##After battle is completely finished (loot,xp given), gets rid of the battle scene, sets game state back to field, etc	
+func end_battle_run()->void:
+	transition_layer.play_begin() #fades the screen to black
+	await transition_layer.animation_player.animation_finished #waits until the screen is black
+	battle_root.visible = false #Hides battle
+	
+	clear_battle_scene() #Removes any battle scenes from memory
+	#current_battle_scene = null #sets to null just to be safe
+	field_root.process_mode = Node.PROCESS_MODE_INHERIT #allows field root to process
+	field_camera_rig.activate() #reactivates field camera
+	field_camera_rig.follow_player() #sets follow back to player
+	if battling_field_enemy_scene != null:
+		battling_field_enemy_scene.enemy_killed()
+	destroy_chasing_enemies()
+	GameState.gamestate = GameState.State.FIELD #swap game state back to field
+	field_root.set_deferred("visible", true)
+	transition_layer.play_end()
+	await transition_layer.animation_player.animation_finished
+
+
+
+
 #cleans up any enemies that have touched the player in case there were more than 1
 func destroy_chasing_enemies()->void:
 	for child in current_field_scene.enemy_spawners.get_children():

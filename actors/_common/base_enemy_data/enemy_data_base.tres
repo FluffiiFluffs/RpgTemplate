@@ -1,12 +1,17 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=9 format=3 uid="uid://cegrfsowf5plg"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=11 format=3 uid="uid://cegrfsowf5plg"]
 
 [ext_resource type="Texture2D" uid="uid://0su6q20xg6cu" path="res://_assets/battle/icons/enemy_battle_icon.png" id="1_klej5"]
+[ext_resource type="Script" uid="uid://4j3b1prlfc8i" path="res://battle/enemy_ai/random_attack/enemy_ai_random_attack.gd" id="1_xvg8r"]
 [ext_resource type="Resource" uid="uid://c7inxxuskfap4" path="res://actors/2_enemy/00_test_enemy/test_enemy_char_resource.tres" id="2_28efr"]
 [ext_resource type="PackedScene" uid="uid://nev1yaebovqi" path="res://actors/2_enemy/00_test_enemy/test_enemy_battle_scene.tscn" id="2_tv5lc"]
 [ext_resource type="Script" uid="uid://bt4mlekjm5cg8" path="res://actors/_common/loot_drop.gd" id="3_tv5lc"]
 [ext_resource type="PackedScene" uid="uid://vfsshe7gmbtm" path="res://actors/2_enemy/00_test_enemy/test_enemy_field_scene.tscn" id="4_ai1dv"]
 [ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="4_xvg8r"]
 [ext_resource type="Script" uid="uid://dnf22m24hntjd" path="res://actors/_common/base_enemy_data/enemy_data.gd" id="5_ai1dv"]
+
+[sub_resource type="Resource" id="Resource_ai1dv"]
+script = ExtResource("1_xvg8r")
+metadata/_custom_type_script = "uid://4j3b1prlfc8i"
 
 [sub_resource type="Resource" id="Resource_n50ag"]
 script = ExtResource("3_tv5lc")
@@ -20,6 +25,7 @@ steal_table = null
 money = 100
 experience = 100
 difficulty = null
+ai = SubResource("Resource_ai1dv")
 field_scene = ExtResource("4_ai1dv")
 battle_scene = ExtResource("2_tv5lc")
 battle_icon = ExtResource("1_klej5")

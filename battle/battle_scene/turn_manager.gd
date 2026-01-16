@@ -7,7 +7,23 @@ extends Node
 ## Does not do combat math and does not directly apply action effects.
 
 var battle_scene : BattleScene = null
+var _turn_id_counter : int = 0
 
+#region TurnID
+func _next_turn_id()->int:
+	_turn_id_counter += 1
+	return _turn_id_counter
+
+func _await_party_action_use(turn_id : int)->ActionUse:
+	while true:
+		var result = await battle_scene.command_controller.action_use_chosen
+		var rid : int = result[0] #resultid
+		var use : ActionUse = result[1]
+		if rid == turn_id:
+			return use
+	return null
+
+#endregion TurnID
 
 #region Round Progression
 
@@ -27,67 +43,132 @@ func round_next_setup()->void:
 
 #region Turn Progression
 
-##Advances to the next battler's turn or sets up the next round.
-##If turn_order is empty, then the next round is setup.
+###Advances to the next battler's turn or sets up the next round.
+###If turn_order is empty, then the next round is setup.
+#func battler_turn_next()->void:
+	#battle_scene.battle_state = "BATTLER_TURN"
+	#if battle_scene.turn_order.is_empty(): #If the turn order array is empty
+		#round_next_setup() #Setup the next round
+		#return
+	#battle_scene.acting_battler = battle_scene.turn_order[0]
+	#if battle_scene.turn_order.size() > 1:
+		#battle_scene.next_battler = battle_scene.turn_order[1]
+	#else:
+		#battle_scene.next_battler = null
+	#
+	##Determine if the battler is an enemy or a party member
+	#match battle_scene.acting_battler.faction:
+		#Battler.Faction.PARTY:
+			#party_turn()
+		#Battler.Faction.ENEMY:
+			#enemy_turn()
+		#_: #If for some reason there's something unaccounted for...
+			#printerr("battle_turn_next(): " + str(battle_scene.acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
+			#pass
+	#await battle_scene.turn_choice_finished #waits for the battler to make an action choice
+	##proceed to "ACTION_EXECUTE" state/phase
+	#var use = battle_scene.pending_action_use
+	#await battle_scene.action_resolver.execute_action_use(use) 
+	#battler_turn_done()
+
 func battler_turn_next()->void:
 	battle_scene.battle_state = "BATTLER_TURN"
-	if battle_scene.turn_order.is_empty(): #If the turn order array is empty
-		round_next_setup() #Setup the next round
+	if battle_scene.turn_order.is_empty():
+		round_next_setup()
 		return
+		
 	battle_scene.acting_battler = battle_scene.turn_order[0]
 	if battle_scene.turn_order.size() > 1:
 		battle_scene.next_battler = battle_scene.turn_order[1]
 	else:
 		battle_scene.next_battler = null
+		
+	var turn_id = _next_turn_id()
+	battle_scene.command_controller.begin_turn(turn_id)
 	
-	#Determine if the battler is an enemy or a party member
-	match battle_scene.acting_battler.faction:
+	var use : ActionUse = null
+	
+	match  battle_scene.acting_battler.faction:
 		Battler.Faction.PARTY:
 			party_turn()
+			use = await _await_party_action_use(turn_id)
 		Battler.Faction.ENEMY:
-			enemy_turn()
-		_: #If for some reason there's something unaccounted for...
+			use = enemy_turn()
+			
+		_:
 			printerr("battle_turn_next(): " + str(battle_scene.acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
-			pass
-	await battle_scene.turn_choice_finished #waits for the battler to make an action choice
-	#proceed to "ACTION_EXECUTE" state/phase
-	var use = battle_scene.pending_action_use
-	await battle_scene.action_resolver.execute_action_use(use) 
+			battler_turn_done()
+			return
+
+	if use == null:
+		printerr("battler_turn_next(): ActionUse is null")
+		battler_turn_done()
+		return
+
+	await battle_scene.action_resolver.execute_action_use(use)
+
+	if battle_scene.battle_state == "BATTLE_END":
+		return
+
 	battler_turn_done()
 
-
 ##Routine for when it is an enemy's turn.
-func enemy_turn()->void:
+func enemy_turn()->ActionUse:
 	battle_scene.ui_state = "NOTIFYING"
 	#use enemy AI to determine what to do #TODO Make enemy AI somehow
 	#play messages (called from battleaction)
-	
-	call_deferred("_enemy_choose_and_emit")
-	pass
-	
-func _enemy_choose_and_emit()->void:
-	var enemy := battle_scene.acting_battler
+	var enemy = battle_scene.acting_battler
 	var use : ActionUse = null
-
-	if enemy != null and enemy.actor_data is EnemyData:
-		var ed := enemy.actor_data as EnemyData
-		if ed.ai != null:
-			use = ed.ai.choose_action_use(enemy, battle_scene)
-
+	var ed = enemy.actor_data as EnemyData
+	if ed != null:
+		use = ed.ai.choose_action_use(enemy,battle_scene)
+		
 	if use == null:
-		# hard fallback so the battle never stalls
-		use = _fallback_enemy_attack(enemy)
+		use =_fallback_enemy_attack(enemy)
+	return use
 
-	battle_scene.pending_action_use = use
-	battle_scene.turn_choice_finished.emit()
+
+#func _enemy_choose_and_emit()->void:
+	#var enemy := battle_scene.acting_battler
+	#var use : ActionUse = null
+#
+	#if enemy != null and enemy.actor_data is EnemyData:
+		#var ed := enemy.actor_data as EnemyData
+		#if ed.ai != null:
+			#use = ed.ai.choose_action_use(enemy, battle_scene)
+#
+	#if use == null:
+		## hard fallback so the battle never stalls
+		#use = _fallback_enemy_attack(enemy)
+#
+	#battle_scene.pending_action_use = use
+	#battle_scene.turn_choice_finished.emit()
 
 
 func _fallback_enemy_attack(enemy : Battler) -> ActionUse:
-	var action := BattleActionAttack.new() # only if you want, otherwise find an existing attack action
-	# Better: reuse the same logic you already used to find BattleActionAttack on the actor_data
-
-	return null
-
+	if enemy == null:
+		return null
+	var target : Battler = null
+	var alive : Array[Battler] = []
+	for bat in battle_scene.battlers.get_children():
+		if bat is Battler:
+			if bat.faction == Battler.Faction.PARTY and bat.actor_data.current_hp > 0:
+				alive.append(bat)
+	if alive.is_empty():
+		return null
+	target = alive[randi_range(0, alive.size() - 1)]
+	var action : BattleAction = null
+	if enemy.actor_data != null and enemy.actor_data.battle_actions != null:
+		for act in enemy.actor_data.battle_actions.battle_actions:
+			if act is BattleActionAttack:
+				action = act
+				break
+	return ActionUse.new(enemy, action, [target])
+	
+	
+	
+	
+	
 ##Routine for when it is a party member's turn. 
 func party_turn()->void:
 	battle_scene.ui_state = "ACTION_SELECT"
@@ -106,21 +187,52 @@ func party_turn()->void:
 	#
 	pass
 
+
+
+
+#endregion Turn Progression
+
+#region TURN END
 func battler_turn_done()->void:
 	if battle_scene.turn_order.is_empty():
 		round_next_setup()
 		return
 	
 	battle_scene.turn_order.remove_at(0)
-	battle_scene.update_turn_order_ui() #turn_order.pop_front() already called during battler_turn_next(), but updating the UI should happen here.
-	#determines if all party is dead, if so game over
-	#determines if all enemies are dead, if so, victory
-	battler_turn_next()
+	battle_scene.update_turn_order_ui()
+	var endbattle : int = check_for_end_battle()
+	if endbattle == 1: #party defeated, game over
+		battle_scene.end_of_battle_normal_defeat()
+		pass
+	else:
+		if endbattle == 2: #enemies defeated, victory
+			battle_scene.end_of_battle_normal_victory()
+			pass
+		else: #at least one remaining on each side, battle continues.
+			battler_turn_next()
+
+	pass
+##Returns int value based on if an entire faction of battlers is dead. If neither is true, returns 0.[br]
+##Value 1 or 2 will break out of the battle loop into victory.
+func check_for_end_battle()->int:
+	var party_count : int = 0
+	var enemy_count : int = 0
+	for bat in battle_scene.battlers.get_children():
+		if bat is Battler:
+			if bat.actor_data.current_hp > 0:
+				if bat.faction == Battler.Faction.PARTY:
+					party_count += 1
+				if bat.faction == Battler.Faction.ENEMY:
+					enemy_count += 1
+	if party_count == 0:
+		return 1
+	elif party_count != 0:
+		if enemy_count == 0:
+			return 2
+	return 0 #0 = continue with battle
+		
 	pass
 
-#endregion Turn Progression
-
-#region TURN END
 #check to see if all enemies or party is dead
 	#if so start end of battle sequence
 	#if not go to next turn (next turn handles if there is no more battlers in the turn_order array)

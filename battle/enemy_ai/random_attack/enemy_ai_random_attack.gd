@@ -8,7 +8,7 @@ func choose_action_use(user : Battler, battle_scene : BattleScene)-> ActionUse:
 	
 	
 func _find_attack_action(user : Battler)-> BattleAction:
-	for act in user.actor_data.battle_actions.battlea_actions:
+	for act in user.actor_data.battle_actions.battle_actions:
 		if act is BattleActionAttack:
 			return act
 	return null

@@ -48,113 +48,19 @@ func show_intro_message()->void:
 	await battle_scene.notify_finished
 #endregion Intro
 
-#region Round and Turn Loop
-##Advances to the next battler's turn or sets up the next round.
-##battle_state = "ROUND_SETUP", sorts turn order. updates turn order UI
-func round_next_setup()->void:
-	battle_scene.battle_state = "ROUND_SETUP"
-	battle_scene.sort_turn_order() #clears turn_order[], adds battlers to turn_order[]
-	
-	battle_scene.update_turn_order_ui() #updates the UI to show the
-	await get_tree().process_frame #waits a frame for safety, there's a lot of looping going on
-	battler_turn_next()
-	pass
-
-
-
-
-##Advances to the next battler's turn or sets up the next round.
-func battler_turn_next()->void:
-	battle_scene.battle_state = "BATTLER_TURN"
-	if battle_scene.turn_order.is_empty(): #If the turn order array is empty
-		round_next_setup() #Setup the next round
-		return
-	battle_scene.acting_battler = battle_scene.turn_order[0]
-	if battle_scene.turn_order.size() > 1:
-		battle_scene.next_battler = battle_scene.turn_order[1]
-	else:
-		battle_scene.next_battler = null
-	
-	
-	
-	
-	#Determine if the battler is an enemy or a party member
-	match battle_scene.acting_battler.faction:
-		Battler.Faction.PARTY:
-			party_turn()
-		Battler.Faction.ENEMY:
-			enemy_turn()
-		_: #If for some reason there's something unaccounted for...
-			printerr("battle_turn_next(): " + str(battle_scene.acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
-			pass
-	await battle_scene.turn_choice_finished #waits for the battler to make an action choice
-	#proceed to "ACTION_EXECUTE" state/phase
-	
-
-##Routine for when it is a party member's turn. 
-func party_turn()->void:
-	battle_scene.ui_state = "ACTION_SELECT"
-	#Pops up commands for the acting party member's BattleStats window
-	var pmember = battle_scene.acting_battler
-	var pmbstats = pmember.ui_element as BattleStats
-	pmbstats.show_commands = true
-	pmbstats.last_button_selected.grab_button_focus()
-	
-	#allow player to select their command choice
-	#command choice recorded into variable
-	#command choice emits turn_choice_finished signal
-	#battler_turn_next() continues to process
-	#
-	pass
-
-
-##Routine for when it is an enemy's turn.
-func enemy_turn()->void:
-	battle_scene.ui_state = "NOTIFYING"
-	#use enemy AI to determine what to do #TODO Make enemy AI somehow
-	#play messages (called from battleaction)
-	pass
-
-
-
-
-func battler_turn_done()->void:
-	if battle_scene.turn_order.is_empty():
-		round_next_setup()
-		return
-	
-	battle_scene.turn_order.remove_at(0)
-	battle_scene.update_turn_order_ui() #turn_order.pop_front() already called during battler_turn_next(), but updating the UI should happen here.
-	#determines if all party is dead, if so game over
-	#determines if all enemies are dead, if so, victory
-	battler_turn_next()
-	pass
-
-
-
-#endregion Round and Turn Loop
-
-
 #region Action Execution
-##Executes BattleAction's script. Needs the originator of the action, the action, and the target. Target is optional since there are actions that do not require a target (run)
-func execute_battler_action(from : Battler, action : BattleAction, to : Battler = null)->void:
-#battle_state set to "ACTION_EXECUTE"
-	battle_scene.battle_state = "ACTION_EXECUTE"
-#ui state set to "notifying" (player can hit buttons to advance messages)
-	battle_scene.ui_state = "NOTIFYING"
-#plays out recorded action (battleaction) visually. (probably need to make individual scene that autoplay an animation at the appropriate location on screen per each battleaction. battlevfx should maybe have a function that determines what animation to play and where)
-#changes values on the target the action is being enacted on (if action has a target). This needs to probably be handled by a script within the battleaction itself. each battleaction should probably have the same function name, but do different things. This shouldn't be handled by battle_scene. 
-#advance battle state/phase to "TURN_END"	
-	pass
-
-
-##Executes the ActionUse that is provided as an argument.
+##Executes the ActionUse that is provided as an argument. Top level function that determines what to do based upon actionuse.action_type
 func execute_action_use(use: ActionUse)->void:
 	battle_scene.battle_state = "ACTION_EXECUTE"
 	battle_scene.ui_state = "NOTIFYING"
 	match use.action_type:
 		BattleAction.ActionType.NORMAL_ATTACK:
 			await _execute_normal_attack(use)
+		BattleAction.ActionType.RUN:
+			await _execute_run(use)
+
+		null:
+			printerr("Null action!")
 		_:
 			printerr("Unknown action type")
 
@@ -183,11 +89,172 @@ func _execute_normal_attack(use : ActionUse)->void:
 	# update party UI if the target is a party member
 	if to.ui_element is BattleStats:
 		var stats = to.ui_element as BattleStats
-		await stats.hp_changed(-dmg)
+		await stats.hp_changed()
 
 	battle_scene.battle_notify_ui.queue_notification(to_name + " takes " + str(dmg) + " damage.")
+	check_for_death(to, from)
+	
 	await battle_scene.notify_finished
 	
-	
-	
+
+##Plays notification the battler is dead. Removes battler from turn_order[]. Deactivates selection button (though this should be enabled/disabled as needed).
+func check_for_death(to : Battler, from :  Battler)->void:
+	#checks to see if the battler died after being hit by an attack
+	if to.actor_data.current_hp <= 0:
+		battle_scene.battle_notify_ui.queue_notification(to.actor_data.char_resource.char_name + " falls to the ground!")
+		to.ui_element.deactivate_button() #redundant, this should happen when targeting is pulled up
+		
+		#If the killed battler was an enemy, then distribute exp/money/loot(items)
+		if to.faction == Battler.Faction.ENEMY:
+			var enemy = to.actor_data
+			if enemy is EnemyData:
+				if enemy.experience != 0:
+					battle_scene.exp_earned += enemy.experience #add exp to pool
+				if enemy.money != 0:
+					battle_scene.money_earned += enemy.money #add money to pool
+				for ld in enemy.loot_table:
+					if ld is LootDrop:
+						var getloot = ld.roll()
+						if getloot:
+							battle_scene.loot_earned.append(ld.loot) #add items to pool
+		elif to.faction == Battler.Faction.PARTY:
+			print("THE PARTY IS DEAD")
+			pass
+		#remove the battler from turn_order[]
+		while battle_scene.turn_order.has(to):
+			battle_scene.turn_order.erase(to) #actual removal from the list
+			battle_scene.update_turn_order_ui() #Updates the UI to match
+		
+
+func _execute_run(use : ActionUse)->void:
+	var runner = use.user
+	var runner_name = runner.actor_data.char_resource.char_name
+	#battle_scene.battle_notify_ui.queue_notification(runner_name + " attempts to run!")
+	#await battle_scene.notify_finished
+	var success = battle_scene.action_calculator.run_success(runner)
+	if success:
+		if runner is Battler:
+			if runner.faction == Battler.Faction.PARTY:
+				battle_scene.battle_state = "BATTLE_END"
+				battle_scene.battle_notify_ui.queue_notification(runner_name.capitalize() + " escaped from battle!")
+				await battle_scene.notify_finished
+				SceneManager.main_scene.end_battle_run()
+				return
+			elif runner.faction == Battler.Faction.ENEMY:
+				#remove enemy from turn_order
+				#remove enemy battler from battlers
+				#update_turn_order_ui
+				#proceed to next turn
+				return
+	else: #success is false
+		battle_scene.battle_notify_ui.queue_notification(runner_name + " failed to escape!")
+		await battle_scene.notify_finished
+				
+
+
+
 #endregion Action Execution
+
+
+
+
+
+
+##region Round and Turn Loop
+###Advances to the next battler's turn or sets up the next round.
+###battle_state = "ROUND_SETUP", sorts turn order. updates turn order UI
+#func round_next_setup()->void:
+	#battle_scene.battle_state = "ROUND_SETUP"
+	#battle_scene.sort_turn_order() #clears turn_order[], adds battlers to turn_order[]
+	#
+	#battle_scene.update_turn_order_ui() #updates the UI to show the
+	#await get_tree().process_frame #waits a frame for safety, there's a lot of looping going on
+	#battler_turn_next()
+	#pass
+#
+#
+#
+#
+###Advances to the next battler's turn or sets up the next round.
+#func battler_turn_next()->void:
+	#battle_scene.battle_state = "BATTLER_TURN"
+	#if battle_scene.turn_order.is_empty(): #If the turn order array is empty
+		#round_next_setup() #Setup the next round
+		#return
+	#battle_scene.acting_battler = battle_scene.turn_order[0]
+	#if battle_scene.turn_order.size() > 1:
+		#battle_scene.next_battler = battle_scene.turn_order[1]
+	#else:
+		#battle_scene.next_battler = null
+	#
+	#
+	#
+	#
+	##Determine if the battler is an enemy or a party member
+	#match battle_scene.acting_battler.faction:
+		#Battler.Faction.PARTY:
+			#party_turn()
+		#Battler.Faction.ENEMY:
+			#enemy_turn()
+		#_: #If for some reason there's something unaccounted for...
+			#printerr("battle_turn_next(): " + str(battle_scene.acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
+			#pass
+	#await battle_scene.turn_choice_finished #waits for the battler to make an action choice
+	##proceed to "ACTION_EXECUTE" state/phase
+	#
+#
+###Routine for when it is a party member's turn. 
+#func party_turn()->void:
+	#battle_scene.ui_state = "ACTION_SELECT"
+	##Pops up commands for the acting party member's BattleStats window
+	#var pmember = battle_scene.acting_battler
+	#var pmbstats = pmember.ui_element as BattleStats
+	#pmbstats.show_commands = true
+	#pmbstats.last_button_selected.grab_button_focus()
+	#
+	##allow player to select their command choice
+	##command choice recorded into variable
+	##command choice emits turn_choice_finished signal
+	##battler_turn_next() continues to process
+	##
+	#pass
+#
+#
+###Routine for when it is an enemy's turn.
+#func enemy_turn()->void:
+	#battle_scene.ui_state = "NOTIFYING"
+	##use enemy AI to determine what to do #TODO Make enemy AI somehow
+	##play messages (called from battleaction)
+	#pass
+#
+#
+#
+#
+#func battler_turn_done()->void:
+	#if battle_scene.turn_order.is_empty():
+		#round_next_setup()
+		#return
+	#
+	#battle_scene.turn_order.remove_at(0)
+	#battle_scene.update_turn_order_ui() #turn_order.pop_front() already called during battler_turn_next(), but updating the UI should happen here.
+	##determines if all party is dead, if so game over
+	##determines if all enemies are dead, if so, victory
+	#battler_turn_next()
+	#pass
+#
+#
+#
+##endregion Round and Turn Loop
+
+
+
+###Executes BattleAction's script. Needs the originator of the action, the action, and the target. Target is optional since there are actions that do not require a target (run)
+#func execute_battler_action(from : Battler, action : BattleAction, to : Battler = null)->void:
+##battle_state set to "ACTION_EXECUTE"
+	#battle_scene.battle_state = "ACTION_EXECUTE"
+##ui state set to "notifying" (player can hit buttons to advance messages)
+	#battle_scene.ui_state = "NOTIFYING"
+##plays out recorded action (battleaction) visually. (probably need to make individual scene that autoplay an animation at the appropriate location on screen per each battleaction. battlevfx should maybe have a function that determines what animation to play and where)
+##changes values on the target the action is being enacted on (if action has a target). This needs to probably be handled by a script within the battleaction itself. each battleaction should probably have the same function name, but do different things. This shouldn't be handled by battle_scene. 
+##advance battle state/phase to "TURN_END"	
+	#pass

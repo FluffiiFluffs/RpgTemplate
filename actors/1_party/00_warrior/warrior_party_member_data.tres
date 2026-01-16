@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PartyMemberData" load_steps=12 format=3 uid="uid://d0cbou2irbwf"]
+[gd_resource type="Resource" script_class="PartyMemberData" load_steps=13 format=3 uid="uid://d0cbou2irbwf"]
 
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_5o3im"]
 [ext_resource type="Resource" uid="uid://cijblivq4cj24" path="res://actors/1_party/00_warrior/warrior_char_resource.tres" id="1_bjdxp"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="3_qx4j5"]
 [ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/defend/battleaction_defend.tres" id="3_v56fi"]
 [ext_resource type="Script" uid="uid://b837nwbupckgt" path="res://battle/actions/run/battleaction_run.gd" id="4_4w3j5"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/buffs/buff_base.gd" id="8_v56fi"]
 
 [sub_resource type="Resource" id="Resource_7vqeg"]
 script = ExtResource("4_4w3j5")
@@ -27,37 +28,7 @@ field_scene = ExtResource("1_jstep")
 battle_icon = ExtResource("1_lidrd")
 char_resource = ExtResource("1_bjdxp")
 id = &"warrior01"
-level = null
-current_exp = null
-next_level_exp = null
-total_exp = null
-current_hp = 29
-current_mp = 20
-current_buffs = null
-two_handing = null
+current_hp = 1
+current_mp = 50
 battle_actions = SubResource("Resource_v56fi")
-perm_max_hp_flat = null
-perm_max_mp_flat = null
-perm_atk_flat = null
-perm_def_flat = null
-perm_strength_flat = null
-perm_stamina_flat = null
-perm_speed_flat = null
-perm_magic_flat = null
-buff_max_hp_flat = null
-buff_max_mp_flat = null
-buff_atk_flat = null
-buff_def_flat = null
-buff_strength_flat = null
-buff_stamina_flat = null
-buff_speed_flat = null
-buff_magic_flat = null
-buff_max_hp_percent = null
-buff_max_mp_percent = null
-buff_atk_percent = null
-buff_def_percent = null
-buff_strength_percent = null
-buff_stamina_percent = null
-buff_speed_percent = null
-buff_magic_percent = null
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"
