@@ -78,6 +78,10 @@ func battler_turn_next()->void:
 		return
 		
 	battle_scene.acting_battler = battle_scene.turn_order[0]
+	
+	# Expire statuses that end at the start of this battler's turn
+	battle_scene.status_system.on_turn_start(battle_scene.acting_battler)
+	
 	if battle_scene.turn_order.size() > 1:
 		battle_scene.next_battler = battle_scene.turn_order[1]
 	else:

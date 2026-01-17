@@ -58,45 +58,92 @@ func execute_action_use(use: ActionUse)->void:
 			await _execute_normal_attack(use)
 		BattleAction.ActionType.RUN:
 			await _execute_run(use)
+		BattleAction.ActionType.DEFEND:
+			await _execute_defend(use)
 
 		null:
 			printerr("Null action!")
 		_:
 			printerr("Unknown action type")
-
+#
+#func _execute_normal_attack(use : ActionUse)->void:
+	#var from = use.user
+	#var to = use.first_target() #attack only hits one target
+	#var from_name = from.actor_data.char_resource.char_name
+	#var to_name = to.actor_data.char_resource.char_name
+	##Announce
+	#battle_scene.battle_notify_ui.queue_notification(from_name + " attacks " + to_name + ".")
+	#
+	#var dmg = battle_scene.action_calculator.normal_attack(from, use.action, to)
+	#
+	#if dmg == -1:
+		#battle_scene.battle_notify_ui.queue_notification(from_name + "'s attack missed!")
+		#await battle_scene.notify_finished
+		#return
+		#
+	#
+	#to.actor_data.current_hp = clampi(to.actor_data.current_hp - dmg, 0, to.actor_data.get_max_hp())
+#
+	## play hit anim if the target UI supports it
+	#if to.ui_element != null and to.ui_element.has_method("play_normal_hit"):
+		#to.ui_element.play_normal_hit()
+#
+	## update party UI if the target is a party member
+	#if to.ui_element is BattleStats:
+		#var stats = to.ui_element as BattleStats
+		#await stats.hp_changed()
+#
+	#battle_scene.battle_notify_ui.queue_notification(to_name + " takes " + str(dmg) + " damage.")
+	#check_for_death(to, from)
+	#
+	#await battle_scene.notify_finished
+	
 func _execute_normal_attack(use : ActionUse)->void:
-	var from = use.user
-	var to = use.first_target() #attack only hits one target
-	var from_name = from.actor_data.char_resource.char_name
-	var to_name = to.actor_data.char_resource.char_name
-	#Announce
-	battle_scene.battle_notify_ui.queue_notification(from_name + " attacks " + to_name + ".")
-	
-	var dmg = battle_scene.action_calculator.normal_attack(from, use.action, to)
-	
+	var attacker = use.user
+	var original_target = use.first_target()
+	if attacker == null or original_target == null:
+		printerr("ActionResolver: normal attack missing attacker or target")
+		return
+
+	var attacker_name = attacker.actor_data.char_resource.char_name
+	var original_name = original_target.actor_data.char_resource.char_name
+
+	var final_target : Battler = battle_scene.status_system.resolve_incoming_target(attacker, use.action, original_target)
+	var final_name = final_target.actor_data.char_resource.char_name
+
+	battle_scene.battle_notify_ui.queue_notification(attacker_name + " attacks " + original_name + ".")
+	if final_target != original_target:
+		battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.")
+
+	var dmg = battle_scene.action_calculator.normal_attack(attacker, use.action, final_target)
 	if dmg == -1:
-		battle_scene.battle_notify_ui.queue_notification(from_name + "'s attack missed!")
+		battle_scene.battle_notify_ui.queue_notification(attacker_name + "'s attack missed!")
 		await battle_scene.notify_finished
 		return
-		
-	
-	to.actor_data.current_hp = clampi(to.actor_data.current_hp - dmg, 0, to.actor_data.get_max_hp())
 
-	# play hit anim if the target UI supports it
-	if to.ui_element != null and to.ui_element.has_method("play_normal_hit"):
-		to.ui_element.play_normal_hit()
+	dmg = battle_scene.status_system.modify_incoming_physical_damage(attacker, use.action, original_target, final_target, dmg)
 
-	# update party UI if the target is a party member
-	if to.ui_element is BattleStats:
-		var stats = to.ui_element as BattleStats
-		await stats.hp_changed()
+	final_target.actor_data.current_hp = clampi(final_target.actor_data.current_hp - dmg, 0, final_target.actor_data.get_max_hp())
 
-	battle_scene.battle_notify_ui.queue_notification(to_name + " takes " + str(dmg) + " damage.")
-	check_for_death(to, from)
-	
+	if final_target.ui_element != null and final_target.ui_element.has_method("play_normal_hit"):
+		final_target.ui_element.play_normal_hit()
+
+	#if final_target.ui_element is BattleStats:
+		#var stats = final_target.ui_element as BattleStats
+		#await stats.hp_changed()
+
+	battle_scene.battle_notify_ui.queue_notification(final_name + " takes " + str(dmg) + " damage.")
+
 	await battle_scene.notify_finished
-	
 
+	if final_target.ui_element is BattleStats:
+		var stats = final_target.ui_element as BattleStats
+		await stats.hp_changed()
+	check_for_death(final_target, attacker)
+
+
+	
+	
 ##Plays notification the battler is dead. Removes battler from turn_order[]. Deactivates selection button (though this should be enabled/disabled as needed).
 func check_for_death(to : Battler, from :  Battler)->void:
 	#checks to see if the battler died after being hit by an attack
@@ -151,6 +198,43 @@ func _execute_run(use : ActionUse)->void:
 		await battle_scene.notify_finished
 				
 
+func _execute_defend(use : ActionUse) -> void:
+	var defender : Battler = use.user
+	var protected : Battler = use.first_target()
+	if defender == null or protected == null:
+		printerr("ActionResolver: defend missing defender or target")
+		return
+
+	var defender_name : String = defender.actor_data.char_resource.char_name
+	var protected_name : String = protected.actor_data.char_resource.char_name
+
+	# Clear existing defend link on the defender (also removes its linked Defended)
+	battle_scene.status_system.remove_status_by_class(defender, StatusEffectDefending)
+
+	# If the protected battler is already linked to someone else, clear that link too
+	var existing_defended : StatusEffect = StatusSystem.find_status(protected, StatusEffectDefended)
+	if existing_defended != null:
+		var defended_status : StatusEffectDefended = existing_defended as StatusEffectDefended
+		var old_defender : Battler = defended_status.defender
+		battle_scene.status_system.remove_status(protected, defended_status)
+		if old_defender != null and old_defender != defender:
+			battle_scene.status_system.remove_status_by_class(old_defender, StatusEffectDefending)
+
+	# Create fresh per application instances
+	var defending : StatusEffectDefending = StatusEffectDefending.new()
+	defending.protected = protected
+	battle_scene.status_system.add_status(defender, defending, defender)
+
+	var defended : StatusEffectDefended = StatusEffectDefended.new()
+	defended.defender = defender
+	battle_scene.status_system.add_status(protected, defended, defender)
+
+	if defender == protected:
+		battle_scene.battle_notify_ui.queue_notification(defender_name + " assumes a defensive stance.")
+	else:
+		battle_scene.battle_notify_ui.queue_notification(defender_name + " moves to defend " + protected_name + ".")
+
+	await battle_scene.notify_finished
 
 
 #endregion Action Execution

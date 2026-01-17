@@ -68,6 +68,7 @@ func _ready() -> void:
 
 #region Button Functions
 func button_pressed()->void:
+	battle_scene.command_controller.on_party_pressed(battler)
 	pass
 
 

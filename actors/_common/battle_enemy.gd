@@ -14,7 +14,7 @@ var battler : Battler = null
 var battle_scene : BattleScene = null
 
 func _ready()->void:
-	button.pressed.connect(button_selected)
+	button.pressed.connect(button_pressed)
 	button.focus_entered.connect(focused)
 	button.focus_exited.connect(unfocused)
 	pass
@@ -50,7 +50,7 @@ func unfocused()->void:
 	animation_player.play("unfocused")
 
 ##passes battler through as the one selected by the user while targeting
-func button_selected()->void:
+func button_pressed()->void:
 	battle_scene.command_controller.on_enemy_pressed(battler)
 	pass
 	

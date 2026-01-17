@@ -27,7 +27,7 @@ extends Resource
 @export var current_hp : int = 100
 ##Current MP. This is always clamped against get_max_mp().
 @export var current_mp : int = 0
-@export var current_buffs :Array[Buff]= []
+@export var status_effects :Array[StatusEffect]= []
 
 @export_category("Equipment")
 @export var mainhand : Item
@@ -42,18 +42,6 @@ extends Resource
 
 ##Array of default actions that can be taken in battle by the actor.
 @export var battle_actions:BattleActions
-
-#should use resource based approach
-#@export var poison : bool = false
-#@export var disease : bool = false
-#@export var bleed : bool = false
-#@export var sleep : bool = false
-#@export var blind : bool = false
-#@export var confuse : bool = false
-#@export var weak : bool = false
-#@export var slow : bool = false
-#@export var silence : bool = false
-
 
 #region Permanent modifiers
 @export_category("Permanent modifiers (flat)")

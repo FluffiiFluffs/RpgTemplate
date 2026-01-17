@@ -39,6 +39,7 @@ var battle_state : String = ""
 @export_enum(
 "ACTION_SELECT", #During action selection for battler
 "ACTION_TARGETING", #During targeting state (for actions, skills, items) for player
+"DEFEND_TARGETING",
 "SKILL_MENU_OPEN", #Skill menu is open
 "ITEM_MENU_OPEN", #Item Menu is open
 "NOTIFYING", #When messages are playing

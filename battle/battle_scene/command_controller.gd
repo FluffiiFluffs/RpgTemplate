@@ -35,9 +35,9 @@ func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
 
 	#If menu memory is on, targets last enemy selected. If it can't happen, then the first enemy is focused.
 	if Options.battle_menu_memory:
-		if pending_user.battler_scene.last_enemy_selected != null:
+		if pending_user.ui_element.last_enemy_selected != null:
 			if pending_user.ui_element.last_enemy_selected.actor_data.current_hp > 0:
-				pending_user.ui_element.last_enemy_selected.grab_button_focus()
+				pending_user.ui_element.last_enemy_selected.ui_element.grab_button_focus()
 			else:
 				target_first_enemy()
 		else:
@@ -49,7 +49,7 @@ func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
 func open_defend_targeting(defender : Battler, action : BattleAction)->void:
 	pending_user = defender
 	pending_action = action
-	battle_scene.ui_state = "ACTION_TARGETING"
+	battle_scene.ui_state = "DEFEND_TARGETING"
 	for bat in battle_scene.battlers.get_children():
 		if bat is Battler:
 			if bat.faction == Battler.Faction.PARTY:
@@ -67,10 +67,28 @@ func open_defend_targeting(defender : Battler, action : BattleAction)->void:
 ##Button pressed function for when an enemy's button (selected) in battle.
 ##TODO This needs to be changed to support skills and items as well!
 func on_enemy_pressed(target : Battler)->void:
-	_confirm_action_attack([target])
+	pending_user.ui_element.last_enemy_selected = target
+	match battle_scene.ui_state:
+		"ACTION_TARGETING":
+			_confirm_action([target])
+		"DEFEND_TARGETING":
+			#shouldn't do anything, party shouldn't be able to defend the enemy
+			pass
+		
+		
+		
+		
+func on_party_pressed(target : Battler)->void:
+	match battle_scene.ui_state:
+		"ACTION_TARGETING":
+			_confirm_action([target])
+		"DEFEND_TARGETING":
+			_confirm_action([target])
+			pass
+
 
 	
-func _confirm_action_attack(targets : Array[Battler])->void:
+func _confirm_action(targets : Array[Battler])->void:
 	var use = ActionUse.new(pending_user, pending_action, targets)
 	for tar in targets:
 		tar.ui_element.animation_player.play("RESET") #all battler ui elements should have this
@@ -177,7 +195,7 @@ func setup_enemy_targeting(_hbox : HBoxContainer) -> void:
 
 		var self_path = btn.get_path()
 		btn.focus_neighbor_top = self_path
-		btn.focus_neighbor_bottom = first_pmember.selection_button.get_path()
+		btn.focus_neighbor_bottom = first_pmember.button.get_path()
 		btn.focus_neighbor_left = left_btn.get_path()
 		btn.focus_neighbor_right = right_btn.get_path()
 		btn.focus_previous = left_btn.get_path()
@@ -197,12 +215,12 @@ func setup_party_targeting()->void:
 	for i in range(count):
 		
 		var child = ilist[i] as BattleStats
-		var btn = child.selection_button
+		var btn = child.button
 
 		var left_index := (i - 1 + count) % count
 		var right_index := (i + 1) % count
-		var left_btn = ilist[left_index].selection_button
-		var right_btn = ilist[right_index].selection_button
+		var left_btn = ilist[left_index].button
+		var right_btn = ilist[right_index].button
 
 		var self_path = btn.get_path()
 		btn.focus_neighbor_top = first_enemy.button.get_path()
