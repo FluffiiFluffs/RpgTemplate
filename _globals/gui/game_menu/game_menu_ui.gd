@@ -945,6 +945,8 @@ func close_inventory()->void:
 	clear_items_list()
 	for child in inventory_options_h_box.get_children():
 		child.is_active = false
+	for child in top_menu_button_h_box.get_children():
+		child.is_active = false
 
 	
 func update_items_list()->void:

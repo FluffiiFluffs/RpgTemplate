@@ -42,35 +42,6 @@ func round_next_setup()->void:
 
 
 #region Turn Progression
-
-###Advances to the next battler's turn or sets up the next round.
-###If turn_order is empty, then the next round is setup.
-#func battler_turn_next()->void:
-	#battle_scene.battle_state = "BATTLER_TURN"
-	#if battle_scene.turn_order.is_empty(): #If the turn order array is empty
-		#round_next_setup() #Setup the next round
-		#return
-	#battle_scene.acting_battler = battle_scene.turn_order[0]
-	#if battle_scene.turn_order.size() > 1:
-		#battle_scene.next_battler = battle_scene.turn_order[1]
-	#else:
-		#battle_scene.next_battler = null
-	#
-	##Determine if the battler is an enemy or a party member
-	#match battle_scene.acting_battler.faction:
-		#Battler.Faction.PARTY:
-			#party_turn()
-		#Battler.Faction.ENEMY:
-			#enemy_turn()
-		#_: #If for some reason there's something unaccounted for...
-			#printerr("battle_turn_next(): " + str(battle_scene.acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
-			#pass
-	#await battle_scene.turn_choice_finished #waits for the battler to make an action choice
-	##proceed to "ACTION_EXECUTE" state/phase
-	#var use = battle_scene.pending_action_use
-	#await battle_scene.action_resolver.execute_action_use(use) 
-	#battler_turn_done()
-
 func battler_turn_next()->void:
 	battle_scene.battle_state = "BATTLER_TURN"
 	if battle_scene.turn_order.is_empty():
@@ -131,24 +102,6 @@ func enemy_turn()->ActionUse:
 		use =_fallback_enemy_attack(enemy)
 	return use
 
-
-#func _enemy_choose_and_emit()->void:
-	#var enemy := battle_scene.acting_battler
-	#var use : ActionUse = null
-#
-	#if enemy != null and enemy.actor_data is EnemyData:
-		#var ed := enemy.actor_data as EnemyData
-		#if ed.ai != null:
-			#use = ed.ai.choose_action_use(enemy, battle_scene)
-#
-	#if use == null:
-		## hard fallback so the battle never stalls
-		#use = _fallback_enemy_attack(enemy)
-#
-	#battle_scene.pending_action_use = use
-	#battle_scene.turn_choice_finished.emit()
-
-
 func _fallback_enemy_attack(enemy : Battler) -> ActionUse:
 	if enemy == null:
 		return null
@@ -181,8 +134,6 @@ func party_turn()->void:
 	var pmbstats = pmember.ui_element as BattleStats
 	pmbstats.show_commands = true
 	pmbstats.last_button_selected.grab_button_focus()
-	
-	pass
 	
 	#allow player to select their command choice
 	#command choice recorded into variable
