@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://h63ncjrxunau"]
+[gd_scene load_steps=27 format=3 uid="uid://h63ncjrxunau"]
 
 [ext_resource type="Script" uid="uid://ccrcb1ncfvdgb" path="res://battle/battle_scene/battle_scene.gd" id="1_u2cu5"]
 [ext_resource type="Texture2D" uid="uid://da0c7finyihvv" path="res://_assets/battle/background/TMZBattleBackExtended.png" id="2_4ui5s"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bkbb3k44willv" path="res://main/battle_camera_rig.gd" id="4_n6te2"]
 [ext_resource type="PackedScene" uid="uid://due5rm071mmh6" path="res://battle/battle_scene/battle_stats.tscn" id="4_nbjvm"]
 [ext_resource type="Script" uid="uid://2btepossqywg" path="res://battle/battle_scene/battle_vfx.gd" id="5_nbjvm"]
+[ext_resource type="PackedScene" uid="uid://g7x34slwkxk8" path="res://battle/battle_scene/battle_skill_button.tscn" id="6_agadl"]
 [ext_resource type="Script" uid="uid://b1rdqrl7q5nm6" path="res://battle/battle_scene/battle_notify_ui.gd" id="6_dkrhh"]
 [ext_resource type="Script" uid="uid://cixbw1d405vcg" path="res://battle/battle_scene/battle_turn_ui.gd" id="7_trk6d"]
 [ext_resource type="PackedScene" uid="uid://dn1a3xdymyc2j" path="res://battle/battle_scene/turn_order_box.tscn" id="10_7jdo1"]
@@ -79,6 +80,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(403, 100.5)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BattleUI/MiddleBanner:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_3ur7f"]
 resource_name = "victory"
@@ -107,6 +120,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(164.5, 100.5), Vector2(-75, 100.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BattleUI/MiddleBanner:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_nfpqq"]
@@ -137,6 +162,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(403, 100.5), Vector2(164.5, 100.5)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BattleUI/MiddleBanner:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yjq6l"]
 _data = {
@@ -147,6 +184,8 @@ _data = {
 
 [node name="BattleScene" type="Node2D"]
 script = ExtResource("1_u2cu5")
+battle_state = null
+ui_state = null
 
 [node name="BattleCameraRig" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -248,245 +287,53 @@ layout_mode = 2
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton2" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer"]
+[node name="BattleSkillButton3" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton4" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer2"]
+[node name="BattleSkillButton5" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer3" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton6" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer3"]
+[node name="BattleSkillButton7" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton8" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer4"]
+[node name="BattleSkillButton9" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer5" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton10" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer5"]
+[node name="BattleSkillButton11" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer6" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton12" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer6"]
+[node name="BattleSkillButton13" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer7" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton14" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer7"]
+[node name="BattleSkillButton15" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="PanelContainer8" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
+[node name="BattleSkillButton16" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
 
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer8"]
+[node name="BattleSkillButton" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer9" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer9"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer10" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer10"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer11" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer11"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer12" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer12"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer13" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer13"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer14" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer14"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer15" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer15"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer16" type="PanelContainer" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
-
-[node name="Label" type="Label" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer/PanelContainer16"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("4_4ui5s")
-theme_override_font_sizes/font_size = 7
-text = "spell name 1234"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ItemWindow" type="PanelContainer" parent="BattleUI"]
 unique_name_in_owner = true
@@ -691,7 +538,37 @@ text = "ITEM NAME 1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MiddleBanner" type="Control" parent="BattleUI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VicDefLabel" type="Label" parent="BattleUI/MiddleBanner"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 203.0
+offset_top = -11.5
+offset_right = 274.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "VICTORY!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="BattlePartyUI" type="Control" parent="BattleUI"]
+visible = false
 z_index = 2
 layout_mode = 3
 anchors_preset = 15
@@ -807,34 +684,6 @@ layout_mode = 2
 
 [node name="TurnOrderBox6" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
 layout_mode = 2
-
-[node name="MiddleBanner" type="Control" parent="BattleUI"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="VicDefLabel" type="Label" parent="BattleUI/MiddleBanner"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 203.0
-offset_top = -11.5
-offset_right = 274.00003
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "VICTORY!"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Battlers" type="Node" parent="."]
 unique_name_in_owner = true

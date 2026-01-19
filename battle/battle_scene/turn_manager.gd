@@ -133,7 +133,7 @@ func party_turn()->void:
 	var pmember = battle_scene.acting_battler
 	var pmbstats = pmember.ui_element as BattleStats
 	pmbstats.show_commands = true
-	pmbstats.last_button_selected.grab_button_focus()
+	pmbstats.last_command_button_selected.grab_button_focus()
 	
 	#allow player to select their command choice
 	#command choice recorded into variable

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://bxevh0vmlere2"]
 
-[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/item_effect.gd" id="1_gxjwk"]
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_gxjwk"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_bn740"]
 [ext_resource type="Texture2D" uid="uid://27mr2thwc1rw" path="res://_assets/ui/icons_large/key.png" id="3_aexxy"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="4_w788b"]
@@ -8,14 +8,12 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("4_w788b")
-item_id = &"key"
+item_id = &"testkey"
 name = "Key"
 sort_id = 4001
 type = 4
 menu_sprite = ExtResource("3_aexxy")
 description = "It's a key. It might open something. It might not."
-one_less_on_use = false
-battle_targeting = 1
 buy_price = 20
 sell_price = 10
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

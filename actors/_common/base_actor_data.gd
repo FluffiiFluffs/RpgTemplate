@@ -40,8 +40,11 @@ extends Resource
 @export var accy02 : Item
 @export var two_handing : bool = false
 
+@export_category("Actions and Skills")
 ##Array of default actions that can be taken in battle by the actor.
 @export var battle_actions:BattleActions
+@export var skills : Array[Skill] = []
+
 
 #region Permanent modifiers
 @export_category("Permanent modifiers (flat)")

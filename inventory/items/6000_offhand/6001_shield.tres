@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://bl6pvt6gcced5"]
 
-[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/item_effect.gd" id="1_xaxyi"]
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_xaxyi"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_sothr"]
 [ext_resource type="Texture2D" uid="uid://rmo0kj6rdwun" path="res://_assets/ui/icons_large/shield.png" id="3_axkfv"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="4_uysv7"]
@@ -8,13 +8,12 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("4_uysv7")
-item_id = &"shield"
+item_id = &"testshield"
 name = "Shield"
 sort_id = 6001
 type = 6
 menu_sprite = ExtResource("3_axkfv")
 description = "A shield. For trying not to be killed by things...If you can hold it."
-one_less_on_use = false
 buy_price = 60
 sell_price = 30
 can_equip = 9

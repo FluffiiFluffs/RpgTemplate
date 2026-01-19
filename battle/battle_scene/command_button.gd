@@ -33,7 +33,7 @@ func on_button_focus_exited()->void:
 
 
 func on_button_pressed()->void:
-	battle_stats.last_button_selected = self
+	battle_stats.last_command_button_selected = self
 	command_button_pressed.emit()
 
 func setup_button_icon()->void:

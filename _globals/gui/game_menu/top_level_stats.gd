@@ -63,12 +63,13 @@ func on_button_pressed()->void:
 					any_effect_applied = true
 
 			if not any_effect_applied:
+				GameMenu.play_error_sound()
 				return
 
 			# Where was this slot in the inventory list before we change it
 			var original_index = Inventory.current_inventory.find(slot)
 
-			if item.one_less_on_use:
+			if item.consume_on_use:
 				slot.quantity -= 1
 
 				if slot.quantity <= 0:

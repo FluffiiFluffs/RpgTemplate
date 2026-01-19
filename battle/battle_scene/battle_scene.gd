@@ -18,6 +18,8 @@ extends Node2D
 @onready var turn_manager : TurnManager = %TurnManager
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var vic_def_label : Label = %VicDefLabel
+@onready var skill_grid_container : GridContainer = %SkillGridContainer
+@onready var item_grid_container : GridContainer = %ItemGridContainer
 
 
 
@@ -41,8 +43,11 @@ var battle_state : String = ""
 "ACTION_TARGETING", #During targeting state (for actions, skills, items) for player
 "DEFEND_TARGETING",
 "SKILL_MENU_OPEN", #Skill menu is open
+"SKILL_TARGETING",
 "ITEM_MENU_OPEN", #Item Menu is open
+"ITEM_TARGETING",
 "NOTIFYING", #When messages are playing
+
 ) 
 var ui_state : String = ""
 
@@ -61,7 +66,10 @@ var loot_earned : Array[Item] = []
 #var round_count : int = 0
 
 const BATTLE_STATS = preload("uid://due5rm071mmh6")
-const BATTLEACTION_RUN = preload("uid://yyucdgb5imk3")
+const BATTLE_SKILL_BUTTON = preload("uid://g7x34slwkxk8")
+const BATTLE_ITEM_BUTTON = preload("uid://m4s138hk416n")
+const BATTLEACTION_SKILL = preload("uid://dmtmbb2d7605b")
+const BATTLEACTION_ITEM = preload("uid://c6yb8mxic4rg4")
 
 
 #signal turn_choice_finished
@@ -72,6 +80,16 @@ func _ready()->void:
 	button.pressed.connect(_on_button_pressed) #Victory button for testing.
 	clear_placeholders()
 	set_references_self()
+	set_initial_visibility()
+	
+##Sets initial visibility of UI elements (in the event they were hidden in the editor during editing)
+func set_initial_visibility()->void:
+	item_window.visible = false
+	skill_window.visible = false
+	battle_notify_ui.visible = true
+	battle_turn_ui.visible = true
+	$BattleUI/BattlePartyUI.visible = true
+	
 	
 func _on_button_pressed()->void:
 	SceneManager.main_scene.end_battle_victory_normal()
@@ -104,6 +122,14 @@ func clear_placeholders()->void:
 	
 	#clears the notify label's text
 	notify_label.text = ""
+	
+	#clears placeholders within skill window
+	for child in skill_grid_container.get_children():
+		child.queue_free()
+	
+	#clears placeholders within item window
+	for child in item_grid_container.get_children():
+		child.queue_free()
 
 #region Initial Battle Setup
 func setup_all()->void:
@@ -269,7 +295,7 @@ func give_money()->void:
 func give_items()->void:
 	if !loot_earned.is_empty():
 		for it in loot_earned:
-			Inventory.add_item(it.item_id, 1)
+			Inventory.add_item(it.id, 1)
 			battle_notify_ui.queue_notification(it.name + " was found.")
 			
 			
@@ -284,3 +310,56 @@ func play_defeat_swipe()->void:
 	animation_player.play("vicdef_show")
 	pass
 #endregion End of Battle
+
+#region Input
+##Detected inputs during battle should ONLY be handled here (in battle_scene). Children nodes/scripts should be called from this point!
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed("cancel_input"):
+		match ui_state:
+			"ACTION_SELECT":
+				#do nothing, it's the top level
+				pass
+			"ACTION_TARGETING":
+				#disable all ui_element.buttons
+				#go back to action select
+				pass
+			"DEFEND_TARGETING":
+				#disable all ui_element.buttons
+				#go back to action select
+				pass
+			"SKILL_MENU_OPEN":
+				#go back to action select
+				
+				pass
+			"SKILL_TARGETING":
+				#disable all ui_element.buttons
+				#reopen skill menu
+				pass
+			"ITEM_MENU_OPEN":
+				#go back to action select				
+				pass
+			"ITEM_TARGETING":
+				#disable all ui_element.buttons
+				#reopen item menu
+				pass
+			"NOTIFYING":
+				#allow user to skip the notify message to the next
+				pass
+
+#region cancel_input Behaviors
+##Sets ui_state back to "ACTION_SELECT"
+##Hides skill window
+##Hides item window
+##focus current battler's last button selected
+func go_back_to_action_select()->void:
+	pass
+
+##Sets all ui_element.button.disabled to true so they cannot be accidentally selected
+func disable_all_ui_element_buttons()->void:
+	pass
+	
+
+
+
+
+#endregion cancel_input Behaviors

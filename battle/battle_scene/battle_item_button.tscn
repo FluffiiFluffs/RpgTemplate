@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://m4s138hk416n"]
+
+[ext_resource type="Script" uid="uid://dtoa3r0ki0ywv" path="res://battle/battle_scene/battle_item_button.gd" id="1_1ca0x"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_h8vsx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jdo1"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 1.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ur7f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h8vsx"]
+
+[node name="BattleItemButton" type="PanelContainer"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_7jdo1")
+script = ExtResource("1_1ca0x")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3ur7f")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3ur7f")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3ur7f")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3ur7f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ur7f")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_h8vsx")
+theme_override_font_sizes/font_size = 7
+text = "skill name 1234"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h8vsx")
+
+[node name="QtyLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_h8vsx")
+theme_override_font_sizes/font_size = 7
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1

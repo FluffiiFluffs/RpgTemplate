@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Item" load_steps=7 format=3 uid="uid://byt08a2lu57w8"]
 
-[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/item_effect.gd" id="1_nmwps"]
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_nmwps"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_48nup"]
-[ext_resource type="Script" uid="uid://dp1ks18hyh6xe" path="res://inventory/item_effects/item_effect_heal_mp.gd" id="2_qbhk3"]
+[ext_resource type="Script" uid="uid://dp1ks18hyh6xe" path="res://skill/_effects/effect_heal_mp.gd" id="2_qbhk3"]
 [ext_resource type="Texture2D" uid="uid://15cocjn2s06n" path="res://_assets/ui/icons_large/banana.png" id="3_48nup"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="3_sfaxd"]
 
@@ -15,14 +15,13 @@ metadata/_custom_type_script = "uid://dp1ks18hyh6xe"
 [resource]
 resource_local_to_scene = true
 script = ExtResource("3_sfaxd")
-item_id = &"banana"
+item_id = &"testmpheal"
 name = "Banana"
 sort_id = 1001
 type = 1
 menu_sprite = ExtResource("3_48nup")
 description = "A rare banana. Eating this restores 20 MP."
 effects = Array[ExtResource("1_nmwps")]([SubResource("Resource_ml637")])
-battle_use = 1
 buy_price = 20
 sell_price = 10
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

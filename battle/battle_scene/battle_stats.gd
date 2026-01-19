@@ -28,8 +28,11 @@ var battle_scene : BattleScene = null
 #Party member to be represented by the window
 var member : PartyMemberData = null
 var battler : Battler = null
-var last_button_selected : CommandButton
+var last_command_button_selected : CommandButton
 var last_enemy_selected : Battler = null
+var last_skill_selected : String = ""
+var last_item_selected : InventorySlot = null
+
 
 
 var attack_action : BattleAction = null
@@ -52,7 +55,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	show_commands = false #for runtime
-	last_button_selected = attack_button
+	last_command_button_selected = attack_button
 	_apply_show_commands()
 	command_flasher.visible = true
 	button.pressed.connect(button_pressed)
@@ -82,6 +85,16 @@ func skill_button_pressed()->void:
 	battle_scene.command_controller.show_skill_window(battler)
 	pass
 	
+#func skill_button_pressed() -> void:
+	#if battler == null or battler.actor_data == null:
+		#return
+	#var list = battler.actor_data.skills
+	#if list.is_empty():
+		#GameMenu.play_error_sound()
+		#return
+	#battle_scene.command_controller.begin_use_skill(battler, list[0])
+
+	
 ##Opens targeting selection (party only)
 func defend_button_pressed()->void:
 	battle_scene.command_controller.open_defend_targeting(battler, defend_action)
@@ -89,21 +102,25 @@ func defend_button_pressed()->void:
 	
 ##Opens BattleScene item menu.
 func item_button_pressed()->void:
-	battle_scene.command_controller.show_item_window()
+	battle_scene.command_controller.show_item_window(battler)
 	pass
 
-
-##Attempts to run from battle
-func run_button_pressed()->void:
-	var runner = battle_scene.acting_battler
-	var run_action = battle_scene.BATTLEACTION_RUN
-	var controller = battle_scene.command_controller
-	var turn_id = controller.current_turn_id
-	var use = ActionUse.new(runner, run_action, [])
-	if runner.ui_element is BattleStats:
-		runner.ui_element.show_commands = false
-	controller.action_use_chosen.emit(turn_id, use)
+#
+###Attempts to run from battle
+#func run_button_pressed()->void:
+	#var runner = battle_scene.acting_battler
+	#var controller = battle_scene.command_controller
+	#var turn_id = controller.current_turn_id
+	#var use = ActionUse.new(runner, run_action, [])
+	#if runner.ui_element is BattleStats:
+		#runner.ui_element.show_commands = false
+	#controller.action_use_chosen.emit(turn_id, use)
 	
+func run_button_pressed()->void:
+	if run_action == null:
+		GameMenu.play_error_sound()
+		return
+	battle_scene.command_controller.attempt_to_run(battler, run_action)
 	
 func focused()->void:
 	animation_player.play("flash")
@@ -168,7 +185,11 @@ func set_defend_action()->void:
 			break
 
 func set_run_action()->void:
-	run_action = battle_scene.BATTLEACTION_RUN
+	run_action = null
+	for bact in battler.actor_data.battle_actions.battle_actions:
+		if bact is BattleActionRun:
+			run_action = bact
+			break
 
 #endregion Setup
 
@@ -289,9 +310,9 @@ func setup_command_container_focus_neighbors()->void:
 		btn.focus_next = right_btn.get_path()
 	
 ##Selects the last command button pressed. By default, is attack button.
-##last_button_selected is set by the command button itself when pressed
+##last_command_button_selected is set by the command button itself when pressed
 func select_last_button()->void:
-	last_button_selected.grab_focus()
+	last_command_button_selected.grab_focus()
 	
 func setup_commands()->void:
 	pass

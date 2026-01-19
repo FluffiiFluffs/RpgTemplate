@@ -60,6 +60,10 @@ func execute_action_use(use: ActionUse)->void:
 			await _execute_run(use)
 		BattleAction.ActionType.DEFEND:
 			await _execute_defend(use)
+		BattleAction.ActionType.USE_ITEM:
+			await _execute_use_item(use)
+		BattleAction.ActionType.USE_SKILL:
+			await _execute_use_skill(use)
 
 		null:
 			printerr("Null action!")
@@ -203,6 +207,150 @@ func _execute_defend(use : ActionUse) -> void:
 		battle_scene.battle_notify_ui.queue_notification(defender_name + " moves to defend " + protected_name + ".")
 
 	await battle_scene.notify_finished
+
+
+func _execute_use_skill(use : ActionUse) -> void:
+	var user = use.user
+	if user == null:
+		return
+
+	if not use.data.has("skill"):
+		printerr("ActionResolver: USE_SKILL missing skill in use.data")
+		return
+
+	var skill = use.data["skill"] as Skill
+	if skill == null:
+		printerr("ActionResolver: USE_SKILL skill is null")
+		return
+
+	var user_name = user.actor_data.char_resource.char_name
+
+	if not skill.can_pay_cost(user.actor_data):
+		battle_scene.battle_notify_ui.queue_notification(user_name + " cannot use " + skill.name + ".")
+		await battle_scene.notify_finished
+		return
+
+	# Pay cost up front
+	var before_user_hp = user.actor_data.current_hp
+	var before_user_mp = user.actor_data.current_mp
+	skill.pay_cost(user.actor_data)
+
+	var ctx = EffectContext.new()
+	ctx.mode = EffectContext.Mode.BATTLE
+	ctx.user_actor = user.actor_data
+	ctx.battle_scene = battle_scene
+	ctx.status_system = battle_scene.status_system
+
+	var message = skill.message_template
+	message = message.replace("{user}", user_name)
+	message = message.replace("{skill}", skill.name)
+	battle_scene.battle_notify_ui.queue_notification(message)
+
+	var effects = skill.get_effects_for_context(ctx)
+	var any_effect_applied = false
+
+	for target in use.targets:
+		if target == null:
+			continue
+		for effect in effects:
+			if effect == null:
+				continue
+			if effect.apply_to_battler(ctx, target):
+				any_effect_applied = true
+
+	if effects.size() > 0 and not any_effect_applied:
+		battle_scene.battle_notify_ui.queue_notification("It has no effect.")
+
+	await battle_scene.notify_finished
+
+	# Update user UI if cost changed
+	if user.ui_element is BattleStats:
+		var stats_user = user.ui_element as BattleStats
+		if user.actor_data.current_hp != before_user_hp:
+			await stats_user.hp_changed()
+		if user.actor_data.current_mp != before_user_mp:
+			await stats_user.mp_changed()
+
+	# Update target UIs and check deaths
+	for target in use.targets:
+		if target == null:
+			continue
+		if target.ui_element is BattleStats:
+			var stats_target = target.ui_element as BattleStats
+			await stats_target.hp_changed()
+			await stats_target.mp_changed()
+
+		if target.actor_data.current_hp <= 0:
+			check_for_death(target, user)
+
+
+func _execute_use_item(use : ActionUse) -> void:
+	var user = use.user
+	if user == null:
+		return
+
+	if not use.data.has("item_slot"):
+		printerr("ActionResolver: USE_ITEM missing item_slot in use.data")
+		return
+
+	var slot = use.data["item_slot"] as InventorySlot
+	if slot == null or slot.item == null:
+		printerr("ActionResolver: USE_ITEM slot or item is null")
+		return
+
+	var item = slot.item
+	var user_name = user.actor_data.char_resource.char_name
+
+	var ctx = EffectContext.new()
+	ctx.mode = EffectContext.Mode.BATTLE
+	ctx.user_actor = user.actor_data
+	ctx.battle_scene = battle_scene
+	ctx.status_system = battle_scene.status_system
+	ctx.source_item = item
+
+	var message = item.message_template
+	message = message.replace("{user}", user_name)
+	message = message.replace("{item}", item.name)
+	battle_scene.battle_notify_ui.queue_notification(message)
+
+	var effects : Array[Effect] = item.get_effects_for_context(ctx)
+
+	var any_effect_applied = false
+	for target in use.targets:
+		if target == null:
+			continue
+		for effect in effects:
+			if effect == null:
+				continue
+			if effect.apply_to_battler(ctx, target):
+				any_effect_applied = true
+
+	if effects.size() > 0 and not any_effect_applied:
+		battle_scene.battle_notify_ui.queue_notification("It has no effect.")
+		await battle_scene.notify_finished
+		return
+
+	# Consume item only when something applied
+	if item.consume_on_use:
+		slot.quantity -= 1
+		if slot.quantity <= 0:
+			Inventory.current_inventory.erase(slot)
+
+	await battle_scene.notify_finished
+
+	for target in use.targets:
+		if target == null:
+			continue
+		if target.ui_element is BattleStats:
+			var stats_target = target.ui_element as BattleStats
+			await stats_target.hp_changed()
+			await stats_target.mp_changed()
+
+		if target.actor_data.current_hp <= 0:
+			check_for_death(target, user)
+
+
+
 
 
 #endregion Action Execution

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=16 format=3 uid="uid://8mflur1rjcwr"]
+[gd_resource type="Resource" script_class="EnemyData" load_steps=17 format=3 uid="uid://8mflur1rjcwr"]
 
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_oyh6x"]
 [ext_resource type="Texture2D" uid="uid://0su6q20xg6cu" path="res://_assets/battle/icons/enemy_battle_icon.png" id="1_rmuka"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://c7inxxuskfap4" path="res://actors/2_enemy/00_test_enemy/test_enemy_char_resource.tres" id="6_2stbo"]
 [ext_resource type="PackedScene" uid="uid://vfsshe7gmbtm" path="res://actors/2_enemy/00_test_enemy/test_enemy_field_scene.tscn" id="7_y8udo"]
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="8_npti8"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="12_npti8"]
 
 [sub_resource type="Resource" id="Resource_mpmaf"]
 script = ExtResource("1_y8udo")

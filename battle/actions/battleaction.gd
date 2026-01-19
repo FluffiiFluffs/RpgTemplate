@@ -18,12 +18,10 @@ enum Category {
 ## Backend routing key used by ActionResolver to choose which resolution routine runs.
 enum ActionType {
 	NORMAL_ATTACK,
-	PHYSICAL_SKILL,
-	MAGICAL_DAMAGE,
-	HEAL,
-	STEAL,
 	DEFEND,
-	RUN
+	RUN,
+	USE_ITEM,
+	USE_SKILL,
 }
 
 ## How targets are selected (shape), independent of faction wording.

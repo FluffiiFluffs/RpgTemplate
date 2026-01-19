@@ -64,6 +64,7 @@ folder_colors={
 "res://field/": "green",
 "res://main/": "red",
 "res://quest_system/": "yellow",
+"res://skill/": "pink",
 "res://ui/": "blue"
 }
 
