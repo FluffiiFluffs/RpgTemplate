@@ -20,6 +20,7 @@ func _ready()->void:
 
 func button_focused()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
+	show_description()
 	pass
 
 func button_unfocused()->void:
@@ -27,6 +28,7 @@ func button_unfocused()->void:
 		self_modulate = GameMenu.ENABLED_COLOR
 	else:
 		self_modulate = GameMenu.TRANS_COLOR
+		hide_description()
 	pass
 
 func button_pressed()->void:
@@ -40,6 +42,7 @@ func button_pressed()->void:
 	if skill != null and battler != null:
 		is_active = true 
 		battler.ui_element.last_skill_selected = skill.name
+		(battler.ui_element as BattleStats).last_skill_button_selected = self
 		SceneManager.main_scene.current_battle_scene.command_controller.begin_use_skill(battler, skill)
 
 ##Grabs the button's focus
@@ -51,3 +54,14 @@ func setup()->void:
 	label.text = skill.name
 	if not skill.can_pay_cost(battler.actor_data):
 		button.disabled = true
+
+##Displays description of the skill through the notify UI
+func show_description()->void:
+	var battle_scene : BattleScene = SceneManager.main_scene.current_battle_scene
+	battle_scene.battle_notify_ui.show_text(skill.description)
+	pass
+
+##Hides the notify UI
+func hide_description()->void:
+	var battle_scene : BattleScene = SceneManager.main_scene.current_battle_scene
+	battle_scene.battle_notify_ui.notify_hide()

@@ -6,6 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_cgs8t"]
 script = ExtResource("2_mkvq2")
+hp_damage_amount = 100
 metadata/_custom_type_script = "uid://b3mwfkputa2b"
 
 [resource]
@@ -15,5 +16,6 @@ name = "Damage Test"
 description = "Damages a target for 50 HP."
 scope = 1
 target_side = 2
+default_target_focus = 2
 effects = Array[ExtResource("1_jqapp")]([SubResource("Resource_cgs8t")])
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

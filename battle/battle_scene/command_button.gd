@@ -22,6 +22,7 @@ func _ready()->void:
 	
 func on_button_focus_entered()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
+	show_description()
 	pass
 	
 func on_button_focus_exited()->void:
@@ -29,6 +30,7 @@ func on_button_focus_exited()->void:
 		self_modulate = GameMenu.ENABLED_COLOR
 	else:
 		self_modulate = GameMenu.TRANS_COLOR
+		hide_description()
 	pass	
 
 
@@ -61,3 +63,14 @@ func activate_button()->void:
 	button.disabled = false
 func deactivate_button()->void:
 	button.disabled = true
+	
+	
+##Displays description of the skill through the notify UI
+func show_description()->void:
+	var battle_scene : BattleScene = SceneManager.main_scene.current_battle_scene
+	battle_scene.battle_notify_ui.show_text(button_type.to_pascal_case())
+
+##Hides notify ui
+func hide_description()->void:
+	var battle_scene : BattleScene = SceneManager.main_scene.current_battle_scene
+	battle_scene.battle_notify_ui.notify_hide()

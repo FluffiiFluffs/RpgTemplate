@@ -36,6 +36,13 @@ enum TargetSide {
 	BOTH_FACTIONS
 }
 
+enum DefaultTargetFocus {
+	AUTO,
+	SAME_FACTION,
+	OTHER_FACTION
+}
+
+
 @export_group("Identity")
 ## Unique ID of the item
 @export var item_id : StringName = &""
@@ -72,6 +79,7 @@ var type : int = ItemType.TOOL
 @export var target_side : TargetSide = TargetSide.ANY_FACTION
 ## Allows targeting dead battlers (revive items)
 @export var can_target_dead : bool = false
+@export var default_target_focus : DefaultTargetFocus = DefaultTargetFocus.AUTO
 
 @export_group("Effects")
 ## Effects that happen when item is used

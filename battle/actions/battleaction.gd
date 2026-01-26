@@ -39,6 +39,13 @@ enum TargetSide {
 	ANY_FACTION
 }
 
+enum DefaultTargetFocus {
+	AUTO,
+	SAME_FACTION,
+	OTHER_FACTION
+}
+
+
 @export_group("Identity")
 @export var action_name: String = ""
 @export_multiline var description: String = ""
@@ -55,6 +62,8 @@ enum TargetSide {
 #@export var max_targets: int = 1 #No need for this
 #@export var allow_self_target: bool = false #should always allow targeting of anyone on the field
 @export var can_target_dead: bool = false
+@export var default_target_focus: DefaultTargetFocus = DefaultTargetFocus.AUTO
+
 
 @export_group("Multi target toggle")
 ## Final Fantasy style toggle: allow switching SINGLE <-> ALL at selection time.

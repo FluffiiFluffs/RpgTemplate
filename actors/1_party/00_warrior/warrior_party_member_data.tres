@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://drj2rcxjqg0lg" path="res://actors/1_party/00_warrior/warrior_field_scene.tscn" id="1_jstep"]
 [ext_resource type="Texture2D" uid="uid://yhferugctyub" path="res://_assets/battle/icons/warrior_battle_icon.png" id="1_lidrd"]
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_wl3nr"]
-[ext_resource type="Resource" uid="uid://dbfk3ba0n2tfg" path="res://battle/actions/attack/battleaction_attack.tres" id="2_sueqs"]
+[ext_resource type="Resource" uid="uid://b35po5gyny4f5" path="res://battle/actions/attack/battleaction_attack_party.tres" id="2_sw1h1"]
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="3_qx4j5"]
 [ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/defend/battleaction_defend.tres" id="3_v56fi"]
 [ext_resource type="Resource" uid="uid://yyucdgb5imk3" path="res://battle/actions/run/battleaction_run.tres" id="4_4w3j5"]
@@ -17,7 +17,7 @@
 
 [sub_resource type="Resource" id="Resource_v56fi"]
 script = ExtResource("3_qx4j5")
-battle_actions = Array[ExtResource("1_wl3nr")]([ExtResource("2_sueqs"), ExtResource("3_v56fi"), ExtResource("4_4w3j5"), ExtResource("5_80pgr"), ExtResource("6_sw1h1")])
+battle_actions = Array[ExtResource("1_wl3nr")]([ExtResource("2_sw1h1"), ExtResource("3_v56fi"), ExtResource("4_4w3j5"), ExtResource("5_80pgr"), ExtResource("6_sw1h1")])
 metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [resource]

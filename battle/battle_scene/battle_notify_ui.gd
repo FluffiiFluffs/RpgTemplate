@@ -17,6 +17,8 @@ var battle_scene : BattleScene = null
 var text_coefficient : float = 35.0 #The divisor of a message's text length. A higher value shortens the amount of time text is shown. 
 var notify_queue : Array = []
 var notifying : bool = false
+var _ending_notification : bool = false
+
 
 func _ready()->void:
 	hide()
@@ -42,7 +44,9 @@ func queue_notification(_message: String)->void:
 ##Displays the next notification in the notify_queue[{}]. Starts notify_timer. Timer length dependent on the message length.
 func display_notification()->void:
 	if notify_queue.is_empty():
-		battle_scene.notify_finished.emit()
+		notify_hide()
+		if battle_scene != null:
+			battle_scene.notify_finished.emit()
 		return
 	var _note = notify_queue.pop_front()
 	if _note == null:
@@ -61,16 +65,44 @@ func display_notification()->void:
 ##Called automatically when the notify_timer has timed out[br]
 ##Hides notify window and emits notify_end signal.
 func notify_timeout()->void:
-	notify_hide()
-	notifying = false
-	notify_end.emit()
+	_end_current_notification()
 
-		
-		
+
 ##Shows text (enemy being targeted, item name, skill name, etc)[br]
 ##Called by various UI elements when focused.[br]
 ##Stays up indefinitely while the user is making selection, so notify_hide() should be called once the user has made a selection or has cancelled out of the ui state
 func show_text(_text : String)->void:
 	notify_show()
 	notify_label.text = _text
-		
+
+##TODO Skips the message displayed on the screen.
+func skip_notify()->void:
+	if notifying:
+		_end_current_notification()
+		return
+
+	if not notify_queue.is_empty():
+		display_notification()
+		return
+
+	notify_hide()
+
+
+
+
+func _end_current_notification()->void:
+	if _ending_notification:
+		return
+	if not notifying:
+		return
+
+	_ending_notification = true
+
+	if notify_timer != null and not notify_timer.is_stopped():
+		notify_timer.stop()
+
+	notify_hide()
+	notifying = false
+	notify_end.emit()
+
+	_ending_notification = false

@@ -16,6 +16,12 @@ enum TargetSide {
 	ANY_FACTION
 }
 
+enum DefaultTargetFocus {
+	AUTO,
+	SAME_FACTION,
+	OTHER_FACTION
+}
+
 @export_group("Identity")
 @export var skill_id : StringName = &""
 @export var name : String = ""
@@ -33,6 +39,8 @@ enum TargetSide {
 @export var target_shape : TargetShape = TargetShape.SINGLE
 @export var target_side : TargetSide = TargetSide.OTHER_FACTION
 @export var can_target_dead : bool = false
+@export var default_target_focus : DefaultTargetFocus = DefaultTargetFocus.AUTO
+
 
 @export_group("Effects")
 @export var effects : Array[Effect] = []

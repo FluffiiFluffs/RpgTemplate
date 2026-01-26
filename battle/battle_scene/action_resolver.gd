@@ -338,9 +338,11 @@ func _execute_use_item(use : ActionUse) -> void:
 
 	await battle_scene.notify_finished
 
+	# Update target UIs and check deaths
 	for target in use.targets:
 		if target == null:
 			continue
+
 		if target.ui_element is BattleStats:
 			var stats_target = target.ui_element as BattleStats
 			await stats_target.hp_changed()

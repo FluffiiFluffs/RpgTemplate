@@ -39,13 +39,13 @@ var battle_state : String = ""
 
 
 @export_enum(
-"ACTION_SELECT", #During action selection for battler
-"ACTION_TARGETING", #During targeting state (for actions, skills, items) for player
-"DEFEND_TARGETING",
+"ACTION_SELECT", #During Action selection
+"ATTACK_TARGETING", #During attack targeting
+"DEFEND_TARGETING", #During defend targeting
 "SKILL_MENU_OPEN", #Skill menu is open
-"SKILL_TARGETING",
+"SKILL_TARGETING", #During skill targeting
 "ITEM_MENU_OPEN", #Item Menu is open
-"ITEM_TARGETING",
+"ITEM_TARGETING", #During item targeting
 "NOTIFYING", #When messages are playing
 
 ) 
@@ -295,7 +295,7 @@ func give_money()->void:
 func give_items()->void:
 	if !loot_earned.is_empty():
 		for it in loot_earned:
-			Inventory.add_item(it.id, 1)
+			Inventory.add_item(it.item_id, 1)
 			battle_notify_ui.queue_notification(it.name + " was found.")
 			
 			
@@ -318,48 +318,72 @@ func _unhandled_input(_event):
 		match ui_state:
 			"ACTION_SELECT":
 				#do nothing, it's the top level
+				ui_state = "ACTION_SELECT"
 				pass
-			"ACTION_TARGETING":
-				#disable all ui_element.buttons
-				#go back to action select
+			"ATTACK_TARGETING":
+				disable_all_ui_element_buttons()
+				#go back to action select (focus current battler's last command selected)
+				go_back_to_action_select()
 				pass
 			"DEFEND_TARGETING":
 				#disable all ui_element.buttons
-				#go back to action select
+				disable_all_ui_element_buttons()
+				go_back_to_action_select()
 				pass
 			"SKILL_MENU_OPEN":
-				#go back to action select
-				
+				#Close the skill menu
+				skill_window.visible = false
+				go_back_to_action_select()
 				pass
 			"SKILL_TARGETING":
 				#disable all ui_element.buttons
-				#reopen skill menu
+				disable_all_ui_element_buttons()
+				#focus the last button selected in skill targeting 
+				go_back_to_skill_select()
 				pass
 			"ITEM_MENU_OPEN":
-				#go back to action select				
+				#hide the item menu
+				item_window.visible = false
+				go_back_to_action_select()
 				pass
 			"ITEM_TARGETING":
 				#disable all ui_element.buttons
+				disable_all_ui_element_buttons()
 				#reopen item menu
+				go_back_to_item_select()
 				pass
 			"NOTIFYING":
 				#allow user to skip the notify message to the next
+				battle_notify_ui.skip_notify()
+				#allow other parts of the system to change the state, only skip the message shown
 				pass
 
 #region cancel_input Behaviors
-##Sets ui_state back to "ACTION_SELECT"
-##Hides skill window
-##Hides item window
-##focus current battler's last button selected
-func go_back_to_action_select()->void:
-	pass
-
 ##Sets all ui_element.button.disabled to true so they cannot be accidentally selected
 func disable_all_ui_element_buttons()->void:
-	pass
+	for child in battlers.get_children():
+		if child is Battler:
+			child.ui_element.button.disabled = true
+	get_viewport().gui_release_focus()
 	
+##Returns user to action selection
+func go_back_to_action_select()->void:
+	(acting_battler.ui_element as BattleStats).focus_last_command_button()
+	ui_state = "ACTION_SELECT"
 
+##Returns user to skill selection
+func go_back_to_skill_select()->void:
+	(acting_battler.ui_element as BattleStats).focus_last_skill_button()
+	clear_all_is_active(skill_grid_container)
+	ui_state = "SKILL_MENU_OPEN"
 
-
-
+##Returns user to item selection
+func go_back_to_item_select()->void:
+	(acting_battler.ui_element as BattleStats).focus_last_item_button()
+	clear_all_is_active(item_grid_container)
+	ui_state = "ITEM_MENU_OPEN"
+	
+func clear_all_is_active(gcontainer : GridContainer)->void:
+	for child in gcontainer.get_children():
+		child.is_active = false
 #endregion cancel_input Behaviors

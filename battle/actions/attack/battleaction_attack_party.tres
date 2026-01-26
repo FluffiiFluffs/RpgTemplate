@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleActionAttack" load_steps=2 format=3 uid="uid://b35po5gyny4f5"]
+
+[ext_resource type="Script" uid="uid://tdfptxc307vc" path="res://battle/actions/attack/battleaction_attack.gd" id="1_6osj0"]
+
+[resource]
+script = ExtResource("1_6osj0")
+action_name = "attack"
+description = "a normal physical attack"
+category = 0
+target_side = 2
+default_target_focus = 2
+expanded_shape = 2
+message_template = "{user} attacks {target}."
+metadata/_custom_type_script = "uid://tdfptxc307vc"

@@ -29,6 +29,8 @@ var battle_scene : BattleScene = null
 var member : PartyMemberData = null
 var battler : Battler = null
 var last_command_button_selected : CommandButton
+var last_skill_button_selected : BattleSkillButton
+var last_item_button_selected : BattleItemButton
 var last_enemy_selected : Battler = null
 var last_skill_selected : String = ""
 var last_item_selected : InventorySlot = null
@@ -123,12 +125,19 @@ func run_button_pressed()->void:
 	battle_scene.command_controller.attempt_to_run(battler, run_action)
 	
 func focused()->void:
+	if battle_scene != null and battle_scene.command_controller != null:
+		battle_scene.command_controller.on_battler_focus_changed(battler)
 	animation_player.play("flash")
 	pass
-	
+
+
 func unfocused()->void:
+	if battle_scene != null and battle_scene.command_controller != null:
+		if battle_scene.command_controller.is_all_targeting_active():
+			return
 	animation_player.play("RESET")
 	pass
+
 
 func activate_button()->void:
 	button.disabled = false
@@ -311,9 +320,85 @@ func setup_command_container_focus_neighbors()->void:
 	
 ##Selects the last command button pressed. By default, is attack button.
 ##last_command_button_selected is set by the command button itself when pressed
-func select_last_button()->void:
-	last_command_button_selected.grab_focus()
+func focus_last_command_button()->void:
+	if Options.battle_menu_memory:
+		#If there's not one set up, the last command button defaults to attack
+		if last_command_button_selected == null:
+			for child in command_h_box.get_children():
+				if child is CommandButton:
+					if child.button_type == "attack":
+						last_command_button_selected = child
+		if Options.battle_menu_memory == true:
+			last_command_button_selected.grab_focus()
+		else:
+				pass
+	else:
+		focus_first_command_button()
+		
+##Focuses the last item button pressed by the user if Options.battle_menu_memory is true. 
+##Otherwise focuses the first button.
+##Has null check.
+func focus_last_item_button()->void:
+	if Options.battle_menu_memory:
+		if last_item_button_selected == null:
+			var gcontainer : GridContainer = battle_scene.item_grid_container
+			for child in gcontainer.get_children():
+				if child is BattleItemButton:
+					last_item_button_selected = child
+					break
+		last_item_button_selected.grab_button_focus()
+	else:
+		focus_first_item_button()
+
+
+##Focuses the last skill button pressed by the user if Options.battle_menu_memory is true. 
+##Otherwise focuses the first button.
+##Has null check.
+func focus_last_skill_button()->void:
+	if Options.battle_menu_memory:
+		if last_skill_button_selected == null:
+			var gcontainer : GridContainer = battle_scene.skill_grid_container
+			for child in gcontainer.get_children():
+				if child is BattleSkillButton:
+					last_skill_button_selected = child
+					break
+		last_skill_button_selected.grab_button_focus()
+	else:
+		focus_first_skill_button()
+
+##Focuses first command button (should be attack)
+##Does not need null guard. If this is not present, then something's very wrong
+func focus_first_command_button()->void:
+	for child in command_h_box.get_children():
+		if child is CommandButton:
+			child.grab_button_focus()
+			break
+
+
+##Focuses the first item in the item window if there are any.
+func focus_first_item_button()->void:
+	var gcontainer : GridContainer = battle_scene.item_grid_container
+	if !gcontainer.get_children().is_empty():
+		for child in gcontainer.get_children():
+			if child is BattleItemButton:
+				child.grab_button_focus()
+				break
+	else:
+		return
+		
+##Focuses the first skill in the skill window
+func focus_first_skill_button()->void:
+	var gcontainer : GridContainer = battle_scene.skill_grid_container
+	if !gcontainer.get_children().is_empty():
+		for child in gcontainer.get_children():
+			if child is BattleSkillButton:
+				child.grab_button_focus()
+				break
+	else:
+		return
 	
+
+
 func setup_commands()->void:
 	pass
 

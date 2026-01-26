@@ -41,13 +41,18 @@ func play_death()->void:
 func grab_button_focus()->void:
 	button.grab_focus()
 
-##plays focused animation higher intensity for battlesprite (+0.5)
 func focused()->void:
+	if battle_scene != null and battle_scene.command_controller != null:
+		battle_scene.command_controller.on_battler_focus_changed(battler)
 	animation_player.play("focused")
-	
-##Plays unfocused animation normal intensity for battlesprite (0.0)
+
+
 func unfocused()->void:
+	if battle_scene != null and battle_scene.command_controller != null:
+		if battle_scene.command_controller.is_all_targeting_active():
+			return
 	animation_player.play("unfocused")
+
 
 ##passes battler through as the one selected by the user while targeting
 func button_pressed()->void:
