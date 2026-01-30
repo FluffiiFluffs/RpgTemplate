@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6g8djd5ijles"]
+[gd_scene format=3 uid="uid://c6g8djd5ijles"]
 
 [ext_resource type="Script" uid="uid://dxdyq6etv13j2" path="res://dialogue/balloons/balloon.gd" id="1_2b1h5"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="2_cudab"]
@@ -27,11 +27,11 @@ _data = {
 &"progress": SubResource("Animation_i6nbm")
 }
 
-[node name="Balloon" type="CanvasLayer"]
+[node name="Balloon" type="CanvasLayer" unique_id=844908346]
 layer = 100
 script = ExtResource("1_2b1h5")
 
-[node name="Balloon" type="Control" parent="."]
+[node name="Balloon" type="Control" parent="." unique_id=565653344]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -41,7 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_i5b03")
 
-[node name="MarginContainer" type="MarginContainer" parent="Balloon"]
+[node name="MarginContainer" type="MarginContainer" parent="Balloon" unique_id=927475323]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -51,26 +51,26 @@ offset_top = -71.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="Balloon/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Balloon/MarginContainer" unique_id=2007808795]
 clip_children = 2
 layout_mode = 2
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Balloon/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Balloon/MarginContainer/PanelContainer" unique_id=1031838588]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer" unique_id=1626954507]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="PortraitPanel" type="Panel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="PortraitPanel" type="Panel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=861675862]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PortraitTexture" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/PortraitPanel"]
+[node name="PortraitTexture" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/PortraitPanel" unique_id=1382432482]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -82,11 +82,11 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=2070183021]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CharacterLabel" type="RichTextLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="CharacterLabel" type="RichTextLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1861005430]
 unique_name_in_owner = true
 visible = false
 modulate = Color(1, 1, 1, 0.501961)
@@ -103,31 +103,29 @@ text = "Character"
 fit_content = true
 scroll_active = false
 
-[node name="DialogueLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_cudab")]
+[node name="DialogueLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=58794095 instance=ExtResource("2_cudab")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 text = "This is a test dialog to see how much text I can put into this box. I would like to think that I could put a lot of text into this box so I can have characters say a lot of stuff. I am not sure how much text I can put into this box."
 seconds_per_step = 0.03
 
-[node name="Control" type="Control" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1740080113]
 custom_minimum_size = Vector2(5, 3)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="Progress" type="Polygon2D" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="Progress" type="Polygon2D" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control" unique_id=1684412891]
 unique_name_in_owner = true
 position = Vector2(-0.026249565, 0)
 polygon = PackedVector2Array(-2.5, -9, -2.5, -3, 5, -6)
 uv = PackedVector2Array(2.5, -3, 2.5, 3, 10, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control"]
-libraries = {
-&"": SubResource("AnimationLibrary_6b6c8")
-}
-autoplay = "progress"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control" unique_id=57688549]
+libraries/ = SubResource("AnimationLibrary_6b6c8")
+autoplay = &"progress"
 
-[node name="ResponsesMenu" type="GridContainer" parent="Balloon"]
+[node name="ResponsesMenu" type="GridContainer" parent="Balloon" unique_id=563391417]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -146,12 +144,12 @@ size_flags_vertical = 8
 columns = 2
 script = ExtResource("3_ha0tj")
 
-[node name="Response" type="Button" parent="Balloon/ResponsesMenu"]
+[node name="Response" type="Button" parent="Balloon/ResponsesMenu" unique_id=1644762900]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Response Example"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=741273015]
 unique_name_in_owner = true
 
 [connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]

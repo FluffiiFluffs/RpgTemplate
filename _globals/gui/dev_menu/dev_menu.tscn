@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2pftei8tocpx"]
+[gd_scene format=3 uid="uid://d2pftei8tocpx"]
 
 [ext_resource type="Script" uid="uid://bm5a6i3ntv5iu" path="res://_globals/gui/dev_menu/dev_menu.gd" id="1_2wt6a"]
 
@@ -92,11 +92,11 @@ _data = {
 &"dev_menu_open": SubResource("Animation_2wt6a")
 }
 
-[node name="DevMenu" type="CanvasLayer"]
+[node name="DevMenu" type="CanvasLayer" unique_id=913570968]
 layer = 50
 script = ExtResource("1_2wt6a")
 
-[node name="DevMenuPositioner" type="Control" parent="."]
+[node name="DevMenuPositioner" type="Control" parent="." unique_id=958617326]
 visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 3
@@ -108,7 +108,7 @@ grow_vertical = 2
 focus_mode = 1
 mouse_filter = 2
 
-[node name="GridContainer" type="GridContainer" parent="DevMenuPositioner"]
+[node name="GridContainer" type="GridContainer" parent="DevMenuPositioner" unique_id=1969580136]
 layout_mode = 1
 offset_right = 212.0
 offset_bottom = 50.0
@@ -116,7 +116,7 @@ focus_mode = 1
 mouse_filter = 2
 columns = 6
 
-[node name="Button1" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button1" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1709774419]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -128,7 +128,7 @@ text = "Testtscn
 +
 Player"
 
-[node name="Button2" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button2" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=724433894]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -139,7 +139,7 @@ theme_override_font_sizes/font_size = 12
 text = "plr@Any
 Spawn"
 
-[node name="Button3" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button3" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1646047465]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -148,7 +148,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
 
-[node name="Button4" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button4" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1469592686]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -157,7 +157,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
 
-[node name="Button5" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button5" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=486795730]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -166,17 +166,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
 
-[node name="Button6" type="Button" parent="DevMenuPositioner/GridContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-focus_mode = 1
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 12
-text = "button"
-
-[node name="Button7" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button6" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=320286380]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -186,7 +176,7 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
 text = "button"
 
-[node name="Button8" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button7" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1338828106]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -196,7 +186,17 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
 text = "button"
 
-[node name="Button9" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button8" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1114973133]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+focus_mode = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "button"
+
+[node name="Button9" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=877212581]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -207,7 +207,7 @@ theme_override_font_sizes/font_size = 12
 text = "Battle
 Notify"
 
-[node name="Button10" type="Button" parent="DevMenuPositioner/GridContainer"]
+[node name="Button10" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=2141585065]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -218,8 +218,6 @@ theme_override_font_sizes/font_size = 12
 text = "Remove
 Enemies"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="DevMenuPositioner"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DevMenuPositioner" unique_id=310902497]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_eu61g")
-}
+libraries/ = SubResource("AnimationLibrary_eu61g")

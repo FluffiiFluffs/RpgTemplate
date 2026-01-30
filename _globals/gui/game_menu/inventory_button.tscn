@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dn46ocaf6y8fy"]
+[gd_scene format=3 uid="uid://dn46ocaf6y8fy"]
 
 [ext_resource type="Script" uid="uid://dyyka46yoxekp" path="res://_globals/gui/game_menu/inventory_button.gd" id="1_37o1m"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_3ynou"]
@@ -26,12 +26,13 @@ corner_detail = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mwf2n"]
 
-[node name="InventoryOptionsButton" type="PanelContainer"]
+[node name="InventoryOptionsButton" type="PanelContainer" unique_id=2132036449]
+self_modulate = Color(0, 0, 0, 0)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
 script = ExtResource("1_37o1m")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1368119612]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 0
@@ -39,11 +40,11 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = -1
 theme_override_constants/margin_bottom = -2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1824122608]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer" unique_id=1573372441]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

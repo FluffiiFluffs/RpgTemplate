@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0guj5cenunp"]
+[gd_scene format=3 uid="uid://d0guj5cenunp"]
 
 [ext_resource type="Script" uid="uid://bqb0hvopylut4" path="res://_globals/gui/game_menu/equip_item_button.gd" id="1_iuyh6"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_kdjrl"]
@@ -16,21 +16,21 @@ border_width_bottom = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cbxp7"]
 
-[node name="EquipItemButton" type="PanelContainer"]
+[node name="EquipItemButton" type="PanelContainer" unique_id=571217043]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(140, 0)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
 script = ExtResource("1_iuyh6")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=631474981]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_kdjrl")
 theme_override_font_sizes/font_size = 7
 text = "super duper long item name"
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1176655822]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_cbxp7")

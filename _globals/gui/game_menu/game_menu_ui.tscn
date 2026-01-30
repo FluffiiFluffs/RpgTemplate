@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://cyw8elamdnchs"]
+[gd_scene format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_ui.gd" id="1_id8es"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_xubta"]
@@ -119,7 +119,7 @@ border_width_bottom = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8gqqd"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26r4l"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8nbqf"]
 resource_local_to_scene = true
 draw_center = false
 border_width_left = 1
@@ -127,7 +127,7 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seyew"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cr4nj"]
 resource_local_to_scene = true
 draw_center = false
 border_width_left = 1
@@ -135,7 +135,7 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6y0t"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0mm1c"]
 resource_local_to_scene = true
 draw_center = false
 border_width_left = 1
@@ -147,7 +147,7 @@ border_width_bottom = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6y0t"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_012yt"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gn4aj"]
 resource_local_to_scene = true
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -159,7 +159,7 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ke5u3"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1axi"]
 resource_local_to_scene = true
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -178,24 +178,22 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[node name="GameMenuUI" type="CanvasLayer"]
+[node name="GameMenuUI" type="CanvasLayer" unique_id=1152144091]
 layer = 10
 script = ExtResource("1_id8es")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=633661301]
 unique_name_in_owner = true
-libraries = {
-&"": ExtResource("2_26r4l")
-}
+libraries/ = ExtResource("2_26r4l")
 
-[node name="TopLevel" type="Control" parent="."]
+[node name="TopLevel" type="Control" parent="." unique_id=216326657]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 400.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopPositioner" type="Control" parent="TopLevel"]
+[node name="TopPositioner" type="Control" parent="TopLevel" unique_id=356762933]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -208,7 +206,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopLevel/TopPositioner"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopLevel/TopPositioner" unique_id=1693394298]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -218,13 +216,13 @@ size_flags_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="TopLevelPanelContainer" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer"]
+[node name="TopLevelPanelContainer" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer" unique_id=1469665338]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_003g3")
 
-[node name="MarginContainer" type="MarginContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer" unique_id=397709918]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 15
@@ -232,12 +230,12 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer" unique_id=1551972309]
 layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="SelectorLabel" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+[node name="SelectorLabel" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer" unique_id=1650159730]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(92, 0)
 layout_mode = 2
@@ -248,103 +246,103 @@ text = "INVENTORY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer" unique_id=1995158381]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="TopMenuButtonHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer"]
+[node name="TopMenuButtonHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer" unique_id=104698776]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="ItemsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
+[node name="ItemsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=556814878 instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("5_es6ld")
 selected = ExtResource("6_mngg1")
 ui_name = "Inventory"
 
-[node name="EquipButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
+[node name="EquipButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=622869231 instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("7_e31sb")
 selected = ExtResource("8_40ivv")
 ui_name = "Equip"
 
-[node name="MagicButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
+[node name="MagicButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=1503265834 instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("9_qx86f")
 selected = ExtResource("10_es6ld")
 ui_name = "Magic"
 
-[node name="StatsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
+[node name="StatsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=689761638 instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("11_es6ld")
 selected = ExtResource("12_mngg1")
 ui_name = "Stats"
 
-[node name="QuestsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
+[node name="QuestsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=865802146 instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("11_40ivv")
 selected = ExtResource("12_qx86f")
 ui_name = "Quests"
 
-[node name="OptionsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" instance=ExtResource("3_xubta")]
+[node name="OptionsButton" parent="TopLevel/TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=1501641324 instance=ExtResource("3_xubta")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("13_so8r6")
 selected = ExtResource("14_8gqqd")
 ui_name = "Options"
 
-[node name="MoneyHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer"]
+[node name="MoneyHBox" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer" unique_id=2047932101]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox" unique_id=404315641]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="MoneyPanelContainer" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox"]
+[node name="MoneyPanelContainer" type="PanelContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox" unique_id=909410894]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_rmrhr")
 
-[node name="MarginContainer" type="MarginContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer" unique_id=875732188]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer" unique_id=1344701945]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 alignment = 2
 
-[node name="MoneySymbol" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer/HBoxContainer"]
+[node name="MoneySymbol" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer/HBoxContainer" unique_id=1256861455]
 layout_mode = 2
 text = "$"
 vertical_alignment = 1
 
-[node name="MoneyValueLabel" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer/HBoxContainer"]
+[node name="MoneyValueLabel" type="Label" parent="TopLevel/TopPositioner/VBoxContainer/MoneyHBox/MoneyPanelContainer/MarginContainer/HBoxContainer" unique_id=1419620776]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 text = "0"
 vertical_alignment = 1
 
-[node name="BottomPositioner" type="Control" parent="TopLevel"]
+[node name="BottomPositioner" type="Control" parent="TopLevel" unique_id=1655658468]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -359,7 +357,7 @@ grow_vertical = 0
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
-[node name="Hider" type="PanelContainer" parent="TopLevel/BottomPositioner"]
+[node name="Hider" type="PanelContainer" parent="TopLevel/BottomPositioner" unique_id=87966714]
 layout_mode = 0
 offset_left = -200.0
 offset_top = -46.0
@@ -367,7 +365,7 @@ offset_right = 200.0
 offset_bottom = 4.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_c4co5")
 
-[node name="PartyHBoxContainer" type="HBoxContainer" parent="TopLevel/BottomPositioner"]
+[node name="PartyHBoxContainer" type="HBoxContainer" parent="TopLevel/BottomPositioner" unique_id=1667486093]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -385,26 +383,26 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="ToplevelStats1" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats1" parent="TopLevel/BottomPositioner/PartyHBoxContainer" unique_id=126409655 instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ToplevelStats2" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="ToplevelStats3" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats2" parent="TopLevel/BottomPositioner/PartyHBoxContainer" unique_id=1814998188 instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="ToplevelStats4" parent="TopLevel/BottomPositioner/PartyHBoxContainer" instance=ExtResource("14_rmrhr")]
+[node name="ToplevelStats3" parent="TopLevel/BottomPositioner/PartyHBoxContainer" unique_id=972205405 instance=ExtResource("14_rmrhr")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="InventoryPositionerLeft" type="Control" parent="."]
+[node name="ToplevelStats4" parent="TopLevel/BottomPositioner/PartyHBoxContainer" unique_id=1128282951 instance=ExtResource("14_rmrhr")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="InventoryPositionerLeft" type="Control" parent="." unique_id=1119702192]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -417,7 +415,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
-[node name="ItemListPanel" type="PanelContainer" parent="InventoryPositionerLeft"]
+[node name="ItemListPanel" type="PanelContainer" parent="InventoryPositionerLeft" unique_id=612531714]
 custom_minimum_size = Vector2(192, 166)
 layout_mode = 1
 anchors_preset = -1
@@ -430,7 +428,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3l8ib")
 
-[node name="MarginContainer" type="MarginContainer" parent="InventoryPositionerLeft/ItemListPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="InventoryPositionerLeft/ItemListPanel" unique_id=536951759]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -440,40 +438,40 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer" unique_id=206742088]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="InventoryOptionsHBox" type="HBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer"]
+[node name="InventoryOptionsHBox" type="HBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=775422709]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="UseItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="UseItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=1870177528 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "USE"
 
-[node name="SortItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="SortItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=170614815 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "SORT"
 
-[node name="ReorderItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="ReorderItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=1051436822 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "REORDER"
 
-[node name="ExitItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="ExitItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=987130087 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "EXIT"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=2010518373]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -481,23 +479,23 @@ follow_focus = true
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="ItemsListVBox" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="ItemsListVBox" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1503899618]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 1
 
-[node name="InventoryItemButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" instance=ExtResource("14_003g3")]
+[node name="InventoryItemButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=467497131 instance=ExtResource("14_003g3")]
 layout_mode = 2
 
-[node name="InventoryItemButton2" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" instance=ExtResource("14_003g3")]
+[node name="InventoryItemButton2" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=886109328 instance=ExtResource("14_003g3")]
 layout_mode = 2
 
-[node name="InventoryItemButton3" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" instance=ExtResource("14_003g3")]
+[node name="InventoryItemButton3" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1777165093 instance=ExtResource("14_003g3")]
 layout_mode = 2
 
-[node name="InventoryPositionerRight" type="Control" parent="."]
+[node name="InventoryPositionerRight" type="Control" parent="." unique_id=1434305474]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 225)
 layout_mode = 3
@@ -512,7 +510,7 @@ grow_vertical = 2
 size_flags_vertical = 8
 mouse_filter = 2
 
-[node name="DescriptionPanel" type="PanelContainer" parent="InventoryPositionerRight"]
+[node name="DescriptionPanel" type="PanelContainer" parent="InventoryPositionerRight" unique_id=159551558]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 166)
 layout_mode = 1
@@ -526,35 +524,35 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel" unique_id=1093020598]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="DescHeadingContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescHeadingContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=1457541802]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="DescNameIconHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer"]
+[node name="DescNameIconHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer" unique_id=722021573]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="VSeparator" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+[node name="VSeparator" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=110984671]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
 
-[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=1835359440]
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_26r4l")
 
-[node name="DescItemTexture" type="TextureRect" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer"]
+[node name="DescItemTexture" type="TextureRect" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer" unique_id=786278921]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -562,19 +560,19 @@ size_flags_vertical = 4
 texture = ExtResource("2_ww2n6")
 stretch_mode = 3
 
-[node name="VSeparator2" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+[node name="VSeparator2" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=354403895]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
 
-[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=423303019]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_012yt")
 
-[node name="DescItemName" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer2"]
+[node name="DescItemName" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer2" unique_id=602801952]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
@@ -586,32 +584,32 @@ WITH A LONG NAME"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="VSeparator3" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox"]
+[node name="VSeparator3" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=1266433866]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
 
-[node name="HSeparator" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=342016064]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
-[node name="DescTypeQtyContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescTypeQtyContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=745252703]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer" unique_id=1827639228]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer" unique_id=32585093]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DescTypeText" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer/PanelContainer"]
+[node name="DescTypeText" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer/PanelContainer" unique_id=665077198]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
@@ -619,12 +617,12 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Type"
 
-[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer" unique_id=2024754967]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DescQtyText" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer/PanelContainer2"]
+[node name="DescQtyText" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer/PanelContainer2" unique_id=1275923434]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
@@ -632,11 +630,11 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99"
 
-[node name="HSeparator2" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=9939157]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
-[node name="DescItemContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescItemContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=1967122525]
 custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
 size_flags_vertical = 4
@@ -645,7 +643,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="DescTextLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescItemContainer"]
+[node name="DescTextLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescItemContainer" unique_id=1519186197]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 45)
 layout_mode = 2
@@ -655,17 +653,17 @@ theme_override_font_sizes/font_size = 7
 text = "This is a description of the item and it can be kinda long because of how large this description box is. The maximum is 4 lines of text"
 autowrap_mode = 3
 
-[node name="DescEquipContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer"]
+[node name="DescEquipContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=1129000576]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="HSeparator3" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
+[node name="HSeparator3" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=800859513]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
-[node name="DescCanUseContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
+[node name="DescCanUseContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=132895108]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 8
@@ -673,43 +671,43 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer" unique_id=1625563781]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Slot00CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot00CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=743579562]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "WARRIOR"
 
-[node name="Slot01CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot01CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=393761526]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "THIEF"
 
-[node name="Slot02CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot02CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=1701455023]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MAGE"
 
-[node name="Slot03CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer"]
+[node name="Slot03CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=670192119]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "HEALER"
 
-[node name="HSeparator4" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
+[node name="HSeparator4" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=846642501]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
 
-[node name="DescStatBonusContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer"]
+[node name="DescStatBonusContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=2128252864]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_constants/margin_left = 0
@@ -717,158 +715,158 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 2
 
-[node name="GridContainer" type="GridContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer"]
+[node name="GridContainer" type="GridContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer" unique_id=1251113745]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/h_separation = 6
 columns = 4
 
-[node name="HPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="HPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=1084055772]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox"]
+[node name="HPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox" unique_id=990385282]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "HP +"
 
-[node name="HPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox"]
+[node name="HPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox" unique_id=1529277570]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="MPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="MPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=987643686]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MPBonusHBox"]
+[node name="MPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MPBonusHBox" unique_id=1114897224]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MP +"
 
-[node name="MPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MPBonusHBox"]
+[node name="MPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MPBonusHBox" unique_id=1942463247]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="ATKBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="ATKBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=972073179]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ATKBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox"]
+[node name="ATKBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox" unique_id=360148735]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK +"
 
-[node name="ATKBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox"]
+[node name="ATKBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox" unique_id=1397131934]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="DEFBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="DEFBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=2030778123]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="DEFBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox"]
+[node name="DEFBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox" unique_id=2064904506]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "DEF +"
 
-[node name="DEFBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox"]
+[node name="DEFBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox" unique_id=1840189064]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="StrengthBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="StrengthBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=161702449]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="StrengthBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox"]
+[node name="StrengthBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox" unique_id=885448751]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STR +"
 
-[node name="StrengthBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox"]
+[node name="StrengthBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox" unique_id=866252507]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="StaminaBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="StaminaBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=1245648388]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="StaminaBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox"]
+[node name="StaminaBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox" unique_id=1323438169]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STM +"
 
-[node name="StaminaBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox"]
+[node name="StaminaBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox" unique_id=851619957]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="SpeedBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="SpeedBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=27160140]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SpeedBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox"]
+[node name="SpeedBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox" unique_id=174399644]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SPD +"
 
-[node name="SpeedBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox"]
+[node name="SpeedBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox" unique_id=1485627008]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="MagicBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer"]
+[node name="MagicBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=451610178]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MagicBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox"]
+[node name="MagicBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox" unique_id=611776259]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MAG +"
 
-[node name="MagicBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox"]
+[node name="MagicBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox" unique_id=622665368]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="EquipPositioner" type="Control" parent="."]
+[node name="EquipPositioner" type="Control" parent="." unique_id=747518061]
 unique_name_in_owner = true
 layout_mode = 3
 anchor_right = 1.0
@@ -879,7 +877,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="EquipPanelContainer" type="PanelContainer" parent="EquipPositioner"]
+[node name="EquipPanelContainer" type="PanelContainer" parent="EquipPositioner" unique_id=1004915691]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -889,28 +887,28 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q0rp3")
 
-[node name="MarginContainer" type="MarginContainer" parent="EquipPositioner/EquipPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="EquipPositioner/EquipPanelContainer" unique_id=710231680]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer" unique_id=2144550215]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=1088300821]
 layout_mode = 2
 
-[node name="NameContainer" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="NameContainer" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=865137849]
 custom_minimum_size = Vector2(145, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
 
-[node name="EquipNameLabel" type="Label" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/NameContainer"]
+[node name="EquipNameLabel" type="Label" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/NameContainer" unique_id=1571092289]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -920,200 +918,192 @@ theme_override_font_sizes/font_size = 17
 text = "WARRIOR"
 horizontal_alignment = 1
 
-[node name="EquipOptionsHBox" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="EquipOptionsHBox" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1824422293]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="EquipEquipButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="EquipEquipButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" unique_id=230379583 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "EQUIP"
 
-[node name="EquipRemoveButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="EquipRemoveButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" unique_id=1757382035 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "REMOVE"
 
-[node name="EquipRemAllButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" instance=ExtResource("17_qx86f")]
+[node name="EquipRemAllButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" unique_id=1672783113 instance=ExtResource("17_qx86f")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 text = "REM ALL"
 
-[node name="HSeparator2" type="HSeparator" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=344551720]
 layout_mode = 2
 theme_override_constants/separation = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
 
-[node name="MarginContainer" type="MarginContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=1777444297]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 
-[node name="EquipStatGridContainer" type="GridContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="EquipStatGridContainer" type="GridContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer" unique_id=1678238726]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 4
 
-[node name="EquipStatsHP" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsHP" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1172669842 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "HP"
 
-[node name="EquipStatsMP" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsMP" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1728487217 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "MP"
 
-[node name="EquipStatsATK" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsATK" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=733689386 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "ATK"
 
-[node name="EquipStatsDEF" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsDEF" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1112818423 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "DEF"
 
-[node name="EquipStatsSTR" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsSTR" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1834280504 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "STR"
 
-[node name="EquipStatsSTM" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsSTM" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=49972061 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "STM"
 
-[node name="EquipStatsSPD" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsSPD" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=826995046 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "SPD"
 
-[node name="EquipStatsMAG" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" instance=ExtResource("23_ke5u3")]
+[node name="EquipStatsMAG" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=721370838 instance=ExtResource("23_ke5u3")]
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "MAG"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=154904844]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="CurrentEquipContainer" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="CurrentEquipContainer" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=642336794]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
 
-[node name="CurrEquipVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer"]
+[node name="CurrEquipVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer" unique_id=1413374064]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="CurrMainHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrMainHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1200198944 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "MAIN HAND"
 eq_item_type = "WEAPON"
 
-[node name="CurrOffHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrOffHand" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=2056171847 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "OFF-HAND"
 eq_item_type = "OFFHAND"
 
-[node name="CurrHead" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrHead" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1578362875 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "HEAD"
 eq_item_type = "HEAD"
 
-[node name="CurrChest" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrChest" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=2036219680 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "CHEST"
 eq_item_type = "CHEST"
 
-[node name="CurrArms" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrArms" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1995523111 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "ARMS"
 eq_item_type = "ARMS"
 
-[node name="CurrLegs" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrLegs" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1154114828 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "LEGS"
 eq_item_type = "LEGS"
 
-[node name="CurrAccy1" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrAccy1" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1278040759 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "ACCY1"
 eq_item_type = "ACCESSORY"
 
-[node name="CurrAccy2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" instance=ExtResource("23_012yt")]
+[node name="CurrAccy2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1701452630 instance=ExtResource("23_012yt")]
 unique_name_in_owner = true
-self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 equip_title = "ACCY2"
 eq_item_type = "ACCESSORY"
 
-[node name="CurrentEquipContainer2" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="CurrentEquipContainer2" type="PanelContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1075979947]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2" unique_id=1050821513]
 layout_mode = 2
 size_flags_horizontal = 4
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="EquipEquippingVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer"]
+[node name="EquipEquippingVBox" type="VBoxContainer" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer" unique_id=1845645727]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="EquipItemButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=923792982 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton2" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=214102732 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton3" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton3" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=461992859 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton4" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton4" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1710487737 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton5" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton5" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=2120307027 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton6" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton6" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=295624395 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton7" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton7" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1989383427 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton8" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton8" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=343661251 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="EquipItemButton9" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" instance=ExtResource("25_q0rp3")]
+[node name="EquipItemButton9" parent="EquipPositioner/EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1110263061 instance=ExtResource("25_q0rp3")]
 layout_mode = 2
 
-[node name="MagicPositioner" type="Control" parent="."]
+[node name="MagicPositioner" type="Control" parent="." unique_id=1533165240]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 10
@@ -1121,7 +1111,7 @@ anchor_right = 1.0
 grow_horizontal = 2
 mouse_filter = 2
 
-[node name="StatsPositioner" type="Control" parent="."]
+[node name="StatsPositioner" type="Control" parent="." unique_id=1860380135]
 unique_name_in_owner = true
 layout_mode = 3
 anchor_right = 1.0
@@ -1132,7 +1122,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="StatsPanelContainer" type="PanelContainer" parent="StatsPositioner"]
+[node name="StatsPanelContainer" type="PanelContainer" parent="StatsPositioner" unique_id=452373818]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -1142,45 +1132,45 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q0rp3")
 
-[node name="MarginContainer" type="MarginContainer" parent="StatsPositioner/StatsPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="StatsPositioner/StatsPanelContainer" unique_id=1649211448]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer" unique_id=595586606]
 layout_mode = 2
 
-[node name="StatsPortraitContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer"]
+[node name="StatsPortraitContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer" unique_id=861416193]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(92, 136)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mnvkg")
 
-[node name="StatsPortrait" type="TextureRect" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/StatsPortraitContainer"]
+[node name="StatsPortrait" type="TextureRect" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/StatsPortraitContainer" unique_id=112686336]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(92, 136)
 layout_mode = 2
 stretch_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer" unique_id=39409111]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1551192279]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 16
 
-[node name="NameContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="NameContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1379887309]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
 
-[node name="StatsNameLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/NameContainer"]
+[node name="StatsNameLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/NameContainer" unique_id=287608133]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1190,101 +1180,101 @@ theme_override_font_sizes/font_size = 17
 text = "WARRIOR"
 horizontal_alignment = 1
 
-[node name="ClassVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="ClassVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2069414465]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox" unique_id=207145335]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_q0rp3")
 
-[node name="StatsClassTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer"]
+[node name="StatsClassTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer" unique_id=1036702026]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 9
 text = "CLASS"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox" unique_id=1183485252]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_4l35h")
 
-[node name="StatsClassLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer2"]
+[node name="StatsClassLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer2" unique_id=1875600966]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 13
 text = "WARRIOR"
 
-[node name="HSeparator2" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=298417284]
 layout_mode = 2
 theme_override_constants/separation = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=390492371]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1703915173]
 custom_minimum_size = Vector2(170, 124)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer" unique_id=567581852]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer" unique_id=401489175]
 layout_mode = 2
 
-[node name="StatsCurrLevelHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="StatsCurrLevelHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1939252987]
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox" unique_id=194911909]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsLevelTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer"]
+[node name="StatsLevelTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer" unique_id=1927682846]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Level"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox" unique_id=771250049]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsLevelValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer2"]
+[node name="StatsLevelValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer2" unique_id=419819358]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99"
 
-[node name="StatsNextLvLVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="StatsNextLvLVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer" unique_id=64290218]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox" unique_id=1703265245]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsNextLvLTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer"]
+[node name="StatsNextLvLTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer" unique_id=996057291]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "EXP to Next LvL"
 vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox" unique_id=1203412057]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsNextLvLValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer2"]
+[node name="StatsNextLvLValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer2" unique_id=1373634029]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -1293,31 +1283,31 @@ theme_override_font_sizes/font_size = 7
 text = "10000000"
 horizontal_alignment = 1
 
-[node name="StatsEquipVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="StatsEquipVBox" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer" unique_id=1618299029]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="StatsMainHandHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsMainHandHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1839737939]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox" unique_id=849162029]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMainHandTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer"]
+[node name="StatsMainHandTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer" unique_id=2127991010]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Main Hand"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox" unique_id=171034993]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMainHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer2"]
+[node name="StatsMainHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer2" unique_id=1811290646]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -1325,222 +1315,222 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER GOOD WEAPON"
 
-[node name="StatsOffHandHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsOffHandHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1994732338]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox" unique_id=1391303927]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsOffHandTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer"]
+[node name="StatsOffHandTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer" unique_id=975225126]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "OFF HAND"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox" unique_id=1381693723]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsOffHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer2"]
+[node name="StatsOffHandText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer2" unique_id=1130270706]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER GOOD OFF HAND"
 
-[node name="StatsHeadHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsHeadHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=132498994]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox" unique_id=1648907200]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsHeadTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer"]
+[node name="StatsHeadTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer" unique_id=1956661766]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "HEAD"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox" unique_id=202553806]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsHeadText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer2"]
+[node name="StatsHeadText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer2" unique_id=1350574590]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER GOOD HELMET "
 
-[node name="StatsChestHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsChestHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1622907832]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox" unique_id=594691632]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsChestTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer"]
+[node name="StatsChestTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer" unique_id=386201870]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "CHEST"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox" unique_id=2038100093]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsChestText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer2"]
+[node name="StatsChestText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer2" unique_id=419735231]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER STURDY ARMOR "
 
-[node name="StatsArmsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsArmsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=2029735701]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox" unique_id=1553634848]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsArmsTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer"]
+[node name="StatsArmsTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer" unique_id=1963565793]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ARMS"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox" unique_id=1171818206]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsArmsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer2"]
+[node name="StatsArmsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer2" unique_id=1718969141]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER BIG SLEEVES"
 
-[node name="StastsLegsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StastsLegsHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=756422798]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox" unique_id=1822107908]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsLegsTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer"]
+[node name="StatsLegsTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer" unique_id=685336791]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "LEGS"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox" unique_id=1421647341]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsLegsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer2"]
+[node name="StatsLegsText" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer2" unique_id=889054479]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER GOOD LEG ARMOR"
 
-[node name="StatsAccy1HBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsAccy1HBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=624439348]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox" unique_id=345988383]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsAccy1TitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer"]
+[node name="StatsAccy1TitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer" unique_id=58391197]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ACCY1"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox" unique_id=2062144271]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsAccy1Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer2"]
+[node name="StatsAccy1Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer2" unique_id=110876030]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "RARE ACCESSORY"
 
-[node name="StatsAcc2HBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox"]
+[node name="StatsAcc2HBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1700931198]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox" unique_id=1547461197]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsAccy2TitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer"]
+[node name="StatsAccy2TitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer" unique_id=289398165]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ACCY2"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox" unique_id=1606273824]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsAccy2Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer2"]
+[node name="StatsAccy2Text" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer2" unique_id=519400627]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SUPER RARE ACCESSORy"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=829456005]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="StatsHPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsHPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1354514546]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=819113271]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsHPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer"]
+[node name="StatsHPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer" unique_id=648971340]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "HP"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=1995855451]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsCurrHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer2"]
+[node name="StatsCurrHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer2" unique_id=1579150737]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -1548,51 +1538,51 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=1743269644]
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer3"]
+[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer3" unique_id=1097073879]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 8
 text = "/"
 
-[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox"]
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=138463519]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMaxHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer4"]
+[node name="StatsMaxHPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer4" unique_id=1034875135]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsMPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="StatsMPHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=735637081]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox" unique_id=540986994]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer"]
+[node name="StatsMPTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer" unique_id=1341254434]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MP"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox" unique_id=1737226351]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsCurrMPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer2"]
+[node name="StatsCurrMPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer2" unique_id=1349392643]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -1600,321 +1590,321 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox" unique_id=2064956308]
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer3"]
+[node name="StatsSlashLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer3" unique_id=1614366044]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 8
 text = "/"
 
-[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox"]
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox" unique_id=1661738075]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMaxMPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer4"]
+[node name="StatsMaxMPValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsMPHBox/PanelContainer4" unique_id=1187403185]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=457066426]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_uyx8q")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer" unique_id=395503008]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=785744629]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=493527140]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox" unique_id=96422514]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox/PanelContainer"]
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox/PanelContainer" unique_id=1746157415]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox" unique_id=967479906]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox/PanelContainer2"]
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox/PanelContainer2" unique_id=370548437]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsDEFHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="StatsDEFHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=2114875609]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox" unique_id=1025277849]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsDEFTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox/PanelContainer"]
+[node name="StatsDEFTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox/PanelContainer" unique_id=1469546984]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "DEF"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox" unique_id=2100462781]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsDEFValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox/PanelContainer2"]
+[node name="StatsDEFValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox/PanelContainer2" unique_id=655842925]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSTRHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="StatsSTRHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=2068099004]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox" unique_id=1849502870]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTRTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox/PanelContainer"]
+[node name="StatsSTRTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox/PanelContainer" unique_id=1182526697]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STR"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox" unique_id=1610523025]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTRValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox/PanelContainer2"]
+[node name="StatsSTRValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox/PanelContainer2" unique_id=2016857076]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSTMHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="StatsSTMHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=51475616]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox" unique_id=163839999]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTMTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox/PanelContainer"]
+[node name="StatsSTMTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox/PanelContainer" unique_id=934086642]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "STM"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox" unique_id=813995028]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSTMValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox/PanelContainer2"]
+[node name="StatsSTMValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox/PanelContainer2" unique_id=90692311]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=696917986]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox" unique_id=1445688087]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSPDTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer"]
+[node name="StatsSPDTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer" unique_id=633159682]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SPD"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox" unique_id=1333411478]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSPDValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer2"]
+[node name="StatsSPDValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer2" unique_id=15287889]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsMAGHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="StatsMAGHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=163610416]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox" unique_id=1318784169]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMagTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox/PanelContainer"]
+[node name="StatsMagTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox/PanelContainer" unique_id=1668181039]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "MAG"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox" unique_id=1457911167]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsMAGValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox/PanelContainer2"]
+[node name="StatsMAGValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox/PanelContainer2" unique_id=890322303]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=2132578395]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1674276464]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox" unique_id=423742832]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox/PanelContainer"]
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox/PanelContainer" unique_id=1925035358]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox" unique_id=1836239290]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox/PanelContainer2"]
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox/PanelContainer2" unique_id=234437257]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsATKHBox2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="StatsATKHBox2" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1421366674]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2" unique_id=207069152]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2/PanelContainer"]
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2/PanelContainer" unique_id=1978058814]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2" unique_id=1010367968]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2/PanelContainer2"]
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2/PanelContainer2" unique_id=1161593912]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsATKHBox3" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="StatsATKHBox3" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1790275433]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3" unique_id=39744768]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3/PanelContainer"]
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3/PanelContainer" unique_id=612297251]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3" unique_id=1153240381]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3/PanelContainer2"]
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3/PanelContainer2" unique_id=1926368141]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsATKHBox4" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="StatsATKHBox4" type="HBoxContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1084135854]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4" unique_id=12698034]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4/PanelContainer"]
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4/PanelContainer" unique_id=1045235864]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "ATK"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4" unique_id=1314327027]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4/PanelContainer2"]
+[node name="StatsATKValue" type="Label" parent="StatsPositioner/StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4/PanelContainer2" unique_id=572138961]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="QuestsPositionerLeft" type="Control" parent="."]
+[node name="QuestsPositionerLeft" type="Control" parent="." unique_id=1544114189]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -1927,7 +1917,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_xubta")
 
-[node name="QuestsLeftPanel" type="PanelContainer" parent="QuestsPositionerLeft"]
+[node name="QuestsLeftPanel" type="PanelContainer" parent="QuestsPositionerLeft" unique_id=516742851]
 custom_minimum_size = Vector2(192, 166)
 layout_mode = 1
 anchors_preset = -1
@@ -1940,7 +1930,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3l8ib")
 
-[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerLeft/QuestsLeftPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerLeft/QuestsLeftPanel" unique_id=1600766828]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1950,31 +1940,31 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer" unique_id=2040778842]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="QuestsTypeHBox" type="HBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+[node name="QuestsTypeHBox" type="HBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer" unique_id=21625483]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="QuestsCurrentButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" instance=ExtResource("23_c6y0t")]
+[node name="QuestsCurrentButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" unique_id=770738734 instance=ExtResource("23_c6y0t")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 type = "CURRENT"
 
-[node name="QuestsCompletedButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" instance=ExtResource("23_c6y0t")]
+[node name="QuestsCompletedButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" unique_id=547859515 instance=ExtResource("23_c6y0t")]
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 0)
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer" unique_id=1969883786]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer" unique_id=1686106770]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -1982,20 +1972,20 @@ follow_focus = true
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="QuestsListVBox" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="QuestsListVBox" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1847262883]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 1
 
-[node name="QuestButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" instance=ExtResource("23_seyew")]
+[node name="QuestButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" unique_id=1734052086 instance=ExtResource("23_seyew")]
 layout_mode = 2
 
-[node name="QuestButton2" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" instance=ExtResource("23_seyew")]
+[node name="QuestButton2" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" unique_id=1002934146 instance=ExtResource("23_seyew")]
 layout_mode = 2
 
-[node name="QuestsPositionerRight" type="Control" parent="."]
+[node name="QuestsPositionerRight" type="Control" parent="." unique_id=241358268]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 225)
 layout_mode = 3
@@ -2010,7 +2000,7 @@ grow_vertical = 2
 size_flags_vertical = 8
 mouse_filter = 2
 
-[node name="DescriptionPanel" type="PanelContainer" parent="QuestsPositionerRight"]
+[node name="DescriptionPanel" type="PanelContainer" parent="QuestsPositionerRight" unique_id=1854541080]
 custom_minimum_size = Vector2(200, 166)
 layout_mode = 1
 anchors_preset = 15
@@ -2024,22 +2014,22 @@ grow_vertical = 2
 pivot_offset = Vector2(58.000427, 79)
 theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
 
-[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerRight/DescriptionPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerRight/DescriptionPanel" unique_id=972500535]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer" unique_id=360424380]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=64984485]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
 
-[node name="QuestTitle" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="QuestTitle" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer" unique_id=1597209975]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
@@ -2047,16 +2037,16 @@ theme_override_font_sizes/font_size = 7
 text = "SUPER DEDUPER HARD LONG QUEST NAME"
 horizontal_alignment = 1
 
-[node name="QuestDescHSep1" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+[node name="QuestDescHSep1" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=310579597]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
 
-[node name="PanelContainer2" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=186783131]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
 
-[node name="QuestDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer2"]
+[node name="QuestDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer2" unique_id=396234620]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
@@ -2065,16 +2055,16 @@ theme_override_font_sizes/font_size = 7
 text = "SUPER DUPER LONG QUEST DESCRIPTION TO DESCRIBE AN EXTREMELY DUPER HARD QUEST OF SOME SORT BECAUSE IT WOULD MAYBE NEED TO TELL THE PLAYER A LOT OF STUFF. BUT THIS SHOULD BE A GENERAL DESCRIPTION"
 autowrap_mode = 3
 
-[node name="QuestDescHSep2" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+[node name="QuestDescHSep2" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=1416648732]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
 
-[node name="PanelContainer3" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer"]
+[node name="PanelContainer3" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=1514888821]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
 
-[node name="QuestStepDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer3"]
+[node name="QuestStepDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer3" unique_id=1882973736]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
@@ -2083,7 +2073,7 @@ theme_override_font_sizes/font_size = 7
 text = "THIS IS A SUPER DUPER LONG QUEST STEP DESCRIPTION THAT SHOULD PROBABLY TELL THE PLAYER A LOT ABOUT WHERE THEY WOULD NEED TO GO TO COMPLETE THE STEP OTHERWISE THEY WILL MOST LIKELY GET LOST"
 autowrap_mode = 3
 
-[node name="OptionsPositioner" type="Control" parent="."]
+[node name="OptionsPositioner" type="Control" parent="." unique_id=1898145469]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -2095,7 +2085,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner" unique_id=1318058944]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2105,132 +2095,132 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_so8r6")
 
-[node name="MarginContainer" type="MarginContainer" parent="OptionsPositioner/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPositioner/PanelContainer" unique_id=1421877977]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer" unique_id=63241054]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="OptVolumeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="OptVolumeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1230734531]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="OptMusicHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox"]
+[node name="OptMusicHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=1692792453]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox" unique_id=1281072852]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="OptMusicLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer"]
+[node name="OptMusicLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer" unique_id=869480389]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Music"
 
-[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox"]
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox" unique_id=2105245823]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
 
-[node name="OptMusicSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer3" instance=ExtResource("22_so8r6")]
+[node name="OptMusicSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer3" unique_id=645098478 instance=ExtResource("22_so8r6")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_26r4l")
+theme_override_styles/panel = SubResource("StyleBoxFlat_8nbqf")
 
-[node name="OptSFXHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox"]
+[node name="OptSFXHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=1240971124]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox" unique_id=1863774053]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="OptSFXLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer"]
+[node name="OptSFXLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer" unique_id=2081405072]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SFX"
 
-[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox"]
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox" unique_id=2046567472]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
 
-[node name="OptSFXSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer3" instance=ExtResource("22_so8r6")]
+[node name="OptSFXSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer3" unique_id=198766485 instance=ExtResource("22_so8r6")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_seyew")
+theme_override_styles/panel = SubResource("StyleBoxFlat_cr4nj")
 volume_type = "SFX"
 
-[node name="OptVoicesHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox"]
+[node name="OptVoicesHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=1254520251]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox" unique_id=1370743383]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="OptVoicesLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer"]
+[node name="OptVoicesLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer" unique_id=3577972]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Voices"
 
-[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox"]
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox" unique_id=805647931]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
 
-[node name="OptVoicesSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer3" instance=ExtResource("22_so8r6")]
+[node name="OptVoicesSlider" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer3" unique_id=968950801 instance=ExtResource("22_so8r6")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_c6y0t")
+theme_override_styles/panel = SubResource("StyleBoxFlat_0mm1c")
 volume_type = "VOICES"
 
-[node name="OptPVHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="OptPVHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1063178120]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 16
 
-[node name="VTypeHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox"]
+[node name="VTypeHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox" unique_id=1711018801]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=2062957764]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="VTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer"]
+[node name="VTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer" unique_id=899371075]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Voices Type"
 
-[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox"]
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=1767976356]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 
-[node name="VTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer5"]
+[node name="VTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer5" unique_id=1184273983]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2238,11 +2228,11 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "FULL"
 
-[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox"]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=267437324]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="VTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer6"]
+[node name="VTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer6" unique_id=1356106768]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
@@ -2250,29 +2240,29 @@ focus_neighbor_right = NodePath("../../../PTypeHBox/PanelContainer6/PTypeButton"
 focus_neighbor_bottom = NodePath("../../../../MTypeHBox/PanelContainer6/MTypeButton")
 focus_next = NodePath("../../../PTypeHBox/PanelContainer6/PTypeButton")
 
-[node name="PTypeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox"]
+[node name="PTypeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox" unique_id=1036222831]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=993725134]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="PTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer"]
+[node name="PTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer" unique_id=251086776]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Portrait Type"
 
-[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox"]
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=833792111]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 
-[node name="PTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer5"]
+[node name="PTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer5" unique_id=1223363879]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2280,40 +2270,40 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Talking"
 
-[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox"]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=432870672]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="PTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer6"]
+[node name="PTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer6" unique_id=656121315]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../../VTypeHbox/PanelContainer6/VTypeButton")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../../../../MTypeHBox/PanelContainer6/MTypeButton")
 
-[node name="MTypeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MTypeHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1063493807]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox"]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=1465518431]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="MTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer"]
+[node name="MTypeTitleLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer" unique_id=959676810]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Movement"
 
-[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox"]
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=1351329429]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 
-[node name="MTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer5"]
+[node name="MTypeLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer5" unique_id=291706562]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2321,57 +2311,57 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Walk or Run"
 
-[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox"]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=292350271]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="MTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer6"]
+[node name="MTypeButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer6" unique_id=954534498]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_right = NodePath(".")
 button_pressed = true
 
-[node name="MsgSpeedHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MsgSpeedHbox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=413537618]
 layout_mode = 2
 
-[node name="MSpeed" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" instance=ExtResource("23_8gqqd")]
+[node name="MSpeed" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" unique_id=1633805118 instance=ExtResource("23_8gqqd")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_012yt")
+theme_override_styles/panel = SubResource("StyleBoxFlat_gn4aj")
 
-[node name="BMSpeed" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" instance=ExtResource("23_8gqqd")]
+[node name="BMSpeed" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" unique_id=145519433 instance=ExtResource("23_8gqqd")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ke5u3")
+theme_override_styles/panel = SubResource("StyleBoxFlat_x1axi")
 message_type = "BATTLE"
 
-[node name="MemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1002281568]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="MenuMemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox"]
+[node name="MenuMemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=2025872543]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer2" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox" unique_id=579807421]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="MenuMemLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer2"]
+[node name="MenuMemLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer2" unique_id=1976290112]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Menu Memory"
 
-[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox"]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox" unique_id=301572165]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="MenuMemButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer6"]
+[node name="MenuMemButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer6" unique_id=1262768271]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
@@ -2379,28 +2369,28 @@ focus_neighbor_right = NodePath("../../../BattMemHBox/PanelContainer6/BattMemBut
 focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
 focus_next = NodePath("../../../BattMemHBox/PanelContainer6/BattMemButton")
 
-[node name="BattMemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox"]
+[node name="BattMemHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=1001654105]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="PanelContainer2" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox"]
+[node name="PanelContainer2" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox" unique_id=1871401001]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="BattMemLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer2"]
+[node name="BattMemLabel" type="Label" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer2" unique_id=1064587346]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "Battle Memory"
 
-[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox"]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox" unique_id=1600212892]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="BattMemButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer6"]
+[node name="BattMemButton" type="CheckButton" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer6" unique_id=2015735084]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
@@ -2409,7 +2399,7 @@ focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
 focus_next = NodePath("../../../../OptSortOrderButton")
 focus_previous = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
 
-[node name="OptSortOrderButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="OptSortOrderButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=122833824]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2423,7 +2413,7 @@ theme = ExtResource("1_xubta")
 theme_type_variation = &"OptionsButton"
 text = "Configure Item Sort Order"
 
-[node name="OptControlsButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="OptControlsButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1614523795]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2437,7 +2427,7 @@ theme = ExtResource("1_xubta")
 theme_type_variation = &"OptionsButton"
 text = "Controls"
 
-[node name="OptInGameStatsButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="OptInGameStatsButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1814986323]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2453,12 +2443,12 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "In-Game Stats"
 
-[node name="OptLoadExitHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="OptLoadExitHBox" type="HBoxContainer" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer" unique_id=1678521265]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 16
 
-[node name="LoadGameButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox"]
+[node name="LoadGameButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox" unique_id=1895051918]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2474,7 +2464,7 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "LOAD GAME"
 
-[node name="ExitGameButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox"]
+[node name="ExitGameButton" type="Button" parent="OptionsPositioner/PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox" unique_id=910965746]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2490,7 +2480,7 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "EXIT GAME"
 
-[node name="SortOrderPositioner" type="Control" parent="."]
+[node name="SortOrderPositioner" type="Control" parent="." unique_id=843892137]
 unique_name_in_owner = true
 visible = false
 modulate = Color(1, 1, 1, 0)
@@ -2502,7 +2492,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="SortOrderPositioner"]
+[node name="PanelContainer" type="PanelContainer" parent="SortOrderPositioner" unique_id=515381533]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2517,21 +2507,21 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8gqqd")
 
-[node name="MarginContainer" type="MarginContainer" parent="SortOrderPositioner/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="SortOrderPositioner/PanelContainer" unique_id=1912082292]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
-[node name="SortOrderVBox" type="VBoxContainer" parent="SortOrderPositioner/PanelContainer/MarginContainer"]
+[node name="SortOrderVBox" type="VBoxContainer" parent="SortOrderPositioner/PanelContainer/MarginContainer" unique_id=15838452]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SortOrderEntry" parent="SortOrderPositioner/PanelContainer/MarginContainer/SortOrderVBox" instance=ExtResource("23_so8r6")]
+[node name="SortOrderEntry" parent="SortOrderPositioner/PanelContainer/MarginContainer/SortOrderVBox" unique_id=163212769 instance=ExtResource("23_so8r6")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1431622732]
 unique_name_in_owner = true
 bus = &"SFX"

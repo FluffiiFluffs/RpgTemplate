@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqts22xonjkd5"]
+[gd_scene format=3 uid="uid://cqts22xonjkd5"]
 
 [ext_resource type="Script" uid="uid://ylmjhw2a2rcf" path="res://_common/inspect_area/inspect_area.gd" id="1_6m17m"]
 [ext_resource type="Resource" uid="uid://2us77g0dyd34" path="res://dialogue/new_inspect_dialogue.dialogue" id="2_pnd2f"]
@@ -6,13 +6,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qanu8"]
 size = Vector2(16, 16)
 
-[node name="InspectArea" type="Area2D"]
+[node name="InspectArea" type="Area2D" unique_id=1893835037]
 collision_layer = 0
 collision_mask = 64
 monitorable = false
 script = ExtResource("1_6m17m")
 dialogue = ExtResource("2_pnd2f")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=18011746]
 shape = SubResource("RectangleShape2D_qanu8")
 debug_color = Color(0, 0.8083938, 0.47073382, 0.2509804)

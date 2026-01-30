@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ddiywckqcwvou"]
+[gd_scene format=3 uid="uid://ddiywckqcwvou"]
 
 [ext_resource type="Script" uid="uid://cwt5truy0vo2b" path="res://_globals/gui/game_menu/quest_button.gd" id="1_8n0nd"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_4cdn0"]
@@ -24,19 +24,19 @@ border_width_bottom = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jc2jf"]
 
-[node name="QuestButton" type="PanelContainer"]
+[node name="QuestButton" type="PanelContainer" unique_id=1981331559]
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
 script = ExtResource("1_8n0nd")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1287090924]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_4cdn0")
 theme_override_font_sizes/font_size = 7
 text = "SUPER DEDUPER HARD LONG QUEST NAME"
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1076610592]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_avlld")

@@ -20,6 +20,7 @@ extends Node2D
 @onready var vic_def_label : Label = %VicDefLabel
 @onready var skill_grid_container : GridContainer = %SkillGridContainer
 @onready var item_grid_container : GridContainer = %ItemGridContainer
+@onready var text_parser: TextParser = %TextParser
 
 
 
@@ -70,6 +71,7 @@ const BATTLE_SKILL_BUTTON = preload("uid://g7x34slwkxk8")
 const BATTLE_ITEM_BUTTON = preload("uid://m4s138hk416n")
 const BATTLEACTION_SKILL = preload("uid://dmtmbb2d7605b")
 const BATTLEACTION_ITEM = preload("uid://c6yb8mxic4rg4")
+const TEXTPOPUP = preload("uid://d2ikvy0y6dpju")
 
 
 #signal turn_choice_finished
@@ -221,7 +223,7 @@ func set_references_self()->void:
 	action_resolver.battle_scene = self
 	command_controller.battle_scene = self
 	status_system.battle_scene = self
-
+	text_parser.battle_scene = self
 	turn_manager.battle_scene = self
 	battle_turn_ui.battle_scene = self
 	battle_notify_ui.battle_scene = self
@@ -310,6 +312,37 @@ func play_defeat_swipe()->void:
 	animation_player.play("vicdef_show")
 	pass
 #endregion End of Battle
+
+#region Popup
+func pop_text(target : Battler, amount : int)->void:
+	var new_popup : TextPopup = TEXTPOPUP.instantiate()
+	new_popup.set_text(amount)
+	target.ui_element.battle_scene_container.add_child(new_popup)
+	##code needed to center out the instantiated scene within target maybe
+	new_popup.show_text()
+
+
+##TODO Need to figure out how to make a critical look like it's a real critical
+func pop_text_critical(target : Battler, amount : int)->void:
+	var new_popup : TextPopup = TEXTPOPUP.instantiate()
+	new_popup.set_text(amount)
+	target.ui_element.battle_scene_container.add_child(new_popup)
+	##code needed to center out the instantiated scene within target maybe
+	new_popup.show_text()
+
+
+func pop_text_healing(target : Battler, amount : int)->void:
+	var new_popup : TextPopup = TEXTPOPUP.instantiate()
+	new_popup.set_text(amount)
+	target.ui_element.battle_scene_container.add_child(new_popup)
+	new_popup.rich_text_label.self_modulate = Color(0.349, 0.767, 0.349, 1.0)
+	##code needed to center out the instantiated scene within target maybe
+	new_popup.show_text()
+
+
+
+#endregion Popup
+
 
 #region Input
 ##Detected inputs during battle should ONLY be handled here (in battle_scene). Children nodes/scripts should be called from this point!

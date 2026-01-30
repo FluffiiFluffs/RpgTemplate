@@ -5,6 +5,7 @@ extends Control
 @onready var marker_2d : Marker2D = %Marker2D
 @onready var battle_sprite : Sprite2D = %BattleSprite
 @onready var button : Button = %Button
+@onready var battle_scene_container: PanelContainer = %BattleSceneContainer
 
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 

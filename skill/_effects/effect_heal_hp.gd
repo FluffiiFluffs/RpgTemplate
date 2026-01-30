@@ -16,12 +16,24 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 
 	return true
 
-
 func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
 
-	var before_hp = target.current_hp
+	var before_hp : int = target.current_hp
+
 	target.current_hp = target.current_hp + hp_heal_amount
 	target.clamp_vitals()
-	return target.current_hp != before_hp
+
+	var applied_heal : int = target.current_hp - before_hp
+
+	if ctx.mode == EffectContext.Mode.BATTLE:
+		if ctx.battle_scene != null and ctx.current_target_battler != null:
+			if applied_heal > 0:
+				ctx.battle_scene.pop_text_healing(ctx.current_target_battler, applied_heal)
+
+	return applied_heal != 0
+	
+	
+	
+	##

@@ -104,7 +104,9 @@ func _execute_normal_attack(use : ActionUse)->void:
 		#var stats = final_target.ui_element as BattleStats
 		#await stats.hp_changed()
 
-	battle_scene.battle_notify_ui.queue_notification(final_name + " takes " + str(dmg) + " damage.")
+	#battle_scene.battle_notify_ui.queue_notification(final_name + " takes " + str(dmg) + " damage.")
+	
+	battle_scene.pop_text(final_target, dmg)
 
 	await battle_scene.notify_finished
 
@@ -122,11 +124,12 @@ func check_for_death(to : Battler, from :  Battler)->void:
 	if to.actor_data.current_hp <= 0:
 		battle_scene.battle_notify_ui.queue_notification(to.actor_data.char_resource.char_name + " falls to the ground!")
 		to.ui_element.deactivate_button() #redundant, this should happen when targeting is pulled up
-		
+		await get_tree().create_timer(1.0).timeout
 		#If the killed battler was an enemy, then distribute exp/money/loot(items)
 		if to.faction == Battler.Faction.ENEMY:
 			var enemy = to.actor_data
 			if enemy is EnemyData:
+				to.ui_element.visible = false
 				if enemy.experience != 0:
 					battle_scene.exp_earned += enemy.experience #add exp to pool
 				if enemy.money != 0:
@@ -241,10 +244,21 @@ func _execute_use_skill(use : ActionUse) -> void:
 	ctx.battle_scene = battle_scene
 	ctx.status_system = battle_scene.status_system
 
-	var message = skill.message_template
-	message = message.replace("{user}", user_name)
-	message = message.replace("{skill}", skill.name)
+	#var message = skill.message_template
+	#message = message.replace("{user}", user_name)
+	#message = message.replace("{skill}", skill.name)
+	#battle_scene.battle_notify_ui.queue_notification(message)
+	
+	var message : String = skill.message_template
+	if battle_scene.text_parser != null:
+		message = battle_scene.text_parser.parse_skill_message(use, skill)
+	else:
+		message = message.replace("{user}", user_name)
+		message = message.replace("{skill}", skill.name)
 	battle_scene.battle_notify_ui.queue_notification(message)
+
+
+	
 
 	var effects = skill.get_effects_for_context(ctx)
 	var any_effect_applied = false
@@ -308,10 +322,19 @@ func _execute_use_item(use : ActionUse) -> void:
 	ctx.status_system = battle_scene.status_system
 	ctx.source_item = item
 
-	var message = item.message_template
-	message = message.replace("{user}", user_name)
-	message = message.replace("{item}", item.name)
+	#var message = item.message_template
+	#message = message.replace("{user}", user_name)
+	#message = message.replace("{item}", item.name)
+	#battle_scene.battle_notify_ui.queue_notification(message)
+	
+	var message : String = item.message_template
+	if battle_scene.text_parser != null:
+		message = battle_scene.text_parser.parse_item_message(use, item)
+	else:
+		message = message.replace("{user}", user_name)
+		message = message.replace("{item}", item.name)
 	battle_scene.battle_notify_ui.queue_notification(message)
+
 
 	var effects : Array[Effect] = item.get_effects_for_context(ctx)
 

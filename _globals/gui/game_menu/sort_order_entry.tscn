@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwhea87oe4shd"]
+[gd_scene format=3 uid="uid://dwhea87oe4shd"]
 
 [ext_resource type="Script" uid="uid://f63360xm7q7b" path="res://_globals/gui/game_menu/sort_order_entry.gd" id="1_q5cqw"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_vbcpf"]
@@ -24,15 +24,15 @@ border_width_bottom = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uyx8q"]
 
-[node name="SortOrderEntry" type="HBoxContainer"]
+[node name="SortOrderEntry" type="HBoxContainer" unique_id=651669440]
 script = ExtResource("1_q5cqw")
 
-[node name="SortNumContainer" type="PanelContainer" parent="."]
+[node name="SortNumContainer" type="PanelContainer" parent="." unique_id=521793607]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_26r4l")
 
-[node name="SortNumLabel" type="Label" parent="SortNumContainer"]
+[node name="SortNumLabel" type="Label" parent="SortNumContainer" unique_id=1064495689]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -40,13 +40,13 @@ theme_override_fonts/font = ExtResource("1_vbcpf")
 theme_override_font_sizes/font_size = 11
 text = "1"
 
-[node name="SortButtonContainer" type="PanelContainer" parent="."]
+[node name="SortButtonContainer" type="PanelContainer" parent="." unique_id=1315040113]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mngg1")
 
-[node name="SortButton" type="Button" parent="SortButtonContainer"]
+[node name="SortButton" type="Button" parent="SortButtonContainer" unique_id=309376541]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bvuhnuj24if74"]
+[gd_scene format=3 uid="uid://bvuhnuj24if74"]
 
 [ext_resource type="Script" uid="uid://ccmk5njwy16d3" path="res://actors/_common/field_party_base/field_party_member.gd" id="1_g3p4a"]
 [ext_resource type="Texture2D" uid="uid://bq6k5ndopsyvb" path="res://_assets/character/party/thief/thief_sprite_sheet.png" id="2_v1i1w"]
@@ -277,58 +277,56 @@ size = Vector2(696.5, 392)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
 size = Vector2(16, 20)
 
-[node name="Thief" type="CharacterBody2D"]
+[node name="Thief" type="CharacterBody2D" unique_id=492585066]
 y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_g3p4a")
 
-[node name="FieldSprite" type="Sprite2D" parent="."]
+[node name="FieldSprite" type="Sprite2D" parent="." unique_id=484329270]
 unique_name_in_owner = true
 texture = ExtResource("2_v1i1w")
 offset = Vector2(0, -15)
 hframes = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1212208226]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_b1uet")
-}
+libraries/ = SubResource("AnimationLibrary_b1uet")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1719507879]
 unique_name_in_owner = true
 max_polyphony = 5
 bus = &"SFX"
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=291595659]
 unique_name_in_owner = true
 process_mode = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1722393337]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_b1uet")
 
-[node name="StateMachine" type="Node2D" parent="."]
+[node name="StateMachine" type="Node2D" parent="." unique_id=147421559]
 unique_name_in_owner = true
 script = ExtResource("3_k00ly")
 
-[node name="Idle" type="Node2D" parent="StateMachine"]
+[node name="Idle" type="Node2D" parent="StateMachine" unique_id=1675142345]
 unique_name_in_owner = true
 script = ExtResource("4_pb80v")
 
-[node name="Walk" type="Node2D" parent="StateMachine"]
+[node name="Walk" type="Node2D" parent="StateMachine" unique_id=300874211]
 unique_name_in_owner = true
 script = ExtResource("5_rdc1i")
 
-[node name="CutScene" type="Node2D" parent="StateMachine"]
+[node name="CutScene" type="Node2D" parent="StateMachine" unique_id=516306169]
 
-[node name="Follow" type="Node2D" parent="StateMachine"]
+[node name="Follow" type="Node2D" parent="StateMachine" unique_id=1038032477]
 unique_name_in_owner = true
 script = ExtResource("6_8bdjk")
 
-[node name="EnemySpawnTrigger" type="Area2D" parent="."]
+[node name="EnemySpawnTrigger" type="Area2D" parent="." unique_id=1403814257]
 unique_name_in_owner = true
 visible = false
 collision_layer = 524288
@@ -336,26 +334,26 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger" unique_id=1466744930]
 shape = SubResource("RectangleShape2D_6oia8")
 debug_color = Color(1, 0, 0, 0)
 
-[node name="InteractPivot" type="Marker2D" parent="."]
+[node name="InteractPivot" type="Marker2D" parent="." unique_id=315351361]
 position = Vector2(0, -7)
 
-[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot"]
+[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot" unique_id=1494208590]
 unique_name_in_owner = true
 collision_layer = 64
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D" unique_id=580489840]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_pflqk")
 debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)
 
-[node name="StateLabel" type="Label" parent="."]
+[node name="StateLabel" type="Label" parent="." unique_id=1150162630]
 unique_name_in_owner = true
 y_sort_enabled = true
 offset_left = -6.0

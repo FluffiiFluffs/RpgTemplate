@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dt3hw6ocf2cl7"]
+[gd_scene format=3 uid="uid://dt3hw6ocf2cl7"]
 
 [ext_resource type="Script" uid="uid://d1k5s12vcpuql" path="res://actors/_common/field_enemy.gd" id="1_51fde"]
 [ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="2_x8ng7"]
@@ -194,7 +194,7 @@ size = Vector2(96, 96)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0bw1c"]
 size = Vector2(18, 20)
 
-[node name="FieldEnemy" type="CharacterBody2D"]
+[node name="FieldEnemy" type="CharacterBody2D" unique_id=352011731]
 y_sort_enabled = true
 collision_layer = 8
 collision_mask = 25
@@ -203,7 +203,7 @@ script = ExtResource("1_51fde")
 will_walk = true
 default_move_speed = 30.0
 
-[node name="StateLabel" type="Label" parent="."]
+[node name="StateLabel" type="Label" parent="." unique_id=1373271345]
 unique_name_in_owner = true
 y_sort_enabled = true
 offset_left = -19.0
@@ -215,7 +215,7 @@ theme_override_font_sizes/font_size = 8
 text = "W"
 horizontal_alignment = 1
 
-[node name="FieldSprite" type="Sprite2D" parent="."]
+[node name="FieldSprite" type="Sprite2D" parent="." unique_id=356194852]
 unique_name_in_owner = true
 texture = ExtResource("3_y0sb0")
 offset = Vector2(0, -15)
@@ -223,87 +223,85 @@ hframes = 4
 vframes = 3
 frame = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=528760413]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_b1uet")
-}
+libraries/ = SubResource("AnimationLibrary_b1uet")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=210222307]
 unique_name_in_owner = true
 max_polyphony = 5
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1398231662]
 unique_name_in_owner = true
 process_mode = 1
 current = true
 
-[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BodyCollisionShape2D" type="CollisionShape2D" parent="." unique_id=2002348001]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_b1uet")
 
-[node name="StateMachine" type="Node2D" parent="."]
+[node name="StateMachine" type="Node2D" parent="." unique_id=1974980737]
 unique_name_in_owner = true
 script = ExtResource("4_whd2p")
 
-[node name="Idle" type="Node2D" parent="StateMachine"]
+[node name="Idle" type="Node2D" parent="StateMachine" unique_id=1068387272]
 unique_name_in_owner = true
 script = ExtResource("5_iyqrm")
 
-[node name="Walk" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("next_state")]
+[node name="Walk" type="Node2D" parent="StateMachine" unique_id=1712064420 node_paths=PackedStringArray("next_state")]
 unique_name_in_owner = true
 script = ExtResource("6_ls1bo")
 next_state = NodePath("../Idle")
 
-[node name="Patrol" type="Node2D" parent="StateMachine"]
+[node name="Patrol" type="Node2D" parent="StateMachine" unique_id=100594619]
 unique_name_in_owner = true
 script = ExtResource("7_ifgpp")
 
-[node name="Follow" type="Node2D" parent="StateMachine"]
+[node name="Follow" type="Node2D" parent="StateMachine" unique_id=1137863164]
 unique_name_in_owner = true
 script = ExtResource("8_wik85")
 
-[node name="Caution" type="Node2D" parent="StateMachine"]
+[node name="Caution" type="Node2D" parent="StateMachine" unique_id=287091479]
 unique_name_in_owner = true
 script = ExtResource("9_iu56r")
 
-[node name="Alert" type="Node2D" parent="StateMachine"]
+[node name="Alert" type="Node2D" parent="StateMachine" unique_id=1556846562]
 unique_name_in_owner = true
 script = ExtResource("10_4rnpf")
 
-[node name="SeeArea2D" type="Area2D" parent="."]
+[node name="SeeArea2D" type="Area2D" parent="." unique_id=414921365]
 unique_name_in_owner = true
 collision_layer = 0
 monitorable = false
 
-[node name="SeeShape2D" type="CollisionShape2D" parent="SeeArea2D"]
+[node name="SeeShape2D" type="CollisionShape2D" parent="SeeArea2D" unique_id=1462155625]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_usjcl")
 debug_color = Color(0.78431374, 0.78431374, 0.78431374, 0)
 
-[node name="CautionArea2D" type="Area2D" parent="."]
+[node name="CautionArea2D" type="Area2D" parent="." unique_id=1991329318]
 unique_name_in_owner = true
 collision_layer = 0
 monitorable = false
 
-[node name="CautionShape2D" type="CollisionShape2D" parent="CautionArea2D"]
+[node name="CautionShape2D" type="CollisionShape2D" parent="CautionArea2D" unique_id=1145364931]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_q6shg")
 debug_color = Color(0.48235294, 0.42352942, 0, 0)
 
-[node name="AlertArea2D" type="Area2D" parent="."]
+[node name="AlertArea2D" type="Area2D" parent="." unique_id=830122615]
 unique_name_in_owner = true
 collision_layer = 0
 monitorable = false
 
-[node name="AlertShape2D" type="CollisionShape2D" parent="AlertArea2D"]
+[node name="AlertShape2D" type="CollisionShape2D" parent="AlertArea2D" unique_id=422784173]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_a7sam")
 debug_color = Color(1, 0, 0, 0)
 
-[node name="WalkArea2D" type="Area2D" parent="."]
+[node name="WalkArea2D" type="Area2D" parent="." unique_id=560438089]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 0
@@ -311,27 +309,27 @@ monitoring = false
 monitorable = false
 script = ExtResource("11_5td65")
 
-[node name="WalkShape2D" type="CollisionShape2D" parent="WalkArea2D"]
+[node name="WalkShape2D" type="CollisionShape2D" parent="WalkArea2D" unique_id=730151879]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_muh4v")
 debug_color = Color(1, 0, 0.5372549, 0)
 
-[node name="EncounterArea" type="Area2D" parent="."]
+[node name="EncounterArea" type="Area2D" parent="." unique_id=1913675293]
 unique_name_in_owner = true
 collision_layer = 0
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterArea" unique_id=1142614853]
 z_index = 1
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_0bw1c")
 debug_color = Color(1, 0, 0, 0)
 
-[node name="DetectTimer" type="Timer" parent="."]
+[node name="DetectTimer" type="Timer" parent="." unique_id=1877735970]
 unique_name_in_owner = true
 wait_time = 0.2
 autostart = true
 
-[node name="CollTimer" type="Timer" parent="."]
+[node name="CollTimer" type="Timer" parent="." unique_id=1466360068]
 unique_name_in_owner = true
 one_shot = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhfhqwlqdj6ki"]
+[gd_scene format=3 uid="uid://bhfhqwlqdj6ki"]
 
 [ext_resource type="Script" uid="uid://d12t50i0x6eeg" path="res://_globals/gui/game_menu/inventory_item_button.gd" id="2_a5s1n"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_dpp3w"]
@@ -18,12 +18,12 @@ border_width_bottom = 1
 draw_center = false
 corner_detail = 1
 
-[node name="InventoryItemButton" type="PanelContainer"]
+[node name="InventoryItemButton" type="PanelContainer" unique_id=2084332015]
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
 script = ExtResource("2_a5s1n")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=708307853]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 0
@@ -31,11 +31,11 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = -2
 theme_override_constants/margin_bottom = -2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=678314098]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="ItemButton" type="Button" parent="MarginContainer/HBoxContainer"]
+[node name="ItemButton" type="Button" parent="MarginContainer/HBoxContainer" unique_id=1790278729]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -50,7 +50,7 @@ toggle_mode = true
 text = "Apple"
 alignment = 0
 
-[node name="ItemQtyLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="ItemQtyLabel" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1554360327]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8

@@ -1,7 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ct6tg52rext7w"]
+[gd_scene format=3 uid="uid://ct6tg52rext7w"]
 
 [ext_resource type="Script" uid="uid://cgtmo06vwdd46" path="res://_globals/options.gd" id="1_8gp16"]
 
-[node name="Options" type="Node2D"]
+[node name="Options" type="Node2D" unique_id=1372710036]
 script = ExtResource("1_8gp16")
 multi_stacks = false

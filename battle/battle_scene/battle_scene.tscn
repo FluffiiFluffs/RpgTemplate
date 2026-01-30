@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://h63ncjrxunau"]
+[gd_scene format=3 uid="uid://h63ncjrxunau"]
 
 [ext_resource type="Script" uid="uid://ccrcb1ncfvdgb" path="res://battle/battle_scene/battle_scene.gd" id="1_u2cu5"]
 [ext_resource type="Texture2D" uid="uid://da0c7finyihvv" path="res://_assets/battle/background/TMZBattleBackExtended.png" id="2_4ui5s"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://4nin0p3thxct" path="res://battle/battle_scene/command_controller.gd" id="16_wjvtq"]
 [ext_resource type="Script" uid="uid://b1uk1a6a6ixhb" path="res://battle/battle_scene/status_system.gd" id="17_154v0"]
 [ext_resource type="Script" uid="uid://dh7areqs7ffno" path="res://battle/battle_scene/turn_manager.gd" id="19_agadl"]
+[ext_resource type="Script" uid="uid://bqwqmopnga6i3" path="res://battle/battle_scene/text_parser.gd" id="21_3fmyx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jj1aw"]
 content_margin_left = 2.0
@@ -172,22 +173,22 @@ _data = {
 &"vicdef_show": SubResource("Animation_nfpqq")
 }
 
-[node name="BattleScene" type="Node2D"]
+[node name="BattleScene" type="Node2D" unique_id=1976310548]
 script = ExtResource("1_u2cu5")
 
-[node name="BattleCameraRig" type="Node2D" parent="."]
+[node name="BattleCameraRig" type="Node2D" parent="." unique_id=1060872600]
 unique_name_in_owner = true
 script = ExtResource("4_n6te2")
 
-[node name="BattleCamera" type="Camera2D" parent="BattleCameraRig"]
+[node name="BattleCamera" type="Camera2D" parent="BattleCameraRig" unique_id=1635877396]
 unique_name_in_owner = true
 position = Vector2(200, 112)
 enabled = false
 
-[node name="BattleUI" type="CanvasLayer" parent="."]
+[node name="BattleUI" type="CanvasLayer" parent="." unique_id=1256079644]
 unique_name_in_owner = true
 
-[node name="Background" type="TextureRect" parent="BattleUI"]
+[node name="Background" type="TextureRect" parent="BattleUI" unique_id=213917536]
 z_index = -1
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,20 +199,20 @@ grow_vertical = 2
 texture = ExtResource("2_4ui5s")
 stretch_mode = 2
 
-[node name="BattleVFX" type="Node2D" parent="BattleUI"]
+[node name="BattleVFX" type="Node2D" parent="BattleUI" unique_id=1711893028]
 unique_name_in_owner = true
 script = ExtResource("5_nbjvm")
 
-[node name="EnemyLayer" type="Control" parent="BattleUI"]
+[node name="EnemyLayer" type="Control" parent="BattleUI" unique_id=156528263]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 92)
+custom_minimum_size = Vector2(400, 64)
 layout_mode = 3
 anchors_preset = 0
-offset_top = 26.0
+offset_top = 59.0
 offset_right = 400.0
-offset_bottom = 118.0
+offset_bottom = 123.0
 
-[node name="EnemyHBox" type="HBoxContainer" parent="BattleUI/EnemyLayer"]
+[node name="EnemyHBox" type="HBoxContainer" parent="BattleUI/EnemyLayer" unique_id=1680320256]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -219,25 +220,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 size_flags_vertical = 4
+mouse_filter = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="BattleEnemy" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+[node name="BattleEnemy" parent="BattleUI/EnemyLayer/EnemyHBox" unique_id=614352980 instance=ExtResource("3_68prx")]
 layout_mode = 2
 
-[node name="BattleEnemy2" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+[node name="BattleEnemy2" parent="BattleUI/EnemyLayer/EnemyHBox" unique_id=1401764008 instance=ExtResource("3_68prx")]
 layout_mode = 2
 
-[node name="BattleEnemy3" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+[node name="BattleEnemy3" parent="BattleUI/EnemyLayer/EnemyHBox" unique_id=1345913576 instance=ExtResource("3_68prx")]
 layout_mode = 2
 
-[node name="BattleEnemy4" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+[node name="BattleEnemy4" parent="BattleUI/EnemyLayer/EnemyHBox" unique_id=238002747 instance=ExtResource("3_68prx")]
 layout_mode = 2
 
-[node name="BattleEnemy5" parent="BattleUI/EnemyLayer/EnemyHBox" instance=ExtResource("3_68prx")]
+[node name="BattleEnemy5" parent="BattleUI/EnemyLayer/EnemyHBox" unique_id=1652339369 instance=ExtResource("3_68prx")]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="BattleUI"]
+[node name="Button" type="Button" parent="BattleUI" unique_id=218648578]
 unique_name_in_owner = true
 visible = false
 z_index = 1000
@@ -254,7 +256,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "VICTORY"
 
-[node name="SkillWindow" type="PanelContainer" parent="BattleUI"]
+[node name="SkillWindow" type="PanelContainer" parent="BattleUI" unique_id=253020102]
 unique_name_in_owner = true
 visible = false
 z_index = 10
@@ -266,61 +268,61 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/SkillWindow"]
+[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/SkillWindow" unique_id=1093706584]
 layout_mode = 2
 
-[node name="SkillGridContainer" type="GridContainer" parent="BattleUI/SkillWindow/ScrollContainer"]
+[node name="SkillGridContainer" type="GridContainer" parent="BattleUI/SkillWindow/ScrollContainer" unique_id=1271889195]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="BattleSkillButton3" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton3" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1312282428 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton4" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton4" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=2080816075 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton5" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton5" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1595512169 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton6" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton6" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1155199142 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton7" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton7" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=201616944 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton8" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton8" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1223887006 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton9" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton9" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1308828752 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton10" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton10" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1244512007 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton11" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton11" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1014167409 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton12" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton12" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=638628682 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton13" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton13" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=2088889826 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton14" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton14" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=221539710 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton15" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton15" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1091873027 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton16" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton16" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=91993727 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=697760383 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="ItemWindow" type="PanelContainer" parent="BattleUI"]
+[node name="ItemWindow" type="PanelContainer" parent="BattleUI" unique_id=1559210427]
 unique_name_in_owner = true
 visible = false
 top_level = true
@@ -333,20 +335,20 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/ItemWindow"]
+[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/ItemWindow" unique_id=517742519]
 layout_mode = 2
 
-[node name="ItemGridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ScrollContainer"]
+[node name="ItemGridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ScrollContainer" unique_id=1374776911]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="BattleItemButton" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer" instance=ExtResource("7_nfpqq")]
+[node name="BattleItemButton" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer" unique_id=1746835823 instance=ExtResource("7_nfpqq")]
 layout_mode = 2
 
-[node name="MiddleBanner" type="Control" parent="BattleUI"]
+[node name="MiddleBanner" type="Control" parent="BattleUI" unique_id=783106652]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -356,7 +358,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="VicDefLabel" type="Label" parent="BattleUI/MiddleBanner"]
+[node name="VicDefLabel" type="Label" parent="BattleUI/MiddleBanner" unique_id=247398904]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -375,8 +377,7 @@ text = "VICTORY!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BattlePartyUI" type="Control" parent="BattleUI"]
-visible = false
+[node name="BattlePartyUI" type="Control" parent="BattleUI" unique_id=1505848166]
 z_index = 2
 layout_mode = 3
 anchors_preset = 15
@@ -388,7 +389,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_coff1")
 
-[node name="PartyHBox" type="HBoxContainer" parent="BattleUI/BattlePartyUI"]
+[node name="PartyHBox" type="HBoxContainer" parent="BattleUI/BattlePartyUI" unique_id=1791836481]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -403,23 +404,23 @@ grow_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="BattleStats" parent="BattleUI/BattlePartyUI/PartyHBox" instance=ExtResource("4_nbjvm")]
+[node name="BattleStats" parent="BattleUI/BattlePartyUI/PartyHBox" unique_id=708035561 instance=ExtResource("4_nbjvm")]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BattleStats2" parent="BattleUI/BattlePartyUI/PartyHBox" instance=ExtResource("4_nbjvm")]
+[node name="BattleStats2" parent="BattleUI/BattlePartyUI/PartyHBox" unique_id=1519817177 instance=ExtResource("4_nbjvm")]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BattleStats3" parent="BattleUI/BattlePartyUI/PartyHBox" instance=ExtResource("4_nbjvm")]
+[node name="BattleStats3" parent="BattleUI/BattlePartyUI/PartyHBox" unique_id=814724633 instance=ExtResource("4_nbjvm")]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BattleStats4" parent="BattleUI/BattlePartyUI/PartyHBox" instance=ExtResource("4_nbjvm")]
+[node name="BattleStats4" parent="BattleUI/BattlePartyUI/PartyHBox" unique_id=1482564382 instance=ExtResource("4_nbjvm")]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BattleNotifyUI" type="Control" parent="BattleUI"]
+[node name="BattleNotifyUI" type="Control" parent="BattleUI" unique_id=380868511]
 unique_name_in_owner = true
 z_index = 3
 layout_mode = 3
@@ -431,7 +432,7 @@ size_flags_vertical = 0
 mouse_filter = 2
 script = ExtResource("6_dkrhh")
 
-[node name="MarginContainer" type="MarginContainer" parent="BattleUI/BattleNotifyUI"]
+[node name="MarginContainer" type="MarginContainer" parent="BattleUI/BattleNotifyUI" unique_id=1478213016]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -440,12 +441,12 @@ grow_horizontal = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_right = 18
 
-[node name="PanelContainer" type="PanelContainer" parent="BattleUI/BattleNotifyUI/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="BattleUI/BattleNotifyUI/MarginContainer" unique_id=698605207]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_nbjvm")
 
-[node name="NotifyLabel" type="Label" parent="BattleUI/BattleNotifyUI/MarginContainer/PanelContainer"]
+[node name="NotifyLabel" type="Label" parent="BattleUI/BattleNotifyUI/MarginContainer/PanelContainer" unique_id=596635675]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
@@ -454,11 +455,11 @@ theme_override_font_sizes/font_size = 7
 text = "This is a text box used to notify the player about things happening in battle and should be used for a lot of stuff"
 autowrap_mode = 3
 
-[node name="NotifyTimer" type="Timer" parent="BattleUI/BattleNotifyUI"]
+[node name="NotifyTimer" type="Timer" parent="BattleUI/BattleNotifyUI" unique_id=640603482]
 unique_name_in_owner = true
 one_shot = true
 
-[node name="BattleTurnUI" type="Control" parent="BattleUI"]
+[node name="BattleTurnUI" type="Control" parent="BattleUI" unique_id=577115462]
 unique_name_in_owner = true
 z_index = 3
 layout_mode = 3
@@ -468,59 +469,61 @@ grow_horizontal = 2
 mouse_filter = 2
 script = ExtResource("7_trk6d")
 
-[node name="BattleTurnVBox" type="VBoxContainer" parent="BattleUI/BattleTurnUI"]
+[node name="BattleTurnVBox" type="VBoxContainer" parent="BattleUI/BattleTurnUI" unique_id=543219662]
 unique_name_in_owner = true
 layout_mode = 1
 offset_right = 43.0
 offset_bottom = 162.0
 theme_override_constants/separation = 0
 
-[node name="TurnOrderBox" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
+[node name="TurnOrderBox" parent="BattleUI/BattleTurnUI/BattleTurnVBox" unique_id=1288344209 instance=ExtResource("10_7jdo1")]
 layout_mode = 2
 
-[node name="TurnOrderBox2" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
+[node name="TurnOrderBox2" parent="BattleUI/BattleTurnUI/BattleTurnVBox" unique_id=995913899 instance=ExtResource("10_7jdo1")]
 layout_mode = 2
 
-[node name="TurnOrderBox3" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
+[node name="TurnOrderBox3" parent="BattleUI/BattleTurnUI/BattleTurnVBox" unique_id=1421569767 instance=ExtResource("10_7jdo1")]
 layout_mode = 2
 
-[node name="TurnOrderBox4" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
+[node name="TurnOrderBox4" parent="BattleUI/BattleTurnUI/BattleTurnVBox" unique_id=1775301940 instance=ExtResource("10_7jdo1")]
 layout_mode = 2
 
-[node name="TurnOrderBox5" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
+[node name="TurnOrderBox5" parent="BattleUI/BattleTurnUI/BattleTurnVBox" unique_id=1685477089 instance=ExtResource("10_7jdo1")]
 layout_mode = 2
 
-[node name="TurnOrderBox6" parent="BattleUI/BattleTurnUI/BattleTurnVBox" instance=ExtResource("10_7jdo1")]
+[node name="TurnOrderBox6" parent="BattleUI/BattleTurnUI/BattleTurnVBox" unique_id=47094143 instance=ExtResource("10_7jdo1")]
 layout_mode = 2
 
-[node name="Battlers" type="Node" parent="."]
+[node name="Battlers" type="Node" parent="." unique_id=1403564593]
 unique_name_in_owner = true
 script = ExtResource("12_yjq6l")
 
-[node name="Battler" parent="Battlers" instance=ExtResource("11_jj1aw")]
+[node name="Battler" parent="Battlers" unique_id=1423636466 instance=ExtResource("11_jj1aw")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=933406877]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_yjq6l")
-}
+libraries/ = SubResource("AnimationLibrary_yjq6l")
 
-[node name="ActionCalculator" type="Node" parent="."]
+[node name="ActionCalculator" type="Node" parent="." unique_id=1329184134]
 unique_name_in_owner = true
 script = ExtResource("14_55wru")
 
-[node name="ActionResolver" type="Node" parent="."]
+[node name="ActionResolver" type="Node" parent="." unique_id=334042371]
 unique_name_in_owner = true
 script = ExtResource("15_1xi1p")
 
-[node name="CommandController" type="Node" parent="."]
+[node name="CommandController" type="Node" parent="." unique_id=1244580577]
 unique_name_in_owner = true
 script = ExtResource("16_wjvtq")
 
-[node name="StatusSystem" type="Node" parent="."]
+[node name="StatusSystem" type="Node" parent="." unique_id=1795574207]
 unique_name_in_owner = true
 script = ExtResource("17_154v0")
 
-[node name="TurnManager" type="Node" parent="."]
+[node name="TurnManager" type="Node" parent="." unique_id=1842030558]
 unique_name_in_owner = true
 script = ExtResource("19_agadl")
+
+[node name="TextParser" type="Node" parent="." unique_id=740119330]
+unique_name_in_owner = true
+script = ExtResource("21_3fmyx")

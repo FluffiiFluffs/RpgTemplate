@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ck24oy7ba1cog"]
+[gd_scene format=3 uid="uid://ck24oy7ba1cog"]
 
 [ext_resource type="Script" uid="uid://ccmk5njwy16d3" path="res://actors/_common/field_party_base/field_party_member.gd" id="1_odiw3"]
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/field_state_machine/base_state_machine_scripts/state_machine.gd" id="2_03hp3"]
@@ -277,67 +277,65 @@ size = Vector2(696.5, 392)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
 size = Vector2(16, 20)
 
-[node name="PartyMember" type="CharacterBody2D"]
+[node name="PartyMember" type="CharacterBody2D" unique_id=204421603]
 y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_odiw3")
 
-[node name="FieldSprite" type="Sprite2D" parent="."]
+[node name="FieldSprite" type="Sprite2D" parent="." unique_id=2120151590]
 unique_name_in_owner = true
 texture = ExtResource("2_dn1bu")
 offset = Vector2(0, -15)
 hframes = 4
 
-[node name="BattleSprite" type="Sprite2D" parent="."]
+[node name="BattleSprite" type="Sprite2D" parent="." unique_id=1189006486]
 unique_name_in_owner = true
 offset = Vector2(0, -15)
 hframes = 4
 vframes = 3
 frame = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1251884249]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_b1uet")
-}
+libraries/ = SubResource("AnimationLibrary_b1uet")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1771806159]
 unique_name_in_owner = true
 max_polyphony = 5
 bus = &"SFX"
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1946113304]
 unique_name_in_owner = true
 process_mode = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2028380425]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_b1uet")
 
-[node name="StateMachine" type="Node2D" parent="."]
+[node name="StateMachine" type="Node2D" parent="." unique_id=1656658789]
 unique_name_in_owner = true
 script = ExtResource("2_03hp3")
 
-[node name="Idle" type="Node2D" parent="StateMachine"]
+[node name="Idle" type="Node2D" parent="StateMachine" unique_id=114068120]
 unique_name_in_owner = true
 script = ExtResource("3_i2h6r")
 
-[node name="Walk" type="Node2D" parent="StateMachine"]
+[node name="Walk" type="Node2D" parent="StateMachine" unique_id=469110644]
 unique_name_in_owner = true
 script = ExtResource("4_odiw3")
 
-[node name="CutScene" type="Node2D" parent="StateMachine"]
+[node name="CutScene" type="Node2D" parent="StateMachine" unique_id=1157805589]
 
-[node name="Follow" type="Node2D" parent="StateMachine"]
+[node name="Follow" type="Node2D" parent="StateMachine" unique_id=1754966267]
 unique_name_in_owner = true
 script = ExtResource("6_dn1bu")
 
-[node name="Battle" type="Node2D" parent="StateMachine"]
+[node name="Battle" type="Node2D" parent="StateMachine" unique_id=745886578]
 
-[node name="EnemySpawnTrigger" type="Area2D" parent="."]
+[node name="EnemySpawnTrigger" type="Area2D" parent="." unique_id=1272744521]
 unique_name_in_owner = true
 visible = false
 collision_layer = 524288
@@ -345,26 +343,26 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger" unique_id=2127924022]
 shape = SubResource("RectangleShape2D_6oia8")
 debug_color = Color(1, 0, 0, 0)
 
-[node name="InteractPivot" type="Marker2D" parent="."]
+[node name="InteractPivot" type="Marker2D" parent="." unique_id=504470357]
 position = Vector2(0, -7)
 
-[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot"]
+[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot" unique_id=738812207]
 unique_name_in_owner = true
 collision_layer = 64
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D" unique_id=1817163064]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_pflqk")
 debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)
 
-[node name="StateLabel" type="Label" parent="."]
+[node name="StateLabel" type="Label" parent="." unique_id=1058991741]
 unique_name_in_owner = true
 y_sort_enabled = true
 offset_left = -6.0

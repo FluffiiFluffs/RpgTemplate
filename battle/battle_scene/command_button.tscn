@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://76laxtdwkaco"]
+[gd_scene format=3 uid="uid://76laxtdwkaco"]
 
 [ext_resource type="Script" uid="uid://xj14feg5u8oc" path="res://battle/battle_scene/command_button.gd" id="1_lglrq"]
 
@@ -22,19 +22,19 @@ fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nbjvm"]
 
-[node name="CommandButton" type="PanelContainer"]
+[node name="CommandButton" type="PanelContainer" unique_id=1557721864]
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_coff1")
 script = ExtResource("1_lglrq")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=75474555]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 texture = SubResource("GradientTexture2D_4ui5s")
 stretch_mode = 3
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1752723070]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_nbjvm")

@@ -13,7 +13,7 @@ config_version=5
 config/name="RPG Template"
 config/description="This is the template for RPG Systems"
 run/main_scene="uid://c8e5dflrg8xre"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=45
 config/icon="res://icon.svg"
 

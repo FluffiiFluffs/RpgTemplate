@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SpeakerResource" load_steps=19 format=3 uid="uid://dbnggkxfb7vou"]
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://dbnggkxfb7vou"]
 
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_cv867"]
 [ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="1_ypob0"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bw1yk70p3346y"]
+[gd_scene format=3 uid="uid://bw1yk70p3346y"]
 
 [ext_resource type="Script" uid="uid://76vltdckwkst" path="res://_globals/gui/game_menu/top_level_stats.gd" id="1_vu14d"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_o82g3"]
@@ -83,7 +83,7 @@ border_width_right = 4
 border_width_bottom = 4
 anti_aliasing = false
 
-[node name="ToplevelStats" type="Control"]
+[node name="ToplevelStats" type="Control" unique_id=2079864817]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 3
 anchors_preset = 0
@@ -91,7 +91,7 @@ offset_right = 100.0
 offset_bottom = 50.0
 script = ExtResource("1_vu14d")
 
-[node name="StatsContainer" type="PanelContainer" parent="."]
+[node name="StatsContainer" type="PanelContainer" parent="." unique_id=1138763388]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 43)
 layout_mode = 1
@@ -102,34 +102,34 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_738t7")
 
-[node name="MarginContainer" type="MarginContainer" parent="StatsContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="StatsContainer" unique_id=1723256904]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer" unique_id=768977499]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer" unique_id=1243612819]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1569733670]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_jo253")
 
-[node name="BuffTexture" type="TextureRect" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
+[node name="BuffTexture" type="TextureRect" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2" unique_id=556451466]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 0
 stretch_mode = 3
 
-[node name="CharNameLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CharNameLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1803532715]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
@@ -140,42 +140,42 @@ text = "WARRIOR"
 horizontal_alignment = 1
 clip_text = true
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1019196309]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_jo253")
 
-[node name="DebuffTexture" type="TextureRect" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+[node name="DebuffTexture" type="TextureRect" parent="StatsContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer" unique_id=1202674200]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 8
 stretch_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer" unique_id=1781929819]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1033954465]
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 2
 
-[node name="HPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="HPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1871241333]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_o82g3")
 theme_override_font_sizes/font_size = 5
 text = "HP"
 
-[node name="HPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="HPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=192717089]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_8oh2q")
 
-[node name="HPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HPPanelContainer"]
+[node name="HPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HPPanelContainer" unique_id=1691193980]
 unique_name_in_owner = true
 modulate = Color(1, 0, 0, 1)
 custom_minimum_size = Vector2(36, 0)
@@ -184,23 +184,23 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qx86f")
 value = 50.0
 show_percentage = false
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer" unique_id=53526852]
 layout_mode = 2
 size_flags_vertical = 4
 alignment = 2
 
-[node name="MPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1621279947]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_o82g3")
 theme_override_font_sizes/font_size = 5
 text = "MP"
 
-[node name="MPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="MPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1826539344]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o82g3")
 
-[node name="MPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/MPPanelContainer"]
+[node name="MPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/MPPanelContainer" unique_id=671786889]
 unique_name_in_owner = true
 modulate = Color(0, 0, 1, 1)
 custom_minimum_size = Vector2(36, 0)
@@ -209,7 +209,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qx86f")
 value = 50.0
 show_percentage = false
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=637917168]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -224,14 +224,12 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_vu14d")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_vu14d")
 toggle_mode = true
 
-[node name="TopAnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="TopAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1632665748]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_fhmjh")
-}
-autoplay = "RESET"
+libraries/ = SubResource("AnimationLibrary_fhmjh")
+autoplay = &"RESET"
 
-[node name="TopFlasherContainer" type="PanelContainer" parent="."]
+[node name="TopFlasherContainer" type="PanelContainer" parent="." unique_id=1737268259]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(100, 43)

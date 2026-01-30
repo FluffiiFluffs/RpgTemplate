@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn1a3xdymyc2j"]
+[gd_scene format=3 uid="uid://dn1a3xdymyc2j"]
 
 [ext_resource type="Script" uid="uid://3q3x53w3kw34" path="res://battle/battle_scene/turn_order_box.gd" id="1_ly6no"]
 
@@ -9,14 +9,14 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[node name="TurnOrderBox" type="PanelContainer"]
+[node name="TurnOrderBox" type="PanelContainer" unique_id=52710719]
 custom_minimum_size = Vector2(16, 16)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ubjmj")
 script = ExtResource("1_ly6no")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=477225760]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2

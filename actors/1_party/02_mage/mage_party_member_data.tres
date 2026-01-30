@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PartyMemberData" load_steps=15 format=3 uid="uid://yuhvgw0ir1x7"]
+[gd_resource type="Resource" script_class="PartyMemberData" format=3 uid="uid://yuhvgw0ir1x7"]
 
 [ext_resource type="Resource" uid="uid://nnbekxtr3kn0" path="res://actors/1_party/02_mage/mage_char_resource.tres" id="1_5csrh"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_kx4ho"]

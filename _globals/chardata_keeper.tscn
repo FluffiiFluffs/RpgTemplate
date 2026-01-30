@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://8vgkriebxli3"]
+[gd_scene format=3 uid="uid://8vgkriebxli3"]
 
 [ext_resource type="Script" uid="uid://bjylpsq33l742" path="res://_globals/chardata_keeper.gd" id="1_7befc"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="2_4byte"]
@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://yuhvgw0ir1x7" path="res://actors/1_party/02_mage/mage_party_member_data.tres" id="5_08uhy"]
 [ext_resource type="Resource" uid="uid://5ypxra5wjlwe" path="res://actors/1_party/03_healer/healer_party_member_data.tres" id="6_sqnyb"]
 
-[node name="ChardataKeeper" type="Node2D"]
+[node name="ChardataKeeper" type="Node2D" unique_id=1417992603]
 script = ExtResource("1_7befc")
 all_party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])
 party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("5_08uhy")])

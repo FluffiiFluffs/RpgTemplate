@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c3sfxn75o468d"]
+[gd_scene format=3 uid="uid://c3sfxn75o468d"]
 
 [ext_resource type="Script" uid="uid://ctmlgmwgf3pm0" path="res://field/objects/trashcan.gd" id="1_05si2"]
 [ext_resource type="Texture2D" uid="uid://ub3gc3rsycnp" path="res://_assets/field_objects/placeholder_trashcan_spritesheet.png" id="1_pyjlb"]
@@ -6,8 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pyjlb"]
 size = Vector2(16, 6)
 
-[sub_resource type="Animation" id="Animation_pyjlb"]
-resource_name = "closed"
+[sub_resource type="Animation" id="Animation_05si2"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -21,8 +21,8 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_05si2"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_pyjlb"]
+resource_name = "closed"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -58,28 +58,26 @@ _data = {
 &"open": SubResource("Animation_vrwtd")
 }
 
-[node name="Trashcan" type="Node2D"]
+[node name="Trashcan" type="Node2D" unique_id=1443020516]
 y_sort_enabled = true
 script = ExtResource("1_05si2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=466249744]
 position = Vector2(0, -1)
 texture = ExtResource("1_pyjlb")
 offset = Vector2(0, -8)
 hframes = 2
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2009576049]
 z_index = 1
 position = Vector2(0, -9)
 collision_layer = 32
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=948447622]
 position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_pyjlb")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2070671909]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_hmqgs")
-}
+libraries/ = SubResource("AnimationLibrary_hmqgs")

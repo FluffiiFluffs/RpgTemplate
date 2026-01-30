@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://c2c202pjp3ykj"]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://c2c202pjp3ykj"]
 
 [ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_bnduy"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_jup0g"]
@@ -13,6 +13,7 @@ name = "Fire Potion"
 sort_id = 3001
 menu_sprite = ExtResource("3_vc5im")
 description = "Attacks with fire when thrown. Affects entire party."
+message_template = "{user} throw {item} at {targets}."
 buy_price = 20
 sell_price = 10
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

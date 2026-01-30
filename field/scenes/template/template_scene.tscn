@@ -1,84 +1,84 @@
-[gd_scene load_steps=2 format=3 uid="uid://cv4uk4tsv1a6t"]
+[gd_scene format=3 uid="uid://cv4uk4tsv1a6t"]
 
 [ext_resource type="Script" uid="uid://bjyew63ska2p1" path="res://field/scenes/template/field_scene.gd" id="1_57cnb"]
 
-[node name="FieldScene" type="Node2D"]
+[node name="FieldScene" type="Node2D" unique_id=411987689]
 script = ExtResource("1_57cnb")
 
-[node name="Tile" type="Node2D" parent="."]
+[node name="Tile" type="Node2D" parent="." unique_id=2086663294]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Ground1" type="TileMapLayer" parent="Tile"]
+[node name="Ground1" type="TileMapLayer" parent="Tile" unique_id=594847403]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Ground2" type="TileMapLayer" parent="Tile"]
+[node name="Ground2" type="TileMapLayer" parent="Tile" unique_id=2025346408]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Ground3" type="TileMapLayer" parent="Tile"]
+[node name="Ground3" type="TileMapLayer" parent="Tile" unique_id=489608217]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Ground4" type="TileMapLayer" parent="Tile"]
+[node name="Ground4" type="TileMapLayer" parent="Tile" unique_id=673689858]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Ground5" type="TileMapLayer" parent="Tile"]
+[node name="Ground5" type="TileMapLayer" parent="Tile" unique_id=1562049903]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="DecorBottom" type="TileMapLayer" parent="Tile"]
+[node name="DecorBottom" type="TileMapLayer" parent="Tile" unique_id=1829650455]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="DecorTop" type="TileMapLayer" parent="Tile"]
+[node name="DecorTop" type="TileMapLayer" parent="Tile" unique_id=347368835]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="FieldActors" type="Node2D" parent="."]
+[node name="FieldActors" type="Node2D" parent="." unique_id=1226752291]
 y_sort_enabled = true
 
-[node name="PlacedEnemies" type="Node2D" parent="FieldActors"]
-unique_name_in_owner = true
-y_sort_enabled = true
-
-[node name="EnemySpawners" type="Node2D" parent="FieldActors"]
+[node name="PlacedEnemies" type="Node2D" parent="FieldActors" unique_id=1969930657]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="PlacedNPCs" type="Node2D" parent="FieldActors"]
+[node name="EnemySpawners" type="Node2D" parent="FieldActors" unique_id=913952300]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Party" type="Node2D" parent="FieldActors"]
+[node name="PlacedNPCs" type="Node2D" parent="FieldActors" unique_id=206549284]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="Navigation" type="NavigationRegion2D" parent="."]
+[node name="Party" type="Node2D" parent="FieldActors" unique_id=189611221]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Navigation" type="NavigationRegion2D" parent="." unique_id=1202813702]
 unique_name_in_owner = true
 
-[node name="Markers" type="Node2D" parent="."]
+[node name="Markers" type="Node2D" parent="." unique_id=1616932999]
 unique_name_in_owner = true
 
-[node name="PlayerSpawn" type="Node2D" parent="Markers"]
+[node name="PlayerSpawn" type="Node2D" parent="Markers" unique_id=1425568853]
 unique_name_in_owner = true
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="Interactables" type="Node2D" parent="." unique_id=724810842]
 unique_name_in_owner = true
 
-[node name="Triggers" type="Node2D" parent="."]
+[node name="Triggers" type="Node2D" parent="." unique_id=2076659185]
 unique_name_in_owner = true
 
-[node name="Audio" type="Node2D" parent="Triggers"]
+[node name="Audio" type="Node2D" parent="Triggers" unique_id=690314581]
 unique_name_in_owner = true
 
-[node name="Cutscene" type="Node2D" parent="Triggers"]
+[node name="Cutscene" type="Node2D" parent="Triggers" unique_id=130596682]
 unique_name_in_owner = true
 
-[node name="Encounter" type="Node2D" parent="Triggers"]
+[node name="Encounter" type="Node2D" parent="Triggers" unique_id=1094863863]
 unique_name_in_owner = true
 
-[node name="TransitionAreas" type="Node2D" parent="Triggers"]
+[node name="TransitionAreas" type="Node2D" parent="Triggers" unique_id=1664586036]
 unique_name_in_owner = true

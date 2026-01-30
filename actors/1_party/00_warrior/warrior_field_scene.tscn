@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://drj2rcxjqg0lg"]
+[gd_scene format=3 uid="uid://drj2rcxjqg0lg"]
 
 [ext_resource type="Script" uid="uid://ccmk5njwy16d3" path="res://actors/_common/field_party_base/field_party_member.gd" id="1_xjh2q"]
 [ext_resource type="Texture2D" uid="uid://bjbkuy0f3q2fg" path="res://_assets/character/party/warrior/war_sprite_sheet.png" id="2_4y2g6"]
@@ -277,58 +277,56 @@ size = Vector2(696.5, 392)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
 size = Vector2(16, 20)
 
-[node name="PartyMember" type="CharacterBody2D"]
+[node name="PartyMember" type="CharacterBody2D" unique_id=724567487]
 y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_xjh2q")
 
-[node name="FieldSprite" type="Sprite2D" parent="."]
+[node name="FieldSprite" type="Sprite2D" parent="." unique_id=1373858968]
 unique_name_in_owner = true
 texture = ExtResource("2_4y2g6")
 offset = Vector2(0, -15)
 hframes = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1179748018]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_b1uet")
-}
+libraries/ = SubResource("AnimationLibrary_b1uet")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=311447671]
 unique_name_in_owner = true
 max_polyphony = 5
 bus = &"SFX"
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1316187898]
 unique_name_in_owner = true
 process_mode = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1312151626]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_b1uet")
 
-[node name="StateMachine" type="Node2D" parent="."]
+[node name="StateMachine" type="Node2D" parent="." unique_id=500607446]
 unique_name_in_owner = true
 script = ExtResource("3_h6fbd")
 
-[node name="Idle" type="Node2D" parent="StateMachine"]
+[node name="Idle" type="Node2D" parent="StateMachine" unique_id=1404097612]
 unique_name_in_owner = true
 script = ExtResource("4_l7i6l")
 
-[node name="Walk" type="Node2D" parent="StateMachine"]
+[node name="Walk" type="Node2D" parent="StateMachine" unique_id=1456032248]
 unique_name_in_owner = true
 script = ExtResource("5_0mufr")
 
-[node name="CutScene" type="Node2D" parent="StateMachine"]
+[node name="CutScene" type="Node2D" parent="StateMachine" unique_id=1503729560]
 
-[node name="Follow" type="Node2D" parent="StateMachine"]
+[node name="Follow" type="Node2D" parent="StateMachine" unique_id=1461854061]
 unique_name_in_owner = true
 script = ExtResource("6_l5ixa")
 
-[node name="EnemySpawnTrigger" type="Area2D" parent="."]
+[node name="EnemySpawnTrigger" type="Area2D" parent="." unique_id=1375965415]
 unique_name_in_owner = true
 visible = false
 collision_layer = 524288
@@ -336,26 +334,26 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawnTrigger" unique_id=1300598377]
 shape = SubResource("RectangleShape2D_6oia8")
 debug_color = Color(1, 0, 0, 0)
 
-[node name="InteractPivot" type="Marker2D" parent="."]
+[node name="InteractPivot" type="Marker2D" parent="." unique_id=721819325]
 position = Vector2(0, -7)
 
-[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot"]
+[node name="InteractAreaTrigger2D" type="Area2D" parent="InteractPivot" unique_id=726414348]
 unique_name_in_owner = true
 collision_layer = 64
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractPivot/InteractAreaTrigger2D" unique_id=219385529]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_pflqk")
 debug_color = Color(0.6313726, 0.5568628, 0, 0.1764706)
 
-[node name="StateLabel" type="Label" parent="."]
+[node name="StateLabel" type="Label" parent="." unique_id=1131320517]
 unique_name_in_owner = true
 y_sort_enabled = true
 offset_left = -6.0

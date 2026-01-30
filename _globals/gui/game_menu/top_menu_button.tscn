@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2pku36y8tghf"]
+[gd_scene format=3 uid="uid://d2pku36y8tghf"]
 
 [ext_resource type="Script" uid="uid://bxkttkp0kmx0l" path="res://_globals/gui/game_menu/top_menu_button.gd" id="2_xqsro"]
 
@@ -24,7 +24,7 @@ corner_detail = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ahhff"]
 
-[node name="TopMenuButton" type="PanelContainer"]
+[node name="TopMenuButton" type="PanelContainer" unique_id=1735231748]
 offset_right = 28.0
 offset_bottom = 28.0
 size_flags_horizontal = 4
@@ -33,13 +33,13 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xqsro")
 script = ExtResource("2_xqsro")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1446649644]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="Button" type="Button" parent="MarginContainer"]
+[node name="Button" type="Button" parent="MarginContainer" unique_id=35234557]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

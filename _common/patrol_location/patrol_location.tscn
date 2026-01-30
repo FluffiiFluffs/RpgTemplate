@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://deknphofgc8wr"]
+[gd_scene format=3 uid="uid://deknphofgc8wr"]
 
 [ext_resource type="Script" uid="uid://c65qan0ry0rcm" path="res://_common/patrol_location/patrol_location.gd" id="1_xpn7g"]
 
@@ -15,20 +15,20 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
-[node name="PatrolLocation" type="Node2D"]
+[node name="PatrolLocation" type="Node2D" unique_id=1977953133]
 script = ExtResource("1_xpn7g")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2019400549]
 unique_name_in_owner = true
 texture = SubResource("GradientTexture2D_1jh3m")
 
-[node name="Line2D" type="Line2D" parent="Sprite2D"]
+[node name="Line2D" type="Line2D" parent="Sprite2D" unique_id=1500149889]
 unique_name_in_owner = true
 show_behind_parent = true
 points = PackedVector2Array(0, 0, 25, 0)
 width = 1.0
 
-[node name="NumLabel" type="Label" parent="Sprite2D"]
+[node name="NumLabel" type="Label" parent="Sprite2D" unique_id=1522004212]
 unique_name_in_owner = true
 anchors_preset = -1
 anchor_left = -0.083000004
@@ -47,7 +47,7 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WaitLabel" type="Label" parent="Sprite2D"]
+[node name="WaitLabel" type="Label" parent="Sprite2D" unique_id=1806400801]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0

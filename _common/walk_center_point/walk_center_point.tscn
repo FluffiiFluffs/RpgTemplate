@@ -1,19 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwyrfq2k0c03f"]
+[gd_scene format=3 uid="uid://dwyrfq2k0c03f"]
 
 [ext_resource type="Script" uid="uid://kbjps35oekpw" path="res://_common/walk_center_point/walk_center_point.gd" id="1_yynf1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yynf1"]
 radius = 6.0
 
-[node name="WalkCenterPoint" type="Node2D"]
+[node name="WalkCenterPoint" type="Node2D" unique_id=1641219446]
 script = ExtResource("1_yynf1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=25169172]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_yynf1")
 debug_color = Color(0.9751411, 0, 0.424286, 1)
 
-[node name="Label" type="Label" parent="CollisionShape2D"]
+[node name="Label" type="Label" parent="CollisionShape2D" unique_id=1283939898]
 offset_left = 7.0
 offset_top = -9.0
 offset_right = 112.0

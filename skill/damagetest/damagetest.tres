@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=5 format=3 uid="uid://duaob2jiqcxig"]
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://duaob2jiqcxig"]
 
 [ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_jqapp"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="2_jqapp"]
@@ -15,7 +15,9 @@ skill_id = &"damagetest"
 name = "Damage Test"
 description = "Damages a target for 50 HP."
 scope = 1
+mp_cost = 1
 target_side = 2
 default_target_focus = 2
 effects = Array[ExtResource("1_jqapp")]([SubResource("Resource_cgs8t")])
+message_template = "{user} snaps their fingers at {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

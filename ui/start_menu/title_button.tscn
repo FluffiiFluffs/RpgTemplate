@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bblnqpa3nksw1"]
+[gd_scene format=3 uid="uid://bblnqpa3nksw1"]
 
 [ext_resource type="Script" uid="uid://ciuthehgiw1jr" path="res://ui/start_menu/title_button.gd" id="1_i4igx"]
 
@@ -13,13 +13,14 @@ border_width_bottom = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qaoya"]
 
-[node name="TitleButton" type="PanelContainer"]
+[node name="TitleButton" type="PanelContainer" unique_id=390698743]
+self_modulate = Color(0, 0, 0, 0)
 custom_minimum_size = Vector2(100, 32)
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_i4igx")
 script = ExtResource("1_i4igx")
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1106963080]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_mhff0")
@@ -27,4 +28,3 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_qaoya")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_qaoya")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_qaoya")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_qaoya")
-text = "NEW GAME"

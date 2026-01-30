@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="PartyMemberData" load_steps=5 format=3 uid="uid://b5wmbkov323pp"]
+[gd_resource type="Resource" script_class="PartyMemberData" format=3 uid="uid://b5wmbkov323pp"]
 
 [ext_resource type="Resource" uid="uid://dodamc25dwjh8" path="res://actors/1_party/01_thief/thief_char_resource.tres" id="1_3mg7y"]
 [ext_resource type="Texture2D" uid="uid://bu58d1dq8dbls" path="res://_assets/battle/icons/thief_battle_icon.png" id="1_8au5w"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_ng66m"]
 [ext_resource type="PackedScene" uid="uid://bvuhnuj24if74" path="res://actors/1_party/01_thief/thief_field_scene.tscn" id="2_ab6kp"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="5_hxkt2"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="6_pb5ex"]
 
 [resource]
 resource_local_to_scene = true

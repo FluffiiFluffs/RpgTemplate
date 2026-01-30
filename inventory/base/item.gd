@@ -94,7 +94,7 @@ var type : int = ItemType.TOOL
 @export_group("Message")
 ## Battle and field messaging template support
 ## Common tokens: {user}, {item}
-@export var message_template : String = "{user} uses {item}."
+@export_multiline var message_template : String = "{user} uses {item}."
 
 ## Shop values
 @export_category("Shop")

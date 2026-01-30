@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://cwf18di3ut70w"]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cwf18di3ut70w"]
 
 [ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_gpb3l"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_w74uo"]
@@ -14,6 +14,7 @@ sort_id = 2001
 type = 2
 menu_sprite = ExtResource("3_6bc65")
 description = "Heals scurvey."
+message_template = "{user} eats {item}, peel and all!"
 buy_price = 20
 sell_price = 10
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

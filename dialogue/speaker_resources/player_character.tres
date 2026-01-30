@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SpeakerResource" load_steps=19 format=3 uid="uid://b4oqligpuxk1l"]
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://b4oqligpuxk1l"]
 
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_waeo2"]
 [ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="2_wff2p"]

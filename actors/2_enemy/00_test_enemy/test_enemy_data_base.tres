@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=17 format=3 uid="uid://8mflur1rjcwr"]
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://8mflur1rjcwr"]
 
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_oyh6x"]
 [ext_resource type="Texture2D" uid="uid://0su6q20xg6cu" path="res://_assets/battle/icons/enemy_battle_icon.png" id="1_rmuka"]

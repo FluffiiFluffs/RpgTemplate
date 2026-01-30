@@ -47,7 +47,7 @@ enum DefaultTargetFocus {
 @export var battle_effects : Array[Effect] = []
 
 @export_group("Message")
-@export var message_template : String = "{user} uses {skill}."
+@export_multiline var message_template : String = "{user} uses {skill}."
 
 
 func get_effects_for_context(ctx : EffectContext) -> Array[Effect]:

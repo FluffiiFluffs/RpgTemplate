@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Item" load_steps=7 format=3 uid="uid://byt08a2lu57w8"]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://byt08a2lu57w8"]
 
 [ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_nmwps"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_48nup"]
@@ -22,6 +22,7 @@ type = 1
 menu_sprite = ExtResource("3_48nup")
 description = "A rare banana. Eating this restores 20 MP."
 effects = Array[ExtResource("1_nmwps")]([SubResource("Resource_ml637")])
+message_template = "{user} peels {item} eats it!"
 buy_price = 20
 sell_price = 10
 metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

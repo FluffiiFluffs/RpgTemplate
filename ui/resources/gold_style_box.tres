@@ -1,4 +1,4 @@
-[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://c6uhmypho81xb"]
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://c6uhmypho81xb"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0xcdq"]
 load_path = "res://.godot/imported/ninepatch.png-1c1b37490001bfa4ac4b7ccd279f4aaf.ctex"

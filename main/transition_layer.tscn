@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://lcgogxjtiq0y"]
+[gd_scene format=3 uid="uid://lcgogxjtiq0y"]
 
 [ext_resource type="Script" uid="uid://bhydr1oq5ujhk" path="res://main/transition_layer.gd" id="1_r65wi"]
 
@@ -119,18 +119,16 @@ gradient = SubResource("Gradient_nsnam")
 width = 1200
 height = 250
 
-[node name="TransitionLayer" type="CanvasLayer"]
+[node name="TransitionLayer" type="CanvasLayer" unique_id=233896322]
 script = ExtResource("1_r65wi")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=376028162]
 unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_r65wi")
-}
+libraries/ = SubResource("AnimationLibrary_r65wi")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=91500624]
 position = Vector2(-600, 112)
 texture = SubResource("GradientTexture2D_r65wi")
 
-[node name="BSprite" type="Sprite2D" parent="."]
+[node name="BSprite" type="Sprite2D" parent="." unique_id=642845432]
 visible = false

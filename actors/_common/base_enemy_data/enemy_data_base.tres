@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EnemyData" load_steps=11 format=3 uid="uid://cegrfsowf5plg"]
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://cegrfsowf5plg"]
 
 [ext_resource type="Texture2D" uid="uid://0su6q20xg6cu" path="res://_assets/battle/icons/enemy_battle_icon.png" id="1_klej5"]
 [ext_resource type="Script" uid="uid://4j3b1prlfc8i" path="res://battle/enemy_ai/random_attack/enemy_ai_random_attack.gd" id="1_xvg8r"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://vfsshe7gmbtm" path="res://actors/2_enemy/00_test_enemy/test_enemy_field_scene.tscn" id="4_ai1dv"]
 [ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="4_xvg8r"]
 [ext_resource type="Script" uid="uid://dnf22m24hntjd" path="res://actors/_common/base_enemy_data/enemy_data.gd" id="5_ai1dv"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="9_yquq3"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="10_ojp4r"]
 
 [sub_resource type="Resource" id="Resource_ai1dv"]
 script = ExtResource("1_xvg8r")
@@ -37,7 +39,6 @@ next_level_exp = null
 total_exp = null
 current_hp = null
 current_mp = null
-current_buffs = null
 two_handing = null
 perm_max_hp_flat = null
 perm_max_mp_flat = null

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="BattleActionAttack" load_steps=2 format=3 uid="uid://b35po5gyny4f5"]
+[gd_resource type="Resource" script_class="BattleActionAttack" format=3 uid="uid://b35po5gyny4f5"]
 
 [ext_resource type="Script" uid="uid://tdfptxc307vc" path="res://battle/actions/attack/battleaction_attack.gd" id="1_6osj0"]
 

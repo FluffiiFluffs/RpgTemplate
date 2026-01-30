@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bju67ey0myd2f"]
+[gd_scene format=3 uid="uid://bju67ey0myd2f"]
 
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_0ices"]
 [ext_resource type="Script" uid="uid://5bi086md70tu" path="res://_globals/gui/game_menu/current_equip_button.gd" id="1_3b2o2"]
@@ -18,14 +18,15 @@ border_width_bottom = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
 
-[node name="CurrentEquipButton" type="PanelContainer"]
+[node name="CurrentEquipButton" type="PanelContainer" unique_id=175481149]
+self_modulate = Color(0, 0, 0, 0)
 offset_right = 148.0
 offset_bottom = 9.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0ices")
 script = ExtResource("1_3b2o2")
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=1575680739]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_3b2o2")
@@ -34,31 +35,30 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_3b2o2")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_3b2o2")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_3b2o2")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1946195095]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 8
 
-[node name="TitleContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="TitleContainer" type="PanelContainer" parent="HBoxContainer" unique_id=914113385]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="TitleLabel" type="Label" parent="HBoxContainer/TitleContainer"]
+[node name="TitleLabel" type="Label" parent="HBoxContainer/TitleContainer" unique_id=538521250]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_0ices")
 theme_override_font_sizes/font_size = 7
-text = "Main Hand"
 
-[node name="EquipmentTitleContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="EquipmentTitleContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1864205783]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="EquipmentLabel" type="Label" parent="HBoxContainer/EquipmentTitleContainer"]
+[node name="EquipmentLabel" type="Label" parent="HBoxContainer/EquipmentTitleContainer" unique_id=1774177339]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
