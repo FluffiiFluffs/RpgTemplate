@@ -41,6 +41,8 @@ editor/wrap_long_lines=true
 
 window/size/viewport_width=400
 window/size/viewport_height=224
+window/size/window_width_override=800
+window/size/window_height_override=448
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
 

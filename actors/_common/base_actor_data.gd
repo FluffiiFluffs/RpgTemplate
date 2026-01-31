@@ -25,8 +25,8 @@ extends Resource
 @export_category("Runtime vitals")
 ##Current HP. This is always clamped against get_max_hp().
 @export var current_hp : int = 100
-##Current MP. This is always clamped against get_max_mp().
-@export var current_mp : int = 0
+##Current MP. This is always clamped against get_max_sp().
+@export var current_sp : int = 0
 @export var status_effects :Array[StatusEffect]= []
 
 @export_category("Equipment")
@@ -50,8 +50,8 @@ extends Resource
 @export_category("Permanent modifiers (flat)")
 ##Flat permanent change to max_hp from level ups and permanent items.
 @export var perm_max_hp_flat : int = 0
-##Flat permanent change to max_mp.
-@export var perm_max_mp_flat : int = 0
+##Flat permanent change to max_sp.
+@export var perm_max_sp_flat : int = 0
 ##Flat permanent change to attack value.
 @export var perm_atk_flat : int = 0
 ##Flat permanent change to defense value.
@@ -60,8 +60,8 @@ extends Resource
 @export var perm_strength_flat : int = 0
 ##Flat permanent change to stamina.
 @export var perm_stamina_flat : int = 0
-##Flat permanent change to speed.
-@export var perm_speed_flat : int = 0
+##Flat permanent change to agility.
+@export var perm_agility_flat : int = 0
 ##Flat permanent change to magic.
 @export var perm_magic_flat : int = 0
 #endregion
@@ -71,8 +71,8 @@ extends Resource
 @export_category("Buff modifiers (flat)")
 ##Flat bonus to max_hp from buffs.
 @export var buff_max_hp_flat : int = 0
-##Flat bonus to max_mp from buffs.
-@export var buff_max_mp_flat : int = 0
+##Flat bonus to max_sp from buffs.
+@export var buff_max_sp_flat : int = 0
 ##Flat bonus to atk_value from buffs.
 @export var buff_atk_flat : int = 0
 ##Flat bonus to def_value from buffs.
@@ -81,8 +81,8 @@ extends Resource
 @export var buff_strength_flat : int = 0
 ##Flat bonus to stamina from buffs.
 @export var buff_stamina_flat : int = 0
-##Flat bonus to speed from buffs.
-@export var buff_speed_flat : int = 0
+##Flat bonus to agility from buffs.
+@export var buff_agility_flat : int = 0
 ##Flat bonus to magic from buffs.
 @export var buff_magic_flat : int = 0
 
@@ -90,8 +90,8 @@ extends Resource
 @export_category("Buff modifiers (percent)")
 ##Percent bonus to max_hp from buffs (0.25 means plus 25 percent).
 @export var buff_max_hp_percent : float = 0.0
-##Percent bonus to max_mp from buffs (0.25 means plus 25 percent).
-@export var buff_max_mp_percent : float = 0.0
+##Percent bonus to max_sp from buffs (0.25 means plus 25 percent).
+@export var buff_max_sp_percent : float = 0.0
 ##Percent bonus to atk_value from buffs.
 @export var buff_atk_percent : float = 0.0
 ##Percent bonus to def_value from buffs.
@@ -100,8 +100,8 @@ extends Resource
 @export var buff_strength_percent : float = 0.0
 ##Percent bonus to stamina from buffs.
 @export var buff_stamina_percent : float = 0.0
-##Percent bonus to speed from buffs.
-@export var buff_speed_percent : float = 0.0
+##Percent bonus to agility from buffs.
+@export var buff_agility_percent : float = 0.0
 ##Percent bonus to magic from buffs.
 @export var buff_magic_percent : float = 0.0
 #endregion
@@ -130,7 +130,7 @@ func init_from_char_resource(_char_resource : CharResource, _id : StringName = "
 
 	# Start fully healed.
 	current_hp = get_max_hp()
-	current_mp = get_max_mp()
+	current_sp = get_max_sp()
 
 	# Safety clamp, in case formulas change later.
 	clamp_vitals()
@@ -180,10 +180,10 @@ func get_base_max_hp() -> int:
 	return base
 
 
-func get_base_max_mp() -> int:
+func get_base_max_sp() -> int:
 	if char_resource == null:
-		return max(0, perm_max_mp_flat)
-	var base := char_resource.max_mp + perm_max_mp_flat
+		return max(0, perm_max_sp_flat)
+	var base = char_resource.max_sp + perm_max_sp_flat
 	if base < 0:
 		base = 0
 	return base
@@ -203,10 +203,10 @@ func get_base_stamina() -> int:
 	return base
 
 
-func get_base_speed() -> int:
+func get_base_agility() -> int:
 	if char_resource == null:
-		return perm_speed_flat
-	var base := char_resource.speed + perm_speed_flat
+		return perm_agility_flat
+	var base := char_resource.agility + perm_agility_flat
 	return base
 
 
@@ -241,10 +241,10 @@ func _get_item_hp_bonus(item : Item) -> int:
 	return item.hp_bonus
 
 
-func _get_item_mp_bonus(item : Item) -> int:
+func _get_item_sp_bonus(item : Item) -> int:
 	if item == null:
 		return 0
-	return item.mp_bonus
+	return item.sp_bonus
 
 
 func _get_item_atk_bonus(item : Item) -> int:
@@ -271,10 +271,10 @@ func _get_item_stamina_bonus(item : Item) -> int:
 	return item.stamina_bonus
 
 
-func _get_item_speed_bonus(item : Item) -> int:
+func _get_item_agility_bonus(item : Item) -> int:
 	if item == null:
 		return 0
-	return item.speed_bonus
+	return item.agility_bonus
 
 
 func _get_item_magic_bonus(item : Item) -> int:
@@ -296,16 +296,16 @@ func get_equip_max_hp_bonus() -> int:
 	return total
 
 
-func get_equip_max_mp_bonus() -> int:
+func get_equip_max_sp_bonus() -> int:
 	var total := 0
-	total += _get_item_mp_bonus(headslot)
-	total += _get_item_mp_bonus(chestslot)
-	total += _get_item_mp_bonus(armslot)
-	total += _get_item_mp_bonus(legslot)
-	total += _get_item_mp_bonus(accy01)
-	total += _get_item_mp_bonus(accy02)
-	total += _get_item_mp_bonus(mainhand)
-	total += _get_item_mp_bonus(offhand)
+	total += _get_item_sp_bonus(headslot)
+	total += _get_item_sp_bonus(chestslot)
+	total += _get_item_sp_bonus(armslot)
+	total += _get_item_sp_bonus(legslot)
+	total += _get_item_sp_bonus(accy01)
+	total += _get_item_sp_bonus(accy02)
+	total += _get_item_sp_bonus(mainhand)
+	total += _get_item_sp_bonus(offhand)
 	return total
 
 
@@ -335,16 +335,16 @@ func get_equip_stamina_bonus() -> int:
 	return total
 
 
-func get_equip_speed_bonus() -> int:
+func get_equip_agility_bonus() -> int:
 	var total := 0
-	total += _get_item_speed_bonus(headslot)
-	total += _get_item_speed_bonus(chestslot)
-	total += _get_item_speed_bonus(armslot)
-	total += _get_item_speed_bonus(legslot)
-	total += _get_item_speed_bonus(accy01)
-	total += _get_item_speed_bonus(accy02)
-	total += _get_item_speed_bonus(mainhand)
-	total += _get_item_speed_bonus(offhand)
+	total += _get_item_agility_bonus(headslot)
+	total += _get_item_agility_bonus(chestslot)
+	total += _get_item_agility_bonus(armslot)
+	total += _get_item_agility_bonus(legslot)
+	total += _get_item_agility_bonus(accy01)
+	total += _get_item_agility_bonus(accy02)
+	total += _get_item_agility_bonus(mainhand)
+	total += _get_item_agility_bonus(offhand)
 	return total
 
 
@@ -400,11 +400,11 @@ func get_max_hp() -> int:
 	return total
 
 
-func get_max_mp() -> int:
-	var base := get_base_max_mp()
-	var equip_bonus := get_equip_max_mp_bonus()
-	var total := base + equip_bonus + buff_max_mp_flat
-	total = int(float(total) * (1.0 + buff_max_mp_percent))
+func get_max_sp() -> int:
+	var base := get_base_max_sp()
+	var equip_bonus := get_equip_max_sp_bonus()
+	var total := base + equip_bonus + buff_max_sp_flat
+	total = int(float(total) * (1.0 + buff_max_sp_percent))
 	if total < 0:
 		total = 0
 	return total
@@ -426,11 +426,11 @@ func get_stamina() -> int:
 	return total
 
 
-func get_speed() -> int:
-	var base := get_base_speed()
-	var equip_bonus := get_equip_speed_bonus()
-	var total := base + equip_bonus + buff_speed_flat
-	total = int(float(total) * (1.0 + buff_speed_percent))
+func get_agility() -> int:
+	var base := get_base_agility()
+	var equip_bonus := get_equip_agility_bonus()
+	var total := base + equip_bonus + buff_agility_flat
+	total = int(float(total) * (1.0 + buff_agility_percent))
 	return total
 
 
@@ -458,19 +458,19 @@ func get_def_value() -> int:
 	return total
 #endregion
 
-##Clamp current_hp and current_mp after any change to gear, buffs or permanent stats.[br]
+##Clamp current_hp and current_sp after any change to gear, buffs or permanent stats.[br]
 ##Call after changing equipment, adding or removing buffs or debuffs, after level up, or after a permanent stat item.
 func clamp_vitals() -> void:
 	var max_hp := get_max_hp()
-	var max_mp := get_max_mp()
+	var max_sp := get_max_sp()
 
 	if current_hp > max_hp:
 		current_hp = max_hp
 	if current_hp < 0:
 		current_hp = 0
 
-	if current_mp > max_mp:
-		current_mp = max_mp
-	if current_mp < 0:
-		current_mp = 0
+	if current_sp > max_sp:
+		current_sp = max_sp
+	if current_sp < 0:
+		current_sp = 0
 		

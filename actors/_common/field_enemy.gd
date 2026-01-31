@@ -316,7 +316,7 @@ func on_encounter_area_entered(body : CharacterBody2D)->void:
 				if !enemy_group.enemies.is_empty():
 					touched_player = true
 					SceneManager.main_scene.battling_field_enemy_scene = self
-					SceneManager.main_scene.call_deferred("start_battle",enemy_group.duplicate())
+					SceneManager.main_scene.call_deferred("start_battle",enemy_group.duplicate(true))
 				else:
 					printerr(name + ": enemy_group.enemies is empty!")
 			else:

@@ -70,10 +70,10 @@ enum DefaultTargetFocus {
 @export var supports_expand: bool = false
 @export var expanded_shape: TargetShape = TargetShape.ALL
 @export var expanded_power_scalar: float = 0.75
-@export var expanded_mp_cost_delta: int = 0
+@export var expanded_sp_cost_delta: int = 0
 
 @export_group("Costs and timing")
-@export var mp_cost: int = 0
+@export var sp_cost: int = 0
 @export var hp_cost: int = 0
 #@export var stamina_cost: int = 0 #HP/MP should be the only valid costs. Stamina is not even a stat
 #@export var consumes_turn: bool = true

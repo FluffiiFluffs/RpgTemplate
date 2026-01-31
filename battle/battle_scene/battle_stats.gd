@@ -9,8 +9,8 @@ extends Control
 @onready var command_h_box : HBoxContainer = %CommandHBox
 @onready var hp_value : Label = %HPValue
 @onready var hp_progress_bar : ProgressBar = %HPProgressBar
-@onready var mp_value : Label = %MPValue
-@onready var mp_progress_bar : ProgressBar = %MPProgressBar
+@onready var mp_value : Label = %SPValue
+@onready var sp_progress_bar : ProgressBar = %SPProgressBar
 @onready var command_flasher : PanelContainer = %CommandFlasher
 @onready var command_container_container : PanelContainer = %CommandContainerContainer
 @onready var battle_scene_container : PanelContainer = %BattleSceneContainer
@@ -20,6 +20,7 @@ extends Control
 @onready var item_button : CommandButton = %ItemButton
 @onready var run_button : CommandButton = %RunButton
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
+@onready var marker_2d: Marker2D = %Marker2D
 
 #toggles command container visibility
 @export var show_commands : bool = false : set = set_show_commands
@@ -175,11 +176,11 @@ func set_class_color()->void:
 
 func setup_hpmp()->void:
 	hp_value.text = str(member.current_hp)
-	mp_value.text = str(member.current_mp)
+	mp_value.text = str(member.current_sp)
 	hp_progress_bar.max_value = member.get_max_hp()
-	mp_progress_bar.max_value = member.get_max_mp()
+	sp_progress_bar.max_value = member.get_max_sp()
 	hp_progress_bar.value = member.current_hp
-	mp_progress_bar.value = member.current_mp
+	sp_progress_bar.value = member.current_sp
 	if_hp_mp_full_or_empty()
 	
 func set_attack_action()->void:
@@ -209,13 +210,13 @@ func if_hp_mp_full_or_empty()->void:
 		hp_value.self_modulate = GameMenu.ENABLED_COLOR
 	else:
 		hp_value.self_modulate = GameMenu.WHITE_COLOR
-	if member.current_mp == member.get_max_mp():
+	if member.current_sp == member.get_max_sp():
 		mp_value.self_modulate = GameMenu.ENABLED_COLOR
 	else:
 		mp_value.self_modulate = GameMenu.WHITE_COLOR
 	if member.current_hp == 0:
 		hp_value.self_modulate = GameMenu.MINUS_COLOR
-	if member.current_mp == 0:
+	if member.current_sp == 0:
 		mp_value.self_modulate = GameMenu.MINUS_COLOR
 
 ##Updates label to new HP value and animates the bar to show it. Does not touch the actual HP value, only animates the UI
@@ -229,10 +230,10 @@ func hp_changed()->void:
 	
 ##Updates label to new MP value and animates the bar to show it. Does not touch the actual MP value, only animates the UI
 func mp_changed()->void:
-	var new_mp := member.current_mp
+	var new_mp := member.current_sp
 	mp_value.text = str(new_mp)
 	var tween := create_tween()
-	tween.tween_property(mp_progress_bar, "value", new_mp, 0.3)
+	tween.tween_property(sp_progress_bar, "value", new_mp, 0.3)
 	await tween.finished
 	if_hp_mp_full_or_empty()
 	

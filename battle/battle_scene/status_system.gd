@@ -15,11 +15,19 @@ extends Node
 
 var battle_scene : BattleScene = null
 
+# Set by TurnManager before calling on_turn_start()
+var current_turn_id : int = 0
+
+
+
+enum AddStatusOutcome { APPLIED, BLOCKED, REPLACED }
+
+
 
 # -------------------------------------------------------------------
 # Core CRUD
 # -------------------------------------------------------------------
-func add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> void:
+func _add_status_unchecked(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> void:
 	if receiver == null:
 		return
 	if effect == null:
@@ -27,14 +35,85 @@ func add_status(receiver : Battler, effect : StatusEffect, caster : Battler = nu
 	if receiver.actor_data == null:
 		return
 
-	effect.caster = caster
-	effect.receiver = receiver
+	# Piece 1 integration point:
+	# If you added bind_battle_context, use it. Otherwise fall back to current fields.
+	if effect.has_method("bind_battle_context"):
+		effect.bind_battle_context(receiver, caster)
+	else:
+		effect.caster = caster
+		effect.receiver = receiver
 
 	if receiver.actor_data.status_effects == null:
 		receiver.actor_data.status_effects = []
 
 	receiver.actor_data.status_effects.append(effect)
 	effect.on_apply(self)
+
+
+func try_add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> Dictionary:
+	var result : Dictionary = {
+		"outcome": AddStatusOutcome.APPLIED,
+		"blocked_by": null,
+		"removed": [],
+	}
+
+	if receiver == null:
+		return result
+	if effect == null:
+		return result
+	if receiver.actor_data == null:
+		return result
+
+	if receiver.actor_data.status_effects == null:
+		receiver.actor_data.status_effects = []
+
+	var group_id : StringName = effect.exclusive_group_id
+	if group_id == &"":
+		_add_status_unchecked(receiver, effect, caster)
+		return result
+
+	var in_group : Array[StatusEffect] = []
+	var highest_rank : int = -2147483648
+	var highest_status : StatusEffect = null
+
+	for s in receiver.actor_data.status_effects:
+		if s == null:
+			continue
+		if s.exclusive_group_id != group_id:
+			continue
+
+		in_group.append(s)
+		if s.exclusive_rank > highest_rank:
+			highest_rank = s.exclusive_rank
+			highest_status = s
+
+	if in_group.size() == 0:
+		_add_status_unchecked(receiver, effect, caster)
+		return result
+
+	# Existing status in group found, decide block vs replace
+	if effect.exclusive_rank <= highest_rank:
+		result["outcome"] = AddStatusOutcome.BLOCKED
+		result["blocked_by"] = highest_status
+		return result
+
+	# New one is stronger, remove all existing in the group
+	for s in in_group:
+		if s == null:
+			continue
+		remove_status(receiver, s)
+		result["removed"].append(s)
+
+	_add_status_unchecked(receiver, effect, caster)
+	result["outcome"] = AddStatusOutcome.REPLACED
+	return result
+
+
+
+
+func add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> void:
+	try_add_status(receiver, effect, caster)
+
 
 
 func remove_status(receiver : Battler, effect : StatusEffect) -> void:
@@ -78,15 +157,35 @@ static func find_status(receiver : Battler, status_class : Variant) -> StatusEff
 # Turn lifecycle (expiry)
 # -------------------------------------------------------------------
 ##What to do with status effects on turn start
-func on_turn_start(acting : Battler) -> void:
+func on_turn_start(acting : Battler) -> bool:
 	if acting == null:
-		return
+		return false
 
-	# Important: expiry can remove statuses from OTHER battlers (Defended),
-	# so we iterate over all battlers in the battle.
+	# Expire statuses that end at the start of this battler's turn
 	var battlers : Array[Battler] = _get_all_battlers()
 	for bat in battlers:
 		_remove_expiring_statuses_for_turn_start(acting, bat)
+
+	var did_tick : bool = false
+
+	# Tick statuses owned by the acting battler
+	if acting.actor_data != null and acting.actor_data.status_effects != null:
+		for s in acting.actor_data.status_effects:
+			if s == null:
+				continue
+
+			if s.on_turn_start_tick(self):
+				did_tick = true
+
+	# Only wait when BattleNotifyUI is actively displaying or has pending notifications
+	if battle_scene != null and battle_scene.battle_notify_ui != null:
+		var ui : BattleNotifyUI = battle_scene.battle_notify_ui
+		if ui.notifying or not ui.notify_queue.is_empty():
+			await battle_scene.notify_finished
+
+	return did_tick
+
+
 
 ##Removes status effects that only last one turn
 func _remove_expiring_statuses_for_turn_start(acting : Battler, _owner : Battler) -> void:
@@ -179,3 +278,42 @@ func _get_all_battlers() -> Array[Battler]:
 			out.append(child)
 
 	return out
+
+
+func detach_persistent_status_battle_refs() -> void:
+	var battlers : Array[Battler] = _get_all_battlers()
+	for bat in battlers:
+		if bat == null:
+			continue
+		if bat.actor_data == null:
+			continue
+		if bat.actor_data.status_effects == null:
+			continue
+
+		for s in bat.actor_data.status_effects:
+			if s == null:
+				continue
+
+			# Only statuses that can persist beyond battle need detaching
+			if s.scope == StatusEffect.Scope.ALL or s.scope == StatusEffect.Scope.FIELD_ONLY:
+				s.detach_battle_context()
+
+
+
+func remove_statuses_on_death(dead_battler : Battler) -> void:
+	if dead_battler == null:
+		return
+	if dead_battler.actor_data == null:
+		return
+	if dead_battler.actor_data.status_effects == null:
+		return
+
+	for i in range(dead_battler.actor_data.status_effects.size() - 1, -1, -1):
+		var s : StatusEffect = dead_battler.actor_data.status_effects[i]
+		if s == null:
+			dead_battler.actor_data.status_effects.remove_at(i)
+			continue
+
+		if s.remove_on_death:
+			s.on_remove(self)
+			dead_battler.actor_data.status_effects.remove_at(i)

@@ -32,7 +32,7 @@ enum DefaultTargetFocus {
 @export var scope : UseScope = UseScope.ALL
 
 @export_group("Costs")
-@export var mp_cost : int = 0
+@export var sp_cost : int = 0
 @export var hp_cost : int = 0
 
 @export_group("Targeting")
@@ -43,7 +43,9 @@ enum DefaultTargetFocus {
 
 
 @export_group("Effects")
+## Default effect list. Used in field. In battle, used only when battle_effects is empty.
 @export var effects : Array[Effect] = []
+## Battle override effect list. Used in battle when non-empty (replaces effects for battle execution/targeting).
 @export var battle_effects : Array[Effect] = []
 
 @export_group("Message")
@@ -63,7 +65,7 @@ func can_pay_cost(user_actor : ActorData) -> bool:
 		return false
 	if user_actor.current_hp <= 0:
 		return false
-	if user_actor.current_mp < mp_cost:
+	if user_actor.current_sp < sp_cost:
 		return false
 	if user_actor.current_hp <= hp_cost:
 		return false
@@ -73,6 +75,6 @@ func can_pay_cost(user_actor : ActorData) -> bool:
 func pay_cost(user_actor : ActorData) -> void:
 	if user_actor == null:
 		return
-	user_actor.current_mp = user_actor.current_mp - mp_cost
+	user_actor.current_sp = user_actor.current_sp - sp_cost
 	user_actor.current_hp = user_actor.current_hp - hp_cost
 	user_actor.clamp_vitals()

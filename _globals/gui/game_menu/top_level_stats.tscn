@@ -189,18 +189,18 @@ layout_mode = 2
 size_flags_vertical = 4
 alignment = 2
 
-[node name="MPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1621279947]
+[node name="SPLabel" type="Label" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1621279947]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_o82g3")
 theme_override_font_sizes/font_size = 5
-text = "MP"
+text = "SP"
 
-[node name="MPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1826539344]
+[node name="SPPanelContainer" type="PanelContainer" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1826539344]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o82g3")
 
-[node name="MPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/MPPanelContainer" unique_id=671786889]
+[node name="SPProgressBar" type="ProgressBar" parent="StatsContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/SPPanelContainer" unique_id=671786889]
 unique_name_in_owner = true
 modulate = Color(0, 0, 1, 1)
 custom_minimum_size = Vector2(36, 0)

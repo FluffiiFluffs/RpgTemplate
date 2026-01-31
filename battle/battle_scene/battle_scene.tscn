@@ -199,8 +199,16 @@ grow_vertical = 2
 texture = ExtResource("2_4ui5s")
 stretch_mode = 2
 
-[node name="BattleVFX" type="Node2D" parent="BattleUI" unique_id=1711893028]
+[node name="BattleVFX" type="Control" parent="BattleUI" unique_id=176070274]
 unique_name_in_owner = true
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("5_nbjvm")
 
 [node name="EnemyLayer" type="Control" parent="BattleUI" unique_id=156528263]

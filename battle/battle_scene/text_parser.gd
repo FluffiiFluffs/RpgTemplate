@@ -63,7 +63,7 @@ func _battler_name(battler: Battler) -> String:
 		return ""
 	if battler.actor_data.char_resource == null:
 		return ""
-	return battler.actor_data.char_resource.char_namev
+	return battler.actor_data.char_resource.char_name
 
 
 func _collect_target_names(targets: Array[Battler]) -> Array[String]:

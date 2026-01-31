@@ -267,8 +267,8 @@ func _get_item_sort_category(item : Item)->String:
 	match item.type:
 		Item.ItemType.HPHEAL:
 			return "HPHEAL"
-		Item.ItemType.MPHEAL:
-			return "MPHEAL"
+		Item.ItemType.SPHEAL:
+			return "SPHEAL"
 		Item.ItemType.STATUSHEAL:
 			return "STATUSHEAL"
 		Item.ItemType.TOOL:

@@ -84,9 +84,9 @@ extends CanvasLayer
 ##Value of HP Bonus
 @onready var hp_bonus_value : Label = %HPBonusValue
 ##Hbox of MP Bonus. Modulates based on bit value of item
-@onready var mp_bonus_h_box : HBoxContainer = %MPBonusHBox
+@onready var sp_bonus_h_box : HBoxContainer = %SPBonusHBox
 ##Value of MP Bonus
-@onready var mp_bonus_value : Label = %MPBonusValue
+@onready var sp_bonus_value : Label = %SPBonusValue
 ##Hbox of ATK Bonus. Modulates based on bit value of item
 @onready var atk_bonus_h_box : HBoxContainer = %ATKBonusHBox
 ##Value of ATK Bonus
@@ -100,13 +100,13 @@ extends CanvasLayer
 ##Value of STR Bonus
 @onready var strength_bonus_value : Label = %StrengthBonusValue
 ##Hbox of SPD Bonus. Modulates based on bit value of item
-@onready var speed_bonus_h_box : HBoxContainer = %SpeedBonusHBox
+@onready var agility_bonus_h_box : HBoxContainer = %AgilityBonusHBox
 ##Hbox of STR Bonus. Modulates based on bit value of item
 @onready var stamina_bonus_h_box : HBoxContainer = %StaminaBonusHBox
 ##Value of STM Bonus
 @onready var stamina_bonus_value : Label = %StaminaBonusValue
 ##Value of SPD bonus
-@onready var speed_bonus_value : Label = %SpeedBonusValue
+@onready var agility_bonus_value : Label = %AgilityBonusValue
 ##Hbox of MAG Bonus. Modulates if value != 0
 @onready var magic_bonus_h_box : HBoxContainer = %MagicBonusHBox
 ##Value of MAG Bonus
@@ -140,7 +140,7 @@ extends CanvasLayer
 @onready var equip_options_h_box : HBoxContainer = %EquipOptionsHBox
 @onready var curr_equip_v_box : VBoxContainer = %CurrEquipVBox
 @onready var equip_stats_hp : EquipStats = %EquipStatsHP
-@onready var equip_stats_mp : EquipStats = %EquipStatsMP
+@onready var equip_stats_sp : EquipStats = %EquipStatsSP
 @onready var equip_stats_atk : EquipStats = %EquipStatsATK
 @onready var equip_stats_def : EquipStats = %EquipStatsDEF
 @onready var equip_stats_str : EquipStats = %EquipStatsSTR
@@ -194,9 +194,9 @@ extends CanvasLayer
 ##Max HP value
 @onready var stats_max_hp_value : Label = %StatsMaxHPValue
 ##Current MP value
-@onready var stats_curr_mp_value : Label = %StatsCurrMPValue
+@onready var stats_curr_sp_value : Label = %StatsCurrSPValue
 ##Max MP value
-@onready var stats_max_mp_value : Label = %StatsMaxMPValue
+@onready var stats_max_sp_value : Label = %StatsMaxSPValue
 ##ATK value
 @onready var stats_atk_value : Label = %StatsATKValue
 ##DEF Value
@@ -486,8 +486,8 @@ func update_top_level_stats_box(stats_box) -> void:
 	# HP and MP bars
 	stats_box.hp_progress_bar.max_value = pmember.get_max_hp()
 	stats_box.hp_progress_bar.value = pmember.current_hp
-	stats_box.mp_progress_bar.max_value = pmember.get_max_mp()
-	stats_box.mp_progress_bar.value = pmember.current_mp
+	stats_box.sp_progress_bar.max_value = pmember.get_max_sp()
+	stats_box.sp_progress_bar.value = pmember.current_sp
 
 	stats_box.update_buffs()
 
@@ -1016,12 +1016,12 @@ func update_item_description(islot:InventorySlot)->void:
 			hp_bonus_h_box.modulate = DISABLED_COLOR
 			hp_bonus_value.text = "0"
 		
-		if _item.mp_bonus != 0:
-			mp_bonus_h_box.modulate = ENABLED_COLOR
-			mp_bonus_value.text = str(_item.mp_bonus)
+		if _item.sp_bonus != 0:
+			sp_bonus_h_box.modulate = ENABLED_COLOR
+			sp_bonus_value.text = str(_item.sp_bonus)
 		else:
-			mp_bonus_h_box.modulate = DISABLED_COLOR
-			mp_bonus_value.text = "0"
+			sp_bonus_h_box.modulate = DISABLED_COLOR
+			sp_bonus_value.text = "0"
 		
 		if _item.atk_bonus != 0:
 			atk_bonus_h_box.modulate = ENABLED_COLOR
@@ -1050,12 +1050,12 @@ func update_item_description(islot:InventorySlot)->void:
 		else:
 			stamina_bonus_h_box.modulate = DISABLED_COLOR
 			stamina_bonus_value.text = "0"
-		if _item.speed_bonus != 0:
-			speed_bonus_h_box.modulate = ENABLED_COLOR
-			speed_bonus_value.text = str(_item.speed_bonus)
+		if _item.agility_bonus != 0:
+			agility_bonus_h_box.modulate = ENABLED_COLOR
+			agility_bonus_value.text = str(_item.agility_bonus)
 		else:
-			speed_bonus_h_box.modulate = DISABLED_COLOR
-			speed_bonus_value.text = "0"
+			agility_bonus_h_box.modulate = DISABLED_COLOR
+			agility_bonus_value.text = "0"
 		
 		if _item.magic_bonus != 0:
 			magic_bonus_h_box.modulate = ENABLED_COLOR
@@ -1096,12 +1096,12 @@ func enter_equip_selection()->void:
 func update_equip_menu_stats_labels(member : PartyMemberData)->void:
 	equip_name_label.text = str(member.char_resource.char_name)
 	equip_stats_hp.equip_stats_base.text = str(member.get_max_hp())
-	equip_stats_mp.equip_stats_base.text = str(member.get_max_mp())
+	equip_stats_sp.equip_stats_base.text = str(member.get_max_sp())
 	equip_stats_atk.equip_stats_base.text = str(member.get_atk_value())
 	equip_stats_def.equip_stats_base.text = str(member.get_def_value())
 	equip_stats_str.equip_stats_base.text = str(member.get_strength())
 	equip_stats_stm.equip_stats_base.text = str(member.get_stamina())
-	equip_stats_spd.equip_stats_base.text = str(member.get_speed())
+	equip_stats_spd.equip_stats_base.text = str(member.get_agility())
 	equip_stats_mag.equip_stats_base.text = str(member.get_magic())
 
 func update_equip_menu_equipment_labels(member : PartyMemberData)->void:
@@ -1540,14 +1540,14 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 		stats_accy_2_text.text = _member.accy02.name
 	
 	stats_curr_hp_value.text = str(_member.current_hp)
-	stats_curr_mp_value.text = str(_member.current_mp)
+	stats_curr_sp_value.text = str(_member.current_sp)
 	stats_max_hp_value.text = str(_member.get_max_hp())
-	stats_max_mp_value.text = str(_member.get_max_mp())
+	stats_max_sp_value.text = str(_member.get_max_sp())
 	stats_atk_value.text = str(_member.get_atk_value())
 	stats_def_value.text = str(_member.get_def_value())
 	stats_str_value.text = str(_member.get_strength())
 	stats_stm_value.text = str(_member.get_stamina())
-	stats_spd_value.text = str(_member.get_speed())
+	stats_spd_value.text = str(_member.get_agility())
 	stats_mag_value.text = str(_member.get_magic())
 
 

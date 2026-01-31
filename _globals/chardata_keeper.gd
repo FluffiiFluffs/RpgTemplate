@@ -25,6 +25,19 @@ var controlled_index : int = 0 : set = set_controlled_index
 @export var money : int = 0 ##How much money the party has
 @export var time_played : float = 0 ##How much time has elapsed during the playthrough
 
+signal field_poison_tick(actor : ActorData, damage : int)
+signal poison_field_tick(member : ActorData, damage : int)
+
+@export_category("Field Poison Tick")
+@export var poison_field_step_distance : float = 32.0
+@export var poison_field_tick_enabled : bool = true
+
+var _poison_last_pos : Vector2 = Vector2.ZERO
+var _poison_has_last_pos : bool = false
+var _poison_distance_accum : float = 0.0
+
+
+
 
 func _ready() -> void:
 	_clean_party_array()
@@ -34,6 +47,49 @@ func _ready() -> void:
 
 	if controlled_index < 0 or controlled_index >= party_members.size():
 		controlled_index = 0
+
+func _process(_delta : float) -> void:
+	if not poison_field_tick_enabled:
+		_reset_poison_step_tracking()
+		return
+
+	if GameState.gamestate != GameState.State.FIELD:
+		_reset_poison_step_tracking()
+		return
+
+	if controlled_character == null:
+		_reset_poison_step_tracking()
+		return
+
+	var p : Vector2 = controlled_character.global_position
+
+	if not _poison_has_last_pos:
+		_poison_last_pos = p
+		_poison_has_last_pos = true
+		return
+
+	var moved : float = (p - _poison_last_pos).length()
+	_poison_last_pos = p
+
+	if moved <= 0.0:
+		return
+
+	_poison_distance_accum += moved
+
+	if poison_field_step_distance <= 0.0:
+		_poison_distance_accum = 0.0
+		return
+
+	var steps : int = int(floor(_poison_distance_accum / poison_field_step_distance))
+	if steps <= 0:
+		return
+
+	_poison_distance_accum = _poison_distance_accum - (float(steps) * poison_field_step_distance)
+
+	for i in range(steps):
+		_apply_poison_field_step()
+
+
 
 
 ## Remove null entries and clamp to party_size.
@@ -130,3 +186,60 @@ func create_and_add_member_from_char(char_res : CharResource, new_id : StringNam
 
 	add_party_member(member)
 	return member
+
+
+
+func _reset_poison_step_tracking() -> void:
+	_poison_distance_accum = 0.0
+	_poison_has_last_pos = false
+
+
+func _apply_poison_field_step() -> void:
+	if party_members == null:
+		return
+
+	for member in party_members:
+		if member == null:
+			continue
+
+		if member.current_hp <= 0:
+			_remove_death_cleared_statuses_field(member)
+			continue
+
+		var poison : StatusEffectPoison = null
+		for s in member.status_effects:
+			if s == null:
+				continue
+			if s is StatusEffectPoison:
+				poison = s
+				break
+
+		if poison == null:
+			continue
+
+		var dmg : int = poison.get_field_dot_damage(member)
+		if dmg <= 0:
+			continue
+
+		member.current_hp = clampi(member.current_hp - dmg, 0, member.get_max_hp())
+		field_poison_tick.emit(member, dmg)
+		
+		if member.current_hp <= 0:
+			_remove_death_cleared_statuses_field(member)
+
+
+func _remove_death_cleared_statuses_field(actor : ActorData) -> void:
+	if actor == null:
+		return
+	if actor.status_effects == null:
+		return
+
+	for i in range(actor.status_effects.size() - 1, -1, -1):
+		var s : StatusEffect = actor.status_effects[i]
+		if s == null:
+			actor.status_effects.remove_at(i)
+			continue
+
+		if s.remove_on_death:
+			s.on_remove(null)
+			actor.status_effects.remove_at(i)

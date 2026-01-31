@@ -128,8 +128,10 @@ func clear_battle_scene()->void:
 	for child in battle_root.get_children():
 		if child is BattleScene:
 			child.status_system.clear_battle_only_statuses()
+			child.status_system.detach_persistent_status_battle_refs()
 			child.queue_free()
 			await get_tree().process_frame
+
 	pass
 #endregion Battle
 

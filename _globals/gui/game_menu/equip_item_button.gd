@@ -101,7 +101,7 @@ func _get_all_equip_stats() -> Array[EquipStats]:
 func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, slot_scene : CurrentEquipButton) -> Dictionary:
 	var out : Dictionary = {
 		"HP": 0,
-		"MP": 0,
+		"SP": 0,
 		"ATK": 0,
 		"DEF": 0,
 		"STR": 0,
@@ -120,12 +120,12 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 
 	# Snapshot current totals.
 	var curr_hp = member.get_max_hp()
-	var curr_mp = member.get_max_mp()
+	var curr_sp = member.get_max_sp()
 	var curr_atk = member.get_atk_value()
 	var curr_def = member.get_def_value()
 	var curr_str = member.get_strength()
 	var curr_stm = member.get_stamina()
-	var curr_spd = member.get_speed()
+	var curr_spd = member.get_agility()
 	var curr_mag = member.get_magic()
 
 	# Snapshot current equipment state.
@@ -167,16 +167,16 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 
 	if applied == true:
 		var new_hp = member.get_max_hp()
-		var new_mp = member.get_max_mp()
+		var new_sp = member.get_max_sp()
 		var new_atk = member.get_atk_value()
 		var new_def = member.get_def_value()
 		var new_str = member.get_strength()
 		var new_stm = member.get_stamina()
-		var new_spd = member.get_speed()
+		var new_spd = member.get_agility()
 		var new_mag = member.get_magic()
 
 		out["HP"] = new_hp - curr_hp
-		out["MP"] = new_mp - curr_mp
+		out["SP"] = new_sp - curr_sp
 		out["ATK"] = new_atk - curr_atk
 		out["DEF"] = new_def - curr_def
 		out["STR"] = new_str - curr_str

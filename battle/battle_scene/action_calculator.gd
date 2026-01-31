@@ -21,7 +21,7 @@ func normal_attack(from : Battler, attack : BattleAction, to : Battler)->int:
 	#roll to determine if there is a miss (considered dodge/parry) (return -1 for this so the UI can show the difference between 0 damage and miss)
 	var missvariance  = randi_range(-10,10)
 	var misschance = randi_range(0,100) + (missvariance)
-	var missroll = randi_range(0,100) + (from.actor_data.get_speed())
+	var missroll = randi_range(0,100) + (from.actor_data.get_agility())
 	if missroll < misschance:
 		return -1	
 	#roll to determine if there is a block (highly mitigated damage)...figure this out later because it will be determined by stats and possibly what armor is being used. It probably needs a shield.
@@ -61,7 +61,7 @@ func spell_attack(from : Battler, spell : BattleAction, to : Battler)->int:
 ##If the runner is a party member, the entire party runs away. If the runner is an enemy, only the single enemy gets away.
 func run_success(runner : Battler)->bool:
 	if runner is Battler:
-		var runnerspd : float = runner.actor_data.get_speed()
+		var runnerspd : float = runner.actor_data.get_agility()
 		var oppoidx : float = 0.0
 		var oppotot : float = 0.0
 		var oppoavg : float = 0.0
@@ -74,7 +74,7 @@ func run_success(runner : Battler)->bool:
 				if enemy is Battler:
 					if enemy.faction == Battler.Faction.ENEMY:
 						oppoidx += 1
-						oppotot += enemy.actor_data.get_speed()
+						oppotot += enemy.actor_data.get_agility()
 			oppoavg = (oppotot / oppoidx)
 			print("oppototal: " + str(oppoavg + oppochance) + "  runnertotal: " + str(runnerspd + rchance))
 			return (oppoavg + oppochance) < (runnerspd + rchance)

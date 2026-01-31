@@ -106,7 +106,7 @@ func _execute_normal_attack(use : ActionUse)->void:
 
 	#battle_scene.battle_notify_ui.queue_notification(final_name + " takes " + str(dmg) + " damage.")
 	
-	battle_scene.pop_text(final_target, dmg)
+	battle_scene.battle_vfx.pop_text(final_target, dmg)
 
 	await battle_scene.notify_finished
 
@@ -122,6 +122,7 @@ func _execute_normal_attack(use : ActionUse)->void:
 func check_for_death(to : Battler, from :  Battler)->void:
 	#checks to see if the battler died after being hit by an attack
 	if to.actor_data.current_hp <= 0:
+		battle_scene.status_system.remove_statuses_on_death(to)
 		battle_scene.battle_notify_ui.queue_notification(to.actor_data.char_resource.char_name + " falls to the ground!")
 		to.ui_element.deactivate_button() #redundant, this should happen when targeting is pulled up
 		await get_tree().create_timer(1.0).timeout
@@ -235,7 +236,7 @@ func _execute_use_skill(use : ActionUse) -> void:
 
 	# Pay cost up front
 	var before_user_hp = user.actor_data.current_hp
-	var before_user_mp = user.actor_data.current_mp
+	var before_user_mp = user.actor_data.current_sp
 	skill.pay_cost(user.actor_data)
 
 	var ctx = EffectContext.new()
@@ -272,17 +273,24 @@ func _execute_use_skill(use : ActionUse) -> void:
 			if effect.apply_to_battler(ctx, target):
 				any_effect_applied = true
 
-	if effects.size() > 0 and not any_effect_applied:
+	var had_effect_feedback : bool = false
+	if ctx.queued_battle_messages != null and ctx.queued_battle_messages.size() > 0:
+		had_effect_feedback = true
+		for msg in ctx.queued_battle_messages:
+			battle_scene.battle_notify_ui.queue_notification(msg)
+
+	if effects.size() > 0 and not any_effect_applied and not had_effect_feedback:
 		battle_scene.battle_notify_ui.queue_notification("It has no effect.")
 
 	await battle_scene.notify_finished
+
 
 	# Update user UI if cost changed
 	if user.ui_element is BattleStats:
 		var stats_user = user.ui_element as BattleStats
 		if user.actor_data.current_hp != before_user_hp:
 			await stats_user.hp_changed()
-		if user.actor_data.current_mp != before_user_mp:
+		if user.actor_data.current_sp != before_user_mp:
 			await stats_user.mp_changed()
 
 	# Update target UIs and check deaths
@@ -348,8 +356,15 @@ func _execute_use_item(use : ActionUse) -> void:
 			if effect.apply_to_battler(ctx, target):
 				any_effect_applied = true
 
+	var had_effect_feedback : bool = false
+	if ctx.queued_battle_messages != null and ctx.queued_battle_messages.size() > 0:
+		had_effect_feedback = true
+		for msg in ctx.queued_battle_messages:
+			battle_scene.battle_notify_ui.queue_notification(msg)
+
 	if effects.size() > 0 and not any_effect_applied:
-		battle_scene.battle_notify_ui.queue_notification("It has no effect.")
+		if not had_effect_feedback:
+			battle_scene.battle_notify_ui.queue_notification("It has no effect.")
 		await battle_scene.notify_finished
 		return
 

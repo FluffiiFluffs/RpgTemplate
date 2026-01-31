@@ -7,8 +7,8 @@ extends Control
 @onready var char_name_label : Label = %CharNameLabel
 @onready var hp_panel_container : PanelContainer = %HPPanelContainer
 @onready var hp_progress_bar : ProgressBar = %HPProgressBar
-@onready var mp_panel_container : PanelContainer = %MPPanelContainer
-@onready var mp_progress_bar : ProgressBar = %MPProgressBar
+@onready var sp_panel_container : PanelContainer = %SPPanelContainer
+@onready var sp_progress_bar : ProgressBar = %SPProgressBar
 @onready var top_animation_player : AnimationPlayer = %TopAnimationPlayer
 @onready var buff_texture : TextureRect = %BuffTexture
 @onready var debuff_texture : TextureRect = %DebuffTexture
@@ -148,7 +148,7 @@ func set_class_color(_color:Color)->void:
 func border_color_change(_color : Color) ->void:
 	stats_container.self_modulate = _color
 	hp_panel_container.self_modulate = _color
-	mp_panel_container.self_modulate = _color
+	sp_panel_container.self_modulate = _color
 
 func set_border_color_when_dead()->void:
 	border_color_change(DEAD_COLOR)

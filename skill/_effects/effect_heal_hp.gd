@@ -30,7 +30,7 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if ctx.mode == EffectContext.Mode.BATTLE:
 		if ctx.battle_scene != null and ctx.current_target_battler != null:
 			if applied_heal > 0:
-				ctx.battle_scene.pop_text_healing(ctx.current_target_battler, applied_heal)
+				ctx.battle_scene.battle_vfx.pop_text_healing(ctx.current_target_battler, applied_heal)
 
 	return applied_heal != 0
 	

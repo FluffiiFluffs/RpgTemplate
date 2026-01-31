@@ -49,16 +49,36 @@ func battler_turn_next()->void:
 		return
 		
 	battle_scene.acting_battler = battle_scene.turn_order[0]
+
+	# Allocate a unique id for this battler turn before status ticking
+	var turn_id : int = _next_turn_id()
+	if battle_scene.status_system != null:
+		battle_scene.status_system.current_turn_id = turn_id
 	
 	# Expire statuses that end at the start of this battler's turn
-	battle_scene.status_system.on_turn_start(battle_scene.acting_battler)
+	var did_tick : bool = await battle_scene.status_system.on_turn_start(battle_scene.acting_battler)
+
+	if did_tick:
+		if battle_scene.acting_battler.ui_element is BattleStats:
+			var stats : BattleStats = battle_scene.acting_battler.ui_element as BattleStats
+			await stats.hp_changed()
+
+		if battle_scene.acting_battler.actor_data.current_hp <= 0:
+			await battle_scene.action_resolver.check_for_death(battle_scene.acting_battler, battle_scene.acting_battler)
+			await battle_scene.notify_finished
+
+			if battle_scene.battle_state == "BATTLE_END":
+				return
+
+			battler_turn_next()
+			return
+
 	
 	if battle_scene.turn_order.size() > 1:
 		battle_scene.next_battler = battle_scene.turn_order[1]
 	else:
 		battle_scene.next_battler = null
 		
-	var turn_id = _next_turn_id()
 	battle_scene.command_controller.begin_turn(turn_id)
 	
 	var use : ActionUse = null
@@ -86,6 +106,7 @@ func battler_turn_next()->void:
 		return
 
 	battler_turn_done()
+
 
 ##Routine for when it is an enemy's turn.
 func enemy_turn()->ActionUse:
@@ -201,7 +222,7 @@ func check_for_end_battle()->int:
 func clear_turn_order()->void:
 	battle_scene.turn_order.clear()
 
-##Sorts turn order array based on speed, stamina, current hp, and then tie_roll
+##Sorts turn order array based on agility, stamina, current hp, and then tie_roll
 ##calls compare_battlers_for_turn_order within sort_custom()
 func sort_turn_order()->void:
 	clear_turn_order()
@@ -225,14 +246,14 @@ func remove_dead_from_turn_order()->void:
 		#status conditions should keep the actor in the turn_order array, so don't do that here
 
 ##Returns true if first battler should be placed before second battler in turn_order[]
-##Speed > Stamina > HP > tie_roll
+##Agility > Stamina > HP > tie_roll
 ##Tie roll is guaranteed to be unique via check_tie_rolls()
 func compare_battlers_for_turn_order(first : Battler, second : Battler)->bool:
 	#print("SORTING")`
-	var first_speed = first.actor_data.get_speed()
-	var second_speed = second.actor_data.get_speed()
-	if first_speed != second_speed:
-		return first_speed > second_speed
+	var first_agility = first.actor_data.get_agility()
+	var second_agility = second.actor_data.get_agility()
+	if first_agility != second_agility:
+		return first_agility > second_agility
 	
 	var first_stamina = first.actor_data.get_stamina()
 	var second_stamina = second.actor_data.get_stamina()

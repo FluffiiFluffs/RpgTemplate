@@ -19,16 +19,16 @@ extends Resource
 @export var char_level:int=1
 ##Default max_hp of the Actor. Modified by Stamina.
 @export var max_hp:int=100
-##Default max_mp of the Actor. Modified by Magic.
-@export var max_mp:int=50
+##Default max_sp of the Actor. Modified by Magic.
+@export var max_sp:int=50
 ##Default atk_value of the Actor. Used to determine how much damage is done by a physical attack. Modified by Strength.
 @export var atk_value:int=10
 ##Default def_value of the Actor. Used to determine how much a physical attack's damage is mitigated. Modified by Stamina.
 @export var def_value:int=10
 ##Default strength of the Actor. Calculated into atk_value for physical attacks.
 @export var strength:int=10
-##Default speed of the Actor. Determines turn order in battle.
-@export var speed:int=10
+##Default agility of the Actor. Determines turn order in battle.
+@export var agility:int=10
 ##Default Stamina of the Actor 
 @export var stamina:int=10
 ##Default Magic of the Actor. Determines effectiveness of magic. 

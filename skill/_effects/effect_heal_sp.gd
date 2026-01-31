@@ -1,7 +1,7 @@
-class_name EffectHealMP
+class_name EffectHealSP
 extends Effect
 
-@export var mp_heal_amount : int = 0
+@export var sp_heal_amount : int = 0
 
 
 func can_apply(ctx : EffectContext, target : ActorData) -> bool:
@@ -12,7 +12,7 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 	if target.current_hp <= 0:
 		return false
 
-	if target.current_mp >= target.get_max_mp():
+	if target.current_sp >= target.get_max_sp():
 		return false
 
 	return true
@@ -22,7 +22,7 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
 
-	var before_mp = target.current_mp
-	target.current_mp = target.current_mp + mp_heal_amount
+	var before_sp = target.current_sp
+	target.current_mp = target.current_sp + sp_heal_amount
 	target.clamp_vitals()
-	return target.current_mp != before_mp
+	return target.current_sp != before_sp
