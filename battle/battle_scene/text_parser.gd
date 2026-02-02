@@ -14,46 +14,24 @@ func parse_skill_message(use: ActionUse, skill: Skill) -> String:
 	var template = "{user} uses {skill}."
 	if skill != null:
 		template = skill.message_template
-	return parse_template(template, use, skill, null)
+	if use == null:
+		return _normalize_whitespace(template)
+	return parse_custom_message(template, use.user, use.targets, skill, null)
 
 
 func parse_item_message(use: ActionUse, item: Item) -> String:
 	var template = "{user} uses {item}."
 	if item != null:
 		template = item.message_template
-	return parse_template(template, use, null, item)
+	if use == null:
+		return _normalize_whitespace(template)
+	return parse_custom_message(template, use.user, use.targets, null, item)
 
 
 func parse_template(template: String, use: ActionUse, skill: Skill, item: Item) -> String:
 	if use == null:
 		return _normalize_whitespace(template)
-
-	var out = template
-
-	var user_name = _battler_name(use.user)
-	out = out.replace("{user}", user_name)
-
-	var target_names = _collect_target_names(use.targets)
-	var targets_text = _format_targets(target_names)
-	out = out.replace("{targets}", targets_text)
-
-	var first_target = ""
-	if use.targets.size() > 0:
-		first_target = _battler_name(use.targets[0])
-	out = out.replace("{target}", first_target)
-
-	if skill != null:
-		out = out.replace("{skill}", skill.name)
-	else:
-		out = out.replace("{skill}", "")
-
-	if item != null:
-		out = out.replace("{item}", item.name)
-	else:
-		out = out.replace("{item}", "")
-
-	out = _normalize_whitespace(out)
-	return out
+	return parse_custom_message(template, use.user, use.targets, skill, item)
 
 
 func _battler_name(battler: Battler) -> String:
@@ -107,3 +85,31 @@ func _normalize_whitespace(text: String) -> String:
 	out = out.replace(" ?", "?")
 
 	return out.strip_edges()
+	
+func parse_custom_message(template: String, user: Battler, targets: Array[Battler], skill: Skill, item: Item) -> String:
+	var out : String = template
+
+	var user_name : String = _battler_name(user)
+	out = out.replace("{user}", user_name)
+
+	var target_names : Array[String] = _collect_target_names(targets)
+	var targets_text : String = _format_targets(target_names)
+	out = out.replace("{targets}", targets_text)
+
+	var first_target : String = ""
+	if targets != null and targets.size() > 0:
+		first_target = _battler_name(targets[0])
+	out = out.replace("{target}", first_target)
+
+	if skill != null:
+		out = out.replace("{skill}", skill.name)
+	else:
+		out = out.replace("{skill}", "")
+
+	if item != null:
+		out = out.replace("{item}", item.name)
+	else:
+		out = out.replace("{item}", "")
+
+	out = _normalize_whitespace(out)
+	return out

@@ -25,7 +25,7 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 
 
 ## Returns true if something changed.
-func apply(ctx : EffectContext, target : ActorData) -> bool:
+func apply(_ctx : EffectContext, _target : ActorData) -> bool:
 	return false
 
 

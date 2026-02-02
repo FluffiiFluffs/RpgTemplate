@@ -119,7 +119,7 @@ func _execute_normal_attack(use : ActionUse)->void:
 	
 	
 ##Plays notification the battler is dead. Removes battler from turn_order[]. Deactivates selection button (though this should be enabled/disabled as needed).
-func check_for_death(to : Battler, from :  Battler)->void:
+func check_for_death(to : Battler, _from :  Battler)->void:
 	#checks to see if the battler died after being hit by an attack
 	if to.actor_data.current_hp <= 0:
 		battle_scene.status_system.remove_statuses_on_death(to)
@@ -218,8 +218,6 @@ func _execute_defend(use : ActionUse) -> void:
 		battle_scene.battle_notify_ui.queue_notification(defender_name + " moves to defend " + protected_name + ".")
 
 	await battle_scene.notify_finished
-
-
 func _execute_use_skill(use : ActionUse) -> void:
 	var user = use.user
 	if user == null:
@@ -252,11 +250,6 @@ func _execute_use_skill(use : ActionUse) -> void:
 	ctx.battle_scene = battle_scene
 	ctx.status_system = battle_scene.status_system
 
-	#var message = skill.message_template
-	#message = message.replace("{user}", user_name)
-	#message = message.replace("{skill}", skill.name)
-	#battle_scene.battle_notify_ui.queue_notification(message)
-	
 	var message : String = skill.message_template
 	if battle_scene.text_parser != null:
 		message = battle_scene.text_parser.parse_skill_message(use, skill)
@@ -264,9 +257,6 @@ func _execute_use_skill(use : ActionUse) -> void:
 		message = message.replace("{user}", user_name)
 		message = message.replace("{skill}", skill.name)
 	battle_scene.battle_notify_ui.queue_notification(message)
-
-
-	
 
 	var effects = skill.get_effects_for_context(ctx)
 	var any_effect_applied = false
@@ -283,14 +273,27 @@ func _execute_use_skill(use : ActionUse) -> void:
 	var had_effect_feedback : bool = false
 	if ctx.queued_battle_messages != null and ctx.queued_battle_messages.size() > 0:
 		had_effect_feedback = true
-		for msg in ctx.queued_battle_messages:
-			battle_scene.battle_notify_ui.queue_notification(msg)
+
+		for i in range(ctx.queued_battle_messages.size()):
+			var template : String = ctx.queued_battle_messages[i]
+			var parsed : String = template
+
+			if battle_scene.text_parser != null:
+				var parse_targets : Array[Battler] = use.targets
+
+				if ctx.queued_battle_message_targets != null and i < ctx.queued_battle_message_targets.size():
+					var override_target : Battler = ctx.queued_battle_message_targets[i]
+					if override_target != null:
+						parse_targets = [override_target]
+
+				parsed = battle_scene.text_parser.parse_custom_message(template, use.user, parse_targets, skill, null)
+
+			battle_scene.battle_notify_ui.queue_notification(parsed)
 
 	if effects.size() > 0 and not any_effect_applied and not had_effect_feedback:
 		battle_scene.battle_notify_ui.queue_notification("It has no effect.")
 
 	await battle_scene.notify_finished
-
 
 	# Update user UI if cost changed
 	if user.ui_element is BattleStats:
@@ -337,11 +340,6 @@ func _execute_use_item(use : ActionUse) -> void:
 	ctx.status_system = battle_scene.status_system
 	ctx.source_item = item
 
-	#var message = item.message_template
-	#message = message.replace("{user}", user_name)
-	#message = message.replace("{item}", item.name)
-	#battle_scene.battle_notify_ui.queue_notification(message)
-	
 	var message : String = item.message_template
 	if battle_scene.text_parser != null:
 		message = battle_scene.text_parser.parse_item_message(use, item)
@@ -349,7 +347,6 @@ func _execute_use_item(use : ActionUse) -> void:
 		message = message.replace("{user}", user_name)
 		message = message.replace("{item}", item.name)
 	battle_scene.battle_notify_ui.queue_notification(message)
-
 
 	var effects : Array[Effect] = item.get_effects_for_context(ctx)
 
@@ -366,8 +363,22 @@ func _execute_use_item(use : ActionUse) -> void:
 	var had_effect_feedback : bool = false
 	if ctx.queued_battle_messages != null and ctx.queued_battle_messages.size() > 0:
 		had_effect_feedback = true
-		for msg in ctx.queued_battle_messages:
-			battle_scene.battle_notify_ui.queue_notification(msg)
+
+		for i in range(ctx.queued_battle_messages.size()):
+			var template : String = ctx.queued_battle_messages[i]
+			var parsed : String = template
+
+			if battle_scene.text_parser != null:
+				var parse_targets : Array[Battler] = use.targets
+
+				if ctx.queued_battle_message_targets != null and i < ctx.queued_battle_message_targets.size():
+					var override_target : Battler = ctx.queued_battle_message_targets[i]
+					if override_target != null:
+						parse_targets = [override_target]
+
+				parsed = battle_scene.text_parser.parse_custom_message(template, use.user, parse_targets, null, item)
+
+			battle_scene.battle_notify_ui.queue_notification(parsed)
 
 	if effects.size() > 0 and not any_effect_applied:
 		if not had_effect_feedback:

@@ -206,8 +206,7 @@ func check_for_end_battle()->int:
 		if enemy_count == 0:
 			return 2
 	return 0 #0 = continue with battle
-		
-	pass
+
 
 #check to see if all enemies or party is dead
 	#if so start end of battle sequence

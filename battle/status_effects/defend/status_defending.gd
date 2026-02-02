@@ -7,7 +7,7 @@ var protected_actor : ActorData = null
 func _init() -> void:
 	kind = StatusKind.LINK
 
-func modify_incoming_physical_damage(_attacker_actor : ActorData, action : BattleAction, original_target_actor : ActorData, final_target_actor : ActorData, damage : int) -> int:
+func modify_incoming_physical_damage(_attacker_actor : ActorData, _action : BattleAction, original_target_actor : ActorData, final_target_actor : ActorData, damage : int) -> int:
 	if protected_actor == null:
 		return damage
 	if original_target_actor != protected_actor:

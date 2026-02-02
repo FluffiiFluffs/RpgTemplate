@@ -15,8 +15,10 @@ var source_item : Item = null
 
 # Legacy aliases, kept so older code can still read something sensible
 var queued_battle_messages : Array[String] = []
+var queued_battle_message_targets : Array[Battler] = []
 
-func queue_battle_message(text : String) -> void:
+func queue_battle_message(text : String, target_battler : Battler = null) -> void:
 	if text == "":
 		return
 	queued_battle_messages.append(text)
+	queued_battle_message_targets.append(target_battler)

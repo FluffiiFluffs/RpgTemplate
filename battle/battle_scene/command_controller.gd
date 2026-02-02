@@ -54,7 +54,7 @@ func open_defend_targeting(defender : Battler, action : BattleAction)->void:
 
 
 
-func open_skillitem_targeting(user : Battler, action : BattleAction)->void:
+func open_skillitem_targeting(_user : Battler, _action : BattleAction)->void:
 	
 	pass
 	
@@ -531,6 +531,7 @@ func setup_itemskill_button_neighbors(gcontainer : GridContainer)->void:
 		only_btn.focus_next = p
 		return
 
+	@warning_ignore("integer_division")
 	var rows : int = int((count + cols - 1) / cols)
 
 	for i in range(count):
@@ -538,6 +539,7 @@ func setup_itemskill_button_neighbors(gcontainer : GridContainer)->void:
 		if not _is_focusable_button(btn):
 			continue
 
+		@warning_ignore("integer_division")
 		var row : int = i / cols
 		var col : int = i % cols
 
