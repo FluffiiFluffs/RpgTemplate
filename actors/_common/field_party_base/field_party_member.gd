@@ -56,24 +56,14 @@ func _physics_process(_delta)->void:
 	move_and_slide()
 
 func _process(_delta) -> void:
-	if is_controlled:
-		if GameState.gamestate == GameState.State.FIELD:
-			direction = Vector2( Input.get_axis("move_left",
-			"move_right"), Input.get_axis("move_up","move_down")).normalized()
-		if direction != Vector2.ZERO:
-			#CharDataKeeper.player_trying_move = true
-			if CharDataKeeper.poison_timer.is_stopped():
-				CharDataKeeper.poison_timer.start()
-		#else:
-			#CharDataKeeper.player_trying_move = false
-			#if !CharDataKeeper.poison_timer.is_stopped():
-				#CharDataKeeper.poison_timer.stop()
-
-#func _unhandled_input(_event):
-	#if is_controlled:
-		#if GameState.gamestate == GameState.State.FIELD:
-			#direction = Vector2( Input.get_axis("move_left",
-			#"move_right"), Input.get_axis("move_up","move_down")).normalized()
+	if !SceneManager.is_loading_field_scene:
+		if is_controlled:
+			if GameState.gamestate == GameState.State.FIELD:
+				direction = Vector2( Input.get_axis("move_left",
+				"move_right"), Input.get_axis("move_up","move_down")).normalized()
+			if direction != Vector2.ZERO:
+				if CharDataKeeper.poison_timer.is_stopped():
+					CharDataKeeper.poison_timer.start()
 
 func set_direction() -> bool:
 	if direction == Vector2.ZERO:

@@ -34,6 +34,7 @@ var next_scene_transitioner_name : String = ""
 var spawn_offset : Vector2 = Vector2.ZERO
 var transition_entry_offset : Vector2 = Vector2.ZERO
 
+var is_loading_field_scene : bool = false
 
 signal load_started
 signal load_completed
@@ -44,7 +45,9 @@ signal load_completed
 #region Scene Changing
 ##Loads a new field scene (used with SceneTransitioner)
 func load_field_scene(scene_path : String, scene_transition_target: String)->void:
+	is_loading_field_scene = true
 	load_started.emit()
+	
 	#play transition begin
 	main_scene.transition_layer.play_begin()
 	await main_scene.transition_layer.animation_player.animation_finished
@@ -59,12 +62,14 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	
 	
 	#get rid of old scene
-	for child in main_scene.field_scene_container.get_children():
-		main_scene.field_scene_container.call_deferred("remove_child",child)
-		await get_tree().process_frame
-		child.queue_free()
-	await get_tree().process_frame
-	
+	#for child in main_scene.field_scene_container.get_children():
+		#main_scene.field_scene_container.call_deferred("remove_child",child)
+		#await get_tree().process_frame
+		#child.queue_free()
+	#await get_tree().process_frame
+	#
+	main_scene.current_field_scene.queue_free()
+	main_scene.current_field_scene = null
 	
 	#use scene path string to instantiate a scene under main_scene.field_scene_container
 	var new_scene = load(scene_path).instantiate()
@@ -80,7 +85,7 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	main_scene.transition_layer.play_end()
 	await main_scene.transition_layer.animation_player.animation_finished
 	load_completed.emit()
-	
+	is_loading_field_scene = false
 	#play transition end
 	pass
 
@@ -173,14 +178,9 @@ func _side_to_vector(side : int) -> Vector2:
 		
 ##Finds the scene transitioner by name in the next field scene and returns it
 func find_transitioner(fscene : FieldScene, tname : String )->SceneTransitioner:
-	for child in fscene.transition_areas.get_children():
-		if child is SceneTransitioner:
-			if child.name == tname:
-				return child
-			else:
-				return null
-		else:
-			return null
+	var n = fscene.transition_areas.get_node_or_null(tname)
+	if n is SceneTransitioner:
+		return n
 	return null
 	
 #endregion

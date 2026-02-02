@@ -52,13 +52,15 @@ func _process(_delta)->void:
 
 
 func on_body_entered(body : Node2D)->void:
-	var player = body as FieldPartyMember
-
-	if scene_to_load == "":
+	if not is_instance_valid(CharDataKeeper.controlled_character):
 		return
-	
-	SceneManager.transition_entry_offset = player.global_position - global_position
-	SceneManager.load_field_scene(scene_to_load, target_transition_area)
+	var player = body as FieldPartyMember
+	if CharDataKeeper.controlled_character == player:
+		if scene_to_load == "":
+			return
+		
+		SceneManager.transition_entry_offset = player.global_position - global_position
+		SceneManager.load_field_scene(scene_to_load, target_transition_area)
 
 
 

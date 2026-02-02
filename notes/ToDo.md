@@ -25,7 +25,7 @@ Need to implement visual elements (like purple bubbles when poisoned) so it's ap
 		#Need to implement out-of-battle visuals for poison that isn't too jarring, probably smaller poison bubbles. Needs to be an animation or something that persistently plays (not just when the poison tics)..but also needs to have something special happen during the poison tic.
 		#Out-of-battle poison should only ever bring the party member down to 1hp. visuals/etc still play but HP should remain at 1 (like final fantasy 6). Poison in-battle should be able to kill, though.
 		#Poison tics if the player moves at all and tics based upon a threshold. Very short presses in a direction still up this counter (distance threshold, too)
-		Healing Poison needs to be taken care of
+		#Healing Poison needs to be taken care of
 		
 	Sleep
 	Confuse
