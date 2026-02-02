@@ -3,6 +3,8 @@
 ##Global Script for keeping track of each playable character's stats, equipment etc
 extends Node2D
 
+#Timer exists to add to poison_threshold
+@onready var poison_timer: Timer = %PoisonTimer
 
 
 @export_category("Party Setup")
@@ -20,22 +22,26 @@ extends Node2D
 @export var controlled_character : FieldPartyMember
 ##Index for the controlled character
 var controlled_index : int = 0 : set = set_controlled_index
+@export var field_party_nodes : Array[FieldPartyMember] = []
+@export var party_is_moving : bool = false
+@export var player_trying_move : bool = false
 
 @export_category("PartyWide Data")
 @export var money : int = 0 ##How much money the party has
 @export var time_played : float = 0 ##How much time has elapsed during the playthrough
 
 signal field_poison_tick(actor : ActorData, damage : int)
-signal poison_field_tick(member : ActorData, damage : int)
 
 @export_category("Field Poison Tick")
-@export var poison_field_step_distance : float = 32.0
-@export var poison_field_tick_enabled : bool = true
+##Amount needed to tick poison
+@export var poison_threshold : float = 50
+##Added to when player is moving, is controlled, and any party member has poison
+@export var poison_accumulated : float = 0
+##Amount to add to poison accumulated each time poison_timer times out
+@export var poison_acc_amount : float = 1.0
+@export var poison_acc_amount_run : float = 2.0
 
 var _poison_last_pos : Vector2 = Vector2.ZERO
-var _poison_has_last_pos : bool = false
-var _poison_distance_accum : float = 0.0
-
 
 
 
@@ -47,49 +53,7 @@ func _ready() -> void:
 
 	if controlled_index < 0 or controlled_index >= party_members.size():
 		controlled_index = 0
-
-func _process(_delta : float) -> void:
-	if not poison_field_tick_enabled:
-		_reset_poison_step_tracking()
-		return
-
-	if GameState.gamestate != GameState.State.FIELD:
-		_reset_poison_step_tracking()
-		return
-
-	if controlled_character == null:
-		_reset_poison_step_tracking()
-		return
-
-	var p : Vector2 = controlled_character.global_position
-
-	if not _poison_has_last_pos:
-		_poison_last_pos = p
-		_poison_has_last_pos = true
-		return
-
-	var moved : float = (p - _poison_last_pos).length()
-	_poison_last_pos = p
-
-	if moved <= 0.0:
-		return
-
-	_poison_distance_accum += moved
-
-	if poison_field_step_distance <= 0.0:
-		_poison_distance_accum = 0.0
-		return
-
-	var steps : int = int(floor(_poison_distance_accum / poison_field_step_distance))
-	if steps <= 0:
-		return
-
-	_poison_distance_accum = _poison_distance_accum - (float(steps) * poison_field_step_distance)
-
-	for i in range(steps):
-		_apply_poison_field_step()
-
-
+	poison_timer.timeout.connect(poison_timer_timeout)
 
 
 ## Remove null entries and clamp to party_size.
@@ -190,9 +154,7 @@ func create_and_add_member_from_char(char_res : CharResource, new_id : StringNam
 
 
 func _reset_poison_step_tracking() -> void:
-	_poison_distance_accum = 0.0
-	_poison_has_last_pos = false
-
+	poison_accumulated = 0.0
 
 func _apply_poison_field_step() -> void:
 	if party_members == null:
@@ -217,15 +179,26 @@ func _apply_poison_field_step() -> void:
 		if poison == null:
 			continue
 
-		var dmg : int = poison.get_field_dot_damage(member)
-		if dmg <= 0:
+		var raw_dmg : int = poison.get_field_dot_damage(member)
+		if raw_dmg <= 0:
 			continue
 
-		member.current_hp = clampi(member.current_hp - dmg, 0, member.get_max_hp())
-		field_poison_tick.emit(member, dmg)
-		
-		if member.current_hp <= 0:
-			_remove_death_cleared_statuses_field(member)
+		# Cap damage so HP never drops below 1.
+		var max_allowed : int = member.current_hp - 1
+		if max_allowed < 0:
+			max_allowed = 0
+
+		var applied_dmg : int = raw_dmg
+		if applied_dmg > max_allowed:
+			applied_dmg = max_allowed
+
+		# Only apply damage when it is positive.
+		if applied_dmg > 0:
+			member.current_hp = clampi(member.current_hp - applied_dmg, 1, member.get_max_hp())
+
+		# Always emit so field visuals still fire at 1 HP.
+		field_poison_tick.emit(member, applied_dmg)
+
 
 
 func _remove_death_cleared_statuses_field(actor : ActorData) -> void:
@@ -243,3 +216,66 @@ func _remove_death_cleared_statuses_field(actor : ActorData) -> void:
 		if s.remove_on_death:
 			s.on_remove(null)
 			actor.status_effects.remove_at(i)
+			
+##Determines if any party members have poison. If they do, then poison flash is enabled on their field sprite. Movement of a certain distance causes the poison to add to a threshold. When the threshold is met, poison tics on the affected party member.
+func poison_timer_timeout()->void:
+	if not is_instance_valid(controlled_character):
+		controlled_character = null
+		#_reset_poison_step_tracking()
+		return
+
+
+	var poison_active : bool = false
+
+	# Always refresh poison flash state first.
+	for m in party_members:
+		var member_has_poison : bool = false
+
+		for e in m.status_effects:
+			if e is StatusEffectPoison:
+				member_has_poison = true
+				break
+
+		if member_has_poison:
+			poison_active = true
+
+		var fscene : FieldPartyMember = get_runtime_party_field_scene(m)
+		if fscene == null:
+			continue
+		fscene.set_poison_flash(member_has_poison)
+
+	# Menu should not run movement accumulation or field DOT.
+	if GameState.gamestate == GameState.State.GAMEMENU:
+		return
+
+
+	if poison_active == false:
+		_reset_poison_step_tracking()
+		return
+
+
+	if _poison_last_pos.distance_to(controlled_character.global_position) <= 0.01:
+		return
+
+	_poison_last_pos = controlled_character.global_position
+
+	if poison_accumulated >= poison_threshold:
+		poison_accumulated = 0.0
+		_apply_poison_field_step()
+		poison_timer.start()
+	else:
+		if controlled_character.is_running:
+			poison_accumulated += poison_acc_amount_run
+		else:
+			poison_accumulated += poison_acc_amount
+		poison_timer.start()
+
+
+
+
+func get_runtime_party_field_scene(_pmdata : PartyMemberData)->FieldPartyMember:
+	if !field_party_nodes.is_empty(): ##if there's party members, which there should be
+		for node in field_party_nodes: #loop through the array
+			if node.pm_id == _pmdata.pm_id:
+				return node
+	return null #if for some reason it's empty, return null. This should never happen.

@@ -21,7 +21,8 @@ var last_party_actor : Node2D = null
 
 ## Tracks only the party actor nodes spawned by SceneManager so they can be freed safely
 ## without touching map authored NPCs or other field nodes.
-var spawned_party_actors : Array[Node2D] = []
+##ALERT This is not used or referenced anywhere, commented out
+#var spawned_party_actors : Array[Node2D] = []
 
 var main_scene : Main = null
 
@@ -50,6 +51,11 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	
 	#stores the name of the next transitioner to be found
 	next_scene_transitioner_name = scene_transition_target
+	
+	#Clear out the field party nodes array so it can be populated again
+	CharDataKeeper.field_party_nodes.clear()
+	#Clear the controlled character, too
+	CharDataKeeper.controlled_character = null
 	
 	
 	#get rid of old scene
@@ -84,6 +90,7 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 
 
 #region Instantiate Player + Party
+##Currently unused and should probably not be used going forward 20263101
 ##If player is already present within CharDataKeeper.party_members
 func make_player_at_first_spawn_point()->void:
 	if CharDataKeeper.party_members.is_empty():
@@ -108,6 +115,7 @@ func make_player_at_first_spawn_point()->void:
 	player_scene.global_position = party_spawn_point.global_position + party_spawn_point.compute_spawn_offset(party_spawn_point.global_position)
 
 func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
+	CharDataKeeper.field_party_nodes.clear() #just make sure it's empty
 	var party = CharDataKeeper.party_members
 	var index = -1
 	for child in party:
@@ -123,11 +131,13 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				CharDataKeeper.controlled_character = pmemberscene
 				pmemberscene.name = p_data.char_resource.char_name
+				pmemberscene.pm_id = p_data.char_resource.char_id
 				pmemberscene.force_face_direction(_side_to_vector(spoint.spawn_direction))
 				pmemberscene.global_position = spoint.global_position + spawn_offset
 				pmemberscene.set_controlled_on()
 				last_party_actor = pmemberscene
 				pmemberscene.is_controlled = true
+				CharDataKeeper.field_party_nodes.append(pmemberscene)
 			else:
 				var pmember = CharDataKeeper.party_members[index]
 				var pmemberscene = pmember.field_scene.instantiate() as FieldPartyMember
@@ -140,8 +150,10 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				pmemberscene.set_controlled_off()
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				pmemberscene.name = p_data.char_resource.char_name
+				pmemberscene.pm_id = p_data.char_resource.char_id
 				pmemberscene.global_position = last_party_actor.global_position + Vector2(0, -1)
 				last_party_actor = pmemberscene
+				CharDataKeeper.field_party_nodes.append(pmemberscene)
 
 #endregion Instantiate Player + Party
 

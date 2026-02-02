@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_w6jy8")
 char_name = "Mage"
+char_id = &"mage03"
 char_class = 2
-max_mp = 150
 metadata/_custom_type_script = "uid://dekkhepva31dh"

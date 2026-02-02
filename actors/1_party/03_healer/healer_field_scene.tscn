@@ -282,6 +282,7 @@ y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_6iyvr")
+pm_id = &"healer04"
 
 [node name="FieldSprite" type="Sprite2D" parent="." unique_id=139916239]
 unique_name_in_owner = true
@@ -364,3 +365,7 @@ theme_override_fonts/font = ExtResource("7_vau1w")
 theme_override_font_sizes/font_size = 8
 text = "I"
 horizontal_alignment = 1
+
+[node name="PoisonMarker2D" type="Marker2D" parent="." unique_id=141953638]
+unique_name_in_owner = true
+position = Vector2(0, -30)

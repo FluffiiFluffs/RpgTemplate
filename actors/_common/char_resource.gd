@@ -5,6 +5,7 @@ extends Resource
 @export_enum("PARTY", "NPC", "ENEMY", "BOSS") var char_faction:int
 ##Name of the Actor
 @export var char_name:String=""
+@export var char_id : StringName = &""
 ##Class of the Actor
 @export_enum("WARRIOR","THIEF","MAGE","HEALER") var char_class:int
 ##Default walk speed of the Actor

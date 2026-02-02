@@ -3,21 +3,274 @@
 [ext_resource type="Script" uid="uid://dkyyrcfv7i40r" path="res://_globals/inventory_manager.gd" id="1_d2cym"]
 [ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="2_72dg7"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="2_e84fm"]
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="3_1oopq"]
 [ext_resource type="Resource" uid="uid://byt08a2lu57w8" path="res://inventory/items/1000_mpheal/1001_banana.tres" id="4_7dsqp"]
+[ext_resource type="Script" uid="uid://d0cwv0mtohc84" path="res://skill/_effects/effect_heal_hp.gd" id="4_eafnt"]
 [ext_resource type="Script" uid="uid://cbuwt4xsxq6jy" path="res://inventory/base/inventory_slot.gd" id="4_mjgim"]
 [ext_resource type="Resource" uid="uid://cwf18di3ut70w" path="res://inventory/items/2000_statusheal/2001_orange.tres" id="5_2grj5"]
+[ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="5_jbmmx"]
 [ext_resource type="Resource" uid="uid://5qv0eey8n7wc" path="res://inventory/items/5000_weapon/5001_sword.tres" id="6_8we1o"]
+[ext_resource type="Texture2D" uid="uid://c3nw7sjlqc3nv" path="res://_assets/ui/icons_large/apple.png" id="6_ryxax"]
 [ext_resource type="Resource" uid="uid://bl6pvt6gcced5" path="res://inventory/items/6000_offhand/6001_shield.tres" id="7_bt3a0"]
+[ext_resource type="Script" uid="uid://dp1ks18hyh6xe" path="res://skill/_effects/effect_heal_sp.gd" id="7_s3782"]
+[ext_resource type="Texture2D" uid="uid://15cocjn2s06n" path="res://_assets/ui/icons_large/banana.png" id="8_2ouu7"]
 [ext_resource type="Resource" uid="uid://dhd14qjuye01s" path="res://inventory/items/8000_chest/8001_armor.tres" id="8_t7542"]
 [ext_resource type="Resource" uid="uid://c2w3p6uipkdyi" path="res://inventory/items/10000_legs/10001_greaves.tres" id="9_ecu7t"]
+[ext_resource type="Script" uid="uid://bddenji6q2k4y" path="res://skill/_effects/effect_healpoison.gd" id="9_ovocr"]
 [ext_resource type="Resource" uid="uid://c2c202pjp3ykj" path="res://inventory/items/3000_tool/3001_fire_potion.tres" id="10_2k8hq"]
+[ext_resource type="Texture2D" uid="uid://ffuuicugmid5" path="res://_assets/ui/icons_large/orange.png" id="10_b0ug0"]
 [ext_resource type="Resource" uid="uid://d0gxsrinoroon" path="res://inventory/items/7000_head/7001_helmet.tres" id="10_g4cso"]
 [ext_resource type="Resource" uid="uid://b8is1mnqf7r8h" path="res://inventory/items/11000_accessory/11002_ring.tres" id="11_oms01"]
+[ext_resource type="Texture2D" uid="uid://b0o22rxuyhf2h" path="res://_assets/ui/icons_large/potion_red.png" id="11_sk8vh"]
+[ext_resource type="Texture2D" uid="uid://27mr2thwc1rw" path="res://_assets/ui/icons_large/key.png" id="12_neq4w"]
 [ext_resource type="Resource" uid="uid://dh7gnwyaag2iq" path="res://inventory/items/9000_arms/9001_sleeves.tres" id="12_s5mrw"]
 [ext_resource type="Resource" uid="uid://bxevh0vmlere2" path="res://inventory/items/4000_key/4001_key.tres" id="13_221cp"]
-[ext_resource type="Resource" uid="uid://cw2exte0summv" path="res://inventory/items/11000_accessory/11001_ring.tres" id="14_03nll"]
+[ext_resource type="Texture2D" uid="uid://5gsqm5it2anu" path="res://_assets/ui/icons_large/sword.png" id="13_f8ytn"]
+[ext_resource type="Texture2D" uid="uid://rmo0kj6rdwun" path="res://_assets/ui/icons_large/shield.png" id="14_8tk2v"]
+[ext_resource type="Texture2D" uid="uid://cwshesfadxmsu" path="res://_assets/ui/icons_24/top_level/stats_24_color.png" id="15_pi2j8"]
+[ext_resource type="Texture2D" uid="uid://cp1yx5s20cnsi" path="res://_assets/ui/icons_24/top_level/quests_24_color.png" id="16_ht15h"]
 
-[sub_resource type="Resource" id="Resource_72dg7"]
+[sub_resource type="Resource" id="Resource_2voc5"]
+resource_local_to_scene = true
+script = ExtResource("4_eafnt")
+hp_heal_amount = 10
+metadata/_custom_type_script = "uid://d0cwv0mtohc84"
+
+[sub_resource type="Resource" id="Resource_g3ebf"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testhpheal"
+name = "Apple"
+sort_id = 1
+type = 0
+menu_sprite = ExtResource("6_ryxax")
+description = "A shiny red apple. Eating this apple restores 10 HP."
+effects = Array[ExtResource("3_1oopq")]([SubResource("Resource_2voc5")])
+message_template = "{user} chomps {item} down in one bite!."
+buy_price = 10
+sell_price = 5
+can_equip = 8
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_qbhk3"]
+script = ExtResource("7_s3782")
+sp_heal_amount = 15
+metadata/_custom_type_script = "uid://dp1ks18hyh6xe"
+
+[sub_resource type="Resource" id="Resource_wgams"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testspheal"
+name = "Banana"
+sort_id = 1001
+type = 1
+menu_sprite = ExtResource("8_2ouu7")
+description = "A rare banana. Eating this restores 20 MP."
+effects = Array[ExtResource("3_1oopq")]([SubResource("Resource_qbhk3")])
+message_template = "{user} peels {item} eats it!"
+buy_price = 20
+sell_price = 10
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_pqsgf"]
+script = ExtResource("9_ovocr")
+metadata/_custom_type_script = "uid://bddenji6q2k4y"
+
+[sub_resource type="Resource" id="Resource_j1jsm"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"teststatusheal"
+name = "Orange"
+sort_id = 2001
+type = 2
+menu_sprite = ExtResource("10_b0ug0")
+description = "Heals all status effects. And scurvey."
+effects = Array[ExtResource("3_1oopq")]([SubResource("Resource_pqsgf")])
+message_template = "{user} eats {item}, peel and all!"
+buy_price = 20
+sell_price = 10
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_3q42y"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testtoolconsumable"
+name = "Fire Potion"
+sort_id = 3001
+menu_sprite = ExtResource("11_sk8vh")
+description = "Attacks with fire when thrown. Affects entire party."
+message_template = "{user} throw {item} at {targets}."
+buy_price = 20
+sell_price = 10
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_6vvub"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testkey"
+name = "Key"
+sort_id = 4001
+type = 4
+menu_sprite = ExtResource("12_neq4w")
+description = "It's a key. It might open something. It might not."
+buy_price = 20
+sell_price = 10
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_80rqm"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testsword"
+name = "Sword"
+sort_id = 5001
+type = 5
+menu_sprite = ExtResource("13_f8ytn")
+description = "A sword. For killing things."
+buy_price = 80
+sell_price = 40
+can_equip = 3
+hp_bonus = 10
+atk_bonus = 25
+def_bonus = 5
+strength_bonus = 5
+stamina_bonus = -1
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_cqb5l"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testshield"
+name = "Shield"
+sort_id = 6001
+type = 6
+menu_sprite = ExtResource("14_8tk2v")
+description = "A shield. For trying not to be killed by things...If you can hold it."
+buy_price = 60
+sell_price = 30
+can_equip = 9
+hp_bonus = 9999
+atk_bonus = 999
+def_bonus = 999
+strength_bonus = 999
+stamina_bonus = 999
+magic_bonus = 996
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_omwh3"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testhelmet"
+name = "Helmet"
+sort_id = 7001
+type = 7
+menu_sprite = ExtResource("15_pi2j8")
+description = "A helmet that keeps your head from being crushed. Mostly."
+buy_price = 60
+sell_price = 30
+can_equip = 1
+hp_bonus = 10
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_byj1b"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testarmor"
+name = "Armor"
+sort_id = 8001
+type = 8
+menu_sprite = ExtResource("14_8tk2v")
+description = "Light armor. It protects the body, but only in certain places."
+buy_price = 60
+sell_price = 30
+can_equip = 3
+hp_bonus = 10
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_uakux"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testsleeves"
+name = "Sleeves"
+sort_id = 9001
+type = 9
+menu_sprite = ExtResource("16_ht15h")
+description = "Sleeves that protect some of the arm."
+buy_price = 60
+sell_price = 30
+can_equip = 3
+hp_bonus = 10
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_5c2v8"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testgreaves"
+name = "Greaves"
+sort_id = 10001
+type = 10
+menu_sprite = ExtResource("16_ht15h")
+description = "Light armor. It protects the body, but only in certain places."
+buy_price = 60
+sell_price = 30
+can_equip = 1
+hp_bonus = 10
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_88g1m"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testring1"
+name = "Apple Ring"
+sort_id = 11001
+type = 11
+menu_sprite = ExtResource("6_ryxax")
+description = "A ring with an jeweled apple."
+buy_price = 60
+sell_price = 30
+can_equip = 3
+hp_bonus = 10
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_41dbx"]
+resource_local_to_scene = true
+script = ExtResource("2_e84fm")
+item_id = &"testring2"
+name = "Orange Ring"
+sort_id = 11002
+type = 11
+menu_sprite = ExtResource("10_b0ug0")
+description = "A ring with a jeweled orange."
+buy_price = 60
+sell_price = 30
+can_equip = 3
+hp_bonus = 10
+atk_bonus = 5
+def_bonus = 10
+strength_bonus = 1
+stamina_bonus = 2
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"
+
+[sub_resource type="Resource" id="Resource_mr64n"]
 script = ExtResource("4_mjgim")
 item = ExtResource("2_72dg7")
 quantity = 3
@@ -94,7 +347,77 @@ quantity = 2
 stringname = &"helmet"
 metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
 
+[sub_resource type="Resource" id="Resource_rh5pv"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_g51sh"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_3xd37"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_yd151"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_q26at"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_slb3i"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_wxq6t"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_v6wcn"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_72dg7"]
+script = ExtResource("4_mjgim")
+item = ExtResource("2_72dg7")
+quantity = 3
+stringname = &"apple"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
+[sub_resource type="Resource" id="Resource_g4cso"]
+script = ExtResource("4_mjgim")
+item = ExtResource("5_2grj5")
+quantity = 6
+stringname = &"orange"
+metadata/_custom_type_script = "uid://cbuwt4xsxq6jy"
+
 [node name="InventoryManager" type="Node2D" unique_id=732617995]
 script = ExtResource("1_d2cym")
-all_items = Array[ExtResource("2_e84fm")]([ExtResource("2_72dg7"), ExtResource("4_7dsqp"), ExtResource("5_2grj5"), ExtResource("10_2k8hq"), ExtResource("13_221cp"), ExtResource("6_8we1o"), ExtResource("7_bt3a0"), ExtResource("10_g4cso"), ExtResource("8_t7542"), ExtResource("12_s5mrw"), ExtResource("9_ecu7t"), ExtResource("14_03nll"), ExtResource("11_oms01")])
-current_inventory = Array[ExtResource("4_mjgim")]([SubResource("Resource_72dg7"), SubResource("Resource_e84fm"), SubResource("Resource_bt3a0"), SubResource("Resource_t7542"), SubResource("Resource_ecu7t"), SubResource("Resource_2k8hq"), SubResource("Resource_oms01"), SubResource("Resource_s5mrw"), SubResource("Resource_221cp"), SubResource("Resource_tcweg"), SubResource("Resource_2grj5"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7"), SubResource("Resource_72dg7")])
+all_items = Array[ExtResource("2_e84fm")]([SubResource("Resource_g3ebf"), SubResource("Resource_wgams"), SubResource("Resource_j1jsm"), SubResource("Resource_3q42y"), SubResource("Resource_6vvub"), SubResource("Resource_80rqm"), SubResource("Resource_cqb5l"), SubResource("Resource_omwh3"), SubResource("Resource_byj1b"), SubResource("Resource_uakux"), SubResource("Resource_5c2v8"), SubResource("Resource_88g1m"), SubResource("Resource_41dbx")])
+current_inventory = Array[ExtResource("4_mjgim")]([SubResource("Resource_mr64n"), SubResource("Resource_e84fm"), SubResource("Resource_bt3a0"), SubResource("Resource_t7542"), SubResource("Resource_ecu7t"), SubResource("Resource_2k8hq"), SubResource("Resource_oms01"), SubResource("Resource_s5mrw"), SubResource("Resource_221cp"), SubResource("Resource_tcweg"), SubResource("Resource_2grj5"), SubResource("Resource_rh5pv"), SubResource("Resource_g51sh"), SubResource("Resource_3xd37"), SubResource("Resource_yd151"), SubResource("Resource_q26at"), SubResource("Resource_slb3i"), SubResource("Resource_wxq6t"), SubResource("Resource_v6wcn"), SubResource("Resource_72dg7"), SubResource("Resource_g4cso")])

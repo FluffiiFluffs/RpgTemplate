@@ -1046,7 +1046,6 @@ func _filter_targets_by_item_effects(item : Item, candidates : Array[Battler]) -
 
 	var ctx = _make_battle_effect_context()
 	ctx.source_item = item
-	ctx.souce_item = item
 
 	var effects = item.get_effects_for_context(ctx)
 	if effects.is_empty():

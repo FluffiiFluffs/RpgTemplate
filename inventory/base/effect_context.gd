@@ -14,8 +14,6 @@ var current_target_battler : Battler = null
 var source_item : Item = null
 
 # Legacy aliases, kept so older code can still read something sensible
-var target_battler : Battler = null
-var souce_item : Item = null
 var queued_battle_messages : Array[String] = []
 
 func queue_battle_message(text : String) -> void:

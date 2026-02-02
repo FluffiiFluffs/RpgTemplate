@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://csucisuhwvqev"]
+
+[ext_resource type="Script" uid="uid://dgqr6kmd442jj" path="res://field/vfx/poisonbubble.gd" id="1_618ml"]
+
+[sub_resource type="Gradient" id="Gradient_vkehs"]
+offsets = PackedFloat32Array(0, 0.67713904, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.42358288, 0, 0.5370987, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_618ml"]
+gradient = SubResource("Gradient_vkehs")
+width = 6
+height = 6
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Animation" id="Animation_618ml"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vkehs"]
+resource_name = "float"
+length = 1.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(3, -2), Vector2(-3, -4), Vector2(5, -8), Vector2(-5, -12), Vector2(7, -16), Vector2(-6, -20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:self_modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_618ml"]
+_data = {
+&"RESET": SubResource("Animation_618ml"),
+&"float": SubResource("Animation_vkehs")
+}
+
+[node name="Poisonbubble" type="Node2D" unique_id=1438285720]
+script = ExtResource("1_618ml")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=262823120]
+texture = SubResource("GradientTexture2D_618ml")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=536971158]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_618ml")

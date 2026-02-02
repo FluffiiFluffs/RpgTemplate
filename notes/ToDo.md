@@ -18,12 +18,15 @@ Test menu memory more thoroughly and make it default ON
 
 Implement Status Effects
 Need to implement visual elements (like purple bubbles when poisoned) so it's apparent which status effect is affecting who in battle
-	Poison (in and out of battle)
+	#Poison (in and out of battle)
 		poison heal needs a message when it successfully heals the poison
-		Poison persists in and out of battle correctly. However, if a character is poisoned, enters battle, they DO correctly receive damage from the poison when it is their turn but the popup for poison doesn't work. Healing and reappling the poison makes this work correctly.
 		Same for items
-		Need to implement out-of-battle visuals for poison that isn't too jarring, probably smaller poison bubbles. Needs to be an animation or something that persistently plays (not just when the poison tics)..but also needs to have something special happen during the poison tic.
-		Out-of-battle poison should only ever bring the party member down to 1hp. visuals/etc still play but HP should remain at 1 (like final fantasy 6). Poison in-battle should be able to kill, though.
+		#Poison persists in and out of battle correctly. However, if a character is poisoned, enters battle, they DO correctly receive damage from the poison when it is their turn but the popup for poison doesn't work. Healing and reappling the poison makes this work correctly.
+		#Need to implement out-of-battle visuals for poison that isn't too jarring, probably smaller poison bubbles. Needs to be an animation or something that persistently plays (not just when the poison tics)..but also needs to have something special happen during the poison tic.
+		#Out-of-battle poison should only ever bring the party member down to 1hp. visuals/etc still play but HP should remain at 1 (like final fantasy 6). Poison in-battle should be able to kill, though.
+		#Poison tics if the player moves at all and tics based upon a threshold. Very short presses in a direction still up this counter (distance threshold, too)
+		Healing Poison needs to be taken care of
+		
 	Sleep
 	Confuse
 	Stun
@@ -39,6 +42,11 @@ Stats
 	clean up formulas
 	clean up char_resource and actor data
 	Formulas for battle
+	
+Implement status/Elemental resists
+	
+Implement leveling system
+	
 
 Modify the battle_notify_ui to reveal text (very fast, it's battle)
 Modify battle_notify_ui to allow 3 lines of text

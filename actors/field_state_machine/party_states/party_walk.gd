@@ -27,13 +27,17 @@ func process (_delta : float) -> State:
 		if Options.always_run == false:
 			if Input.is_action_pressed("cancel_input"):
 				actor.move_speed = actor.run_speed
+				actor.is_running = true
 			else:
 				actor.move_speed = actor.original_move_speed
+				actor.is_running = false
 		elif Options.always_run == true:
 			if Input.is_action_pressed("cancel_input"):
 				actor.move_speed = actor.original_move_speed
+				actor.is_running = false
 			else:
 				actor.move_speed = actor.run_speed
+				actor.is_running = true
 	if actor.direction == Vector2.ZERO:
 		return idle
 		

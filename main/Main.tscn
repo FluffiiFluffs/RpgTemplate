@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bwiudxjxceld0" path="res://main/field_camera_rig.gd" id="2_5kcm4"]
 [ext_resource type="Script" uid="uid://c7qidetjaih36" path="res://main/field_poison_fx.gd" id="2_cmtxc"]
 [ext_resource type="PackedScene" uid="uid://lcgogxjtiq0y" path="res://main/transition_layer.tscn" id="2_i85ao"]
+[ext_resource type="Script" uid="uid://bwp3gopqemwbr" path="res://main/field_vfx.gd" id="2_tv7ag"]
 
 [node name="Main" type="Node" unique_id=16092196]
 script = ExtResource("1_glv2v")
@@ -16,6 +17,7 @@ unique_name_in_owner = true
 
 [node name="FieldVFX" type="Node2D" parent="FieldRoot" unique_id=410657886]
 unique_name_in_owner = true
+script = ExtResource("2_tv7ag")
 
 [node name="FieldPoisonFX" type="CanvasLayer" parent="FieldRoot/FieldVFX" unique_id=975613471]
 visible = false

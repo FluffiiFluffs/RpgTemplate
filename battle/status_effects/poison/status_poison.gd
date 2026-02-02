@@ -149,16 +149,15 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	if status_system != null and status_system.battle_scene != null:
 		var bs : BattleScene = status_system.battle_scene
 
-		var name_text : String = ""
-		if receiver != null and receiver.actor_data != null and receiver.actor_data.char_resource != null:
-			name_text = receiver.actor_data.char_resource.char_name
-		elif actor.char_resource != null:
+		var name_text : String = "Someone"
+		if actor.char_resource != null:
 			name_text = actor.char_resource.char_name
-		else:
-			name_text = "Someone"
 
-		bs.battle_notify_ui.queue_notification(name_text + " suffers poison damage.")
-		if receiver != null:
-			bs.battle_vfx.pop_text_poison(receiver, dmg)
+		if bs.battle_notify_ui != null:
+			bs.battle_notify_ui.queue_notification(name_text + " suffers poison damage.")
+
+		var target_battler : Battler = status_system.get_battler_for_actor(actor)
+		if target_battler != null:
+			bs.battle_vfx.pop_text_poison(target_battler, dmg)
 
 	return true

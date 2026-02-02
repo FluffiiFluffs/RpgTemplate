@@ -51,5 +51,15 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 			target.status_effects.remove_at(i)
 
 		changed = true
+	if changed:
+		CharDataKeeper.poison_timer.start()
 
 	return changed
+
+
+	return changed
+
+
+func _reset_poison_visuals()->void:
+		if GameState.gamestate == GameState.State.FIELD:
+			CharDataKeeper.poison_timer.start()

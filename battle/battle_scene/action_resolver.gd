@@ -191,19 +191,26 @@ func _execute_defend(use : ActionUse) -> void:
 	var existing_defended : StatusEffect = StatusSystem.find_status(protected, StatusEffectDefended)
 	if existing_defended != null:
 		var defended_status : StatusEffectDefended = existing_defended as StatusEffectDefended
-		var old_defender : Battler = defended_status.defender
+
+		var old_defender_battler : Battler = null
+		if defended_status.defender_actor != null:
+			old_defender_battler = battle_scene.status_system.get_battler_for_actor(defended_status.defender_actor)
+
 		battle_scene.status_system.remove_status(protected, defended_status)
-		if old_defender != null and old_defender != defender:
-			battle_scene.status_system.remove_status_by_class(old_defender, StatusEffectDefending)
+
+		if old_defender_battler != null and old_defender_battler != defender:
+			battle_scene.status_system.remove_status_by_class(old_defender_battler, StatusEffectDefending)
+
 
 	# Create fresh per application instances
 	var defending : StatusEffectDefending = StatusEffectDefending.new()
-	defending.protected = protected
+	defending.protected_actor = protected.actor_data
 	battle_scene.status_system.add_status(defender, defending, defender)
 
 	var defended : StatusEffectDefended = StatusEffectDefended.new()
-	defended.defender = defender
+	defended.defender_actor = defender.actor_data
 	battle_scene.status_system.add_status(protected, defended, defender)
+
 
 	if defender == protected:
 		battle_scene.battle_notify_ui.queue_notification(defender_name + " assumes a defensive stance.")

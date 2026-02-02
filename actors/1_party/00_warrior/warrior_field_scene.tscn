@@ -277,11 +277,12 @@ size = Vector2(696.5, 392)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pflqk"]
 size = Vector2(16, 20)
 
-[node name="PartyMember" type="CharacterBody2D" unique_id=724567487]
+[node name="Warrior" type="CharacterBody2D" unique_id=724567487]
 y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_xjh2q")
+pm_id = &"warrior01"
 
 [node name="FieldSprite" type="Sprite2D" parent="." unique_id=1373858968]
 unique_name_in_owner = true
@@ -364,3 +365,7 @@ theme_override_fonts/font = ExtResource("7_5j7ao")
 theme_override_font_sizes/font_size = 8
 text = "I"
 horizontal_alignment = 1
+
+[node name="PoisonMarker2D" type="Marker2D" parent="." unique_id=597849331]
+unique_name_in_owner = true
+position = Vector2(0, -30)

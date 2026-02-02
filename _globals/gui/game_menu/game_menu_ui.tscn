@@ -826,18 +826,18 @@ theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "10"
 
-[node name="SpeedBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=27160140]
+[node name="AgilityBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=27160140]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SpeedBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox" unique_id=174399644]
+[node name="AgilityBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/AgilityBonusHBox" unique_id=174399644]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")
 theme_override_font_sizes/font_size = 7
 text = "SPD +"
 
-[node name="SpeedBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SpeedBonusHBox" unique_id=1485627008]
+[node name="AgilityBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/AgilityBonusHBox" unique_id=1485627008]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_003g3")

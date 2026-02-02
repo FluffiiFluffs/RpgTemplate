@@ -10,9 +10,6 @@ func _ready() -> void:
 	if poison_rect != null:
 		_base_alpha = poison_rect.modulate.a
 
-	if CharDataKeeper.poison_field_tick.is_connected(_on_poison_field_tick) == false:
-		CharDataKeeper.poison_field_tick.connect(_on_poison_field_tick)
-
 	_refresh_presence()
 
 

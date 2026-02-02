@@ -4,7 +4,6 @@ extends FieldActor
 ##Attached to a party member's root node in their scene`
 
 @onready var field_sprite : Sprite2D = %FieldSprite
-
 @onready var animation_player :AnimationPlayer= %AnimationPlayer
 @onready var audio_stream_player_2d :AudioStreamPlayer2D= %AudioStreamPlayer2D
 @onready var audio_listener_2d :AudioListener2D= %AudioListener2D #should be default listener
@@ -16,13 +15,17 @@ extends FieldActor
 @onready var enemy_spawn_trigger = %EnemySpawnTrigger
 @onready var interact_area_trigger_2d : Area2D = %InteractAreaTrigger2D #area for interaction detection
 @onready var state_label : Label = %StateLabel
+@onready var poison_marker_2d: Marker2D = %PoisonMarker2D
 
 @export var is_controlled : bool = false
 @export var move_speed : float = 115.0
 @export var run_speed : float = move_speed * 2.0
 @export var original_move_speed : float = 115.0
 @export var battle_mode : bool = false
+@export var is_running : bool = false
 
+##Set during instantiation.
+@export var pm_id : StringName = &""
 @export_category("Follow AI")
 ##The actor this node will attempt to follow in the follow state
 @export var actor_to_follow : FieldActor = null
@@ -31,9 +34,11 @@ extends FieldActor
 ##Set in follow state script, equal to actor_to_follow.move_speed 
 @export var follow_speed : float = 50.0
 
+
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
-
+var poison_tween : Tween = null
+var poison_flash_enabled : bool = false
 
 ## 0 = RIGHT, 1 = DOWN, 2 = LEFT, 3 = UP
 const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
@@ -41,6 +46,7 @@ const DIR_4 : Array = [ Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP ]
 signal direction_changed( new_direction )
 
 func _ready()->void:
+	
 	state_machine.initialize(self)
 	setup_move_speed()
 	if !Options.show_states:
@@ -54,8 +60,15 @@ func _process(_delta) -> void:
 		if GameState.gamestate == GameState.State.FIELD:
 			direction = Vector2( Input.get_axis("move_left",
 			"move_right"), Input.get_axis("move_up","move_down")).normalized()
-	pass
-	
+		if direction != Vector2.ZERO:
+			#CharDataKeeper.player_trying_move = true
+			if CharDataKeeper.poison_timer.is_stopped():
+				CharDataKeeper.poison_timer.start()
+		#else:
+			#CharDataKeeper.player_trying_move = false
+			#if !CharDataKeeper.poison_timer.is_stopped():
+				#CharDataKeeper.poison_timer.stop()
+
 #func _unhandled_input(_event):
 	#if is_controlled:
 		#if GameState.gamestate == GameState.State.FIELD:
@@ -126,8 +139,10 @@ func force_face_direction(new_facing : Vector2) -> void:
 func setup_move_speed()->void:
 	if Options.always_run == true:
 		move_speed = run_speed
+		is_running = true
 	elif Options.always_run == false:
 		move_speed = original_move_speed
+		is_running = false
 
 func set_controlled_on()->void:
 	is_controlled = true
@@ -144,4 +159,23 @@ func set_controlled_off()->void:
 	interact_area_trigger_2d.monitorable = false
 	set_collision_layer_value(1, false)
 	set_collision_layer_value(2, true)
-	
+
+func set_poison_flash(enabled : bool) -> void:
+	if enabled and poison_flash_enabled:
+		return
+	if (not enabled) and (not poison_flash_enabled):
+		return
+
+	if poison_tween != null:
+		poison_tween.kill()
+		poison_tween = null
+
+	if enabled:
+		poison_flash_enabled = true
+		poison_tween = create_tween()
+		poison_tween.set_loops()
+		poison_tween.tween_property(field_sprite, "self_modulate", Color(0.424, 0.0, 0.537, 1.0), 0.5)
+		poison_tween.tween_property(field_sprite, "self_modulate", Color(1.0, 1.0, 1.0, 1.0), 0.5)
+	else:
+		poison_flash_enabled = false
+		field_sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)

@@ -35,7 +35,6 @@ func can_apply_to_battler(ctx : EffectContext, target : Battler) -> bool:
 	if target == null:
 		return false
 	ctx.current_target_battler = target
-	ctx.target_battler = target
 	return can_apply(ctx, target.actor_data)
 
 
@@ -45,7 +44,6 @@ func apply_to_battler(ctx : EffectContext, target : Battler) -> bool:
 	if target == null:
 		return false
 	ctx.current_target_battler = target
-	ctx.target_battler = target
 	return apply(ctx, target.actor_data)
 
 

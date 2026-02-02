@@ -9,7 +9,7 @@ extends Resource
 
 @export_category("Identity")
 ##Unique identifier for this party member.
-@export var id : StringName = ""
+@export var pm_id : StringName = &""
 
 
 @export_category("Progression")
@@ -107,7 +107,7 @@ extends Resource
 #endregion
 
 
-func init_from_char_resource(_char_resource : CharResource, _id : StringName = "") -> void:
+func init_from_char_resource(_char_resource : CharResource, _id : StringName = &"") -> void:
 	if _char_resource == null:
 		return
 
@@ -115,9 +115,9 @@ func init_from_char_resource(_char_resource : CharResource, _id : StringName = "
 
 	# Give it a stable id. You can change this logic later if you want.
 	if _id == "":
-		id = char_resource.char_name
+		pm_id = char_resource.char_id
 	else:
-		id = _id
+		pm_id = _id
 
 	# Starting level uses the default from the CharResource.
 	level = char_resource.char_level

@@ -12,6 +12,5 @@ script = ExtResource("1_crqld")
 class_color = Color(0, 0.4862745, 0.4862745, 1)
 field_scene = ExtResource("2_3gpb3")
 char_resource = ExtResource("1_7m4b1")
-id = &"healer04"
-current_mp = 150
+pm_id = &"healer04"
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

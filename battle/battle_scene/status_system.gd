@@ -35,19 +35,19 @@ func _add_status_unchecked(receiver : Battler, effect : StatusEffect, caster : B
 	if receiver.actor_data == null:
 		return
 
-	# Piece 1 integration point:
-	# If you added bind_battle_context, use it. Otherwise fall back to current fields.
-	if effect.has_method("bind_battle_context"):
-		effect.bind_battle_context(receiver, caster)
-	else:
-		effect.caster = caster
-		effect.receiver = receiver
+	var receiver_actor : ActorData = receiver.actor_data
+	var caster_actor : ActorData = null
+	if caster != null:
+		caster_actor = caster.actor_data
+
+	effect.bind_battle_context(receiver_actor, caster_actor)
 
 	if receiver.actor_data.status_effects == null:
 		receiver.actor_data.status_effects = []
 
 	receiver.actor_data.status_effects.append(effect)
 	effect.on_apply(self)
+
 
 
 func try_add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> Dictionary:
@@ -186,8 +186,6 @@ func on_turn_start(acting : Battler) -> bool:
 	return did_tick
 
 
-
-##Removes status effects that only last one turn
 func _remove_expiring_statuses_for_turn_start(acting : Battler, _owner : Battler) -> void:
 	if _owner == null:
 		return
@@ -195,17 +193,24 @@ func _remove_expiring_statuses_for_turn_start(acting : Battler, _owner : Battler
 		return
 	if _owner.actor_data.status_effects == null:
 		return
+	if acting == null:
+		return
+	if acting.actor_data == null:
+		return
 
-	# Iterate backwards so removals are safe.
+	var acting_actor : ActorData = acting.actor_data
+
 	for i in range(_owner.actor_data.status_effects.size() - 1, -1, -1):
 		var s : StatusEffect = _owner.actor_data.status_effects[i]
 		if s == null:
 			_owner.actor_data.status_effects.remove_at(i)
 			continue
 
-		if s.expire_timing == StatusEffect.ExpireTiming.TURN_START_OF_BATTLER and s.expire_on_battler == acting:
-			s.on_remove(self)
-			_owner.actor_data.status_effects.remove_at(i)
+		if s.expire_timing == StatusEffect.ExpireTiming.TURN_START_OF_BATTLER:
+			if s.expire_on_actor == acting_actor:
+				s.on_remove(self)
+				_owner.actor_data.status_effects.remove_at(i)
+
 
 
 # -------------------------------------------------------------------
@@ -219,13 +224,21 @@ func resolve_incoming_target(attacker : Battler, action : BattleAction, original
 	if original_target.actor_data.status_effects == null:
 		return original_target
 
-	# Let statuses on the original target attempt to redirect.
-	for s in original_target.actor_data.status_effects:
+	var attacker_actor : ActorData = null
+	if attacker != null:
+		attacker_actor = attacker.actor_data
+
+	var original_actor : ActorData = original_target.actor_data
+
+	for s in original_actor.status_effects:
 		if s == null:
 			continue
-		var redirected : Battler = s.redirect_incoming_target(attacker, action, original_target)
-		if redirected != null:
-			return redirected
+
+		var redirected_actor : ActorData = s.redirect_incoming_target(attacker_actor, action, original_actor)
+		if redirected_actor != null:
+			var redirected_battler : Battler = get_battler_for_actor(redirected_actor)
+			if redirected_battler != null:
+				return redirected_battler
 
 	return original_target
 
@@ -238,14 +251,23 @@ func modify_incoming_physical_damage(attacker : Battler, action : BattleAction, 
 	if final_target.actor_data.status_effects == null:
 		return damage
 
+	var attacker_actor : ActorData = null
+	if attacker != null:
+		attacker_actor = attacker.actor_data
+
+	var original_actor : ActorData = null
+	if original_target != null:
+		original_actor = original_target.actor_data
+
+	var final_actor : ActorData = final_target.actor_data
+
 	var out_damage : int = damage
-	for s in final_target.actor_data.status_effects:
+	for s in final_actor.status_effects:
 		if s == null:
 			continue
-		out_damage = s.modify_incoming_physical_damage(attacker, action, original_target, final_target, out_damage)
+		out_damage = s.modify_incoming_physical_damage(attacker_actor, action, original_actor, final_actor, out_damage)
 
 	return out_damage
-
 
 # -------------------------------------------------------------------
 # Cleanup
@@ -278,6 +300,23 @@ func _get_all_battlers() -> Array[Battler]:
 			out.append(child)
 
 	return out
+
+func get_battler_for_actor(actor : ActorData) -> Battler:
+	if actor == null:
+		return null
+	if battle_scene == null:
+		return null
+	if battle_scene.battlers == null:
+		return null
+
+	for child in battle_scene.battlers.get_children():
+		if child is Battler:
+			var b : Battler = child
+			if b.actor_data == actor:
+				return b
+
+	return null
+
 
 
 func detach_persistent_status_battle_refs() -> void:

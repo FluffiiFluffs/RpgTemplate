@@ -45,7 +45,7 @@ func _unhandled_input(_event):
 			animation_player.play("dev_menu_close")	
 			dev_menu_open = false
 
-##load test scene
+##load test scene + spawn party (must be set in chardatakeeper)
 func on_button_1_pressed()->void:
 	if SceneManager.main_scene != null:
 		#instantiate scene to main
@@ -73,11 +73,9 @@ func on_button_1_pressed()->void:
 		main.field_camera_rig.follow_player()
 	pass
 
-##load player
+
 func on_button_2_pressed()->void:
-	var main = SceneManager.main_scene as Main
-	SceneManager.make_player_at_first_spawn_point()
-	main.field_camera_rig.follow_player()
+	pass
 
 func on_button_3_pressed()->void:
 	pass
@@ -92,10 +90,44 @@ func on_button_6_pressed()->void:
 	
 func on_button_7_pressed()->void:
 	pass
-	
+
+##Give everyone poison
 func on_button_8_pressed()->void:
-	pass
-	
+	if CharDataKeeper.party_members == null:
+		return
+	if CharDataKeeper.party_members.is_empty():
+		return
+
+	for member in CharDataKeeper.party_members:
+		if member == null:
+			continue
+
+		if member.status_effects == null:
+			member.status_effects = []
+
+		# Remove existing poison statuses so repeated presses stay stable.
+		for i in range(member.status_effects.size() - 1, -1, -1):
+			var s : StatusEffect = member.status_effects[i]
+			if s == null:
+				member.status_effects.remove_at(i)
+				continue
+
+			if s.exclusive_group_id == &"poison" or s is StatusEffectPoison:
+				s.bind_battle_context(member, null)
+				s.on_remove(null)
+				member.status_effects.remove_at(i)
+
+		# Apply very weak poison.
+		var new_poison : StatusVeryWeakPoison = StatusVeryWeakPoison.new()
+		new_poison.bind_battle_context(member, null)
+		new_poison.on_apply(null)
+		member.status_effects.append(new_poison)
+
+		# Enable flash immediately when the field node exists.
+		var fscene : FieldPartyMember = CharDataKeeper.get_runtime_party_field_scene(member)
+		if fscene != null:
+			fscene.set_poison_flash(true)
+
 func on_button_9_pressed()->void:
 	if SceneManager.main_scene.current_battle_scene != null:
 		var _not_ui = SceneManager.main_scene.current_battle_scene.battle_notify_ui
