@@ -17,6 +17,13 @@
 [ext_resource type="Resource" uid="uid://dws8r4mga3vxw" path="res://skill/poisontest/poisontest.tres" id="14_57enb"]
 [ext_resource type="Resource" uid="uid://b813l6o3ccy87" path="res://skill/poisontest/poisonhealtest.tres" id="15_7njdm"]
 [ext_resource type="Resource" uid="uid://duaob2jiqcxig" path="res://skill/damagetest/damagetest.tres" id="16_lg8x5"]
+[ext_resource type="Resource" uid="uid://bc2v51t1s44cc" path="res://skill/sleeptest/sleeptest.tres" id="17_7njdm"]
+[ext_resource type="Resource" uid="uid://dumrtuacq11rt" path="res://skill/stun/stuntest.tres" id="18_lg8x5"]
+[ext_resource type="Resource" uid="uid://bjlgmcmg6kobc" path="res://skill/confusetest/confusetest.tres" id="19_bsxxl"]
+[ext_resource type="Resource" uid="uid://dt5c86w7sasys" path="res://skill/hastetest/hastetest.tres" id="20_o0mmc"]
+[ext_resource type="Resource" uid="uid://d0cvgb7axp08f" path="res://skill/slowtest/slowtest.tres" id="21_djem0"]
+[ext_resource type="Resource" uid="uid://bc236r1dmtoym" path="res://skill/hastetest/haste3test.tres" id="22_ol2kt"]
+[ext_resource type="Resource" uid="uid://djiqatchoyqai" path="res://skill/slowtest/slow3test.tres" id="23_amn4a"]
 
 [sub_resource type="Resource" id="Resource_v56fi"]
 script = ExtResource("3_qx4j5")
@@ -34,5 +41,5 @@ pm_id = &"warrior01"
 current_hp = 50
 current_sp = 50
 battle_actions = SubResource("Resource_v56fi")
-skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5")])
+skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5"), ExtResource("17_7njdm"), ExtResource("18_lg8x5"), ExtResource("19_bsxxl"), ExtResource("20_o0mmc"), ExtResource("21_djem0"), ExtResource("22_ol2kt"), ExtResource("23_amn4a")])
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

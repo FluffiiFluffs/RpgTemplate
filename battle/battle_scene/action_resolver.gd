@@ -107,13 +107,19 @@ func _execute_normal_attack(use : ActionUse)->void:
 	#battle_scene.battle_notify_ui.queue_notification(final_name + " takes " + str(dmg) + " damage.")
 	
 	battle_scene.battle_vfx.pop_text(final_target, dmg)
+	if dmg > 0:
+		StatusEffectSleep.try_wake_on_damage(battle_scene.status_system, final_target)
+		StatusEffectConfuse.try_break_on_damage(battle_scene.status_system, final_target)
+
+
 
 	await battle_scene.notify_finished
 
 	if final_target.ui_element is BattleStats:
 		var stats = final_target.ui_element as BattleStats
 		await stats.hp_changed()
-	check_for_death(final_target, attacker)
+	await check_for_death(final_target, attacker)
+
 
 
 	
@@ -124,8 +130,11 @@ func check_for_death(to : Battler, _from :  Battler)->void:
 	if to.actor_data.current_hp <= 0:
 		battle_scene.status_system.remove_statuses_on_death(to)
 		battle_scene.battle_notify_ui.queue_notification(to.actor_data.char_resource.char_name + " falls to the ground!")
-		to.ui_element.deactivate_button() #redundant, this should happen when targeting is pulled up
+		to.ui_element.deactivate_button()
+
+		await battle_scene.notify_finished
 		await get_tree().create_timer(1.0).timeout
+
 		#If the killed battler was an enemy, then distribute exp/money/loot(items)
 		if to.faction == Battler.Faction.ENEMY:
 			var enemy = to.actor_data
@@ -234,15 +243,23 @@ func _execute_use_skill(use : ActionUse) -> void:
 
 	var user_name = user.actor_data.char_resource.char_name
 
-	if not skill.can_pay_cost(user.actor_data):
-		battle_scene.battle_notify_ui.queue_notification(user_name + " cannot use " + skill.name + ".")
-		await battle_scene.notify_finished
-		return
+	var is_free_cost : bool = false
+	if use.data != null and use.data.has("free_cost"):
+		is_free_cost = bool(use.data["free_cost"])
 
-	# Pay cost up front
-	var before_user_hp = user.actor_data.current_hp
-	var before_user_mp = user.actor_data.current_sp
-	skill.pay_cost(user.actor_data)
+	if not is_free_cost:
+		if not skill.can_pay_cost(user.actor_data):
+			battle_scene.battle_notify_ui.queue_notification(user_name + " cannot use " + skill.name + ".")
+			await battle_scene.notify_finished
+			return
+
+	var before_user_hp : int = user.actor_data.current_hp
+	var before_user_mp : int = user.actor_data.current_sp
+
+	if not is_free_cost:
+		# Pay cost up front
+		skill.pay_cost(user.actor_data)
+
 
 	var ctx = EffectContext.new()
 	ctx.mode = EffectContext.Mode.BATTLE
@@ -313,7 +330,8 @@ func _execute_use_skill(use : ActionUse) -> void:
 			await stats_target.mp_changed()
 
 		if target.actor_data.current_hp <= 0:
-			check_for_death(target, user)
+			await check_for_death(target, user)
+
 
 
 func _execute_use_item(use : ActionUse) -> void:

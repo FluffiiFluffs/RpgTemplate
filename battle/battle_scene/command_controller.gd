@@ -19,11 +19,13 @@ var _all_target_preview_targets : Array[Battler] = []
 signal action_use_chosen(turn_id : int, use : ActionUse)
 
 #region TurnID
+## Stores the current TurnManager turn id so action confirmations emit with the correct id.
 func begin_turn(turn_id : int)->void:
 	current_turn_id = turn_id
 #endregion TurnID
 
 #region Command Button Functions
+## Starts targeting for a standard BattleAction (attack style), initializing pending state and routing into the generic targeting flow.
 func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
 	pending_user = attacker
 	pending_action = action
@@ -32,7 +34,7 @@ func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
 
 
 
-##Opens targeting, passes who is defending, and the defense action
+## Starts DEFEND_TARGETING, enabling living party buttons, disabling enemies, building focus neighbors, and focusing the defender by default.
 func open_defend_targeting(defender : Battler, action : BattleAction)->void:
 	pending_user = defender
 	pending_action = action
@@ -1117,6 +1119,7 @@ func _focus_default_target(valid : Array[Battler]) -> void:
 
 ##Sets focus neighbors for battler selection (party/enemy buttons) based on which buttons are currently focusable.
 ##This is required for skills/items that allow selecting either faction (ANY_FACTION), especially in ALL targeting mode.
+## Reserved entry point for non menu skill item targeting. No call sites in the template.
 func _setup_battler_target_neighbors() -> void:
 	var enemy_buttons : Array[Button] = []
 	for child in battle_scene.enemy_h_box.get_children():

@@ -20,6 +20,13 @@ func normal_attack(from : Battler, _attack : BattleAction, to : Battler)->int:
 	@warning_ignore("integer_division")
 	var damage : int = clampi((fromatk*2) - (todef/2), 0, 9999) #simpleplaceholder formula
 	#roll to determine if there is a miss (considered dodge/parry) (return -1 for this so the UI can show the difference between 0 damage and miss)
+		# Sleep: attacks always land
+	if to != null and to.actor_data != null and to.actor_data.status_effects != null:
+		for s in to.actor_data.status_effects:
+			if s is StatusEffectSleep:
+				return damage
+
+	
 	var missvariance  = randi_range(-10,10)
 	var misschance = randi_range(0,100) + (missvariance)
 	var missroll = randi_range(0,100) + (from.actor_data.get_agility())

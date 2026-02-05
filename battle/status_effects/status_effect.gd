@@ -37,6 +37,24 @@ func redirect_incoming_target(_attacker_actor : ActorData, _action : BattleActio
 
 func modify_incoming_physical_damage(_attacker_actor : ActorData, _action : BattleAction, _original_target_actor : ActorData, _final_target_actor : ActorData, damage : int) -> int:
 	return damage
+	
+# -------------------------------------------------------------------
+# Turn permission hooks
+# -------------------------------------------------------------------
+## Return true when this status prevents the battler from taking any action on their turn.
+func blocks_turn(_status_system : StatusSystem, _battler : Battler) -> bool:
+	return false
+
+## Return true when this status prevents the battler from entering the command selection flow.
+## This allows cases where the battler still acts, but does so via forced action logic.
+func blocks_command_selection(_status_system : StatusSystem, _battler : Battler) -> bool:
+	return false
+
+## Return an ActionUse when this status forces an action selection for the battler this turn.
+## Return null when no forced action applies.
+func get_forced_action_use(_status_system : StatusSystem, _battler : Battler) -> ActionUse:
+	return null
+
 
 func bind_battle_context(_receiver_actor : ActorData, _caster_actor : ActorData) -> void:
 	receiver_actor = _receiver_actor

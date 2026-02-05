@@ -23,6 +23,130 @@ var current_turn_id : int = 0
 enum AddStatusOutcome { APPLIED, BLOCKED, REPLACED }
 
 
+# -------------------------------------------------------------------
+# Turn permission
+# -------------------------------------------------------------------
+func can_battler_act(battler : Battler) -> bool:
+	if battler == null:
+		return false
+	if battler.actor_data == null:
+		return false
+	if battler.actor_data.current_hp <= 0:
+		return false
+	if battler.actor_data.status_effects == null:
+		return true
+
+	var snapshot : Array = battler.actor_data.status_effects.duplicate()
+	var primary_control : StatusEffect = _get_primary_control_status(snapshot)
+
+	if primary_control != null:
+		if primary_control.blocks_turn(self, battler):
+			return false
+
+	for s in snapshot:
+		if s == null:
+			continue
+		if s == primary_control:
+			continue
+		if s.blocks_turn(self, battler):
+			return false
+
+	return true
+
+
+func can_battler_select_commands(battler : Battler) -> bool:
+	if battler == null:
+		return false
+	if battler.actor_data == null:
+		return false
+	if battler.actor_data.current_hp <= 0:
+		return false
+	if battler.actor_data.status_effects == null:
+		return true
+
+	var snapshot : Array = battler.actor_data.status_effects.duplicate()
+	var primary_control : StatusEffect = _get_primary_control_status(snapshot)
+
+	if primary_control != null:
+		if primary_control.blocks_command_selection(self, battler):
+			return false
+
+	for s in snapshot:
+		if s == null:
+			continue
+		if s == primary_control:
+			continue
+		if s.blocks_command_selection(self, battler):
+			return false
+
+	return true
+
+
+func get_forced_action_use(battler : Battler) -> ActionUse:
+	if battler == null:
+		return null
+	if battler.actor_data == null:
+		return null
+	if battler.actor_data.current_hp <= 0:
+		return null
+	if battler.actor_data.status_effects == null:
+		return null
+
+	var snapshot : Array = battler.actor_data.status_effects.duplicate()
+
+	var best_use : ActionUse = null
+	var best_rank : int = -2147483648
+	var best_is_control : bool = false
+
+	for s in snapshot:
+		if s == null:
+			continue
+
+		var use : ActionUse = s.get_forced_action_use(self, battler)
+		if use == null:
+			continue
+
+		var is_control : bool = s.exclusive_group_id == &"control"
+		if best_use == null:
+			best_use = use
+			best_rank = s.exclusive_rank
+			best_is_control = is_control
+			continue
+
+		if best_is_control and not is_control:
+			continue
+
+		if is_control and not best_is_control:
+			best_use = use
+			best_rank = s.exclusive_rank
+			best_is_control = is_control
+			continue
+
+		if s.exclusive_rank > best_rank:
+			best_use = use
+			best_rank = s.exclusive_rank
+			best_is_control = is_control
+
+	return best_use
+
+
+func _get_primary_control_status(statuses : Array) -> StatusEffect:
+	var best : StatusEffect = null
+	var best_rank : int = -2147483648
+
+	for s in statuses:
+		if s == null:
+			continue
+		if s.exclusive_group_id != &"control":
+			continue
+		if s.exclusive_rank > best_rank:
+			best_rank = s.exclusive_rank
+			best = s
+
+	return best
+
+
+
 
 # -------------------------------------------------------------------
 # Core CRUD
@@ -170,12 +294,17 @@ func on_turn_start(acting : Battler) -> bool:
 
 	# Tick statuses owned by the acting battler
 	if acting.actor_data != null and acting.actor_data.status_effects != null:
-		for s in acting.actor_data.status_effects:
+		var snapshot : Array = acting.actor_data.status_effects.duplicate()
+
+		for s in snapshot:
 			if s == null:
+				continue
+			if not acting.actor_data.status_effects.has(s):
 				continue
 
 			if s.on_turn_start_tick(self):
 				did_tick = true
+
 
 	# Only wait when BattleNotifyUI is actively displaying or has pending notifications
 	if battle_scene != null and battle_scene.battle_notify_ui != null:

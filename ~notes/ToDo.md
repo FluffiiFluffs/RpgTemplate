@@ -7,8 +7,6 @@ Create quote bubble system for in-battle use
 Implement other-party-member-leading routines for when the main character is dead
 	(needs to be like earthbound / DQ)
 
-Enemies in battle with the same name need to be differentiated somehow (A, B, C, etc)
-
 Bug when selected skills is in targeting and cancelled out of, skill selected in menu stays highlighted
 
 Implement skill usage outside of battle
@@ -19,29 +17,33 @@ Test menu memory more thoroughly and make it default ON
 Implement Status Effects
 Need to implement visual elements (like purple bubbles when poisoned) so it's apparent which status effect is affecting who in battle
 	#Poison (in and out of battle)
-		poison heal needs a message when it successfully heals the poison
-		Same for items
+		#poison heal needs a message when it successfully heals the poison
+		#Same for items
 		#Poison persists in and out of battle correctly. However, if a character is poisoned, enters battle, they DO correctly receive damage from the poison when it is their turn but the popup for poison doesn't work. Healing and reappling the poison makes this work correctly.
 		#Need to implement out-of-battle visuals for poison that isn't too jarring, probably smaller poison bubbles. Needs to be an animation or something that persistently plays (not just when the poison tics)..but also needs to have something special happen during the poison tic.
 		#Out-of-battle poison should only ever bring the party member down to 1hp. visuals/etc still play but HP should remain at 1 (like final fantasy 6). Poison in-battle should be able to kill, though.
 		#Poison tics if the player moves at all and tics based upon a threshold. Very short presses in a direction still up this counter (distance threshold, too)
 		#Healing Poison needs to be taken care of
 		
-	Sleep
-	Confuse
-	Stun
-	Slow
-	Haste
+	#Sleep
+	#Stun
+	#Confuse
+	#Slow
+	#Haste
 	Attack up / down
 	Defense up / down
 	Magic up / down
-	Berserk (maybe)
+	Berserk (do this later, not important)
+	
+Implement semi-unique names in battle for enemies that share the same name (A B C, 1 2 3)
 
 Stats
 	Implement luck for crits
 	clean up formulas
 	clean up char_resource and actor data
 	Formulas for battle
+	
+Implement a deeper system for miss / dodge/ parry / block / riposte
 	
 Implement status/Elemental resists
 	
@@ -60,7 +62,10 @@ Refactor the battle system to be a little more streamlined in the code so it is 
 
 Fix Quest system UI
 	(selecting completed quests does not focus the first quest in the list)
-	
+
+Fix bug when player has selected defend and cancels out of targeting, attack is selected (should reselect defend)
+
+
 Refactor the game menu UI so it is not one large script
 	maybe clean up the way it works a little, too
 
@@ -75,3 +80,6 @@ Check DialogueManager code to try to figure out if some things implemented were 
 Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time.
 
 Implement ! and ? overhead for interactable objects and NPCs
+
+
+Implement character naming similar to mother series with "don't care" option

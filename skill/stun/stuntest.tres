@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dumrtuacq11rt"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_dsa8g"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="2_4i1in"]
+[ext_resource type="Script" uid="uid://yu63omuxkngf" path="res://skill/_effects/effect_applystun.gd" id="2_gvqp1"]
+
+[sub_resource type="Resource" id="Resource_y8v7s"]
+script = ExtResource("2_gvqp1")
+metadata/_custom_type_script = "uid://yu63omuxkngf"
+
+[resource]
+script = ExtResource("2_4i1in")
+skill_id = &"stuntest"
+name = "stuntest"
+description = "Stuns the target for 1 turn."
+scope = 1
+sp_cost = 1
+default_target_focus = 2
+battle_effects = Array[ExtResource("1_dsa8g")]([SubResource("Resource_y8v7s")])
+message_template = "{target} is slammed by a stunning force from {user}!"
+metadata/_custom_type_script = "uid://c3imvl0552hk1"
