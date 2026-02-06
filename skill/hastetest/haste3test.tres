@@ -19,6 +19,7 @@ scope = 1
 sp_cost = 1
 target_side = 2
 default_target_focus = 1
+intent = 2
 battle_effects = Array[ExtResource("1_xi3uk")]([SubResource("Resource_nitnm")])
 message_template = "{user} casts {skill} on {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

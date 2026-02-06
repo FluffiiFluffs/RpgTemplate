@@ -9,7 +9,7 @@ func _init() -> void:
 	# High rank so nothing overwrites stun in the control group.
 	# Sleep is rank 10.
 	exclusive_group_id = &"control"
-	exclusive_rank = 1000
+	exclusive_rank = 10
 
 	remove_on_death = true
 	expire_timing = ExpireTiming.NONE

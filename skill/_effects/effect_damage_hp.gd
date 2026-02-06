@@ -30,12 +30,25 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 		if ctx.battle_scene != null and ctx.current_target_battler != null:
 			if applied_dmg > 0:
 				ctx.battle_scene.battle_vfx.pop_text(ctx.current_target_battler, applied_dmg)
-				
+
 	if ctx.mode == EffectContext.Mode.BATTLE:
 		if applied_dmg > 0 and ctx.status_system != null and ctx.current_target_battler != null:
-			StatusEffectSleep.try_wake_on_damage(ctx.status_system, ctx.current_target_battler, ctx)
-			StatusEffectConfuse.try_break_on_damage(ctx.status_system, ctx.current_target_battler, ctx)
+			var attacker_battler : Battler = null
+			var action_use : ActionUse = null
 
+			if ctx.current_user_battler != null:
+				attacker_battler = ctx.current_user_battler
+			if ctx.current_action_use != null:
+				action_use = ctx.current_action_use
 
+			var dmg_ctx : Dictionary = {
+				"amount": applied_dmg,
+				"is_dot": false,
+				"is_poison": false,
+				"kind": "hp_damage",
+				"effect_context": ctx
+			}
+
+			ctx.status_system.on_receive_damage(ctx.current_target_battler, attacker_battler, action_use, dmg_ctx)
 
 	return applied_dmg != 0

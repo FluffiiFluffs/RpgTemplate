@@ -27,6 +27,17 @@ enum DefaultTargetFocus {
 	SAME_FACTION,
 	OTHER_FACTION
 }
+## High level intent classification for skill uses.
+## This is authored explicitly per skill, no automatic inference.
+enum Intent {
+	UTILITY = 0,
+	HARMFUL = 1,
+	BENEFICIAL = 2,
+	MIXED = 3
+}
+
+
+
 
 @export_group("Identity")
 ## Stable identifier for data lookups and save serialization.
@@ -57,6 +68,10 @@ enum DefaultTargetFocus {
 @export var can_target_dead : bool = false
 ## Initial focus hint applied when opening targeting for this skill.
 @export var default_target_focus : DefaultTargetFocus = DefaultTargetFocus.AUTO
+## Gameplay classification for systems that need a stable notion of offensive vs beneficial.
+@export var intent : Intent = Intent.UTILITY
+
+
 
 @export_group("Effects")
 ## Default effect list. Used in field. In battle, used only when battle_effects is empty.

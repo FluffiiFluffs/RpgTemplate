@@ -119,3 +119,55 @@ static func try_wake_on_damage(status_system : StatusSystem, target_battler : Ba
 			status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " wakes up!")
 
 	return true
+
+
+func on_receive_damage(status_system : StatusSystem, defender : Battler, _attacker : Battler, _action_use : ActionUse, dmg_ctx : Dictionary) -> void:
+	if status_system == null:
+		return
+	if defender == null:
+		return
+	if defender.actor_data == null:
+		return
+
+	var actor : ActorData = get_receiver_actor()
+	if actor == null:
+		return
+	if defender.actor_data != actor:
+		return
+
+	if dmg_ctx != null:
+		if dmg_ctx.has("is_dot") and bool(dmg_ctx["is_dot"]):
+			return
+		if dmg_ctx.has("is_poison") and bool(dmg_ctx["is_poison"]):
+			return
+		if dmg_ctx.has("amount") and int(dmg_ctx["amount"]) <= 0:
+			return
+
+	if randf() >= wake_chance_on_damage:
+		return
+
+	status_system.remove_status(defender, self)
+
+	var name_text : String = "Someone"
+	if defender.actor_data.char_resource != null:
+		name_text = defender.actor_data.char_resource.char_name
+
+	var ctx : EffectContext = null
+	if dmg_ctx != null and dmg_ctx.has("effect_context"):
+		ctx = dmg_ctx["effect_context"] as EffectContext
+
+	if ctx != null:
+		ctx.queue_battle_message(name_text + " wakes up!", defender)
+	elif status_system.battle_scene != null and status_system.battle_scene.battle_notify_ui != null:
+		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " wakes up!")
+
+
+
+func forces_physical_hit(_status_system : StatusSystem, battler : Battler) -> bool:
+	if battler == null:
+		return false
+	if battler.actor_data == null:
+		return false
+	if battler.actor_data != get_receiver_actor():
+		return false
+	return true

@@ -42,6 +42,7 @@ signal field_poison_tick(actor : ActorData, damage : int)
 @export var poison_acc_amount_run : float = 2.0
 
 var _poison_last_pos : Vector2 = Vector2.ZERO
+var field_status_system : StatusSystem = StatusSystem.new()
 
 
 
@@ -206,16 +207,13 @@ func _remove_death_cleared_statuses_field(actor : ActorData) -> void:
 		return
 	if actor.status_effects == null:
 		return
+	if field_status_system == null:
+		return
 
-	for i in range(actor.status_effects.size() - 1, -1, -1):
-		var s : StatusEffect = actor.status_effects[i]
-		if s == null:
-			actor.status_effects.remove_at(i)
-			continue
+	var dummy : Battler = Battler.new()
+	dummy.actor_data = actor
+	field_status_system.on_death(dummy)
 
-		if s.remove_on_death:
-			s.on_remove(null)
-			actor.status_effects.remove_at(i)
 			
 ##Determines if any party members have poison. If they do, then poison flash is enabled on their field sprite. Movement of a certain distance causes the poison to add to a threshold. When the threshold is met, poison tics on the affected party member.
 func poison_timer_timeout()->void:

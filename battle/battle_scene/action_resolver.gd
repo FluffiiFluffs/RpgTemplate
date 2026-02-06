@@ -10,6 +10,17 @@ extends Node
 var battle_scene : BattleScene = null
 
 
+func _await_notify_if_needed() -> void:
+	if battle_scene == null:
+		return
+	if battle_scene.battle_notify_ui == null:
+		return
+	var ui : BattleNotifyUI = battle_scene.battle_notify_ui
+	if ui.notifying or not ui.notify_queue.is_empty():
+		await battle_scene.notify_finished
+
+
+
 #region Intro
 ##Shows the intro message for the battle. Intro message changes for how many enemies are in the enemy_group. Picks a random enemy's name as the "leader".
 func show_intro_message()->void:
@@ -53,6 +64,15 @@ func show_intro_message()->void:
 func execute_action_use(use: ActionUse)->void:
 	battle_scene.battle_state = "ACTION_EXECUTE"
 	battle_scene.ui_state = "NOTIFYING"
+	if use == null:
+		printerr("ActionResolver: execute_action_use() received a null ActionUse")
+		return
+
+	var user : Battler = use.user
+	if battle_scene.status_system != null and user != null:
+		battle_scene.status_system.on_action_start(user, use)
+		await _await_notify_if_needed()
+
 	match use.action_type:
 		BattleAction.ActionType.NORMAL_ATTACK:
 			await _execute_normal_attack(use)
@@ -64,12 +84,15 @@ func execute_action_use(use: ActionUse)->void:
 			await _execute_use_item(use)
 		BattleAction.ActionType.USE_SKILL:
 			await _execute_use_skill(use)
-
 		null:
 			printerr("Null action!")
 		_:
 			printerr("Unknown action type")
-	
+
+	if battle_scene.status_system != null and user != null:
+		battle_scene.status_system.on_action_end(user, use)
+		await _await_notify_if_needed()
+
 func _execute_normal_attack(use : ActionUse)->void:
 	var attacker = use.user
 	var original_target = use.first_target()
@@ -87,7 +110,13 @@ func _execute_normal_attack(use : ActionUse)->void:
 	if final_target != original_target:
 		battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.")
 
-	var dmg = battle_scene.action_calculator.normal_attack(attacker, use.action, final_target)
+	var force_hit : bool = false
+	if battle_scene.status_system != null:
+		force_hit = battle_scene.status_system.should_force_physical_hit(final_target)
+
+
+	var dmg = battle_scene.action_calculator.normal_attack(attacker, use.action, final_target, force_hit)
+
 	if dmg == -1:
 		battle_scene.battle_notify_ui.queue_notification(attacker_name + "'s attack missed!")
 		await battle_scene.notify_finished
@@ -100,16 +129,17 @@ func _execute_normal_attack(use : ActionUse)->void:
 	if final_target.ui_element != null and final_target.ui_element.has_method("play_normal_hit"):
 		final_target.ui_element.play_normal_hit()
 
-	#if final_target.ui_element is BattleStats:
-		#var stats = final_target.ui_element as BattleStats
-		#await stats.hp_changed()
 
-	#battle_scene.battle_notify_ui.queue_notification(final_name + " takes " + str(dmg) + " damage.")
-	
 	battle_scene.battle_vfx.pop_text(final_target, dmg)
-	if dmg > 0:
-		StatusEffectSleep.try_wake_on_damage(battle_scene.status_system, final_target)
-		StatusEffectConfuse.try_break_on_damage(battle_scene.status_system, final_target)
+	if dmg > 0 and battle_scene.status_system != null:
+		var dmg_ctx : Dictionary = {
+			"amount": dmg,
+			"is_dot": false,
+			"is_poison": false,
+			"kind": "physical",
+			"effect_context": null
+		}
+		battle_scene.status_system.on_receive_damage(final_target, attacker, use, dmg_ctx)
 
 
 
@@ -128,7 +158,7 @@ func _execute_normal_attack(use : ActionUse)->void:
 func check_for_death(to : Battler, _from :  Battler)->void:
 	#checks to see if the battler died after being hit by an attack
 	if to.actor_data.current_hp <= 0:
-		battle_scene.status_system.remove_statuses_on_death(to)
+		battle_scene.status_system.on_death(to)
 		battle_scene.battle_notify_ui.queue_notification(to.actor_data.char_resource.char_name + " falls to the ground!")
 		to.ui_element.deactivate_button()
 
@@ -193,32 +223,14 @@ func _execute_defend(use : ActionUse) -> void:
 	var defender_name : String = defender.actor_data.char_resource.char_name
 	var protected_name : String = protected.actor_data.char_resource.char_name
 
-	# Clear existing defend link on the defender (also removes its linked Defended)
-	battle_scene.status_system.remove_status_by_class(defender, StatusEffectDefending)
+	var did_link : bool = false
+	if battle_scene.status_system != null:
+		did_link = battle_scene.status_system.set_defend_link(defender, protected)
 
-	# If the protected battler is already linked to someone else, clear that link too
-	var existing_defended : StatusEffect = StatusSystem.find_status(protected, StatusEffectDefended)
-	if existing_defended != null:
-		var defended_status : StatusEffectDefended = existing_defended as StatusEffectDefended
+	if not did_link:
+		printerr("ActionResolver: defend failed to set defend link")
+		return
 
-		var old_defender_battler : Battler = null
-		if defended_status.defender_actor != null:
-			old_defender_battler = battle_scene.status_system.get_battler_for_actor(defended_status.defender_actor)
-
-		battle_scene.status_system.remove_status(protected, defended_status)
-
-		if old_defender_battler != null and old_defender_battler != defender:
-			battle_scene.status_system.remove_status_by_class(old_defender_battler, StatusEffectDefending)
-
-
-	# Create fresh per application instances
-	var defending : StatusEffectDefending = StatusEffectDefending.new()
-	defending.protected_actor = protected.actor_data
-	battle_scene.status_system.add_status(defender, defending, defender)
-
-	var defended : StatusEffectDefended = StatusEffectDefended.new()
-	defended.defender_actor = defender.actor_data
-	battle_scene.status_system.add_status(protected, defended, defender)
 
 
 	if defender == protected:
@@ -266,6 +278,9 @@ func _execute_use_skill(use : ActionUse) -> void:
 	ctx.user_actor = user.actor_data
 	ctx.battle_scene = battle_scene
 	ctx.status_system = battle_scene.status_system
+	ctx.current_user_battler = user
+	ctx.current_action_use = use
+
 
 	var message : String = skill.message_template
 	if battle_scene.text_parser != null:
@@ -357,6 +372,9 @@ func _execute_use_item(use : ActionUse) -> void:
 	ctx.battle_scene = battle_scene
 	ctx.status_system = battle_scene.status_system
 	ctx.source_item = item
+	ctx.current_user_battler = user
+	ctx.current_action_use = use
+
 
 	var message : String = item.message_template
 	if battle_scene.text_parser != null:
@@ -423,7 +441,8 @@ func _execute_use_item(use : ActionUse) -> void:
 			await stats_target.mp_changed()
 
 		if target.actor_data.current_hp <= 0:
-			check_for_death(target, user)
+			await check_for_death(target, user)
+
 
 
 

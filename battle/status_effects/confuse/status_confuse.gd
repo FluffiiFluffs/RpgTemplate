@@ -18,7 +18,7 @@ func _init() -> void:
 	exclusive_group_id = &"control"
 	# Sleep must overwrite Confuse, and Stun must overwrite everything in control.
 	# Sleep is currently rank 10, Stun is currently rank 1000.
-	exclusive_rank = 9
+	exclusive_rank = 10
 
 	remove_on_death = true
 	expire_timing = ExpireTiming.NONE
@@ -158,28 +158,6 @@ func _get_skill_battle_action(actor : ActorData) -> BattleAction:
 	# Final fallback
 	return BattleActionSkill.new()
 
-
-func _get_all_alive_battlers(status_system : StatusSystem) -> Array[Battler]:
-	var out : Array[Battler] = []
-	if status_system == null:
-		return out
-	if status_system.battle_scene == null:
-		return out
-	if status_system.battle_scene.battlers == null:
-		return out
-
-	for n in status_system.battle_scene.battlers.get_children():
-		if n is Battler:
-			var b : Battler = n as Battler
-			if b.actor_data == null:
-				continue
-			if b.actor_data.current_hp <= 0:
-				continue
-			out.append(b)
-
-	return out
-
-
 func _choose_targets_for_battle_action(status_system : StatusSystem, user : Battler, action : BattleAction) -> Array[Battler]:
 	if user == null or action == null:
 		return []
@@ -189,25 +167,25 @@ func _choose_targets_for_battle_action(status_system : StatusSystem, user : Batt
 	if action.target_shape == BattleAction.TargetShape.SELF:
 		return [user]
 
-	var alive : Array[Battler] = _get_all_alive_battlers(status_system)
-	if alive.is_empty():
+	var bs : BattleScene = null
+	if status_system != null:
+		bs = status_system.battle_scene
+
+	var anchor : Battler = Targeting.pick_random_living_any(bs)
+	if anchor == null:
 		return []
 
-	var anchor : Battler = alive[randi_range(0, alive.size() - 1)]
 
 	if action.target_shape == BattleAction.TargetShape.SINGLE:
 		return [anchor]
 
+
 	if action.target_shape == BattleAction.TargetShape.ALL:
-		var out : Array[Battler] = []
-		for b in alive:
-			if b == null:
-				continue
-			if b.faction == anchor.faction:
-				out.append(b)
-		return out
+		return Targeting.get_all_living_battlers_in_faction(bs, anchor.faction)
+
 
 	return []
+
 
 
 func _choose_targets_for_skill(status_system : StatusSystem, user : Battler, skill : Skill) -> Array[Battler]:
@@ -219,23 +197,21 @@ func _choose_targets_for_skill(status_system : StatusSystem, user : Battler, ski
 	if skill.target_shape == Skill.TargetShape.SELF:
 		return [user]
 
-	var alive : Array[Battler] = _get_all_alive_battlers(status_system)
-	if alive.is_empty():
+	var bs : BattleScene = null
+	if status_system != null:
+		bs = status_system.battle_scene
+
+	var anchor : Battler = Targeting.pick_random_living_any(bs)
+	if anchor == null:
 		return []
 
-	var anchor : Battler = alive[randi_range(0, alive.size() - 1)]
 
 	if skill.target_shape == Skill.TargetShape.SINGLE:
 		return [anchor]
 
 	if skill.target_shape == Skill.TargetShape.ALL:
-		var out : Array[Battler] = []
-		for b in alive:
-			if b == null:
-				continue
-			if b.faction == anchor.faction:
-				out.append(b)
-		return out
+		return Targeting.get_all_living_battlers_in_faction(bs, anchor.faction)
+
 
 	return []
 
@@ -269,3 +245,43 @@ static func try_break_on_damage(status_system : StatusSystem, target_battler : B
 		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " snaps out of confusion.")
 
 	return true
+
+
+func on_receive_damage(status_system : StatusSystem, defender : Battler, _attacker : Battler, _action_use : ActionUse, dmg_ctx : Dictionary) -> void:
+	if status_system == null:
+		return
+	if defender == null:
+		return
+	if defender.actor_data == null:
+		return
+
+	var actor : ActorData = get_receiver_actor()
+	if actor == null:
+		return
+	if defender.actor_data != actor:
+		return
+
+	if dmg_ctx != null:
+		if dmg_ctx.has("is_dot") and bool(dmg_ctx["is_dot"]):
+			return
+		if dmg_ctx.has("is_poison") and bool(dmg_ctx["is_poison"]):
+			return
+		if dmg_ctx.has("amount") and int(dmg_ctx["amount"]) <= 0:
+			return
+
+	if randf() >= break_chance_on_damage:
+		return
+
+	status_system.remove_status(defender, self)
+
+	var ctx : EffectContext = null
+	if dmg_ctx != null and dmg_ctx.has("effect_context"):
+		ctx = dmg_ctx["effect_context"] as EffectContext
+
+	if ctx != null:
+		ctx.queue_battle_message("{target} snaps out of confusion.", defender)
+	elif status_system.battle_scene != null and status_system.battle_scene.battle_notify_ui != null:
+		var name_text : String = "Someone"
+		if defender.actor_data.char_resource != null:
+			name_text = defender.actor_data.char_resource.char_name
+		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " snaps out of confusion.")

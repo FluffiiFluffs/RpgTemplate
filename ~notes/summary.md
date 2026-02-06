@@ -3,6 +3,7 @@
 Resolution 400x224
 
 Party Battle Sprite Size 96x96 max
+Enemy Battle Sprite Size 64x64 max
 
 Free Movement with walk/run
 Tile Size: 16x16
@@ -10,12 +11,13 @@ Character Size: ~16x36
 Possible Action Elements
 
 Battle
-Hidden ATB Turn Based
+round based, turn based. Actions execute immediately after selection
 
 Dialog
-Dialog Manager
+Dialogue Manager
 
 Quest System
+
 
 - - - - - - - - - - - - - - - - 
 

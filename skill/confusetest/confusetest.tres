@@ -18,6 +18,7 @@ scope = 1
 sp_cost = 1
 target_side = 2
 default_target_focus = 2
+intent = 1
 battle_effects = Array[ExtResource("1_51slr")]([SubResource("Resource_wd8id")])
 message_template = "{user} blurts out random words to {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

@@ -6,6 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_qqskf"]
 script = ExtResource("2_0nc3l")
+scope = 1
 metadata/_custom_type_script = "uid://kluc45x1jvcn"
 
 [resource]
@@ -16,5 +17,6 @@ description = "Tests out the poison mechanic!"
 sp_cost = 1
 target_side = 2
 default_target_focus = 2
+intent = 1
 battle_effects = Array[ExtResource("1_jajga")]([SubResource("Resource_qqskf")])
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

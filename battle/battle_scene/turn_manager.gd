@@ -90,10 +90,21 @@ func battler_turn_next() -> void:
 	else:
 		battle_scene.next_battler = null
 
-	# Forced action (confuse later) takes precedence over command selection
-	var forced_use : ActionUse = null
+	# Ask StatusSystem for the turn directive (forced action, permission flags)
+	var directive : Dictionary = {
+		"can_select_commands": true,
+		"can_execute_action": true,
+		"forced_action_use": null,
+		"skip_reason": ""
+	}
+
 	if battle_scene.status_system != null:
-		forced_use = battle_scene.status_system.get_forced_action_use(battle_scene.acting_battler)
+		directive = battle_scene.status_system.get_turn_directive(battle_scene.acting_battler)
+
+	# Forced action takes precedence over command selection
+	var forced_use : ActionUse = null
+	if directive.has("forced_action_use"):
+		forced_use = directive["forced_action_use"] as ActionUse
 
 	if forced_use != null:
 		battle_scene.ui_state = "NOTIFYING"
@@ -107,12 +118,12 @@ func battler_turn_next() -> void:
 		battler_turn_done()
 		return
 
-	# If any status blocks taking a turn, skip cleanly
-	var can_act : bool = true
-	if battle_scene.status_system != null:
-		can_act = battle_scene.status_system.can_battler_act(battle_scene.acting_battler)
+	# If statuses block taking a turn, skip cleanly
+	var can_execute : bool = true
+	if directive.has("can_execute_action"):
+		can_execute = bool(directive["can_execute_action"])
 
-	if not can_act:
+	if not can_execute:
 		battle_scene.ui_state = "NOTIFYING"
 		battle_scene.hide_party_commands()
 		battler_turn_done()
@@ -123,10 +134,10 @@ func battler_turn_next() -> void:
 
 	match battle_scene.acting_battler.faction:
 		Battler.Faction.PARTY:
-			# If statuses allow acting but block command selection, skip the turn here
+			# If acting is allowed but command selection is blocked, skip the turn here
 			var can_select : bool = true
-			if battle_scene.status_system != null:
-				can_select = battle_scene.status_system.can_battler_select_commands(battle_scene.acting_battler)
+			if directive.has("can_select_commands"):
+				can_select = bool(directive["can_select_commands"])
 
 			if not can_select:
 				battle_scene.ui_state = "NOTIFYING"
@@ -153,29 +164,16 @@ func battler_turn_next() -> void:
 		printerr("battler_turn_next(): ActionUse is null")
 		battler_turn_done()
 		return
-		
-	# Slow rank 3: chance for the selected action to fail (roll occurs after selection)
-	var slow_status : StatusEffectSlow = null
-	if battle_scene.status_system != null:
-		var found_slow : StatusEffect = StatusSystem.find_status(battle_scene.acting_battler, StatusEffectSlow)
-		if found_slow is StatusEffectSlow:
-			slow_status = found_slow as StatusEffectSlow
 
-	if slow_status != null and slow_status.is_max_stack():
-		if randf() < slow_status.action_fail_chance_at_max:
+	# Status driven post selection cancel (example: slow rank 3 action fail)
+	if battle_scene.status_system != null:
+		var cancel_selected : bool = battle_scene.status_system.on_action_selected(battle_scene.acting_battler, use)
+		if cancel_selected:
 			battle_scene.ui_state = "NOTIFYING"
 			battle_scene.hide_party_commands()
-
-			var name_text : String = "Someone"
-			if battle_scene.acting_battler.actor_data != null and battle_scene.acting_battler.actor_data.char_resource != null:
-				name_text = battle_scene.acting_battler.actor_data.char_resource.char_name
-
-			battle_scene.battle_notify_ui.queue_notification(name_text + " is too slow to act.")
 			await battle_scene.notify_finished
 			battler_turn_done()
 			return
-
-
 
 	# Execute the chosen action
 	await battle_scene.action_resolver.execute_action_use(use)
@@ -183,16 +181,26 @@ func battler_turn_next() -> void:
 	if battle_scene.battle_state == "BATTLE_END":
 		return
 
-	# Haste rank 3: grant one extra action (attack or free skill) against the same target.
-	await _try_execute_haste_bonus_action(use)
+	# Status driven post action bonus (example: haste rank 3 extra use)
+	var bonus_use : ActionUse = null
+	if battle_scene.status_system != null:
+		bonus_use = battle_scene.status_system.get_post_action_bonus_use(use)
 
-	if battle_scene.battle_state == "BATTLE_END":
-		return
+	if bonus_use != null:
+		if battle_scene.battle_notify_ui != null:
+			var name_text : String = "Someone"
+			if bonus_use.user != null and bonus_use.user.actor_data != null and bonus_use.user.actor_data.char_resource != null:
+				name_text = bonus_use.user.actor_data.char_resource.char_name
+			battle_scene.battle_notify_ui.queue_notification(name_text + " acts again.")
+			await battle_scene.notify_finished
+
+		await battle_scene.action_resolver.execute_action_use(bonus_use)
+
+		if battle_scene.battle_state == "BATTLE_END":
+			return
 
 	# Close out this battler turn and advance
 	battler_turn_done()
-
-
 
 ##Routine for when it is an enemy's turn.
 func enemy_turn()->ActionUse:
@@ -212,15 +220,10 @@ func enemy_turn()->ActionUse:
 func _fallback_enemy_attack(enemy : Battler) -> ActionUse:
 	if enemy == null:
 		return null
-	var target : Battler = null
-	var alive : Array[Battler] = []
-	for bat in battle_scene.battlers.get_children():
-		if bat is Battler:
-			if bat.faction == Battler.Faction.PARTY and bat.actor_data.current_hp > 0:
-				alive.append(bat)
-	if alive.is_empty():
+	var target : Battler = Targeting.pick_random_living_enemy(enemy, battle_scene)
+	if target == null:
 		return null
-	target = alive[randi_range(0, alive.size() - 1)]
+
 	var action : BattleAction = null
 	if enemy.actor_data != null and enemy.actor_data.battle_actions != null:
 		for act in enemy.actor_data.battle_actions.battle_actions:
@@ -250,148 +253,6 @@ func party_turn()->void:
 	pass
 
 
-func _try_execute_haste_bonus_action(original_use : ActionUse) -> void:
-	if original_use == null:
-		return
-
-	var user : Battler = original_use.user
-	if user == null:
-		return
-	if user.actor_data == null:
-		return
-	if user.actor_data.current_hp <= 0:
-		return
-
-	if battle_scene == null or battle_scene.status_system == null:
-		return
-
-	var found_haste : StatusEffect = StatusSystem.find_status(user, StatusEffectHaste)
-	var haste_status : StatusEffectHaste = null
-	if found_haste is StatusEffectHaste:
-		haste_status = found_haste as StatusEffectHaste
-
-	if haste_status == null:
-		return
-	if not haste_status.is_max_stack():
-		return
-
-	# Haste bonus actions never trigger for item usage.
-	if original_use.action_type == BattleAction.ActionType.USE_ITEM:
-		return
-
-	# Requirement scope: single target actions only.
-	if original_use.targets == null or original_use.targets.size() != 1:
-		return
-
-	var anchor_target : Battler = original_use.first_target()
-	if anchor_target == null:
-		return
-	if anchor_target.actor_data == null:
-		return
-
-	var qualifies_offensive : bool = false
-	var qualifies_beneficial : bool = false
-
-	if original_use.action_type == BattleAction.ActionType.NORMAL_ATTACK:
-		qualifies_offensive = true
-	elif original_use.action_type == BattleAction.ActionType.USE_SKILL:
-		if original_use.data == null:
-			return
-		if not original_use.data.has("skill"):
-			return
-		var skill : Skill = original_use.data["skill"] as Skill
-		if skill == null:
-			return
-		if skill.target_shape != Skill.TargetShape.SINGLE:
-			return
-
-		# Decide beneficial vs offensive by keying off the actual chosen target.
-		if anchor_target.faction == user.faction:
-			qualifies_beneficial = true
-		else:
-			qualifies_offensive = true
-	else:
-		return
-
-	if not qualifies_offensive and not qualifies_beneficial:
-		return
-
-	var bonus_target : Battler = null
-	if qualifies_offensive:
-		bonus_target = anchor_target
-		if bonus_target.actor_data.current_hp <= 0:
-			bonus_target = _pick_random_alive_other_faction_target(user)
-			if bonus_target == null:
-				return
-	elif qualifies_beneficial:
-		bonus_target = _pick_random_alive_same_faction_target(user)
-		if bonus_target == null:
-			return
-
-	if battle_scene.battle_notify_ui != null:
-		var name_text : String = "Someone"
-		if user.actor_data.char_resource != null:
-			name_text = user.actor_data.char_resource.char_name
-		battle_scene.battle_notify_ui.queue_notification(name_text + " acts again.")
-		await battle_scene.notify_finished
-
-	var bonus_data : Dictionary = {}
-	if original_use.data != null:
-		bonus_data = original_use.data.duplicate(true)
-
-	if original_use.action_type == BattleAction.ActionType.USE_SKILL:
-		bonus_data["free_cost"] = true
-
-	var bonus_use : ActionUse = ActionUse.new(user, original_use.action, [bonus_target], bonus_data)
-	await battle_scene.action_resolver.execute_action_use(bonus_use)
-
-
-
-func _pick_random_alive_other_faction_target(user : Battler) -> Battler:
-	if battle_scene == null or battle_scene.battlers == null:
-		return null
-	if user == null:
-		return null
-
-	var alive : Array[Battler] = []
-	for bat in battle_scene.battlers.get_children():
-		if bat is Battler:
-			if bat.actor_data == null:
-				continue
-			if bat.actor_data.current_hp <= 0:
-				continue
-			if bat.faction == user.faction:
-				continue
-			alive.append(bat)
-
-	if alive.is_empty():
-		return null
-
-	return alive[randi_range(0, alive.size() - 1)]
-
-
-func _pick_random_alive_same_faction_target(user : Battler) -> Battler:
-	if battle_scene == null or battle_scene.battlers == null:
-		return null
-	if user == null:
-		return null
-
-	var alive : Array[Battler] = []
-	for bat in battle_scene.battlers.get_children():
-		if bat is Battler:
-			if bat.actor_data == null:
-				continue
-			if bat.actor_data.current_hp <= 0:
-				continue
-			if bat.faction != user.faction:
-				continue
-			alive.append(bat)
-
-	if alive.is_empty():
-		return null
-
-	return alive[randi_range(0, alive.size() - 1)]
-
 
 #endregion Turn Progression
 
@@ -400,6 +261,10 @@ func battler_turn_done()->void:
 	if battle_scene.turn_order.is_empty():
 		round_next_setup()
 		return
+	
+	if battle_scene.status_system != null:
+		battle_scene.status_system.on_turn_end(battle_scene.acting_battler)
+
 	
 	battle_scene.turn_order.remove_at(0)
 	battle_scene.update_turn_order_ui()

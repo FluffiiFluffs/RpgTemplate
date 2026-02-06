@@ -107,6 +107,21 @@ extends Resource
 #endregion
 
 
+## Structure:
+## _stat_modifiers[stat_key][source_key] = { "flat": int, "percent": float }
+var _stat_modifiers : Dictionary = {}
+
+
+const STAT_MAX_HP : StringName = &"max_hp"
+const STAT_MAX_SP : StringName = &"max_sp"
+const STAT_ATK_VALUE : StringName = &"atk_value"
+const STAT_DEF_VALUE : StringName = &"def_value"
+const STAT_STRENGTH : StringName = &"strength"
+const STAT_STAMINA : StringName = &"stamina"
+const STAT_AGILITY : StringName = &"agility"
+const STAT_MAGIC : StringName = &"magic"
+
+
 func init_from_char_resource(_char_resource : CharResource, _id : StringName = &"") -> void:
 	if _char_resource == null:
 		return
@@ -389,12 +404,18 @@ func get_equip_def_bonus() -> int:
 
 #region Final Stats
 # Final effective stats: base (with permanent) + equip + buffs
-
 func get_max_hp() -> int:
 	var base := get_base_max_hp()
 	var equip_bonus := get_equip_max_hp_bonus()
-	var total := base + equip_bonus + buff_max_hp_flat
-	total = int(float(total) * (1.0 + buff_max_hp_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_MAX_HP)
+	var total := base + equip_bonus + buff_max_hp_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_max_hp_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	if total < 1:
 		total = 1
 	return total
@@ -403,8 +424,15 @@ func get_max_hp() -> int:
 func get_max_sp() -> int:
 	var base := get_base_max_sp()
 	var equip_bonus := get_equip_max_sp_bonus()
-	var total := base + equip_bonus + buff_max_sp_flat
-	total = int(float(total) * (1.0 + buff_max_sp_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_MAX_SP)
+	var total := base + equip_bonus + buff_max_sp_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_max_sp_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	if total < 0:
 		total = 0
 	return total
@@ -413,49 +441,92 @@ func get_max_sp() -> int:
 func get_strength() -> int:
 	var base := get_base_strength()
 	var equip_bonus := get_equip_strength_bonus()
-	var total := base + equip_bonus + buff_strength_flat
-	total = int(float(total) * (1.0 + buff_strength_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_STRENGTH)
+	var total := base + equip_bonus + buff_strength_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_strength_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	return total
 
 
 func get_stamina() -> int:
 	var base := get_base_stamina()
 	var equip_bonus := get_equip_stamina_bonus()
-	var total := base + equip_bonus + buff_stamina_flat
-	total = int(float(total) * (1.0 + buff_stamina_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_STAMINA)
+	var total := base + equip_bonus + buff_stamina_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_stamina_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	return total
 
 
 func get_agility() -> int:
 	var base := get_base_agility()
 	var equip_bonus := get_equip_agility_bonus()
-	var total := base + equip_bonus + buff_agility_flat
-	total = int(float(total) * (1.0 + buff_agility_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_AGILITY)
+	var total := base + equip_bonus + buff_agility_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_agility_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	return total
 
 
 func get_magic() -> int:
 	var base := get_base_magic()
 	var equip_bonus := get_equip_magic_bonus()
-	var total := base + equip_bonus + buff_magic_flat
-	total = int(float(total) * (1.0 + buff_magic_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_MAGIC)
+	var total := base + equip_bonus + buff_magic_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_magic_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	return total
 
 
 func get_atk_value() -> int:
 	var base := get_base_atk_value()
 	var equip_bonus := get_equip_atk_bonus()
-	var total := base + equip_bonus + buff_atk_flat
-	total = int(float(total) * (1.0 + buff_atk_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_ATK_VALUE)
+	var total := base + equip_bonus + buff_atk_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_atk_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	return total
 
 
 func get_def_value() -> int:
 	var base := get_base_def_value()
 	var equip_bonus := get_equip_def_bonus()
-	var total := base + equip_bonus + buff_def_flat
-	total = int(float(total) * (1.0 + buff_def_percent))
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_DEF_VALUE)
+	var total := base + equip_bonus + buff_def_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_def_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
 	return total
+
 #endregion
 
 ##Clamp current_hp and current_sp after any change to gear, buffs or permanent stats.[br]
@@ -474,3 +545,79 @@ func clamp_vitals() -> void:
 	if current_sp < 0:
 		current_sp = 0
 		
+
+
+
+
+#region Stat modifier aggregator
+## Runtime stackable modifiers per stat, keyed by source.
+## Example:
+## set_stat_modifier(STAT_AGILITY, &"status_haste", 0, 0.25)
+
+func set_stat_modifier(stat_key : StringName, source_key : StringName, flat : int = 0, percent : float = 0.0) -> void:
+	if stat_key == &"":
+		return
+	if source_key == &"":
+		return
+
+	var bucket : Dictionary = {}
+	if _stat_modifiers.has(stat_key):
+		bucket = _stat_modifiers[stat_key]
+
+	# Treat zero entries as removal
+	if flat == 0 and is_zero_approx(percent):
+		if bucket.has(source_key):
+			bucket.erase(source_key)
+	else:
+		bucket[source_key] = {
+			"flat": flat,
+			"percent": percent,
+		}
+
+	if bucket.is_empty():
+		if _stat_modifiers.has(stat_key):
+			_stat_modifiers.erase(stat_key)
+	else:
+		_stat_modifiers[stat_key] = bucket
+
+
+func remove_stat_modifier(stat_key : StringName, source_key : StringName) -> void:
+	if stat_key == &"":
+		return
+	if source_key == &"":
+		return
+	if not _stat_modifiers.has(stat_key):
+		return
+
+	var bucket : Dictionary = _stat_modifiers[stat_key]
+	if bucket.has(source_key):
+		bucket.erase(source_key)
+
+	if bucket.is_empty():
+		_stat_modifiers.erase(stat_key)
+	else:
+		_stat_modifiers[stat_key] = bucket
+
+
+func clear_all_stat_modifiers() -> void:
+	_stat_modifiers.clear()
+
+
+func get_stat_modifier_totals(stat_key : StringName) -> Dictionary:
+	var out : Dictionary = {
+		"flat": 0,
+		"percent": 0.0,
+	}
+
+	if not _stat_modifiers.has(stat_key):
+		return out
+
+	var bucket : Dictionary = _stat_modifiers[stat_key]
+	for entry in bucket.values():
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		out["flat"] = int(out["flat"]) + int(entry.get("flat", 0))
+		out["percent"] = float(out["percent"]) + float(entry.get("percent", 0.0))
+
+	return out
+#endregion

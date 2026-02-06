@@ -43,54 +43,47 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 ##
 ## Behavior notes:
 ## - In battle, removal is routed through StatusSystem.remove_status(...) so battle side-effects and signals fire.
-## - Out of battle, we remove directly from the ActorData list and call on_remove(null).
 ## - A cure message is queued only when the cure succeeds and only while in battle mode.
 func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
 
-	## Tracks whether we removed at least one curable poison status.
 	var did_remove_poison : bool = false
 
-	## Iterate backward so we can remove entries safely while iterating.
+	var ss : StatusSystem = null
+	var target_battler : Battler = null
+
+	if ctx != null and ctx.mode == EffectContext.Mode.BATTLE:
+		if ctx.status_system == null:
+			return false
+		if ctx.current_target_battler == null:
+			return false
+		ss = ctx.status_system
+		target_battler = ctx.current_target_battler
+	else:
+		ss = CharDataKeeper.field_status_system
+		if ss == null:
+			return false
+		target_battler = Battler.new()
+		target_battler.actor_data = target
+
 	for i in range(target.status_effects.size() - 1, -1, -1):
 		var status_effect : StatusEffect = target.status_effects[i]
-
-		## Defensive cleanup: remove null entries if they exist.
 		if status_effect == null:
-			target.status_effects.remove_at(i)
 			continue
-
-		## Ignore non-poison statuses.
 		if not (status_effect is StatusEffectPoison):
 			continue
 
 		var poison_effect : StatusEffectPoison = status_effect as StatusEffectPoison
-
-		## Leave stronger poison tiers intact.
 		if poison_effect.exclusive_rank > max_curable_rank:
 			continue
 
-		## Battle path: remove via StatusSystem for centralized logic and proper battle signals.
-		if ctx != null and ctx.mode == EffectContext.Mode.BATTLE and ctx.status_system != null and ctx.current_target_battler != null:
-			ctx.status_system.remove_status(ctx.current_target_battler, status_effect)
-		else:
-			## Field/menu path: remove directly from ActorData.
-			## on_remove(null) is used because there is no Battler context in the field.
-			status_effect.on_remove(null)
-			target.status_effects.remove_at(i)
-
+		ss.remove_status(target_battler, status_effect)
 		did_remove_poison = true
 
-	## Post-removal work
 	if did_remove_poison:
-		## Battle feedback: queue a tokenized message that goes through TextParser in ActionResolver.
-		## ctx.current_target_battler is passed so "{target}" resolves correctly even for multi-target actions.
 		if ctx != null and ctx.mode == EffectContext.Mode.BATTLE:
 			ctx.queue_battle_message("{target} is no longer poisoned!", ctx.current_target_battler)
-
-		## Field poison tick system uses CharDataKeeper.poison_timer to drive visuals and periodic checks.
-		## Restarting it here ensures poison visuals update correctly after a cure (and tick system remains active).
 		CharDataKeeper.poison_timer.start()
 
 	return did_remove_poison

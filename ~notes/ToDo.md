@@ -37,6 +37,9 @@ Need to implement visual elements (like purple bubbles when poisoned) so it's ap
 	
 Implement semi-unique names in battle for enemies that share the same name (A B C, 1 2 3)
 
+BATTLE party defeat needs to be handled, currently unimplemented
+
+
 Stats
 	Implement luck for crits
 	clean up formulas

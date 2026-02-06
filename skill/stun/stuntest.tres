@@ -6,6 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_y8v7s"]
 script = ExtResource("2_gvqp1")
+scope = 1
 metadata/_custom_type_script = "uid://yu63omuxkngf"
 
 [resource]
@@ -16,6 +17,7 @@ description = "Stuns the target for 1 turn."
 scope = 1
 sp_cost = 1
 default_target_focus = 2
+intent = 1
 battle_effects = Array[ExtResource("1_dsa8g")]([SubResource("Resource_y8v7s")])
 message_template = "{target} is slammed by a stunning force from {user}!"
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

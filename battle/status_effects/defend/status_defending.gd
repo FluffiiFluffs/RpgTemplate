@@ -29,18 +29,16 @@ func on_remove(status_system : StatusSystem) -> void:
 		return
 	if protected_actor.status_effects == null:
 		return
+	if status_system == null:
+		return
 
-	for i in range(protected_actor.status_effects.size() - 1, -1, -1):
-		var s : StatusEffect = protected_actor.status_effects[i]
+	var protected_battler : Battler = status_system.get_battler_for_actor(protected_actor)
+	if protected_battler == null:
+		return
+
+	for s in protected_actor.status_effects:
 		if s is StatusEffectDefended:
 			var d : StatusEffectDefended = s as StatusEffectDefended
 			if d.defender_actor == receiver_actor:
-				if status_system != null:
-					var protected_battler : Battler = status_system.get_battler_for_actor(protected_actor)
-					if protected_battler != null:
-						status_system.remove_status(protected_battler, d)
-						break
-
-				d.on_remove(null)
-				protected_actor.status_effects.remove_at(i)
+				status_system.remove_status(protected_battler, d)
 				break

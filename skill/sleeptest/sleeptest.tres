@@ -6,6 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_u0dvs"]
 script = ExtResource("2_l3nbn")
+scope = 1
 metadata/_custom_type_script = "uid://cbggrru1n36kd"
 
 [resource]
@@ -17,6 +18,7 @@ scope = 1
 sp_cost = 1
 target_side = 2
 default_target_focus = 2
+intent = 1
 battle_effects = Array[ExtResource("1_6pny8")]([SubResource("Resource_u0dvs")])
 message_template = "{user} attempts to put {target} asleep..."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

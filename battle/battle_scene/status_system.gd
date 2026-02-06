@@ -128,6 +128,54 @@ func get_forced_action_use(battler : Battler) -> ActionUse:
 			best_is_control = is_control
 
 	return best_use
+func get_turn_directive(battler : Battler) -> Dictionary:
+	var out : Dictionary = {
+		"can_select_commands": true,
+		"can_execute_action": true,
+		"forced_action_use": null,
+		"skip_reason": ""
+	}
+
+	if battler == null:
+		out["can_select_commands"] = false
+		out["can_execute_action"] = false
+		out["skip_reason"] = "null_battler"
+		return out
+
+	if battler.actor_data == null:
+		out["can_select_commands"] = false
+		out["can_execute_action"] = false
+		out["skip_reason"] = "null_actor"
+		return out
+
+	if battler.actor_data.current_hp <= 0:
+		out["can_select_commands"] = false
+		out["can_execute_action"] = false
+		out["skip_reason"] = "dead"
+		return out
+
+	# Hard permission gate for the turn
+	if not can_battler_act(battler):
+		out["can_select_commands"] = false
+		out["can_execute_action"] = false
+		out["skip_reason"] = "blocked_turn"
+		return out
+
+	# Forced action decision
+	var forced : ActionUse = get_forced_action_use(battler)
+	if forced != null:
+		out["forced_action_use"] = forced
+		out["can_select_commands"] = false
+		out["can_execute_action"] = true
+		out["skip_reason"] = "forced_action"
+		return out
+
+	# Command selection permission
+	if not can_battler_select_commands(battler):
+		out["can_select_commands"] = false
+		out["skip_reason"] = "blocked_command_selection"
+
+	return out
 
 
 func _get_primary_control_status(statuses : Array) -> StatusEffect:
@@ -215,18 +263,55 @@ func try_add_status(receiver : Battler, effect : StatusEffect, caster : Battler 
 		_add_status_unchecked(receiver, effect, caster)
 		return result
 
+
 	# Existing status in group found, decide block vs replace
-	if effect.exclusive_rank <= highest_rank:
+
+	var incoming_rank : int = effect.exclusive_rank
+	var allow_equal_rank_replace : bool = group_id == &"control"
+
+	if incoming_rank < highest_rank:
 		result["outcome"] = AddStatusOutcome.BLOCKED
 		result["blocked_by"] = highest_status
 		return result
 
-	# New one is stronger, remove all existing in the group
+	if incoming_rank == highest_rank:
+		if not allow_equal_rank_replace:
+			result["outcome"] = AddStatusOutcome.BLOCKED
+			result["blocked_by"] = highest_status
+			return result
+
+		# Equal rank in the control group
+		# Block only when the same status script is already present
+		var same_script_status : StatusEffect = null
+		for s in in_group:
+			if s == null:
+				continue
+			if s.get_script() == effect.get_script():
+				same_script_status = s
+				break
+
+		if same_script_status != null:
+			result["outcome"] = AddStatusOutcome.BLOCKED
+			result["blocked_by"] = same_script_status
+			return result
+
+		# Tie and different script, replace all existing in the group
+		for s in in_group:
+			if s == null:
+				continue
+			result["removed"].append(s)
+			remove_status(receiver, s)
+
+		_add_status_unchecked(receiver, effect, caster)
+		result["outcome"] = AddStatusOutcome.REPLACED
+		return result
+
+	# incoming_rank > highest_rank
 	for s in in_group:
 		if s == null:
 			continue
-		remove_status(receiver, s)
 		result["removed"].append(s)
+		remove_status(receiver, s)
 
 	_add_status_unchecked(receiver, effect, caster)
 	result["outcome"] = AddStatusOutcome.REPLACED
@@ -340,6 +425,161 @@ func _remove_expiring_statuses_for_turn_start(acting : Battler, _owner : Battler
 				s.on_remove(self)
 				_owner.actor_data.status_effects.remove_at(i)
 
+func on_action_selected(battler : Battler, use : ActionUse) -> bool:
+	if battler == null:
+		return false
+	if use == null:
+		return false
+	if battler.actor_data == null:
+		return false
+	if battler.actor_data.status_effects == null:
+		return false
+
+	var snapshot : Array = battler.actor_data.status_effects.duplicate()
+	var primary_control : StatusEffect = _get_primary_control_status(snapshot)
+
+	if primary_control != null:
+		if primary_control.on_action_selected(self, battler, use):
+			return true
+
+	for s in snapshot:
+		if s == null:
+			continue
+		if s == primary_control:
+			continue
+		if s.on_action_selected(self, battler, use):
+			return true
+
+	return false
+func on_action_start(battler : Battler, use : ActionUse) -> void:
+	if battler == null:
+		return
+	if use == null:
+		return
+	if battler.actor_data == null:
+		return
+	if battler.actor_data.status_effects == null:
+		return
+
+	var snapshot : Array = battler.actor_data.status_effects.duplicate()
+	var primary_control : StatusEffect = _get_primary_control_status(snapshot)
+
+	if primary_control != null:
+		if battler.actor_data.status_effects.has(primary_control):
+			primary_control.on_action_start(self, battler, use)
+
+	for s in snapshot:
+		if s == null:
+			continue
+		if s == primary_control:
+			continue
+		if not battler.actor_data.status_effects.has(s):
+			continue
+		s.on_action_start(self, battler, use)
+
+
+func on_action_end(battler : Battler, use : ActionUse) -> void:
+	if battler == null:
+		return
+	if use == null:
+		return
+	if battler.actor_data == null:
+		return
+	if battler.actor_data.status_effects == null:
+		return
+
+	var snapshot : Array = battler.actor_data.status_effects.duplicate()
+	var primary_control : StatusEffect = _get_primary_control_status(snapshot)
+
+	if primary_control != null:
+		if battler.actor_data.status_effects.has(primary_control):
+			primary_control.on_action_end(self, battler, use)
+
+	for s in snapshot:
+		if s == null:
+			continue
+		if s == primary_control:
+			continue
+		if not battler.actor_data.status_effects.has(s):
+			continue
+		s.on_action_end(self, battler, use)
+
+
+
+func get_post_action_bonus_use(original_use : ActionUse) -> ActionUse:
+	if original_use == null:
+		return null
+
+	var user : Battler = original_use.user
+	if user == null:
+		return null
+	if user.actor_data == null:
+		return null
+	if user.actor_data.status_effects == null:
+		return null
+
+	var snapshot : Array = user.actor_data.status_effects.duplicate()
+	for s in snapshot:
+		if s == null:
+			continue
+		var bonus : ActionUse = s.get_post_action_bonus_use(self, original_use)
+		if bonus != null:
+			return bonus
+
+	return null
+
+
+func on_receive_damage(defender : Battler, attacker : Battler, action_use : ActionUse, dmg_ctx : Dictionary) -> void:
+	if defender == null:
+		return
+	if defender.actor_data == null:
+		return
+	if defender.actor_data.status_effects == null:
+		return
+
+	var snapshot : Array = defender.actor_data.status_effects.duplicate()
+	for s in snapshot:
+		if s == null:
+			continue
+		if not defender.actor_data.status_effects.has(s):
+			continue
+		s.on_receive_damage(self, defender, attacker, action_use, dmg_ctx)
+
+func set_defend_link(defender : Battler, protected : Battler) -> bool:
+	if defender == null or protected == null:
+		return false
+	if defender.actor_data == null or protected.actor_data == null:
+		return false
+
+	# Clear existing defend link on the defender (also removes its linked Defended via StatusEffectDefending.on_remove)
+	remove_status_by_class(defender, StatusEffectDefending)
+
+	# If the protected battler is already linked to someone else, clear that link too
+	var existing_defended : StatusEffect = StatusSystem.find_status(protected, StatusEffectDefended)
+	if existing_defended != null:
+		var defended_status : StatusEffectDefended = existing_defended as StatusEffectDefended
+
+		var old_defender_battler : Battler = null
+		if defended_status.defender_actor != null:
+			old_defender_battler = get_battler_for_actor(defended_status.defender_actor)
+
+		remove_status(protected, defended_status)
+
+		if old_defender_battler != null and old_defender_battler != defender:
+			remove_status_by_class(old_defender_battler, StatusEffectDefending)
+
+	# Create fresh per application instances
+	var defending : StatusEffectDefending = StatusEffectDefending.new()
+	defending.protected_actor = protected.actor_data
+	add_status(defender, defending, defender)
+
+	var defended : StatusEffectDefended = StatusEffectDefended.new()
+	defended.defender_actor = defender.actor_data
+	add_status(protected, defended, defender)
+
+	return true
+
+
 
 
 # -------------------------------------------------------------------
@@ -401,7 +641,7 @@ func modify_incoming_physical_damage(attacker : Battler, action : BattleAction, 
 # -------------------------------------------------------------------
 # Cleanup
 # -------------------------------------------------------------------
-func clear_battle_only_statuses() -> void:
+func _clear_battle_only_statuses() -> void:
 	var battlers : Array[Battler] = _get_all_battlers()
 	for bat in battlers:
 		if bat == null:
@@ -448,7 +688,7 @@ func get_battler_for_actor(actor : ActorData) -> Battler:
 
 
 
-func detach_persistent_status_battle_refs() -> void:
+func _detach_persistent_status_battle_refs() -> void:
 	var battlers : Array[Battler] = _get_all_battlers()
 	for bat in battlers:
 		if bat == null:
@@ -468,7 +708,7 @@ func detach_persistent_status_battle_refs() -> void:
 
 
 
-func remove_statuses_on_death(dead_battler : Battler) -> void:
+func _remove_statuses_on_death(dead_battler : Battler) -> void:
 	if dead_battler == null:
 		return
 	if dead_battler.actor_data == null:
@@ -485,3 +725,38 @@ func remove_statuses_on_death(dead_battler : Battler) -> void:
 		if s.remove_on_death:
 			s.on_remove(self)
 			dead_battler.actor_data.status_effects.remove_at(i)
+
+
+
+func should_force_physical_hit(defender : Battler) -> bool:
+	if defender == null:
+		return false
+	if defender.actor_data == null:
+		return false
+	if defender.actor_data.status_effects == null:
+		return false
+
+	for s in defender.actor_data.status_effects:
+		if s == null:
+			continue
+		if s.forces_physical_hit(self, defender):
+			return true
+
+	return false
+
+
+# -------------------------------------------------------------------
+# Cleanup entry points
+
+func on_death(dead_battler : Battler) -> void:
+	_remove_statuses_on_death(dead_battler)
+
+
+func on_battle_end() -> void:
+	_clear_battle_only_statuses()
+	_detach_persistent_status_battle_refs()
+
+
+func on_turn_end(_battler : Battler) -> void:
+	# Reserved for future end of turn expirations and end of turn ticks.
+	pass

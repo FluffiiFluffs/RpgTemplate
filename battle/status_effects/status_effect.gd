@@ -37,7 +37,10 @@ func redirect_incoming_target(_attacker_actor : ActorData, _action : BattleActio
 
 func modify_incoming_physical_damage(_attacker_actor : ActorData, _action : BattleAction, _original_target_actor : ActorData, _final_target_actor : ActorData, damage : int) -> int:
 	return damage
-	
+
+func forces_physical_hit(_status_system : StatusSystem, _battler : Battler) -> bool:
+	return false
+
 # -------------------------------------------------------------------
 # Turn permission hooks
 # -------------------------------------------------------------------
@@ -69,3 +72,33 @@ func get_receiver_actor() -> ActorData:
 
 func get_caster_actor() -> ActorData:
 	return caster_actor
+
+
+# -------------------------------------------------------------------
+# Action lifecycle hooks
+# -------------------------------------------------------------------
+## Return true to cancel the selected ActionUse after selection (before execution).
+func on_action_selected(_status_system : StatusSystem, _battler : Battler, _use : ActionUse) -> bool:
+	return false
+
+## Called immediately before the ActionUse is executed by ActionResolver.
+## Use for per action setup, validation, or side effects.
+func on_action_start(_status_system : StatusSystem, _battler : Battler, _use : ActionUse) -> void:
+	pass
+
+## Called immediately after the ActionUse finishes executing in ActionResolver.
+## Use for per action cleanup, counters, or side effects.
+func on_action_end(_status_system : StatusSystem, _battler : Battler, _use : ActionUse) -> void:
+	pass
+
+
+
+## Return an ActionUse when this status grants a post action bonus use (example: haste rank 3).
+func get_post_action_bonus_use(_status_system : StatusSystem, _original_use : ActionUse) -> ActionUse:
+	return null
+
+## Called after damage is applied to the defender.
+## dmg_ctx is a dictionary with keys you control, example:
+## amount, is_dot, is_poison, effect_context
+func on_receive_damage(_status_system : StatusSystem, _defender : Battler, _attacker : Battler, _action_use : ActionUse, _dmg_ctx : Dictionary) -> void:
+	pass

@@ -17,5 +17,6 @@ description = "Heals Poison!"
 sp_cost = 1
 target_side = 0
 default_target_focus = 1
+intent = 2
 effects = Array[ExtResource("1_tbb5r")]([SubResource("Resource_yrb27")])
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

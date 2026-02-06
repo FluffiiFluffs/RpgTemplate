@@ -2,7 +2,7 @@ class_name StatusEffectSlow
 extends StatusEffect
 
 ## [Slow]
-## Lowers the receiver's agility via ActorData.buff_agility_percent.
+## Lowers the receiver's agility via ActorData stat modifier aggregator.
 ## Stack levels are represented as ranks (1 to 3) via exclusive_rank.
 ## Rank values represent the total reduction, not an additive delta.
 
@@ -17,6 +17,9 @@ extends StatusEffect
 @export_range(0.0, 1.0, 0.0001) var action_fail_chance_at_max : float = 0.25
 
 var _stats_applied : bool = false
+
+const _STAT_KEY : StringName = ActorData.STAT_AGILITY
+const _SOURCE_KEY : StringName = &"status_slow"
 
 
 func _init() -> void:
@@ -76,7 +79,6 @@ func on_remove(_status_system : StatusSystem) -> void:
 
 	_remove_agility_decrease(actor)
 
-
 func _apply_agility_decrease(actor : ActorData) -> void:
 	if _stats_applied:
 		return
@@ -85,19 +87,30 @@ func _apply_agility_decrease(actor : ActorData) -> void:
 	if magnitude <= 0.0:
 		return
 
-	actor.buff_agility_percent += -magnitude
+	actor.set_stat_modifier(_STAT_KEY, _SOURCE_KEY, 0, -magnitude)
 	actor.clamp_vitals()
 	_stats_applied = true
-
 
 func _remove_agility_decrease(actor : ActorData) -> void:
 	if not _stats_applied:
 		return
 
-	var magnitude : float = abs(agility_percent_decrease_total)
-	if magnitude <= 0.0:
-		return
-
-	actor.buff_agility_percent += magnitude
+	actor.remove_stat_modifier(_STAT_KEY, _SOURCE_KEY)
 	actor.clamp_vitals()
 	_stats_applied = false
+
+
+func on_action_selected(status_system : StatusSystem, battler : Battler, _use : ActionUse) -> bool:
+	if not is_max_stack():
+		return false
+
+	if randf() >= action_fail_chance_at_max:
+		return false
+
+	if status_system != null and status_system.battle_scene != null and status_system.battle_scene.battle_notify_ui != null:
+		var name_text : String = "Someone"
+		if battler != null and battler.actor_data != null and battler.actor_data.char_resource != null:
+			name_text = battler.actor_data.char_resource.char_name
+		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " is too slow to act.")
+
+	return true

@@ -17,6 +17,12 @@ var source_item : Item = null
 var queued_battle_messages : Array[String] = []
 var queued_battle_message_targets : Array[Battler] = []
 
+# Optional battle execution context for status hooks and attribution.
+var current_user_battler : Battler = null
+var current_action_use : ActionUse = null
+
+
+
 func queue_battle_message(text : String, target_battler : Battler = null) -> void:
 	if text == "":
 		return
