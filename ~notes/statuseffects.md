@@ -101,17 +101,24 @@ Rule: Any time a status effect is applied to a character, and the status effect 
 		Slow removes haste and starts at stack 1, or at stack 3 if the 3-stack skill is used
 
 
-[Attack / Defense Down (Weaken / Soften)]
+[Attack Down / Up]
 	Target's Attack / Defense lowered by a certain % (needs tuning)
-	Lasts 6 turns (needs a variable so this can be tuned later)
-	Reapplication increases the % (not double, needs tuning) / Adds a stack
-	Max 4 stacks
+	Lasts 6 turns (needs a variable so this can be tuned later), 0 should last the entire battle
+	Increases/Decreases attack by (level1)15%, (level2)20%,(level3)25%
+	Max 3 stacks
 	Only affects physical attacks, not magic
 	Does not persist after battle
 	Does not persist after death
-	Is not broken by damage
-	1 application of Strengthen / Harden takes 1 stack away. If no stacks exist, then Strengthen / Harden is applied
-		This allows a more linear experience
+	Is not broken by damage (obviously)
+	1 application of attack up / down takes 1 stack away from the other side (it does not immediately apply the new one like haste/slow does). If no stacks exist, then attack up/down is applied
+		The scale should be -3, -2, -1, 0, +1, +2, +3
+		This allows a more linear experience and the ability to "fight" over attack power on a spectrum
+	Ranking needs to work like haste/slow, where a rank 3 level can be applied immediately
+		(rank 3 applies 3 stacks of the spell)
+		This does not "jump" the user to rank 3 if they have rank 3 of the other side
+			example. attack down applied at +3 (25%), attack up is cast on the actor. Actor now sits at 0, will need another casting of attack up +3 to be +25% attack power.
+				Obviously the reverse is also true
+		
 
 [Magic Down (Mind Fog)]
 	Target's magic stat is reduced by certain %

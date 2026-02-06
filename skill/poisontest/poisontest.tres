@@ -15,7 +15,6 @@ skill_id = &"poisontest"
 name = "PoisonTest"
 description = "Tests out the poison mechanic!"
 sp_cost = 1
-target_side = 2
 default_target_focus = 2
 intent = 1
 battle_effects = Array[ExtResource("1_jajga")]([SubResource("Resource_qqskf")])

@@ -16,7 +16,6 @@ name = "sleeptest"
 description = "Attempts to put a target to sleep"
 scope = 1
 sp_cost = 1
-target_side = 2
 default_target_focus = 2
 intent = 1
 battle_effects = Array[ExtResource("1_6pny8")]([SubResource("Resource_u0dvs")])

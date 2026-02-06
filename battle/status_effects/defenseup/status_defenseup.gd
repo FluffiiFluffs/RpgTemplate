@@ -1,20 +1,20 @@
-class_name StatusEffectAttackDown
+class_name StatusEffectDefenseUp
 extends StatusEffect
 
 @export_range(1, 3, 1) var stack_level : int = 1
-@export_range(0.0, 1.0, 0.0001) var atk_value_percent_decrease_total : float = 0.15
+@export_range(0.0, 1.0, 0.0001) var def_value_percent_increase_total : float = 0.15
 
 ## Duration in the receiver's turns. 0 means entire battle.
 @export_range(0, 99, 1) var duration_turns : int = 6
 var turns_remaining : int = 6
 
 var _stats_applied : bool = false
-const _STAT_KEY : StringName = ActorData.STAT_ATK_VALUE
-const _SOURCE_KEY : StringName = &"status_attack_down"
+const _STAT_KEY : StringName = ActorData.STAT_DEF_VALUE
+const _SOURCE_KEY : StringName = &"status_defense_up"
 
 
 func _init() -> void:
-	kind = StatusKind.AILMENT
+	kind = StatusKind.ENHANCEMENT
 	scope = Scope.BATTLE_ONLY
 	exclusive_group_id = &""
 	exclusive_rank = 0
@@ -52,11 +52,11 @@ func set_stack_level(level : int) -> void:
 	if not _stats_applied:
 		return
 
-	_apply_attack_modifier(actor)
+	_apply_defense_modifier(actor)
 
 
 func _sync_from_stack() -> void:
-	atk_value_percent_decrease_total = get_percent_for_stack(stack_level)
+	def_value_percent_increase_total = get_percent_for_stack(stack_level)
 
 
 static func get_percent_for_stack(level : int) -> float:
@@ -75,7 +75,7 @@ func on_apply(_status_system : StatusSystem) -> void:
 	if actor == null:
 		return
 
-	_apply_attack_modifier(actor)
+	_apply_defense_modifier(actor)
 
 
 func on_remove(_status_system : StatusSystem) -> void:
@@ -83,20 +83,20 @@ func on_remove(_status_system : StatusSystem) -> void:
 	if actor == null:
 		return
 
-	_remove_attack_modifier(actor)
+	_remove_defense_modifier(actor)
 
 
-func _apply_attack_modifier(actor : ActorData) -> void:
-	var magnitude : float = abs(atk_value_percent_decrease_total)
+func _apply_defense_modifier(actor : ActorData) -> void:
+	var magnitude : float = abs(def_value_percent_increase_total)
 	if magnitude <= 0.0:
 		return
 
-	actor.set_stat_modifier(_STAT_KEY, _SOURCE_KEY, 0, -magnitude)
+	actor.set_stat_modifier(_STAT_KEY, _SOURCE_KEY, 0, magnitude)
 	actor.clamp_vitals()
 	_stats_applied = true
 
 
-func _remove_attack_modifier(actor : ActorData) -> void:
+func _remove_defense_modifier(actor : ActorData) -> void:
 	if not _stats_applied:
 		return
 

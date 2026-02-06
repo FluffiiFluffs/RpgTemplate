@@ -17,7 +17,6 @@ name = "Damage Test"
 description = "Damages a target for 50 HP."
 scope = 1
 sp_cost = 1
-target_side = 2
 default_target_focus = 2
 intent = 1
 effects = Array[ExtResource("1_jqapp")]([SubResource("Resource_cgs8t")])

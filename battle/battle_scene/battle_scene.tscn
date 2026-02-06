@@ -266,7 +266,6 @@ text = "VICTORY"
 
 [node name="SkillWindow" type="PanelContainer" parent="BattleUI" unique_id=253020102]
 unique_name_in_owner = true
-visible = false
 z_index = 10
 custom_minimum_size = Vector2(400, 0)
 offset_top = 137.0
@@ -278,6 +277,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/SkillWindow" unique_id=1093706584]
 layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 3
 
 [node name="SkillGridContainer" type="GridContainer" parent="BattleUI/SkillWindow/ScrollContainer" unique_id=1271889195]
 unique_name_in_owner = true
@@ -345,6 +346,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/ItemWindow" unique_id=517742519]
 layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 3
 
 [node name="ItemGridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ScrollContainer" unique_id=1374776911]
 unique_name_in_owner = true

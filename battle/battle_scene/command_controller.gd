@@ -837,10 +837,31 @@ func begin_use_skill(user : Battler, skill : Skill) -> void:
 		return
 	pending_user = user
 	pending_action = battle_scene.BATTLEACTION_SKILL
+	var focus_hint : int = int(skill.default_target_focus)
+
+	if focus_hint == int(Skill.DefaultTargetFocus.AUTO):
+		# If the skill explicitly restricts a side, use that restriction as the focus hint.
+		if skill.target_side == Skill.TargetSide.SAME_FACTION:
+			focus_hint = int(Skill.DefaultTargetFocus.SAME_FACTION)
+		elif skill.target_side == Skill.TargetSide.OTHER_FACTION:
+			focus_hint = int(Skill.DefaultTargetFocus.OTHER_FACTION)
+		else:
+			# ANY_FACTION: pick a sensible default like FF6.
+			if skill.intent == Skill.Intent.BENEFICIAL:
+				focus_hint = int(Skill.DefaultTargetFocus.SAME_FACTION)
+			elif skill.intent == Skill.Intent.HARMFUL:
+				focus_hint = int(Skill.DefaultTargetFocus.OTHER_FACTION)
+			elif skill.intent == Skill.Intent.MIXED:
+				focus_hint = int(Skill.DefaultTargetFocus.OTHER_FACTION)
+			else:
+				# UTILITY
+				focus_hint = int(Skill.DefaultTargetFocus.SAME_FACTION)
+
 	pending_data = {
 		"skill": skill,
-		"default_target_focus": int(skill.default_target_focus),
+		"default_target_focus": focus_hint,
 	}
+
 
 	_begin_targeting_for_skill(skill)
 

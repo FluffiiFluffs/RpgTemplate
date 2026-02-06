@@ -1,10 +1,10 @@
-class_name EffectAttackUp
+class_name EffectApplyDefenseUp
 extends Effect
 
-@export_category("Attack Up")
+@export_category("Defense Up")
 ## Strength of this cast.
 ## 1 adds 1 stack, 2 adds 2 stacks, 3 adds 3 stacks.
-## If Attack Down is present, this removes that many stacks instead and stops at 0.
+## If Defense Down is present, this removes that many stacks instead and stops at 0.
 @export_range(1, 3, 1) var stack_levels_to_add : int = 1
 
 ## Duration in target turns. 0 means entire battle.
@@ -27,6 +27,8 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 	if ctx.current_target_battler == null:
 		return false
 	return true
+
+
 func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
@@ -35,44 +37,44 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	var status_system : StatusSystem = ctx.status_system
 	var strength : int = clampi(stack_levels_to_add, 1, 3)
 
-	# Tug of war: reduce Attack Down first.
-	# If this cast fully removes Attack Down and still has remaining strength,
-	# apply the remainder as Attack Up (crossing 0).
-	var raw_down : StatusEffect = StatusSystem.find_status(target_battler, StatusEffectAttackDown)
-	var existing_down : StatusEffectAttackDown = null
-	if raw_down is StatusEffectAttackDown:
-		existing_down = raw_down as StatusEffectAttackDown
+	# Tug of war: reduce Defense Down first.
+	# If this cast fully removes Defense Down and still has remaining strength,
+	# apply the remainder as Defense Up (crossing 0).
+	var raw_down : StatusEffect = StatusSystem.find_status(target_battler, StatusEffectDefenseDown)
+	var existing_down : StatusEffectDefenseDown = null
+	if raw_down is StatusEffectDefenseDown:
+		existing_down = raw_down as StatusEffectDefenseDown
 
 	if existing_down != null:
 		var down_level : int = clampi(existing_down.stack_level, 1, 3)
 
 		if strength < down_level:
 			existing_down.set_stack_level(down_level - strength)
-			ctx.queue_battle_message("{target}'s attack down weakens.", target_battler)
+			ctx.queue_battle_message("{target}'s defense down weakens.", target_battler)
 			return true
 
 		if strength == down_level:
 			status_system.remove_status(target_battler, existing_down)
-			ctx.queue_battle_message("{target}'s attack returns to normal.", target_battler)
+			ctx.queue_battle_message("{target}'s defense returns to normal.", target_battler)
 			return true
 
-		# strength > down_level, remove down and carry remainder into Attack Up.
+		# strength > down_level, remove down and carry remainder into Defense Up.
 		status_system.remove_status(target_battler, existing_down)
 		strength = strength - down_level
-		# continue into Attack Up application using the remainder
+		# continue into Defense Up application using the remainder
 
-	# No Attack Down (or remainder exists): add stacks to Attack Up (cap at 3).
-	var raw_up : StatusEffect = StatusSystem.find_status(target_battler, StatusEffectAttackUp)
-	var existing_up : StatusEffectAttackUp = null
-	if raw_up is StatusEffectAttackUp:
-		existing_up = raw_up as StatusEffectAttackUp
+	# No Defense Down (or remainder exists): add stacks to Defense Up (cap at 3).
+	var raw_up : StatusEffect = StatusSystem.find_status(target_battler, StatusEffectDefenseUp)
+	var existing_up : StatusEffectDefenseUp = null
+	if raw_up is StatusEffectDefenseUp:
+		existing_up = raw_up as StatusEffectDefenseUp
 
 	var current_level : int = 0
 	if existing_up != null:
 		current_level = existing_up.stack_level
 
 	if current_level >= 3:
-		ctx.queue_battle_message("{target}'s attack cannot rise further.", target_battler)
+		ctx.queue_battle_message("{target}'s defense cannot rise further.", target_battler)
 		return false
 
 	var desired_level : int = current_level + strength
@@ -87,15 +89,15 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 		if ctx.battle_scene != null:
 			caster_battler = ctx.battle_scene.acting_battler
 
-		var up : StatusEffectAttackUp = StatusEffectAttackUp.new()
+		var up : StatusEffectDefenseUp = StatusEffectDefenseUp.new()
 		up.configure(desired_level, duration_turns)
 		status_system.add_status(target_battler, up, caster_battler)
 
 	if desired_level == 1:
-		ctx.queue_battle_message("{target}'s attack rises!", target_battler)
+		ctx.queue_battle_message("{target}'s defense rises!", target_battler)
 	elif desired_level == 2:
-		ctx.queue_battle_message("{target}'s attack rises further!", target_battler)
+		ctx.queue_battle_message("{target}'s defense rises further!", target_battler)
 	else:
-		ctx.queue_battle_message("{target}'s attack reaches its limit!", target_battler)
+		ctx.queue_battle_message("{target}'s defense reaches its limit!", target_battler)
 
 	return true

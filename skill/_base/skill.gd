@@ -63,7 +63,7 @@ enum Intent {
 @export_group("Targeting")
 ## Targeting behavior used by CommandController during skill targeting.
 @export var target_shape : TargetShape = TargetShape.SINGLE
-@export var target_side : TargetSide = TargetSide.OTHER_FACTION
+@export var target_side : TargetSide = TargetSide.ANY_FACTION
 ## When false, CommandController excludes battlers with current_hp <= 0 from the valid target set.
 @export var can_target_dead : bool = false
 ## Initial focus hint applied when opening targeting for this skill.

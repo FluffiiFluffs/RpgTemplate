@@ -15,7 +15,6 @@ skill_id = &"healingtest"
 name = "Healing Test"
 description = "Heals the target for 50 HP"
 sp_cost = 1
-target_side = 2
 intent = 2
 effects = Array[ExtResource("1_xfpvk")]([SubResource("Resource_0433t")])
 message_template = "{user} wishes really hard."

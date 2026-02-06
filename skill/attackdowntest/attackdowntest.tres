@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dfopgyu5vt4o5"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_rrc4h"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="2_q7y8w"]
+[ext_resource type="Script" uid="uid://cu7jds0rxtgeo" path="res://skill/_effects/effect_applyattackdown.gd" id="2_u737k"]
+
+[sub_resource type="Resource" id="Resource_q7lbu"]
+script = ExtResource("2_u737k")
+scope = 1
+metadata/_custom_type_script = "uid://cu7jds0rxtgeo"
+
+[resource]
+script = ExtResource("2_q7y8w")
+skill_id = &"attackdowntest"
+name = "attackdowntest"
+description = "Lowers attack by 1 tier."
+scope = 1
+sp_cost = 1
+default_target_focus = 2
+battle_effects = Array[ExtResource("1_rrc4h")]([SubResource("Resource_q7lbu")])
+message_template = "{user} uses {skill} on {target}."
+metadata/_custom_type_script = "uid://c3imvl0552hk1"

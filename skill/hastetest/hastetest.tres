@@ -16,7 +16,6 @@ name = "hastetest"
 description = "Speeds the target up a bit (3 max)."
 scope = 1
 sp_cost = 1
-target_side = 2
 default_target_focus = 1
 intent = 2
 battle_effects = Array[ExtResource("1_gqs41")]([SubResource("Resource_wrnyt")])
