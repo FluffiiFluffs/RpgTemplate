@@ -6,12 +6,14 @@
 [ext_resource type="Resource" uid="uid://b5wmbkov323pp" path="res://actors/1_party/01_thief/thief_party_member_data.tres" id="4_8q0pa"]
 [ext_resource type="Resource" uid="uid://yuhvgw0ir1x7" path="res://actors/1_party/02_mage/mage_party_member_data.tres" id="5_08uhy"]
 [ext_resource type="Resource" uid="uid://5ypxra5wjlwe" path="res://actors/1_party/03_healer/healer_party_member_data.tres" id="6_sqnyb"]
+[ext_resource type="Resource" uid="uid://bo5takvknosy6" path="res://actors/1_party/hp_sp_mod.tres" id="7_8q0pa"]
 
 [node name="ChardataKeeper" type="Node2D" unique_id=1417992603]
 script = ExtResource("1_7befc")
 all_party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])
-party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("5_08uhy")])
+party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om")])
 outside_members = Array[ExtResource("2_4byte")]([ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])
+hp_sp_mod = ExtResource("7_8q0pa")
 
 [node name="PoisonTimer" type="Timer" parent="." unique_id=1248427942]
 unique_name_in_owner = true

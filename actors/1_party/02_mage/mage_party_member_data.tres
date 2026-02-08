@@ -31,6 +31,8 @@
 [ext_resource type="Resource" uid="uid://bb10q224fabgj" path="res://skill/defensedowntest/defensedowntest.tres" id="28_0eaty"]
 [ext_resource type="Resource" uid="uid://bfjphnpeidsnw" path="res://skill/defenseuptest/defenseup3test.tres" id="29_ugfmh"]
 [ext_resource type="Resource" uid="uid://v2vvl3md0g3p" path="res://skill/defensedowntest/defensedown3test.tres" id="30_wd4ak"]
+[ext_resource type="Resource" uid="uid://wpwlhpwghg7v" path="res://skill/magicuptest/magicuptest.tres" id="31_ugfmh"]
+[ext_resource type="Resource" uid="uid://bx5pxuqoro0ds" path="res://skill/magicdowntest/magicdowntest.tres" id="32_wd4ak"]
 
 [sub_resource type="Resource" id="Resource_vb56e"]
 script = ExtResource("5_7xiv1")
@@ -46,5 +48,5 @@ char_resource = ExtResource("1_5csrh")
 pm_id = &"mage03"
 current_sp = 50
 battle_actions = SubResource("Resource_vb56e")
-skills = Array[ExtResource("11_qepbb")]([ExtResource("12_vb56e"), ExtResource("13_qepbb"), ExtResource("14_setsa"), ExtResource("15_iqprl"), ExtResource("16_naxd5"), ExtResource("17_naxd5"), ExtResource("18_l3iya"), ExtResource("19_b0hrx"), ExtResource("20_w2bvq"), ExtResource("21_cw0a4"), ExtResource("22_b318c"), ExtResource("23_musbd"), ExtResource("24_nvvyk"), ExtResource("25_keaea"), ExtResource("26_uhrxp"), ExtResource("27_3mmpc"), ExtResource("28_0eaty"), ExtResource("29_ugfmh"), ExtResource("30_wd4ak")])
+skills = Array[ExtResource("11_qepbb")]([ExtResource("12_vb56e"), ExtResource("13_qepbb"), ExtResource("14_setsa"), ExtResource("15_iqprl"), ExtResource("16_naxd5"), ExtResource("17_naxd5"), ExtResource("18_l3iya"), ExtResource("19_b0hrx"), ExtResource("20_w2bvq"), ExtResource("21_cw0a4"), ExtResource("22_b318c"), ExtResource("23_musbd"), ExtResource("24_nvvyk"), ExtResource("25_keaea"), ExtResource("26_uhrxp"), ExtResource("27_3mmpc"), ExtResource("28_0eaty"), ExtResource("29_ugfmh"), ExtResource("30_wd4ak"), ExtResource("31_ugfmh"), ExtResource("32_wd4ak")])
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

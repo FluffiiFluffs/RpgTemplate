@@ -108,6 +108,8 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 		"STM": 0,
 		"SPD": 0,
 		"MAG": 0,
+		"LCK": 0,
+
 	}
 	if member == null:
 		return out
@@ -127,6 +129,8 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 	var curr_stm = member.get_stamina()
 	var curr_spd = member.get_agility()
 	var curr_mag = member.get_magic()
+	var curr_lck = member.get_luck()
+
 
 	# Snapshot current equipment state.
 	var old_head = member.headslot
@@ -174,6 +178,7 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 		var new_stm = member.get_stamina()
 		var new_spd = member.get_agility()
 		var new_mag = member.get_magic()
+		var new_lck = member.get_luck()
 
 		out["HP"] = new_hp - curr_hp
 		out["SP"] = new_sp - curr_sp
@@ -183,6 +188,7 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 		out["STM"] = new_stm - curr_stm
 		out["SPD"] = new_spd - curr_spd
 		out["MAG"] = new_mag - curr_mag
+		out["LCK"] = new_lck - curr_lck
 
 	# Restore original equipment state.
 	member.headslot = old_head

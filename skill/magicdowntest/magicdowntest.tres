@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://bx5pxuqoro0ds"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_ag7ug"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="2_6xh0q"]
+[ext_resource type="Script" uid="uid://b3ef8cloabr54" path="res://skill/_effects/effect_applymagicdown.gd" id="2_bko6b"]
+
+[sub_resource type="Resource" id="Resource_41rxl"]
+script = ExtResource("2_bko6b")
+scope = 1
+metadata/_custom_type_script = "uid://b3ef8cloabr54"
+
+[resource]
+script = ExtResource("2_6xh0q")
+skill_id = &"magicdowntest"
+name = "magicdowntest"
+description = "Lowers magic by 1 tier."
+scope = 1
+sp_cost = 1
+default_target_focus = 2
+battle_effects = Array[ExtResource("1_ag7ug")]([SubResource("Resource_41rxl")])
+message_template = "{user} casts {skill} on {target}."
+metadata/_custom_type_script = "uid://c3imvl0552hk1"

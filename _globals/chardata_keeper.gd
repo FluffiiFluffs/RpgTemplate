@@ -29,6 +29,9 @@ var controlled_index : int = 0 : set = set_controlled_index
 @export_category("PartyWide Data")
 @export var money : int = 0 ##How much money the party has
 @export var time_played : float = 0 ##How much time has elapsed during the playthrough
+##File that keeps the list of HP and SP mod values per level (shared between all characters)
+@export var hp_sp_mod : HPSPMod = null
+
 
 signal field_poison_tick(actor : ActorData, damage : int)
 

@@ -32,6 +32,9 @@
 [ext_resource type="Resource" uid="uid://bb10q224fabgj" path="res://skill/defensedowntest/defensedowntest.tres" id="29_n2a0t"]
 [ext_resource type="Resource" uid="uid://bfjphnpeidsnw" path="res://skill/defenseuptest/defenseup3test.tres" id="30_ymb2h"]
 [ext_resource type="Resource" uid="uid://v2vvl3md0g3p" path="res://skill/defensedowntest/defensedown3test.tres" id="31_mxdmr"]
+[ext_resource type="Resource" uid="uid://wpwlhpwghg7v" path="res://skill/magicuptest/magicuptest.tres" id="32_ymb2h"]
+[ext_resource type="Resource" uid="uid://bx5pxuqoro0ds" path="res://skill/magicdowntest/magicdowntest.tres" id="33_mxdmr"]
+[ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="34_mxdmr"]
 
 [sub_resource type="Resource" id="Resource_v56fi"]
 script = ExtResource("3_qx4j5")
@@ -42,6 +45,7 @@ metadata/_custom_type_script = "uid://curfpkctgy4ww"
 resource_local_to_scene = true
 script = ExtResource("1_5o3im")
 class_color = Color(0.4862745, 0, 0, 1)
+stats_table = ExtResource("34_mxdmr")
 field_scene = ExtResource("1_jstep")
 battle_icon = ExtResource("1_lidrd")
 char_resource = ExtResource("1_bjdxp")
@@ -49,5 +53,5 @@ pm_id = &"warrior01"
 current_hp = 50
 current_sp = 50
 battle_actions = SubResource("Resource_v56fi")
-skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5"), ExtResource("17_7njdm"), ExtResource("18_lg8x5"), ExtResource("19_bsxxl"), ExtResource("20_o0mmc"), ExtResource("21_djem0"), ExtResource("22_ol2kt"), ExtResource("23_amn4a"), ExtResource("24_y4i3g"), ExtResource("25_yq01f"), ExtResource("26_fkwmm"), ExtResource("27_wadtc"), ExtResource("28_3dhjf"), ExtResource("29_n2a0t"), ExtResource("30_ymb2h"), ExtResource("31_mxdmr")])
+skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5"), ExtResource("17_7njdm"), ExtResource("18_lg8x5"), ExtResource("19_bsxxl"), ExtResource("20_o0mmc"), ExtResource("21_djem0"), ExtResource("22_ol2kt"), ExtResource("23_amn4a"), ExtResource("24_y4i3g"), ExtResource("25_yq01f"), ExtResource("26_fkwmm"), ExtResource("27_wadtc"), ExtResource("28_3dhjf"), ExtResource("29_n2a0t"), ExtResource("30_ymb2h"), ExtResource("31_mxdmr"), ExtResource("32_ymb2h"), ExtResource("33_mxdmr")])
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

@@ -64,6 +64,8 @@ extends Resource
 @export var perm_agility_flat : int = 0
 ##Flat permanent change to magic.
 @export var perm_magic_flat : int = 0
+##Flat permanent change to luck.
+@export var perm_luck_flat : int = 0
 #endregion
 
 #region Buff modifiers
@@ -85,6 +87,9 @@ extends Resource
 @export var buff_agility_flat : int = 0
 ##Flat bonus to magic from buffs.
 @export var buff_magic_flat : int = 0
+##Flat bonus to luck from buffs.
+@export var buff_luck_flat : int = 0
+
 
 
 @export_category("Buff modifiers (percent)")
@@ -104,6 +109,9 @@ extends Resource
 @export var buff_agility_percent : float = 0.0
 ##Percent bonus to magic from buffs.
 @export var buff_magic_percent : float = 0.0
+##Percent bonus to luck from buffs.
+@export var buff_luck_percent : float = 0.0
+
 #endregion
 
 
@@ -120,6 +128,8 @@ const STAT_STRENGTH : StringName = &"strength"
 const STAT_STAMINA : StringName = &"stamina"
 const STAT_AGILITY : StringName = &"agility"
 const STAT_MAGIC : StringName = &"magic"
+const STAT_LUCK : StringName = &"luck"
+
 
 
 func init_from_char_resource(_char_resource : CharResource, _id : StringName = &"") -> void:
@@ -231,6 +241,12 @@ func get_base_magic() -> int:
 	var base := char_resource.magic + perm_magic_flat
 	return base
 
+func get_base_luck() -> int:
+	if char_resource == null:
+		return perm_luck_flat
+	var base = char_resource.luck + perm_luck_flat
+	return base
+
 
 func get_base_atk_value() -> int:
 	if char_resource == null:
@@ -244,6 +260,9 @@ func get_base_def_value() -> int:
 		return perm_def_flat
 	var base := char_resource.def_value + perm_def_flat
 	return base
+	
+
+
 #endregion
 
 #region Equipment Helpers
@@ -296,6 +315,12 @@ func _get_item_magic_bonus(item : Item) -> int:
 	if item == null:
 		return 0
 	return item.magic_bonus
+	
+func _get_item_luck_bonus(item : Item) -> int:
+	if item == null:
+		return 0
+	return item.luck_bonus
+
 
 
 func get_equip_max_hp_bonus() -> int:
@@ -400,6 +425,19 @@ func get_equip_def_bonus() -> int:
 	total += _get_item_def_bonus(mainhand)
 	total += _get_item_def_bonus(offhand)
 	return total
+	
+func get_equip_luck_bonus() -> int:
+	var total = 0
+	total += _get_item_luck_bonus(headslot)
+	total += _get_item_luck_bonus(chestslot)
+	total += _get_item_luck_bonus(armslot)
+	total += _get_item_luck_bonus(legslot)
+	total += _get_item_luck_bonus(accy01)
+	total += _get_item_luck_bonus(accy02)
+	total += _get_item_luck_bonus(mainhand)
+	total += _get_item_luck_bonus(offhand)
+	return total
+
 #endregion
 
 #region Final Stats
@@ -496,6 +534,22 @@ func get_magic() -> int:
 	total = int(float(total) * mult)
 
 	return total
+
+
+func get_luck() -> int:
+	var base = get_base_luck()
+	var equip_bonus = get_equip_luck_bonus()
+
+	var mods : Dictionary = get_stat_modifier_totals(STAT_LUCK)
+	var total = base + equip_bonus + buff_luck_flat + int(mods.get("flat", 0))
+
+	var mult : float = 1.0 + buff_luck_percent + float(mods.get("percent", 0.0))
+	if mult < 0.0:
+		mult = 0.0
+	total = int(float(total) * mult)
+
+	return total
+
 
 
 func get_atk_value() -> int:

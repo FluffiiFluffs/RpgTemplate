@@ -34,7 +34,8 @@ extends Resource
 @export var stamina:int=10
 ##Default Magic of the Actor. Determines effectiveness of magic. 
 @export var magic:int=10
-
+##Default luck of the Actor. Hook point for crits and other random checks later.
+@export var luck:int=10
 
 
 #ALERT NO LONGER USED, held within enemy scene!
