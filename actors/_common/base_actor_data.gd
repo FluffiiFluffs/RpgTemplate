@@ -11,7 +11,7 @@ extends Resource
 ##Unique identifier for this party member.
 @export var pm_id : StringName = &""
 
-
+ 
 @export_category("Progression")
 ##Current level of party member.
 @export_range(1, 99, 1) var level : int = 1
