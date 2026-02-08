@@ -109,8 +109,8 @@ func on_action_selected(status_system : StatusSystem, battler : Battler, _use : 
 
 	if status_system != null and status_system.battle_scene != null and status_system.battle_scene.battle_notify_ui != null:
 		var name_text : String = "Someone"
-		if battler != null and battler.actor_data != null and battler.actor_data.char_resource != null:
-			name_text = battler.actor_data.char_resource.char_name
+		if battler != null and battler.actor_data != null:
+			name_text = battler.actor_data.get_display_name()
 		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " is too slow to act.")
 
 	return true

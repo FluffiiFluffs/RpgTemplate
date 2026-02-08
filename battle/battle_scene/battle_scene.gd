@@ -159,7 +159,7 @@ func setup_party()->void:
 		new_battle_stats.set_class_color() #sets up the class colors for each party member's box
 		new_battle_stats.setup_hpmp()
 		new_battle_stats.update_battle_scene() #Updates the graphics for the party member
-		new_battle_stats.name = str(new_battle_stats.member.char_resource.char_name) + "StatsBox" #Naming like this should be okay since party members will be unique
+		new_battle_stats.name = str(new_battle_stats.member.get_display_name()) + "StatsBox" #Naming like this should be okay since party members will be unique
 		new_battle_stats.setup_command_container_focus_neighbors()
 	for bat in battlers.get_children():
 		if bat is Battler:

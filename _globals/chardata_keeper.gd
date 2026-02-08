@@ -51,13 +51,28 @@ var field_status_system : StatusSystem = StatusSystem.new()
 
 func _ready() -> void:
 	_clean_party_array()
-
+	_rebuild_party_member_base_stats()
 	if party_members.is_empty():
 		return
 
 	if controlled_index < 0 or controlled_index >= party_members.size():
 		controlled_index = 0
 	poison_timer.timeout.connect(poison_timer_timeout)
+
+
+func _rebuild_party_member_base_stats() -> void:
+	_rebuild_member_array_base_stats(party_members)
+	_rebuild_member_array_base_stats(outside_members)
+	_rebuild_member_array_base_stats(all_party_members)
+
+
+func _rebuild_member_array_base_stats(members : Array[PartyMemberData]) -> void:
+	if members == null:
+		return
+	for member in members:
+		if member == null:
+			continue
+		member.rebuild_base_stats()
 
 
 ## Remove null entries and clamp to party_size.
@@ -136,24 +151,6 @@ func remove_party_member(member : PartyMemberData) -> void:
 
 	if controlled_index >= party_members.size():
 		controlled_index = party_members.size() - 1
-
-
-func create_member_from_char(char_res : CharResource, new_id : StringName = "") -> PartyMemberData:
-	if char_res == null:
-		return null
-
-	var member := PartyMemberData.new()
-	member.init_from_char_resource(char_res, new_id)
-	return member
-
-
-func create_and_add_member_from_char(char_res : CharResource, new_id : StringName = "") -> PartyMemberData:
-	var member := create_member_from_char(char_res, new_id)
-	if member == null:
-		return null
-
-	add_party_member(member)
-	return member
 
 
 

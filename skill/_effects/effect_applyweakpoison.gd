@@ -34,8 +34,11 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if result.has("outcome"):
 		if result["outcome"] == StatusSystem.AddStatusOutcome.BLOCKED:
 			var target_name : String = "Target"
-			if target != null and target.char_resource != null:
-				target_name = target.char_resource.char_name
+			if target != null:
+				target_name = target.get_display_name()
+				if target_name == "":
+					target_name = "Target"
+
 
 			var msg : String = target_name + " already has a stronger poison."
 
@@ -49,8 +52,11 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 
 		if result["outcome"] == StatusSystem.AddStatusOutcome.REPLACED:
 			var target_name2 : String = "Target"
-			if target != null and target.char_resource != null:
-				target_name2 = target.char_resource.char_name
+			if target != null:
+				target_name2 = target.get_display_name()
+				if target_name2 == "":
+					target_name2 = "Target"
+
 			ctx.queue_battle_message(target_name2 + "'s poison intensifies.")
 			return true
 

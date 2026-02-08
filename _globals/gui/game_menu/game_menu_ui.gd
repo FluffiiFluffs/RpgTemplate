@@ -471,7 +471,7 @@ func update_top_level_stats_box(stats_box) -> void:
 		return
 
 	# name
-	stats_box.char_name_label.text = pmember.char_resource.char_name
+	stats_box.char_name_label.text = pmember.get_display_name()
 
 	# class color
 	stats_box.class_color = pmember.class_color
@@ -1094,7 +1094,7 @@ func enter_equip_selection()->void:
 		menu_state = "EQUIP_PARTY_SELECT"
 
 func update_equip_menu_stats_labels(member : PartyMemberData)->void:
-	equip_name_label.text = str(member.char_resource.char_name)
+	equip_name_label.text = str(member.get_display_name())
 	equip_stats_hp.equip_stats_base.text = str(member.get_max_hp())
 	equip_stats_sp.equip_stats_base.text = str(member.get_max_sp())
 	equip_stats_atk.equip_stats_base.text = str(member.get_atk_value())
@@ -1492,8 +1492,8 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 	var _member = _toplevelstats.party_member
 	stats_panel_container.self_modulate = _member.class_color
 	stats_portrait.texture = _member.stats_sprite
-	stats_name_label.text = _member.char_resource.char_name
-	stats_class_label.text = _member.char_resource._class_name()
+	stats_name_label.text = _member.get_display_name()
+	stats_class_label.text = _member.get_actor_class_name()
 	stats_level_value.text = str(_member.level)
 	stats_next_lvl_value.text = str(_member.next_level_exp)
 	if _member.mainhand == null:

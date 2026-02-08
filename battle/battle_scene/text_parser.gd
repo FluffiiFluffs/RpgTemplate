@@ -33,15 +33,13 @@ func parse_template(template: String, use: ActionUse, skill: Skill, item: Item) 
 		return _normalize_whitespace(template)
 	return parse_custom_message(template, use.user, use.targets, skill, item)
 
-
 func _battler_name(battler: Battler) -> String:
 	if battler == null:
 		return ""
 	if battler.actor_data == null:
 		return ""
-	if battler.actor_data.char_resource == null:
-		return ""
-	return battler.actor_data.char_resource.char_name
+	return battler.actor_data.get_display_name()
+
 
 
 func _collect_target_names(targets: Array[Battler]) -> Array[String]:

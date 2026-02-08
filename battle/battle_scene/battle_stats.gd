@@ -256,7 +256,7 @@ func update_battle_scene()->void:
 			printerr("NO PARTY MEMBER DATA!!")
 		else:
 			if member.battle_scene == null:
-				printerr(str(member.char_resource.char_name) + " HAS NO BATTLE SCENE SET!")
+				printerr(str(member.get_display_name()) + " HAS NO BATTLE SCENE SET!")
 
 #region Selection
 

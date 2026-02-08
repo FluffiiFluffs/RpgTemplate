@@ -9,8 +9,17 @@ extends Resource
 
 @export_category("Identity")
 ##Unique identifier for this party member.
+##TODO This needs to be moved to PartyMemberData since it pertains specifically to party members
 @export var pm_id : StringName = &""
+##Name displayed in UI and battle messaging system
+##Should not be empty
+@export var display_name : String = ""
+##The class of the actor
+##Maybe needs to live in PartyMemberData, too like pm_id
+@export_enum("WARRIOR","THIEF","MAGE","HEALER") var actor_class : int = 0
 
+##Faction of the actor
+@export_enum("PARTY","NPC","ENEMY","BOSS") var actor_faction : int = 0
  
 @export_category("Progression")
 ##Current level of party member.
@@ -21,6 +30,42 @@ extends Resource
 @export var next_level_exp : int = 100
 ##Total experience gained by character (all time).
 @export var total_exp : int = 0
+
+@export_category("Base Stats")
+## Base layer for the current level, unmodified.
+## PartyMemberData will later populate these from StatsTable.
+## EnemyData will later author these directly.
+##Base value of HP for the actor
+@export var base_max_hp : int = 0
+##Base value of SP for the actor
+@export var base_max_sp : int = 0
+
+##Base ATK value for the actor
+@export var base_atk_value : int = 0
+##Base DEF value for the actor
+@export var base_def_value : int = 0
+##Base Magic ATK value for the actor
+@export var base_matk_value : int = 0
+##Base Magic DEF value for the actor
+@export var base_mdef_value : int = 0
+
+##Base STR for the actor
+@export var base_strength : int = 0
+##Base STM for the actor
+@export var base_stamina : int = 0
+##Base AGI for the actor
+@export var base_agility : int = 0
+##Base MAG for the actor
+@export var base_magic : int = 0
+##Base LCK for the actor
+@export var base_luck : int = 0
+
+
+
+
+
+
+
 
 @export_category("Runtime vitals")
 ##Current HP. This is always clamped against get_max_hp().
@@ -131,139 +176,213 @@ const STAT_MAGIC : StringName = &"magic"
 const STAT_LUCK : StringName = &"luck"
 
 
-
+## Not needed soon since char_resource is going away.
 func init_from_char_resource(_char_resource : CharResource, _id : StringName = &"") -> void:
 	if _char_resource == null:
 		return
 
 	char_resource = _char_resource
 
-	# Give it a stable id. You can change this logic later if you want.
-	if _id == "":
-		pm_id = char_resource.char_id
-	else:
+	# Stable id policy: prefer explicit id, otherwise preserve existing pm_id, otherwise fall back to CharResource id.
+	if _id != &"":
 		pm_id = _id
+	else:
+		if pm_id == &"":
+			pm_id = char_resource.char_id
 
 	# Starting level uses the default from the CharResource.
 	level = char_resource.char_level
 
+	# Identity and base stats populate into the new ActorData contract fields.
+	sync_identity_from_char_resource_if_unset()
+	rebuild_base_stats()
+
 	# Fresh member, no experience yet.
 	current_exp = 0
 	total_exp = 0
-	# You can leave next_level_exp as whatever you set in the inspector,
-	# or later hook it to some ExpTable.get_exp_for_level(level + 1).
 
 	# Start fully healed.
 	current_hp = get_max_hp()
 	current_sp = get_max_sp()
 
-	# Safety clamp, in case formulas change later.
 	clamp_vitals()
 
 
+func set_level_and_rebuild(new_level : int) -> void:
+	var clamped : int = clampi(new_level, 1, 99)
+	if level == clamped:
+		return
+	level = clamped
+	rebuild_base_stats()
+
+
+func add_levels_and_rebuild(delta : int) -> void:
+	set_level_and_rebuild(level + delta)
+
+
+func get_actor_class_name() -> String:
+	match get_actor_class():
+		0:
+			return "WARRIOR"
+		1:
+			return "THIEF"
+		2:
+			return "MAGE"
+		3:
+			return "HEALER"
+		_:
+			return ""
 
 
 
 
 #region Basic Getters
-##Basic helpers so UI and battle do not poke CharResource directly.
-
-func _get_name() -> String:
+func get_display_name() -> String:
+	if display_name != "":
+		return display_name
 	if char_resource != null:
 		return char_resource.char_name
 	return ""
 
 
-func _get_class() -> int:
+## Returns the class index compatible with your existing enum usage (0..3).
+func get_actor_class() -> int:
+	if actor_class > 0:
+		return actor_class - 1
 	if char_resource != null:
 		return char_resource.char_class
 	return 0
 
 
-func get_faction() -> int:
+## Returns the faction index compatible with CharResource (0..3).
+func get_actor_faction() -> int:
+	if actor_faction > 0:
+		return actor_faction - 1
 	if char_resource != null:
 		return char_resource.char_faction
 	return 0
 
 
+## Backwards compatible helpers used around the project today.
+func _get_name() -> String:
+	return get_display_name()
+
+## Returns the class of the actor
+func _get_class() -> int:
+	return get_actor_class()
+
+## Returns the faction of the actor
+func get_faction() -> int:
+	return get_actor_faction()
+
+## Returns array of battle actions for the actor
 func get_battle_actions() -> BattleActions:
-	if char_resource != null:
-		return char_resource.battle_actions
-	return null
+	return battle_actions
 #endregion
+
+
+
+
+
 
 #region Base Stat Getters
 # Base layer getters
-# (CharResource base plus permanent modifiers.)
+# (Base Stats plus permanent modifiers.)
+
+func _has_base_stats() -> bool:
+	return base_max_hp > 0
+
 
 func get_base_max_hp() -> int:
-	if char_resource == null:
-		return max(1, perm_max_hp_flat)
-	var base := char_resource.max_hp + perm_max_hp_flat
-	if base < 1:
-		base = 1
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_max_hp
+	elif char_resource != null:
+		raw_base = char_resource.max_hp
+
+	var base_total : int = raw_base + perm_max_hp_flat
+	if base_total < 1:
+		base_total = 1
+	return base_total
 
 
 func get_base_max_sp() -> int:
-	if char_resource == null:
-		return max(0, perm_max_sp_flat)
-	var base = char_resource.max_sp + perm_max_sp_flat
-	if base < 0:
-		base = 0
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_max_sp
+	elif char_resource != null:
+		raw_base = char_resource.max_sp
+
+	var base_total : int = raw_base + perm_max_sp_flat
+	if base_total < 0:
+		base_total = 0
+	return base_total
 
 
 func get_base_strength() -> int:
-	if char_resource == null:
-		return perm_strength_flat
-	var base := char_resource.strength + perm_strength_flat
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_strength
+	elif char_resource != null:
+		raw_base = char_resource.strength
+	return raw_base + perm_strength_flat
 
 
 func get_base_stamina() -> int:
-	if char_resource == null:
-		return perm_stamina_flat
-	var base := char_resource.stamina + perm_stamina_flat
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_stamina
+	elif char_resource != null:
+		raw_base = char_resource.stamina
+	return raw_base + perm_stamina_flat
 
 
 func get_base_agility() -> int:
-	if char_resource == null:
-		return perm_agility_flat
-	var base := char_resource.agility + perm_agility_flat
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_agility
+	elif char_resource != null:
+		raw_base = char_resource.agility
+	return raw_base + perm_agility_flat
 
 
 func get_base_magic() -> int:
-	if char_resource == null:
-		return perm_magic_flat
-	var base := char_resource.magic + perm_magic_flat
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_magic
+	elif char_resource != null:
+		raw_base = char_resource.magic
+	return raw_base + perm_magic_flat
+
 
 func get_base_luck() -> int:
-	if char_resource == null:
-		return perm_luck_flat
-	var base = char_resource.luck + perm_luck_flat
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_luck
+	elif char_resource != null:
+		raw_base = char_resource.luck
+	return raw_base + perm_luck_flat
 
 
 func get_base_atk_value() -> int:
-	if char_resource == null:
-		return perm_atk_flat
-	var base := char_resource.atk_value + perm_atk_flat
-	return base
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_atk_value
+	elif char_resource != null:
+		raw_base = char_resource.atk_value
+	return raw_base + perm_atk_flat
 
 
 func get_base_def_value() -> int:
-	if char_resource == null:
-		return perm_def_flat
-	var base := char_resource.def_value + perm_def_flat
-	return base
-	
-
+	var raw_base : int = 0
+	if _has_base_stats():
+		raw_base = base_def_value
+	elif char_resource != null:
+		raw_base = char_resource.def_value
+	return raw_base + perm_def_flat
 
 #endregion
+
 
 #region Equipment Helpers
 # Equipment layer helpers
@@ -582,6 +701,49 @@ func get_def_value() -> int:
 	return total
 
 #endregion
+
+
+
+
+
+## Copies identity from CharResource only when the ActorData fields are UNSET.
+## Probably not needed since UNSET is not going to be used
+func sync_identity_from_char_resource_if_unset() -> void:
+	if char_resource == null:
+		return
+
+	if display_name == "":
+		display_name = char_resource.char_name
+
+	if actor_class == 0:
+		actor_class = char_resource.char_class + 1
+
+	if actor_faction == 0:
+		actor_faction = char_resource.char_faction + 1
+
+
+## Rebuilds the base stat layer in one call, then clamps vitals.
+## Default behavior only fills base stats when they are uninitialized.
+## PartyMemberData and EnemyData can override this later.
+## not needed since Char resource is going to be gone soon
+func rebuild_base_stats() -> void:
+	if base_max_hp <= 0 and char_resource != null:
+		base_max_hp = char_resource.max_hp
+		base_max_sp = char_resource.max_sp
+
+		base_atk_value = char_resource.atk_value
+		base_def_value = char_resource.def_value
+
+		base_strength = char_resource.strength
+		base_stamina = char_resource.stamina
+		base_agility = char_resource.agility
+		base_magic = char_resource.magic
+		base_luck = char_resource.luck
+
+	clamp_vitals()
+
+
+
 
 ##Clamp current_hp and current_sp after any change to gear, buffs or permanent stats.[br]
 ##Call after changing equipment, adding or removing buffs or debuffs, after level up, or after a permanent stat item.

@@ -146,9 +146,9 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	if status_system != null and status_system.battle_scene != null:
 		var bs : BattleScene = status_system.battle_scene
 
-		var name_text : String = "Someone"
-		if actor.char_resource != null:
-			name_text = actor.char_resource.char_name
+		var name_text : String = actor.get_display_name()
+		if name_text == "":
+			name_text = "Someone"
 
 		if bs.battle_notify_ui != null:
 			bs.battle_notify_ui.queue_notification(name_text + " suffers poison damage.")

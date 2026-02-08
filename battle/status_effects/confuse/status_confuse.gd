@@ -240,8 +240,8 @@ static func try_break_on_damage(status_system : StatusSystem, target_battler : B
 		ctx.queue_battle_message("{target} snaps out of confusion.", target_battler)
 	elif status_system.battle_scene != null and status_system.battle_scene.battle_notify_ui != null:
 		var name_text : String = "Someone"
-		if target_battler.actor_data != null and target_battler.actor_data.char_resource != null:
-			name_text = target_battler.actor_data.char_resource.char_name
+		if target_battler.actor_data != null:
+			name_text = target_battler.actor_data.get_display_name()
 		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " snaps out of confusion.")
 
 	return true
@@ -282,6 +282,6 @@ func on_receive_damage(status_system : StatusSystem, defender : Battler, _attack
 		ctx.queue_battle_message("{target} snaps out of confusion.", defender)
 	elif status_system.battle_scene != null and status_system.battle_scene.battle_notify_ui != null:
 		var name_text : String = "Someone"
-		if defender.actor_data.char_resource != null:
-			name_text = defender.actor_data.char_resource.char_name
+		if defender.actor_data != null:
+			name_text = defender.actor_data.get_display_name()
 		status_system.battle_scene.battle_notify_ui.queue_notification(name_text + " snaps out of confusion.")

@@ -34,7 +34,7 @@ func show_intro_message()->void:
 			enemy_array.append(bat)
 			
 	var renemyindex : int = randi_range(0, enemy_array.size() - 1)
-	enemy_name = enemy_array[renemyindex].actor_data.char_resource.char_name
+	enemy_name = enemy_array[renemyindex].actor_data.get_display_name()
 
 	
 	if enemy_array.size() == 1: #if there's only one enemy
@@ -100,11 +100,11 @@ func _execute_normal_attack(use : ActionUse)->void:
 		printerr("ActionResolver: normal attack missing attacker or target")
 		return
 
-	var attacker_name = attacker.actor_data.char_resource.char_name
-	var original_name = original_target.actor_data.char_resource.char_name
+	var attacker_name = attacker.actor_data.get_display_name()
+	var original_name = original_target.actor_data.get_display_name()
 
 	var final_target : Battler = battle_scene.status_system.resolve_incoming_target(attacker, use.action, original_target)
-	var final_name = final_target.actor_data.char_resource.char_name
+	var final_name = final_target.actor_data.get_display_name()
 
 	battle_scene.battle_notify_ui.queue_notification(attacker_name + " attacks " + original_name + ".")
 	if final_target != original_target:
@@ -159,7 +159,7 @@ func check_for_death(to : Battler, _from :  Battler)->void:
 	#checks to see if the battler died after being hit by an attack
 	if to.actor_data.current_hp <= 0:
 		battle_scene.status_system.on_death(to)
-		battle_scene.battle_notify_ui.queue_notification(to.actor_data.char_resource.char_name + " falls to the ground!")
+		battle_scene.battle_notify_ui.queue_notification(to.actor_data.get_display_name() + " falls to the ground!")
 		to.ui_element.deactivate_button()
 
 		await battle_scene.notify_finished
@@ -190,7 +190,7 @@ func check_for_death(to : Battler, _from :  Battler)->void:
 
 func _execute_run(use : ActionUse)->void:
 	var runner = use.user
-	var runner_name = runner.actor_data.char_resource.char_name
+	var runner_name = runner.actor_data.get_display_name()
 	#battle_scene.battle_notify_ui.queue_notification(runner_name + " attempts to run!")
 	#await battle_scene.notify_finished
 	var success = battle_scene.action_calculator.run_success(runner)
@@ -220,8 +220,8 @@ func _execute_defend(use : ActionUse) -> void:
 		printerr("ActionResolver: defend missing defender or target")
 		return
 
-	var defender_name : String = defender.actor_data.char_resource.char_name
-	var protected_name : String = protected.actor_data.char_resource.char_name
+	var defender_name : String = defender.actor_data.get_display_name()
+	var protected_name : String = protected.actor_data.get_display_name()
 
 	var did_link : bool = false
 	if battle_scene.status_system != null:
@@ -253,7 +253,7 @@ func _execute_use_skill(use : ActionUse) -> void:
 		printerr("ActionResolver: USE_SKILL skill is null")
 		return
 
-	var user_name = user.actor_data.char_resource.char_name
+	var user_name = user.actor_data.get_display_name()
 
 	var is_free_cost : bool = false
 	if use.data != null and use.data.has("free_cost"):
@@ -364,7 +364,7 @@ func _execute_use_item(use : ActionUse) -> void:
 		return
 
 	var item = slot.item
-	var user_name = user.actor_data.char_resource.char_name
+	var user_name = user.actor_data.get_display_name()
 
 	var ctx = EffectContext.new()
 	ctx.mode = EffectContext.Mode.BATTLE

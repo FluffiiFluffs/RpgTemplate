@@ -155,7 +155,7 @@ func battler_turn_next() -> void:
 			use = enemy_turn()
 
 		_:
-			printerr("battler_turn_next(): " + str(battle_scene.acting_battler.actor_data.char_resource.char_name) + " has no faction set!")
+			printerr("battler_turn_next(): " + str(battle_scene.acting_battler.actor_data.get_display_name()) + " has no faction set!")
 			battler_turn_done()
 			return
 
@@ -189,8 +189,9 @@ func battler_turn_next() -> void:
 	if bonus_use != null:
 		if battle_scene.battle_notify_ui != null:
 			var name_text : String = "Someone"
-			if bonus_use.user != null and bonus_use.user.actor_data != null and bonus_use.user.actor_data.char_resource != null:
-				name_text = bonus_use.user.actor_data.char_resource.char_name
+			if bonus_use.user != null and bonus_use.user.actor_data != null:
+				name_text = bonus_use.user.actor_data.get_display_name()
+
 			battle_scene.battle_notify_ui.queue_notification(name_text + " acts again.")
 			await battle_scene.notify_finished
 

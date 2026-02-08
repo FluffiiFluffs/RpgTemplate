@@ -105,7 +105,7 @@ func make_player_at_first_spawn_point()->void:
 	main_scene.current_field_scene.party.add_child(player_scene)
 	var player_data = CharDataKeeper.party_members[0]
 	#player.sprite_2d.texture = player_data.char_resource.char_sprite_sheet
-	player_scene.name = player_data.char_resource.char_name
+	player_scene.name = player_data.get_display_name()
 	CharDataKeeper.controlled_character = player_scene
 	if !main_scene.current_field_scene.player_spawn.get_children().is_empty():
 		for child in main_scene.current_field_scene.player_spawn.get_children():
@@ -135,8 +135,8 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				var p_data = party[index]
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				CharDataKeeper.controlled_character = pmemberscene
-				pmemberscene.name = p_data.char_resource.char_name
-				pmemberscene.pm_id = p_data.char_resource.char_id
+				pmemberscene.name = p_data.get_display_name()
+				pmemberscene.pm_id = p_data.pm_id
 				pmemberscene.force_face_direction(_side_to_vector(spoint.spawn_direction))
 				pmemberscene.global_position = spoint.global_position + spawn_offset
 				pmemberscene.set_controlled_on()
@@ -154,8 +154,8 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				main_scene.current_field_scene.party.add_child(pmemberscene)
 				pmemberscene.set_controlled_off()
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
-				pmemberscene.name = p_data.char_resource.char_name
-				pmemberscene.pm_id = p_data.char_resource.char_id
+				pmemberscene.name = p_data.get_display_name()
+				pmemberscene.pm_id = p_data.pm_id
 				pmemberscene.global_position = last_party_actor.global_position + Vector2(0, -1)
 				last_party_actor = pmemberscene
 				CharDataKeeper.field_party_nodes.append(pmemberscene)

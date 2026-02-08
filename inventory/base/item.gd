@@ -135,17 +135,23 @@ var type : int = ItemType.TOOL
 
 
 func can_be_used_by_member(member) -> bool:
-	if member == null:
-		return false
-	if member.char_resource == null:
-		return false
+	var actor : ActorData = null
+	if member is ActorData:
+		actor = member as ActorData
 
-	# member.char_resource.char_class uses your @export_enum("WARRIOR","THIEF","MAGE","HEALER")
-	var class_index = int(member.char_resource.char_class)
+	if actor == null:
+		return false
+	var faction_index : int = int(actor.get_actor_faction())
+	# Faction index ordering matches CharResource export_enum: PARTY=0, NPC=1, ENEMY=2, BOSS=3
+	if faction_index == 2:
+		return (can_equip & EquipClass.ENEMY) != 0
+	if faction_index == 3:
+		return (can_equip & EquipClass.BOSS) != 0
 
-	# Convert enum index to bit flag that matches EquipClass values
-	# 0 -> 1 (WARRIOR), 1 -> 2 (THIEF), 2 -> 4 (MAGE), 3 -> 8 (HEALER)
-	var class_flag = 1 << class_index
+
+	# Class index is compatible with the existing enum ordering (0..3).
+	var class_index : int = int(actor.get_actor_class())
+	var class_flag : int = 1 << class_index
 
 	return (can_equip & class_flag) != 0
 

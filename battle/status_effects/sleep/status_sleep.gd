@@ -52,9 +52,10 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	if status_system != null:
 		bs = status_system.battle_scene
 
-	var name_text : String = "Someone"
-	if actor.char_resource != null:
-		name_text = actor.char_resource.char_name
+	var name_text : String = actor.get_display_name()
+	if name_text == "":
+		name_text = "Someone"
+
 
 	# Wake check before command selection
 	if randf() < wake_chance_turn_start:
@@ -109,8 +110,8 @@ static func try_wake_on_damage(status_system : StatusSystem, target_battler : Ba
 	status_system.remove_status(target_battler, sleep)
 
 	var name_text : String = "Someone"
-	if target_battler.actor_data != null and target_battler.actor_data.char_resource != null:
-		name_text = target_battler.actor_data.char_resource.char_name
+	if target_battler.actor_data != null:
+		name_text = target_battler.actor_data.get_display_name()
 
 	if ctx != null:
 		ctx.queue_battle_message(name_text + " wakes up!", target_battler)
@@ -149,8 +150,8 @@ func on_receive_damage(status_system : StatusSystem, defender : Battler, _attack
 	status_system.remove_status(defender, self)
 
 	var name_text : String = "Someone"
-	if defender.actor_data.char_resource != null:
-		name_text = defender.actor_data.char_resource.char_name
+	if defender.actor_data != null:
+		name_text = defender.actor_data.get_display_name()
 
 	var ctx : EffectContext = null
 	if dmg_ctx != null and dmg_ctx.has("effect_context"):
