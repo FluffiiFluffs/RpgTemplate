@@ -22,9 +22,6 @@ extends FieldActor
 
 
 
-@export_category("NPC Data Resource")
-##Data Resource for this NPC. Must be set!
-@export var npc_data:CharResource = null
 @export_category("NPC Toggles")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on npc_will_patrol will disable this!
 @export var will_walk : bool = false

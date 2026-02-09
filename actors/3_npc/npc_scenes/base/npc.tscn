@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://56kk082o8ck1"]
 
 [ext_resource type="Script" uid="uid://ypqfvh5hvnih" path="res://actors/3_npc/npc_scenes/base/npc.gd" id="1_3jjbx"]
-[ext_resource type="Resource" uid="uid://cxqnsipl5wpr8" path="res://actors/3_npc/npc_resources/base/base_npc_resource.tres" id="2_3jjbx"]
 [ext_resource type="Texture2D" uid="uid://bfhgbrpmrlm1c" path="res://_assets/character/npc/placeholder_npc_spritesheet.png" id="3_umrb1"]
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/field_state_machine/base_state_machine_scripts/state_machine.gd" id="3_ve4uv"]
 [ext_resource type="Script" uid="uid://cojagurq1svt" path="res://actors/field_state_machine/npc_states/npc_idle.gd" id="4_3jjbx"]
@@ -189,7 +188,6 @@ collision_layer = 4
 collision_mask = 16
 motion_mode = 1
 script = ExtResource("1_3jjbx")
-npc_data = ExtResource("2_3jjbx")
 default_move_speed = 30.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1382256006]

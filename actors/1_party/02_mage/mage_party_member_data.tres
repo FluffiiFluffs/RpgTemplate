@@ -1,6 +1,5 @@
 [gd_resource type="Resource" script_class="PartyMemberData" format=3 uid="uid://yuhvgw0ir1x7"]
 
-[ext_resource type="Resource" uid="uid://nnbekxtr3kn0" path="res://actors/1_party/02_mage/mage_char_resource.tres" id="1_5csrh"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_kx4ho"]
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_uxqb8"]
 [ext_resource type="PackedScene" uid="uid://dg6uqnl2ew63l" path="res://actors/1_party/02_mage/mage_field_scene.tscn" id="2_rd2pk"]
@@ -10,7 +9,6 @@
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="5_7xiv1"]
 [ext_resource type="Resource" uid="uid://dmtmbb2d7605b" path="res://battle/actions/skill/battleaction_skill.tres" id="5_vb56e"]
 [ext_resource type="Resource" uid="uid://c6yb8mxic4rg4" path="res://battle/actions/item/battleaction_item.tres" id="6_ud2tb"]
-[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="9_klwj0"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="11_qepbb"]
 [ext_resource type="Resource" uid="uid://duaob2jiqcxig" path="res://skill/damagetest/damagetest.tres" id="12_vb56e"]
 [ext_resource type="Resource" uid="uid://b813l6o3ccy87" path="res://skill/poisontest/poisonhealtest.tres" id="13_qepbb"]
@@ -44,9 +42,56 @@ resource_local_to_scene = true
 script = ExtResource("1_kx4ho")
 class_color = Color(0.4862745, 0, 0.4862745, 1)
 field_scene = ExtResource("2_rd2pk")
-char_resource = ExtResource("1_5csrh")
 pm_id = &"mage03"
+display_name = null
+actor_class = null
+actor_faction = null
+level = null
+current_exp = null
+next_level_exp = null
+total_exp = null
+base_max_hp = null
+base_max_sp = null
+base_atk_value = null
+base_def_value = null
+base_matk_value = null
+base_mdef_value = null
+base_strength = null
+base_stamina = null
+base_agility = null
+base_magic = null
+base_luck = null
+current_hp = null
 current_sp = 50
+status_effects = null
+two_handing = null
 battle_actions = SubResource("Resource_vb56e")
 skills = Array[ExtResource("11_qepbb")]([ExtResource("12_vb56e"), ExtResource("13_qepbb"), ExtResource("14_setsa"), ExtResource("15_iqprl"), ExtResource("16_naxd5"), ExtResource("17_naxd5"), ExtResource("18_l3iya"), ExtResource("19_b0hrx"), ExtResource("20_w2bvq"), ExtResource("21_cw0a4"), ExtResource("22_b318c"), ExtResource("23_musbd"), ExtResource("24_nvvyk"), ExtResource("25_keaea"), ExtResource("26_uhrxp"), ExtResource("27_3mmpc"), ExtResource("28_0eaty"), ExtResource("29_ugfmh"), ExtResource("30_wd4ak"), ExtResource("31_ugfmh"), ExtResource("32_wd4ak")])
+perm_max_hp_flat = null
+perm_max_sp_flat = null
+perm_atk_flat = null
+perm_def_flat = null
+perm_strength_flat = null
+perm_stamina_flat = null
+perm_agility_flat = null
+perm_magic_flat = null
+perm_luck_flat = null
+buff_max_hp_flat = null
+buff_max_sp_flat = null
+buff_atk_flat = null
+buff_def_flat = null
+buff_strength_flat = null
+buff_stamina_flat = null
+buff_agility_flat = null
+buff_magic_flat = null
+buff_luck_flat = null
+buff_max_hp_percent = null
+buff_max_sp_percent = null
+buff_atk_percent = null
+buff_def_percent = null
+buff_strength_percent = null
+buff_stamina_percent = null
+buff_agility_percent = null
+buff_magic_percent = null
+buff_luck_percent = null
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

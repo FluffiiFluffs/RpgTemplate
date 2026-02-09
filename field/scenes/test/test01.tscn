@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://8mflur1rjcwr" path="res://actors/2_enemy/00_test_enemy/test_enemy_data_base.tres" id="6_k3l33"]
 [ext_resource type="Script" uid="uid://dudqhcylgo2st" path="res://battle/enemy_group/enemy_group.gd" id="6_vsrmw"]
 [ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/3_npc/npc_scenes/base/npc.tscn" id="7_rushk"]
-[ext_resource type="Script" uid="uid://dekkhepva31dh" path="res://actors/_common/char_resource.gd" id="8_y4fdw"]
+
 [ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="9_wu166"]
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="10_kt4hr"]
 [ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="11_ouue8"]
@@ -26,12 +26,6 @@ metadata/_custom_type_script = "uid://dudqhcylgo2st"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_75auk"]
 size = Vector2(100, 100)
 
-[sub_resource type="Resource" id="Resource_k3l33"]
-resource_local_to_scene = true
-script = ExtResource("8_y4fdw")
-char_faction = 1
-char_name = "NPC"
-metadata/_custom_type_script = "uid://dekkhepva31dh"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ypob0"]
 load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
@@ -172,12 +166,7 @@ tired = SubResource("AtlasTexture_q8fct")
 voice = ExtResource("13_hppd8")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
-[sub_resource type="Resource" id="Resource_wu166"]
-resource_local_to_scene = true
-script = ExtResource("8_y4fdw")
-char_faction = 2
-char_name = "ENEMY"
-metadata/_custom_type_script = "uid://dekkhepva31dh"
+
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dw1e"]
 load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
@@ -482,7 +471,7 @@ y_sort_enabled = true
 
 [node name="NPC" parent="FieldActors/PlacedNPCs" unique_id=1725512084 instance=ExtResource("7_rushk")]
 position = Vector2(462, -100)
-npc_data = SubResource("Resource_k3l33")
+
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC" unique_id=1438587103 instance=ExtResource("9_wu166")]
 start_position = "npc1"
@@ -491,7 +480,7 @@ dialogue = ExtResource("14_k2s2j")
 
 [node name="NPC2" parent="FieldActors/PlacedNPCs" unique_id=1482229836 instance=ExtResource("7_rushk")]
 position = Vector2(628, -97)
-npc_data = SubResource("Resource_wu166")
+
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC2" unique_id=1831271577 instance=ExtResource("9_wu166")]
 start_position = "npc2"

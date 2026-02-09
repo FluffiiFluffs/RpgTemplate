@@ -1,16 +1,62 @@
 [gd_resource type="Resource" script_class="PartyMemberData" format=3 uid="uid://5ypxra5wjlwe"]
 
-[ext_resource type="Resource" uid="uid://ubglnk4fma4v" path="res://actors/1_party/03_healer/healer_char_resource.tres" id="1_7m4b1"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_crqld"]
 [ext_resource type="PackedScene" uid="uid://brktccwmkngwh" path="res://actors/1_party/03_healer/healer_field_scene.tscn" id="2_3gpb3"]
-[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="4_tf7wx"]
-[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="5_07rsg"]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_crqld")
 class_color = Color(0, 0.4862745, 0.4862745, 1)
 field_scene = ExtResource("2_3gpb3")
-char_resource = ExtResource("1_7m4b1")
 pm_id = &"healer04"
+display_name = null
+actor_class = null
+actor_faction = null
+level = null
+current_exp = null
+next_level_exp = null
+total_exp = null
+base_max_hp = null
+base_max_sp = null
+base_atk_value = null
+base_def_value = null
+base_matk_value = null
+base_mdef_value = null
+base_strength = null
+base_stamina = null
+base_agility = null
+base_magic = null
+base_luck = null
+current_hp = null
+current_sp = null
+status_effects = null
+two_handing = null
+skills = null
+perm_max_hp_flat = null
+perm_max_sp_flat = null
+perm_atk_flat = null
+perm_def_flat = null
+perm_strength_flat = null
+perm_stamina_flat = null
+perm_agility_flat = null
+perm_magic_flat = null
+perm_luck_flat = null
+buff_max_hp_flat = null
+buff_max_sp_flat = null
+buff_atk_flat = null
+buff_def_flat = null
+buff_strength_flat = null
+buff_stamina_flat = null
+buff_agility_flat = null
+buff_magic_flat = null
+buff_luck_flat = null
+buff_max_hp_percent = null
+buff_max_sp_percent = null
+buff_atk_percent = null
+buff_def_percent = null
+buff_strength_percent = null
+buff_stamina_percent = null
+buff_agility_percent = null
+buff_magic_percent = null
+buff_luck_percent = null
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"
