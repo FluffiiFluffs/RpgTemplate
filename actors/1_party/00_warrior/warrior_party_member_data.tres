@@ -40,6 +40,7 @@
 [ext_resource type="Resource" uid="uid://wpwlhpwghg7v" path="res://skill/magicuptest/magicuptest.tres" id="32_ymb2h"]
 [ext_resource type="Resource" uid="uid://bx5pxuqoro0ds" path="res://skill/magicdowntest/magicdowntest.tres" id="33_mxdmr"]
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="34_mxdmr"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="41_8wptv"]
 
 [sub_resource type="Resource" id="Resource_v56fi"]
 script = ExtResource("3_qx4j5")
@@ -53,28 +54,8 @@ class_color = Color(0.4862745, 0, 0, 1)
 stats_table = ExtResource("34_mxdmr")
 field_scene = ExtResource("1_jstep")
 battle_icon = ExtResource("1_lidrd")
-pm_id = &"warrior01"
 display_name = "Warrior"
-actor_class = null
-actor_faction = null
-level = null
-current_exp = null
-next_level_exp = null
-total_exp = null
-base_max_hp = null
-base_max_sp = null
-base_atk_value = null
-base_def_value = null
-base_matk_value = null
-base_mdef_value = null
-base_strength = null
-base_stamina = null
-base_agility = null
-base_magic = null
-base_luck = null
-current_hp = null
 current_sp = 50
-status_effects = null
 mainhand = ExtResource("12_fjesu")
 offhand = ExtResource("13_j6r67")
 headslot = ExtResource("13_vbgmj")
@@ -83,34 +64,6 @@ armslot = ExtResource("1_fyg02")
 legslot = ExtResource("14_2bxqk")
 accy01 = ExtResource("1_j6r67")
 accy02 = ExtResource("2_8wptv")
-two_handing = null
 battle_actions = SubResource("Resource_v56fi")
 skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5"), ExtResource("17_7njdm"), ExtResource("18_lg8x5"), ExtResource("19_bsxxl"), ExtResource("20_o0mmc"), ExtResource("21_djem0"), ExtResource("22_ol2kt"), ExtResource("23_amn4a"), ExtResource("24_y4i3g"), ExtResource("25_yq01f"), ExtResource("26_fkwmm"), ExtResource("27_wadtc"), ExtResource("28_3dhjf"), ExtResource("29_n2a0t"), ExtResource("30_ymb2h"), ExtResource("31_mxdmr"), ExtResource("32_ymb2h"), ExtResource("33_mxdmr")])
-perm_max_hp_flat = null
-perm_max_sp_flat = null
-perm_atk_flat = null
-perm_def_flat = null
-perm_strength_flat = null
-perm_stamina_flat = null
-perm_agility_flat = null
-perm_magic_flat = null
-perm_luck_flat = null
-buff_max_hp_flat = null
-buff_max_sp_flat = null
-buff_atk_flat = null
-buff_def_flat = null
-buff_strength_flat = null
-buff_stamina_flat = null
-buff_agility_flat = null
-buff_magic_flat = null
-buff_luck_flat = null
-buff_max_hp_percent = null
-buff_max_sp_percent = null
-buff_atk_percent = null
-buff_def_percent = null
-buff_strength_percent = null
-buff_stamina_percent = null
-buff_agility_percent = null
-buff_magic_percent = null
-buff_luck_percent = null
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

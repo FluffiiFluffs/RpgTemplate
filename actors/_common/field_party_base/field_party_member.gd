@@ -25,7 +25,7 @@ extends FieldActor
 @export var is_running : bool = false
 
 ##Set during instantiation.
-@export var pm_id : StringName = &""
+@export var actor_id : StringName = &""
 @export_category("Follow AI")
 ##The actor this node will attempt to follow in the follow state
 @export var actor_to_follow : FieldActor = null

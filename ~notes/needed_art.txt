@@ -1,0 +1,139 @@
+Field Sprites 16x36 - Start with front only
+	Warrior - Wolf - Big Sword - Plate
+		Sword on back. Helmet covers most of the head. Cool eye holes. Nose sticks out. It's okay to make them look like a werewolf
+	Thief - Fox - Dagger/Potions - Leather
+		Fat. Sneaky. Uses potions for status effects (skill). Steals stuff
+	Mage - Octopus - Wand / Book - Robe
+		4 "arms", 4 "legs". Hood covers a lot. Leaves slime trail
+	Healer - Dino - Staff - Robe
+		It's Dino. Jewel on forehead.
+		
+	Enemy / NPC Sprites - 
+		Humans
+			Townspeople
+			Soldiers
+			Nobles
+		Monsters
+			Can look somewhat nightmare-ish (blob/shadow)
+			Possibly chimaeras
+			Plant based
+			Base some off ancient mythology/monsters
+			Can be "normal" monsters (goblins/slimes)
+		"Regular" Animals
+			Normal looking animals
+				Non-Standing wolves/dogs
+				Bears
+			Aggressive looking animals
+				Typical prey animals, but dangerous
+					Rabbits
+					Shrimp
+					Fish
+					Bacteria / Virus
+		Anthropomorphic Animals 
+			Canine
+				Fox
+				Wolf
+			Dinosaur
+				T-Rex
+				Mini-Dragon
+			Sea-Based Fish People
+				Octopus
+				Eel
+
+Battle Sprites
+	Enemy 64x64
+	Party 92x92
+	Battle Weapons (interchangeable weapons that match animations)
+		Probably do this later, it's a lot to figure out an animate
+	
+Tilemap 16x16
+	(Do not bother making any world-map type tilemaps yet)
+	Grassy
+	Forest
+	Town (maybe a building or two)
+	Dungeon
+	Cave
+	
+Battle background 400x244
+	Should match a particular tilemap
+		Only need one per tilemap to start
+	Can be larger, but will be cut off
+	Extends from center of the screen
+	
+IF UI ELEMENT CONSTRAINTS ARE TOO DIFFICULT WE CAN INCREASE THE RESOLUTION OF THE GAME 2X TO 800X488, AND ZOOM THE IN-GAME CAMERA TO KEEP FIELD/BATTLE PIXEL RATIOS WHILE ALLOWING A HIGHER RESOLUTION FOR THE UI
+	
+UI Elements
+	Window Borders
+	Buttons (need to have normal, focus, disabled states)
+	Icons for Top Level Menu Selection - 24x24. Need Grayscale and Color. No border.
+		Inventory/Items (item bag)
+		Equip (Sword or Equipment)
+		Skills (NOT magic. Needs to be abstract)
+		Stats (Silhouette of the main character or in some way represents a generalized idea of anonymous)
+		Quests (Currently using !, doesn't need to change)
+		Options (Wrench or Gear)
+
+Items 
+	Items Menu Icon 24x24. Color. 
+	(WoW Icons are a good example, but they are 56x56)
+	https://www.wowhead.com/classic/icons#0-2+1
+		Food
+		Potions
+		Herbs
+		Keys
+			Includes random key items
+		Misc (like a mirror)
+		Weapons
+			Sword, Dagger, Staff, Healer Weapon
+		Shield (we may not use this, so don't worry too much about it)
+		Head
+			Helmet, Cap, Hat, Headband
+		Chest Armor
+			Plate
+			Chain
+			Leather
+				Vest
+			Cloth
+				Robes
+				Tunic
+		Sleeves
+			Vambraces
+			Chain Sleeves
+			Leather Bracers
+			Cloth Wristbands
+		Legs (can include shoes with it)
+			Greaves
+			Chain Skirt
+			Leather Breeches
+			Cloth Pants
+		Accessories
+			Ring
+			Pendant
+			Necklace
+			Earring
+			Gems
+			Bandana
+			Scarf
+			Eyewear
+			Gloves
+
+Special effects
+	Slash, Blunt
+	Magic
+	Status Effects
+		Sleep
+		Confuse
+		Poison
+		Grayscale Up and Down Arrows (for ATK/DEF/MAG Up/Down)
+
+Battle Icons 16x16 (for turn order)
+	Enemy Normal, Enemy Boss
+	Warrior, Thief, Mage, Healer
+	
+Experiment with colors for different classes
+	Class color for Warrior 7c0000
+	Class color for Thief 7c5900
+	Class color for Mage 7c007c
+	Class color for Healer 007c7c
+	
+Stats Screen Sprite for Warrior, Thief, Mage, Healer 92x136 MAX (should be smaller, closer to 64x128). Should be a cool pose.

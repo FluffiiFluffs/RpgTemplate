@@ -6,7 +6,6 @@ extends Node2D
 #Timer exists to add to poison_threshold
 @onready var poison_timer: Timer = %PoisonTimer
 
-
 @export_category("Party Setup")
 ##All recruitable characters with base stats.
 @export var all_party_members : Array[PartyMemberData] = []
@@ -31,7 +30,7 @@ var controlled_index : int = 0 : set = set_controlled_index
 @export var time_played : float = 0 ##How much time has elapsed during the playthrough
 ##File that keeps the list of HP and SP mod values per level (shared between all characters)
 @export var hp_sp_mod : HPSPMod = null
-
+@export var exp_table : ExpTable = null
 
 signal field_poison_tick(actor : ActorData, damage : int)
 
@@ -47,11 +46,10 @@ signal field_poison_tick(actor : ActorData, damage : int)
 var _poison_last_pos : Vector2 = Vector2.ZERO
 var field_status_system : StatusSystem = StatusSystem.new()
 
-
-
 func _ready() -> void:
 	_clean_party_array()
 	_rebuild_party_member_base_stats()
+	_refresh_all_next_level_exp()
 	if party_members.is_empty():
 		return
 
@@ -274,6 +272,224 @@ func poison_timer_timeout()->void:
 func get_runtime_party_field_scene(_pmdata : PartyMemberData)->FieldPartyMember:
 	if !field_party_nodes.is_empty(): ##if there's party members, which there should be
 		for node in field_party_nodes: #loop through the array
-			if node.pm_id == _pmdata.pm_id:
+			if node.actor_id == _pmdata.actor_id:
 				return node
 	return null #if for some reason it's empty, return null. This should never happen.
+
+
+
+
+#region LEVELING
+
+## Refresh next_level_exp for every member that exists in party_members.
+## next_level_exp is stored threshold EXP needed from the current level to the next.
+func _refresh_all_next_level_exp() -> void:
+	if party_members == null:
+		return
+	for member in party_members:
+		refresh_next_level_exp_for_member(member)
+
+
+## Updates a single party member's stored threshold (next_level_exp) using ExpTable.
+## Array index 0 corresponds to level 1 to level 2.
+func refresh_next_level_exp_for_member(member : PartyMemberData) -> void:
+	if member == null:
+		return
+	member.next_level_exp = get_next_level_threshold_for_level(member.level, member.next_level_exp)
+
+
+## Returns the EXP threshold for the given current level.
+## For example level 1 reads exp_to_next_level[0].
+## When no further level exists, returns 0.
+func get_next_level_threshold_for_level(level_value : int, fallback : int = 0) -> int:
+	if exp_table == null:
+		return fallback
+	if exp_table.exp_table == null:
+		return fallback
+	if exp_table.exp_table.is_empty():
+		return 0
+
+	var index : int = level_value - 1
+	if index < 0:
+		index = 0
+	if index >= exp_table.exp_table.size():
+		return 0
+
+	return int(exp_table.exp_table[index])
+
+
+## Processes level ups for all party members based on current_exp and next_level_exp.
+## Returns structured results for members that gained at least one level.
+func process_party_level_ups(queue_battle_messages : bool = true) -> Array[Dictionary]:
+	var out : Array[Dictionary] = []
+	if party_members == null:
+		return out
+
+	for member in party_members:
+		if member == null:
+			continue
+		if member.current_hp <= 0:
+			continue
+
+		var res : Dictionary = _process_member_level_ups(member, queue_battle_messages)
+		if not res.is_empty():
+			out.append(res)
+
+	return out
+
+
+## Safe multi level loop with guards: level cap, required exp > 0, safety counter
+func _process_member_level_ups(member : PartyMemberData, queue_battle_messages : bool) -> Dictionary:
+	if member == null:
+		return {}
+
+	refresh_next_level_exp_for_member(member)
+
+	var start_level : int = member.level
+	var start_stats : Dictionary = _capture_progression_stats(member)
+
+	var gained_levels : int = 0
+	var safety_counter : int = 0
+	var safety_limit : int = 99
+	var level_cap : int = _get_exp_level_cap()
+
+	while member.current_exp >= member.next_level_exp and member.next_level_exp > 0 and member.level < level_cap:
+		safety_counter = safety_counter + 1
+		if safety_counter > safety_limit:
+			printerr("Level up loop guard tripped for member: ", member.get_display_name())
+			break
+
+		var before_stats : Dictionary = _capture_progression_stats(member)
+
+		var old_current_hp : int = member.current_hp
+		var old_current_sp : int = member.current_sp
+
+		var old_level : int = member.level
+
+		## subtract threshold as carryover
+		member.current_exp = member.current_exp - member.next_level_exp
+
+		## increment level
+		member.level = member.level + 1
+
+		## rebuild base stats (PartyMemberData policy)
+		member.rebuild_base_stats()
+
+		## recompute next threshold
+		refresh_next_level_exp_for_member(member)
+
+		## current HP/SP behavior: add increase in max to current, then clamp
+		var old_max_hp : int = int(before_stats.get("max_hp", 0))
+		var old_max_sp : int = int(before_stats.get("max_sp", 0))
+		var new_max_hp : int = member.get_max_hp()
+		var new_max_sp : int = member.get_max_sp()
+
+		var delta_max_hp : int = new_max_hp - old_max_hp
+		var delta_max_sp : int = new_max_sp - old_max_sp
+
+		member.current_hp = old_current_hp + delta_max_hp
+		member.current_sp = old_current_sp + delta_max_sp
+		member.clamp_vitals()
+
+		gained_levels = gained_levels + 1
+
+		if queue_battle_messages:
+			_queue_battle_level_up_messages(member, before_stats, delta_max_hp, delta_max_sp)
+
+	if gained_levels <= 0:
+		return {}
+
+	var end_level : int = member.level
+	var end_stats : Dictionary = _capture_progression_stats(member)
+
+	## deltas based on raw stat totals: Max HP, Max SP, STR, STM, AGI, MAG, LCK
+	var deltas : Dictionary = {
+		"max_hp": int(end_stats.get("max_hp", 0)) - int(start_stats.get("max_hp", 0)),
+		"max_sp": int(end_stats.get("max_sp", 0)) - int(start_stats.get("max_sp", 0)),
+		"strength": int(end_stats.get("strength", 0)) - int(start_stats.get("strength", 0)),
+		"stamina": int(end_stats.get("stamina", 0)) - int(start_stats.get("stamina", 0)),
+		"agility": int(end_stats.get("agility", 0)) - int(start_stats.get("agility", 0)),
+		"magic": int(end_stats.get("magic", 0)) - int(start_stats.get("magic", 0)),
+		"luck": int(end_stats.get("luck", 0)) - int(start_stats.get("luck", 0)),
+	}
+
+	return {
+		"member": member,
+		"old_level": start_level,
+		"new_level": end_level,
+		"levels_gained": gained_levels,
+		"deltas": deltas,
+		"start_stats": start_stats,
+		"end_stats": end_stats,
+	}
+
+
+func _get_exp_level_cap() -> int:
+	if exp_table == null:
+		return 99
+	if exp_table.exp_table == null:
+		return 99
+	if exp_table.exp_table.is_empty():
+		return 1
+	return exp_table.exp_table.size() + 1
+
+
+func _capture_progression_stats(member : PartyMemberData) -> Dictionary:
+	if member == null:
+		return {}
+	return {
+		"max_hp": member.get_max_hp(),
+		"max_sp": member.get_max_sp(),
+		"strength": member.get_strength(),
+		"stamina": member.get_stamina(),
+		"agility": member.get_agility(),
+		"magic": member.get_magic(),
+		"luck": member.get_luck(),
+	}
+
+
+func _queue_battle_level_up_messages(member : PartyMemberData, before_stats : Dictionary, delta_max_hp : int, delta_max_sp : int) -> void:
+	if member == null:
+		return
+
+	_queue_battle_notification(member.get_display_name() + " reached Level " + str(member.level) + ".")
+
+	var delta_strength : int = member.get_strength() - int(before_stats.get("strength", 0))
+	var delta_stamina : int = member.get_stamina() - int(before_stats.get("stamina", 0))
+	var delta_agility : int = member.get_agility() - int(before_stats.get("agility", 0))
+	var delta_magic : int = member.get_magic() - int(before_stats.get("magic", 0))
+	var delta_luck : int = member.get_luck() - int(before_stats.get("luck", 0))
+
+	var msg : String = "Max HP " + _format_delta(delta_max_hp)
+	msg = msg + "  Max SP " + _format_delta(delta_max_sp)
+	msg = msg + "  STR " + _format_delta(delta_strength)
+	msg = msg + "  STM " + _format_delta(delta_stamina)
+	msg = msg + "  AGI " + _format_delta(delta_agility)
+	msg = msg + "  MAG " + _format_delta(delta_magic)
+	msg = msg + "  LCK " + _format_delta(delta_luck)
+
+	_queue_battle_notification(msg)
+
+
+func _format_delta(delta_value : int) -> String:
+	if delta_value > 0:
+		return "+" + str(delta_value)
+	if delta_value < 0:
+		return "minus " + str(abs(delta_value))
+	return "+0"
+
+
+## Allowed to call battle_scene systems from here for now.
+func _queue_battle_notification(message : String) -> void:
+	var main = null
+	if SceneManager != null:
+		main = SceneManager.main_scene
+	if main == null:
+		return
+	if main.current_battle_scene == null:
+		return
+	if main.current_battle_scene.battle_notify_ui == null:
+		return
+	main.current_battle_scene.battle_notify_ui.queue_notification(message)
+
+#endregion LEVELING

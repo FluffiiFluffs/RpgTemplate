@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ExpTable" format=3 uid="uid://dao5qbvh1li6f"]
+
+[ext_resource type="Script" uid="uid://uvmura0vw0we" path="res://actors/_common/exp_table.gd" id="1_lkt2e"]
+
+[resource]
+script = ExtResource("1_lkt2e")
+metadata/_custom_type_script = "uid://uvmura0vw0we"

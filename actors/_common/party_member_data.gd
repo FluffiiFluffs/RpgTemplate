@@ -3,8 +3,18 @@ extends ActorData
 ## Resource used to hold party member data in the running game
 
 @export_category("Identity")
+
 @export var stats_sprite : Texture2D
 @export var class_color : Color = Color()
+
+@export_category("Progression")
+##Progress within the current level. On level up, threshold is subtracted as carryover.
+@export var current_exp : int = 0
+##Experience needed to reach the next level.
+@export var next_level_exp : int = 100
+##Total experience gained by character (all time).
+@export var total_exp : int = 0
+
 
 @export_category("Stats")
 @export var stats_table : StatsTable = null

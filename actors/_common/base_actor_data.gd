@@ -9,26 +9,20 @@ extends Resource
 @export_category("Identity")
 ##Unique identifier for this party member.
 ##TODO This needs to be moved to PartyMemberData since it pertains specifically to party members
-@export var pm_id : StringName = &""
+@export var actor_id : StringName = &""
 ##Name displayed in UI and battle messaging system
 ##Should not be empty
 @export var display_name : String = ""
 ##The class of the actor
-##Maybe needs to live in PartyMemberData, too like pm_id
+##Maybe needs to live in PartyMemberData, too like actor_id
 @export_enum("WARRIOR","THIEF","MAGE","HEALER") var actor_class : int = 0
 
 ##Faction of the actor
 @export_enum("PARTY","NPC","ENEMY","BOSS") var actor_faction : int = 0
  
-@export_category("Progression")
+@export_category("Level")
 ##Current level of party member.
 @export_range(1, 99, 1) var level : int = 1
-##Current experience held. Resets to 0 upon leveling.
-@export var current_exp : int = 0
-##Experience needed to reach the next level.
-@export var next_level_exp : int = 100
-##Total experience gained by character (all time).
-@export var total_exp : int = 0
 
 @export_category("Base Stats")
 ## Base layer for the current level, unmodified.
@@ -208,8 +202,6 @@ func get_actor_class_name() -> String:
 func get_display_name() -> String:
 	if display_name != "":
 		return display_name
-	if pm_id != &"":
-		return String(pm_id)
 	return ""
 
 

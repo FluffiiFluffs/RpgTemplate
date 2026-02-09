@@ -258,6 +258,12 @@ func end_of_battle_normal_victory()->void:
 	give_xp()
 	give_items()
 	await notify_finished
+	#CharDataKeeper.check_for_level_ups()
+	#CharDataKeeper.
+	#CharDataKeeper.get_level_up_differences()
+	
+	
+	
 	SceneManager.main_scene.end_battle_victory_normal()
 	pass
 
@@ -273,13 +279,21 @@ func end_of_battle_special_defeat()->void:
 
 ##Gives experience to the party per each enemy killed
 func give_xp()->void:
-	if exp_earned != 0:
-		for bat in battlers.get_children():
-			if bat is Battler:
-				if bat.faction == Battler.Faction.PARTY:
-					if bat.actor_data.current_hp > 0:
-						bat.actor_data.current_exp += exp_earned
-		battle_notify_ui.queue_notification("Gained " + str(exp_earned) + " experience.")
+	if exp_earned == 0:
+		return
+
+	for bat in battlers.get_children():
+		if bat is Battler:
+			if bat.faction == Battler.Faction.PARTY:
+				if bat.actor_data.current_hp > 0:
+					bat.actor_data.current_exp = bat.actor_data.current_exp + exp_earned
+					bat.actor_data.total_exp = bat.actor_data.total_exp + exp_earned
+
+	battle_notify_ui.queue_notification("Gained " + str(exp_earned) + " experience.")
+
+	if CharDataKeeper != null:
+		## This refreshes next_level_exp and applies level ups, queuing notifications via main.current_battle_scene
+		CharDataKeeper.process_party_level_ups(true)
 
 
 

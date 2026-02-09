@@ -1495,7 +1495,13 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 	stats_name_label.text = _member.get_display_name()
 	stats_class_label.text = _member.get_actor_class_name()
 	stats_level_value.text = str(_member.level)
-	stats_next_lvl_value.text = str(_member.next_level_exp)
+	CharDataKeeper.refresh_next_level_exp_for_member(_member)
+
+	var remaining : int = _member.next_level_exp - _member.current_exp
+	if remaining < 0:
+		remaining = 0
+	stats_next_lvl_value.text = str(remaining)
+
 	if _member.mainhand == null:
 		stats_main_hand_text.text = "EMPTY"
 	else:
