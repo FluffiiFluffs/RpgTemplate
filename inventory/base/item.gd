@@ -121,6 +121,10 @@ var type : int = ItemType.TOOL
 @export var atk_bonus : int = 0
 ## Adds to character's def_value when equipped
 @export var def_bonus : int = 0
+## Adds to character's magic attack value when equipped
+@export var m_atk_bonus : int = 0
+## Adds to character's magic defense value when equipped
+@export var m_def_bonus : int = 0
 ## Adds to character's strength when equipped
 @export var strength_bonus : int = 0
 ## Adds to character's stamina when equipped

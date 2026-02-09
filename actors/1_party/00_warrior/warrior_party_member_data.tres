@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_5o3im"]
 [ext_resource type="Resource" uid="uid://dhd14qjuye01s" path="res://inventory/items/8000_chest/8001_armor.tres" id="1_fyg02"]
+[ext_resource type="Resource" uid="uid://cw2exte0summv" path="res://inventory/items/11000_accessory/11001_ring.tres" id="1_j6r67"]
 [ext_resource type="PackedScene" uid="uid://drj2rcxjqg0lg" path="res://actors/1_party/00_warrior/warrior_field_scene.tscn" id="1_jstep"]
 [ext_resource type="Texture2D" uid="uid://yhferugctyub" path="res://_assets/battle/icons/warrior_battle_icon.png" id="1_lidrd"]
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_wl3nr"]
+[ext_resource type="Resource" uid="uid://b8is1mnqf7r8h" path="res://inventory/items/11000_accessory/11002_ring.tres" id="2_8wptv"]
 [ext_resource type="Resource" uid="uid://b35po5gyny4f5" path="res://battle/actions/attack/battleaction_attack_party.tres" id="2_sw1h1"]
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="3_qx4j5"]
 [ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/defend/battleaction_defend.tres" id="3_v56fi"]
@@ -15,6 +17,8 @@
 [ext_resource type="Resource" uid="uid://5qv0eey8n7wc" path="res://inventory/items/5000_weapon/5001_sword.tres" id="12_fjesu"]
 [ext_resource type="Resource" uid="uid://bl6pvt6gcced5" path="res://inventory/items/6000_offhand/6001_shield.tres" id="13_j6r67"]
 [ext_resource type="Resource" uid="uid://cd376dtl68thx" path="res://skill/healingtest/healingtest.tres" id="13_sw1h1"]
+[ext_resource type="Resource" uid="uid://d0gxsrinoroon" path="res://inventory/items/7000_head/7001_helmet.tres" id="13_vbgmj"]
+[ext_resource type="Resource" uid="uid://c2w3p6uipkdyi" path="res://inventory/items/10000_legs/10001_greaves.tres" id="14_2bxqk"]
 [ext_resource type="Resource" uid="uid://dws8r4mga3vxw" path="res://skill/poisontest/poisontest.tres" id="14_57enb"]
 [ext_resource type="Resource" uid="uid://b813l6o3ccy87" path="res://skill/poisontest/poisonhealtest.tres" id="15_7njdm"]
 [ext_resource type="Resource" uid="uid://duaob2jiqcxig" path="res://skill/damagetest/damagetest.tres" id="16_lg8x5"]
@@ -73,7 +77,12 @@ current_sp = 50
 status_effects = null
 mainhand = ExtResource("12_fjesu")
 offhand = ExtResource("13_j6r67")
+headslot = ExtResource("13_vbgmj")
+chestslot = ExtResource("1_fyg02")
 armslot = ExtResource("1_fyg02")
+legslot = ExtResource("14_2bxqk")
+accy01 = ExtResource("1_j6r67")
+accy02 = ExtResource("2_8wptv")
 two_handing = null
 battle_actions = SubResource("Resource_v56fi")
 skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5"), ExtResource("17_7njdm"), ExtResource("18_lg8x5"), ExtResource("19_bsxxl"), ExtResource("20_o0mmc"), ExtResource("21_djem0"), ExtResource("22_ol2kt"), ExtResource("23_amn4a"), ExtResource("24_y4i3g"), ExtResource("25_yq01f"), ExtResource("26_fkwmm"), ExtResource("27_wadtc"), ExtResource("28_3dhjf"), ExtResource("29_n2a0t"), ExtResource("30_ymb2h"), ExtResource("31_mxdmr"), ExtResource("32_ymb2h"), ExtResource("33_mxdmr")])
