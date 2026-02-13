@@ -33,6 +33,7 @@
 [ext_resource type="Resource" uid="uid://wpwlhpwghg7v" path="res://skill/magicuptest/magicuptest.tres" id="31_ugfmh"]
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="32_0eaty"]
 [ext_resource type="Resource" uid="uid://bx5pxuqoro0ds" path="res://skill/magicdowntest/magicdowntest.tres" id="32_wd4ak"]
+[ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="33_wd4ak"]
 
 [sub_resource type="Resource" id="Resource_vb56e"]
 script = ExtResource("5_7xiv1")
@@ -43,8 +44,12 @@ metadata/_custom_type_script = "uid://curfpkctgy4ww"
 resource_local_to_scene = true
 script = ExtResource("1_kx4ho")
 class_color = Color(0.4862745, 0, 0.4862745, 1)
+stats_table = ExtResource("33_wd4ak")
 field_scene = ExtResource("2_rd2pk")
 battle_icon = ExtResource("8_ugfmh")
+actor_id = &"mage03"
+display_name = "Mage"
+actor_class = 2
 current_sp = 50
 battle_actions = SubResource("Resource_vb56e")
 skills = Array[ExtResource("11_qepbb")]([ExtResource("12_vb56e"), ExtResource("13_qepbb"), ExtResource("14_setsa"), ExtResource("15_iqprl"), ExtResource("16_naxd5"), ExtResource("17_naxd5"), ExtResource("18_l3iya"), ExtResource("19_b0hrx"), ExtResource("20_w2bvq"), ExtResource("21_cw0a4"), ExtResource("22_b318c"), ExtResource("23_musbd"), ExtResource("24_nvvyk"), ExtResource("25_keaea"), ExtResource("26_uhrxp"), ExtResource("27_3mmpc"), ExtResource("28_0eaty"), ExtResource("29_ugfmh"), ExtResource("30_wd4ak"), ExtResource("31_ugfmh"), ExtResource("32_wd4ak")])

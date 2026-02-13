@@ -19,7 +19,9 @@
 	
 	Implement status/Elemental resists
 	
-	Implement leveling system
+	#Implement leveling system
+		#Leveling System is implemented...in battle
+		Out of battle messaging and level ups needed
 
 	Refactor the battle system to be a little more streamlined in the code so it is easier to understand what's going on
 		Refactor should involve CLEARLY defining what each system does instead of having the UI decide certain things vs the actual systems doing that and the UI simply asking for it or something 

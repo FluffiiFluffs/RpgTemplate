@@ -78,34 +78,89 @@ LUCK (LCK)
 
 [Battle Formulas]
 Physical attack
-	Raw damage calculation first (so block can work)
-		Attacker atk vs defender def
-		attacker atk - defender def
-			if >= 0, 0 damage
 
 
+Dodge and Parry have boolean switches on actor_data to determine if the actor can do either one in battle. Enemies usually dodge at best.
+Enemies have a boolean for attacks_always_hit
+Calculations should happen in this order.
+Miss. If miss is true, then no more calculations are made
+Dodge. If dodge is true, then no more calculations are made
+Parry. If parry is true, hit is avoided
+Riposte. If parry was true, then roll to see if riposte activates
+Raw Damage Calculated if miss/dodge/parry were false
+	Damage dispensed to defender
 
-	Critical hit calculation
-		
 
 	Hit/Miss
-		attacker agi, attacker level vs defender agi, defender level
+		attacker level vs defender level with baseline miss chance
 		needs room for skills that cannot miss
+		base miss chance = 3.0
+		miss_per_level = 0.75
+		level_difference = defender_level - attacker_level
+		level_difference = clampi(level_difference, -10, 10)
+			+/- 10 levels from the target gives +/- miss_per_level to miss
+				Capped at 10 levels difference
+				obviously, miss chance = 0 is the lowest it can go (attack always hits)
+		miss_chance = base_miss_chance + (level_difference * miss_per_level)
+		miss_chance = clampf(miss_chance, 0.0, 25.0)
+			miss_chance cannot be lower than 0 or more than 25
+		miss = randf_range(0.0, 100.0) < miss_chance
+
 
 	Dodge (if miss check is failed and attacker's attack CAN miss)
-		attacker agi, attacker level, vs defender agi, defender level
+		Uses Defender agi, defender luck
+		base_dodge_chance = 1.0 (some lower percentage)
+		agi_multiplier = 0.20
+		luck_multiplier = 0.07
+		dodge_chance = base_dodge_chance + (defender_agi * agi_multiplier) + (defender_luck * luck_multiplier)
+		dodge = randf_range(0.0, 100.0) < dodge_chance
+		
+
+	Damage calculation
+		Attacker atk vs defender def
+		Minimum damage is 1 damage
+		Damage = ((attacker atk * atk_multiplier) - (defender def * def_multiplier)) * randf_range(-10.0, 10.0)
+		has a variance of +/- 10% so damage isn't always the same
+		atk_multiplier should be positive
+		def_multiplier should be positive
+		atk = (strength * multiplier) + weapon atk
+		multipliers should be export variables so they are easily tuned
+		Currently the only damage mitigation that exists for a physical hit
+			(other forms may exist later)
+
+	Critical hit calculation
+		Crit is rolled before miss chance due to the assumption that a hit that is critical would never miss (or be dodged/parried either)
+		crit_chance = flat_crit_rate + ((attacker_luck * attacker_luck_multiplier) - (defender_luck * defender_luck_multiplier)) 
+		crit_chance should never be lower than flat_crit_rate (should start at 3.0)
+		attacker/defender luck modifier is to help with tuning
+			Will start at 1.0
+		attacker/defender luck is their base luck + gear
+		crit = randf_range(0.0, 100.0) < crit_chance
+		crit_damage = raw_damage * crit_damage_multiplier
+		Possibly, crit_damage_multiplier starts at 2.0 times raw damage and is raised 0.01 for every point of strength ((50 str * 0.01) + 2.0 = 2.5x damage)
+		crit damage is not capped, higher strength means harder crits (always)
+
+
+
+
 
 	Parry 
-		attacker agi, attacker level, vs defender agi, defender level
-
-	Block
-		attacker agi, attacker level vs defender agi, defender level
-		if blocked, utilizes attacker atk vs defender def to determine
-
-
-
-
-
+		defender str, defender agi
+		base_parry_chance = 3.0 (some lower percentage)
+		str_multiplier = 0.25 (under 0.5)
+		agi_multiplier = 0.05 (under 0.5)
+		parry_chance = base_parry_chance + (defender_str * str_multiplier) + (defender_agi * agi_multiplier)
+		parry = randf_range(0.0,100.0) < parry_chance
+		
+	Riposte
+		Chance to counter-attack
+		50% chance if parry is true  (cannot happen if parry does not happen)
+		Always hits, no miss/dodge/parry checks
+			(Prevents a loop-ish situation)
+		riposte_damage = defender_atk * riposte_atk_multiplier
+		Is not lowered by a defense stat, a riposte is considered to be a surprise
+		Riposte does not crit due to it bypassing defense
+		riposte = randf_range(0.0, 100.0) < 50.0
 
 
 

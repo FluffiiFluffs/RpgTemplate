@@ -12,7 +12,7 @@
 [node name="ChardataKeeper" type="Node2D" unique_id=1417992603]
 script = ExtResource("1_7befc")
 all_party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])
-party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om")])
+party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("5_08uhy")])
 outside_members = Array[ExtResource("2_4byte")]([ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])
 hp_sp_mod = ExtResource("7_8q0pa")
 exp_table = ExtResource("8_08uhy")

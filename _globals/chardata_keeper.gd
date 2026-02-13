@@ -295,8 +295,17 @@ func _refresh_all_next_level_exp() -> void:
 func refresh_next_level_exp_for_member(member : PartyMemberData) -> void:
 	if member == null:
 		return
-	member.next_level_exp = get_next_level_threshold_for_level(member.level, member.next_level_exp)
 
+	var level_cap : int = _get_exp_level_cap()
+
+	# Max level behavior: keep gaining EXP totals, never allow another level.
+	if member.level >= level_cap:
+		if member.level > level_cap:
+			member.level = level_cap
+		member.next_level_exp = 0
+		return
+
+	member.next_level_exp = get_next_level_threshold_for_level(member.level, 0)
 
 ## Returns the EXP threshold for the given current level.
 ## For example level 1 reads exp_to_next_level[0].
@@ -309,6 +318,10 @@ func get_next_level_threshold_for_level(level_value : int, fallback : int = 0) -
 	if exp_table.exp_table.is_empty():
 		return 0
 
+	var level_cap : int = _get_exp_level_cap()
+	if level_value >= level_cap:
+		return 0
+
 	var index : int = level_value - 1
 	if index < 0:
 		index = 0
@@ -316,6 +329,7 @@ func get_next_level_threshold_for_level(level_value : int, fallback : int = 0) -
 		return 0
 
 	return int(exp_table.exp_table[index])
+
 
 
 ## Processes level ups for all party members based on current_exp and next_level_exp.
@@ -431,7 +445,13 @@ func _get_exp_level_cap() -> int:
 		return 99
 	if exp_table.exp_table.is_empty():
 		return 1
-	return exp_table.exp_table.size() + 1
+
+	# Project policy: ExpTable length defines the maximum level.
+	return exp_table.exp_table.size()
+
+func get_max_level() -> int:
+	return _get_exp_level_cap()
+
 
 
 func _capture_progression_stats(member : PartyMemberData) -> Dictionary:
@@ -446,29 +466,75 @@ func _capture_progression_stats(member : PartyMemberData) -> Dictionary:
 		"magic": member.get_magic(),
 		"luck": member.get_luck(),
 	}
-
+	
 
 func _queue_battle_level_up_messages(member : PartyMemberData, before_stats : Dictionary, delta_max_hp : int, delta_max_sp : int) -> void:
+	# Bundled, single-notification level-up message for battle.
+	# Output format:
+	#   Line 1: "<Name> reached Level <N>."
+	#   Line 2: "<Stat A> +X  <Stat B> +Y  ..."
+	#
+	# This is intentionally one queued message per level gained so that:
+	#   1) When multiple party members level in one battle, each member's gains are clearly grouped.
+	#   2) When one member gains multiple levels at once, each level's gains are shown as a discrete 2-line block.
+
+	# Defensive guard: if the member reference is invalid, do nothing.
 	if member == null:
 		return
 
-	_queue_battle_notification(member.get_display_name() + " reached Level " + str(member.level) + ".")
-
+	# Compute deltas for core stats by comparing the member's CURRENT values against the snapshot taken
+	# immediately before applying the level-up (before_stats).
+	#
+	# before_stats is expected to contain integer values under these keys:
+	#   "strength", "stamina", "agility", "magic", "luck"
+	#
+	# Using int(before_stats.get(key, 0)) makes the function resilient if a key is missing.
 	var delta_strength : int = member.get_strength() - int(before_stats.get("strength", 0))
 	var delta_stamina : int = member.get_stamina() - int(before_stats.get("stamina", 0))
 	var delta_agility : int = member.get_agility() - int(before_stats.get("agility", 0))
 	var delta_magic : int = member.get_magic() - int(before_stats.get("magic", 0))
 	var delta_luck : int = member.get_luck() - int(before_stats.get("luck", 0))
 
-	var msg : String = "Max HP " + _format_delta(delta_max_hp)
-	msg = msg + "  Max SP " + _format_delta(delta_max_sp)
-	msg = msg + "  STR " + _format_delta(delta_strength)
-	msg = msg + "  STM " + _format_delta(delta_stamina)
-	msg = msg + "  AGI " + _format_delta(delta_agility)
-	msg = msg + "  MAG " + _format_delta(delta_magic)
-	msg = msg + "  LCK " + _format_delta(delta_luck)
+	# Build a list of formatted gain tokens for the second line.
+	# _append_level_up_gain_part() is expected to add something like "STR +1" only when the delta > 0
+	# (or whatever rule you have chosen there), which keeps the message compact.
+	var parts : Array[String] = []
+	_append_level_up_gain_part(parts, "Max HP", delta_max_hp)
+	_append_level_up_gain_part(parts, "Max SP", delta_max_sp)
+	_append_level_up_gain_part(parts, "STR", delta_strength)
+	_append_level_up_gain_part(parts, "STM", delta_stamina)
+	_append_level_up_gain_part(parts, "AGI", delta_agility)
+	_append_level_up_gain_part(parts, "MAG", delta_magic)
+	_append_level_up_gain_part(parts, "LCK", delta_luck)
 
-	_queue_battle_notification(msg)
+	# First line (headline): explicitly states who leveled and what level they reached.
+	# member.level is assumed to already be updated prior to calling this function.
+	var headline : String = member.get_display_name() + " reached Level " + str(member.level) + "."
+
+	# If there were no positive deltas (or _append_level_up_gain_part filtered everything out),
+	# fall back to a simple one-line message.
+	if parts.is_empty():
+		_queue_battle_notification(headline)
+		return
+
+	# Join the gain tokens into a single line using double spaces for readability.
+	# Example result: "Max HP +12  STR +1  AGI +1"
+	var gains_line : String = ""
+	for i in range(parts.size()):
+		if i > 0:
+			gains_line = gains_line + "  "
+		gains_line = gains_line + parts[i]
+
+	# Queue a single notification containing both lines, separated by "\n".
+	# The battle notification UI should render this as a two-line block.
+	_queue_battle_notification(headline + "\n" + gains_line)
+
+
+
+func _append_level_up_gain_part(parts : Array[String], label : String, delta_value : int) -> void:
+	if delta_value <= 0:
+		return
+	parts.append(label + " +" + str(delta_value))
 
 
 func _format_delta(delta_value : int) -> String:
@@ -476,7 +542,7 @@ func _format_delta(delta_value : int) -> String:
 		return "+" + str(delta_value)
 	if delta_value < 0:
 		return "minus " + str(abs(delta_value))
-	return "+0"
+	return ""
 
 
 ## Allowed to call battle_scene systems from here for now.
