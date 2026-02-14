@@ -55,6 +55,8 @@ enum DefaultTargetFocus {
 @export_group("Backend")
 @export var type: ActionType = ActionType.NORMAL_ATTACK
 
+
+
 @export_group("Targeting")
 @export var target_shape: TargetShape = TargetShape.SINGLE
 @export var target_side: TargetSide = TargetSide.OTHER_FACTION

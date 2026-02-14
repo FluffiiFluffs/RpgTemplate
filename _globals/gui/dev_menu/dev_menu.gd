@@ -71,6 +71,8 @@ func on_button_1_pressed()->void:
 		GameState._set_gamestate(1)
 		SceneManager.make_party_at_spawn_point(spawnp)
 		main.field_camera_rig.follow_player()
+		for child in CharDataKeeper.party_members:
+			child.current_hp = child.get_max_hp()
 	pass
 
 

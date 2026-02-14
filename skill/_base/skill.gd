@@ -71,6 +71,15 @@ enum Intent {
 ## Gameplay classification for systems that need a stable notion of offensive vs beneficial.
 @export var intent : Intent = Intent.UTILITY
 
+@export_category("Tuning")
+##If the skill can miss
+@export var can_miss : bool = true
+##if the skill can be dodged
+@export var can_dodge : bool = true
+##If the skill can be parried
+@export var can_parry : bool = true
+##How much variance the skill damage should have from its base raw damage value
+@export var variance_percent : float = 10.0
 
 
 @export_group("Effects")

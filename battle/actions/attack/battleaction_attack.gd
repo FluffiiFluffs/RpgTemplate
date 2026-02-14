@@ -4,6 +4,7 @@ extends BattleAction
 ## Standard basic melee Attack command.
 ## Uses ActionType.NORMAL_ATTACK and relies entirely on battler stats in ActionCalculator.
 
+
 func _init()->void:
 	category = Category.ATTACK
 	expanded_shape = TargetShape.SINGLE

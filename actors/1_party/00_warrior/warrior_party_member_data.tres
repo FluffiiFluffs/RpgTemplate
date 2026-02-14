@@ -7,20 +7,20 @@
 [ext_resource type="Texture2D" uid="uid://yhferugctyub" path="res://_assets/battle/icons/warrior_battle_icon.png" id="1_lidrd"]
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_wl3nr"]
 [ext_resource type="Resource" uid="uid://b8is1mnqf7r8h" path="res://inventory/items/11000_accessory/11002_ring.tres" id="2_8wptv"]
-[ext_resource type="Resource" uid="uid://b35po5gyny4f5" path="res://battle/actions/attack/battleaction_attack_party.tres" id="2_sw1h1"]
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="3_qx4j5"]
 [ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/defend/battleaction_defend.tres" id="3_v56fi"]
 [ext_resource type="Resource" uid="uid://yyucdgb5imk3" path="res://battle/actions/run/battleaction_run.tres" id="4_4w3j5"]
 [ext_resource type="Resource" uid="uid://dmtmbb2d7605b" path="res://battle/actions/skill/battleaction_skill.tres" id="5_80pgr"]
 [ext_resource type="Resource" uid="uid://c6yb8mxic4rg4" path="res://battle/actions/item/battleaction_item.tres" id="6_sw1h1"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="10_4w3j5"]
+[ext_resource type="PackedScene" uid="uid://bx67oqk81de2j" path="res://actors/1_party/00_warrior/warrior_battle_scene.tscn" id="11_8wptv"]
 [ext_resource type="Resource" uid="uid://5qv0eey8n7wc" path="res://inventory/items/5000_weapon/5001_sword.tres" id="12_fjesu"]
-[ext_resource type="Resource" uid="uid://bl6pvt6gcced5" path="res://inventory/items/6000_offhand/6001_shield.tres" id="13_j6r67"]
 [ext_resource type="Resource" uid="uid://cd376dtl68thx" path="res://skill/healingtest/healingtest.tres" id="13_sw1h1"]
 [ext_resource type="Resource" uid="uid://d0gxsrinoroon" path="res://inventory/items/7000_head/7001_helmet.tres" id="13_vbgmj"]
 [ext_resource type="Resource" uid="uid://c2w3p6uipkdyi" path="res://inventory/items/10000_legs/10001_greaves.tres" id="14_2bxqk"]
 [ext_resource type="Resource" uid="uid://dws8r4mga3vxw" path="res://skill/poisontest/poisontest.tres" id="14_57enb"]
 [ext_resource type="Resource" uid="uid://b813l6o3ccy87" path="res://skill/poisontest/poisonhealtest.tres" id="15_7njdm"]
+[ext_resource type="Resource" uid="uid://b2c8lt8f13vtd" path="res://skill/_normal_attacks/skill_normal_attack.tres" id="15_8wptv"]
 [ext_resource type="Resource" uid="uid://duaob2jiqcxig" path="res://skill/damagetest/damagetest.tres" id="16_lg8x5"]
 [ext_resource type="Resource" uid="uid://bc2v51t1s44cc" path="res://skill/sleeptest/sleeptest.tres" id="17_7njdm"]
 [ext_resource type="Resource" uid="uid://dumrtuacq11rt" path="res://skill/stun/stuntest.tres" id="18_lg8x5"]
@@ -44,7 +44,7 @@
 
 [sub_resource type="Resource" id="Resource_v56fi"]
 script = ExtResource("3_qx4j5")
-battle_actions = Array[ExtResource("1_wl3nr")]([ExtResource("2_sw1h1"), ExtResource("3_v56fi"), ExtResource("4_4w3j5"), ExtResource("5_80pgr"), ExtResource("6_sw1h1")])
+battle_actions = Array[ExtResource("1_wl3nr")]([ExtResource("3_v56fi"), ExtResource("4_4w3j5"), ExtResource("5_80pgr"), ExtResource("6_sw1h1")])
 metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [resource]
@@ -53,11 +53,11 @@ script = ExtResource("1_5o3im")
 class_color = Color(0.4862745, 0, 0, 1)
 stats_table = ExtResource("34_mxdmr")
 field_scene = ExtResource("1_jstep")
+battle_scene = ExtResource("11_8wptv")
 battle_icon = ExtResource("1_lidrd")
 display_name = "Warrior"
 current_sp = 50
 mainhand = ExtResource("12_fjesu")
-offhand = ExtResource("13_j6r67")
 headslot = ExtResource("13_vbgmj")
 chestslot = ExtResource("1_fyg02")
 armslot = ExtResource("1_fyg02")
@@ -66,4 +66,6 @@ accy01 = ExtResource("1_j6r67")
 accy02 = ExtResource("2_8wptv")
 battle_actions = SubResource("Resource_v56fi")
 skills = Array[ExtResource("10_4w3j5")]([ExtResource("13_sw1h1"), ExtResource("14_57enb"), ExtResource("15_7njdm"), ExtResource("16_lg8x5"), ExtResource("17_7njdm"), ExtResource("18_lg8x5"), ExtResource("19_bsxxl"), ExtResource("20_o0mmc"), ExtResource("21_djem0"), ExtResource("22_ol2kt"), ExtResource("23_amn4a"), ExtResource("24_y4i3g"), ExtResource("25_yq01f"), ExtResource("26_fkwmm"), ExtResource("27_wadtc"), ExtResource("28_3dhjf"), ExtResource("29_n2a0t"), ExtResource("30_ymb2h"), ExtResource("31_mxdmr"), ExtResource("32_ymb2h"), ExtResource("33_mxdmr")])
+normal_attack_skill = ExtResource("15_8wptv")
+can_parry = true
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

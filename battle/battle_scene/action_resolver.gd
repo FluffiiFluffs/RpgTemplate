@@ -9,12 +9,7 @@ extends Node
 
 var battle_scene : BattleScene = null
 
-
 func _await_notify_if_needed() -> void:
-	if battle_scene == null:
-		return
-	if battle_scene.battle_notify_ui == null:
-		return
 	var ui : BattleNotifyUI = battle_scene.battle_notify_ui
 	if ui.notifying or not ui.notify_queue.is_empty():
 		await battle_scene.notify_finished
@@ -61,79 +56,180 @@ func show_intro_message()->void:
 
 #region Action Execution
 ##Executes the ActionUse that is provided as an argument. Top level function that determines what to do based upon actionuse.action_type
-func execute_action_use(use: ActionUse)->void:
+
+func execute_action_use(use : ActionUse) -> void:
+	assert(battle_scene != null)
+	assert(use != null)
+	assert(use.user != null)
+	assert(use.action != null)
+
 	battle_scene.battle_state = "ACTION_EXECUTE"
 	battle_scene.ui_state = "NOTIFYING"
-	if use == null:
-		printerr("ActionResolver: execute_action_use() received a null ActionUse")
-		return
 
 	var user : Battler = use.user
-	if battle_scene.status_system != null and user != null:
-		battle_scene.status_system.on_action_start(user, use)
-		await _await_notify_if_needed()
+
+	# Mirror the ActionUse onto BattleScene fields so downstream VFX and messaging
+	# can rely on battle_scene.acting_battler and battle_scene.targeted_battler
+	battle_scene.acting_battler = user
+	battle_scene.targeted_battler = use.first_target()
 
 	match use.action_type:
 		BattleAction.ActionType.NORMAL_ATTACK:
+			assert(use.first_target() != null)
 			await _execute_normal_attack(use)
 		BattleAction.ActionType.RUN:
 			await _execute_run(use)
 		BattleAction.ActionType.DEFEND:
+			assert(use.first_target() != null)
 			await _execute_defend(use)
 		BattleAction.ActionType.USE_ITEM:
+			assert(use.first_target() != null)
 			await _execute_use_item(use)
 		BattleAction.ActionType.USE_SKILL:
+			assert(use.first_target() != null)
+			assert(use.data.has("skill"))
+			assert(use.data["skill"] is Skill)
 			await _execute_use_skill(use)
-		null:
-			printerr("Null action!")
 		_:
-			printerr("Unknown action type")
+			printerr("Unknown action type: " + str(use.action_type))
 
-	if battle_scene.status_system != null and user != null:
-		battle_scene.status_system.on_action_end(user, use)
-		await _await_notify_if_needed()
 
-func _execute_normal_attack(use : ActionUse)->void:
-	var attacker = use.user
-	var original_target = use.first_target()
-	if attacker == null or original_target == null:
-		printerr("ActionResolver: normal attack missing attacker or target")
-		return
+func _execute_normal_attack(use : ActionUse) -> void:
+	var attacker : Battler = use.user
+	var original_target : Battler = use.first_target()
 
-	var attacker_name = attacker.actor_data.get_display_name()
-	var original_name = original_target.actor_data.get_display_name()
+	assert(attacker != null)
+	assert(original_target != null)
 
-	var final_target : Battler = battle_scene.status_system.resolve_incoming_target(attacker, use.action, original_target)
-	var final_name = final_target.actor_data.get_display_name()
+	var attacker_name : String = attacker.actor_data.get_display_name()
+	var original_name : String = original_target.actor_data.get_display_name()
+
+	var final_target : Battler = original_target
+	var redirected : Battler = battle_scene.status_system.resolve_incoming_target(attacker, use.action, original_target)
+	if redirected != null:
+		final_target = redirected
+
+	var has_intercept : bool = final_target != original_target
+	var final_name : String = final_target.actor_data.get_display_name()
 
 	battle_scene.battle_notify_ui.queue_notification(attacker_name + " attacks " + original_name + ".")
-	if final_target != original_target:
-		battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.")
 
-	var force_hit : bool = false
-	if battle_scene.status_system != null:
-		force_hit = battle_scene.status_system.should_force_physical_hit(final_target)
+	var force_hit : bool = battle_scene.status_system.should_force_physical_hit(final_target)
 
+	var can_miss_check : bool = not force_hit
+	var can_dodge_check : bool = not force_hit
+	var can_parry_check : bool = not force_hit
 
-	var dmg = battle_scene.action_calculator.normal_attack(attacker, use.action, final_target, force_hit)
+	if can_miss_check:
+		var miss : bool = battle_scene.action_calculator.physical_will_miss(attacker, final_target, false)
+		if miss:
+			if has_intercept:
+				battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.")
+			battle_scene.battle_notify_ui.queue_notification(attacker_name + "'s attack missed!")
+			await battle_scene.notify_finished
+			return
 
-	if dmg == -1:
-		battle_scene.battle_notify_ui.queue_notification(attacker_name + "'s attack missed!")
-		await battle_scene.notify_finished
-		return
+	if can_dodge_check and final_target.actor_data.can_dodge:
+		var dodged : bool = battle_scene.action_calculator.physical_will_dodge(final_target, false)
+		if dodged:
+			if has_intercept:
+				battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.")
+			battle_scene.battle_notify_ui.queue_notification(final_name + " dodges the attack.")
+			await battle_scene.notify_finished
+			return
 
-	dmg = battle_scene.status_system.modify_incoming_physical_damage(attacker, use.action, original_target, final_target, dmg)
+	if can_parry_check and final_target.actor_data.can_parry:
+		var parried : bool = battle_scene.action_calculator.physical_will_parry(final_target, false)
+		if parried:
+			if has_intercept:
+				battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.")
 
-	final_target.actor_data.current_hp = clampi(final_target.actor_data.current_hp - dmg, 0, final_target.actor_data.get_max_hp())
+			battle_scene.battle_notify_ui.queue_notification(final_name + " parries the attack.")
 
-	if final_target.ui_element != null and final_target.ui_element.has_method("play_normal_hit"):
-		final_target.ui_element.play_normal_hit()
+			var riposte : bool = battle_scene.action_calculator.physical_will_riposte()
+			if riposte:
+				var riposte_damage_raw = battle_scene.action_calculator.get_riposte_damage(final_target)
+				var riposte_damage : int = int(round(riposte_damage_raw))
+				riposte_damage = clampi(riposte_damage, 1, 9999)
 
+				var before_hp_attacker : int = attacker.actor_data.current_hp
+				attacker.actor_data.current_hp = clampi(
+					attacker.actor_data.current_hp - riposte_damage,
+					0,
+					attacker.actor_data.get_max_hp()
+				)
+				var applied_riposte : int = before_hp_attacker - attacker.actor_data.current_hp
 
-	battle_scene.battle_vfx.pop_text(final_target, dmg)
-	if dmg > 0 and battle_scene.status_system != null:
+				var riposte_actions : Array[Callable] = []
+				if attacker.ui_element.has_method("play_normal_hit"):
+					riposte_actions.append(Callable(attacker.ui_element, "play_normal_hit"))
+				if applied_riposte > 0:
+					riposte_actions.append(Callable(battle_scene.battle_vfx, "pop_text").bind(attacker, applied_riposte))
+
+				battle_scene.battle_notify_ui.queue_notification(final_name + " ripostes!", riposte_actions)
+
+				if applied_riposte > 0:
+					var riposte_ctx : Dictionary = {
+						"amount": applied_riposte,
+						"is_dot": false,
+						"is_poison": false,
+						"kind": "physical",
+						"effect_context": null
+					}
+					battle_scene.status_system.on_receive_damage(attacker, final_target, use, riposte_ctx)
+
+				await battle_scene.notify_finished
+
+				if attacker.ui_element is BattleStats:
+					var stats_attacker : BattleStats = attacker.ui_element as BattleStats
+					await stats_attacker.hp_changed()
+
+				await check_for_death(attacker, final_target)
+				return
+
+			await battle_scene.notify_finished
+			return
+
+	var raw_damage_val = battle_scene.action_calculator.get_raw_damage(attacker)
+	var raw_damage : int = int(round(raw_damage_val))
+
+	var variance_percent_local : int = 10
+	var varied_damage : int = battle_scene.action_calculator.vary_damage(raw_damage, variance_percent_local)
+
+	var mitigated_val = battle_scene.action_calculator.get_physical_def_mitigated_damage(varied_damage, final_target)
+	var mitigated_damage : int = int(round(mitigated_val))
+	mitigated_damage = clampi(mitigated_damage, 1, 9999)
+
+	var final_damage : int = battle_scene.status_system.modify_incoming_physical_damage(
+		attacker,
+		use.action,
+		original_target,
+		final_target,
+		mitigated_damage
+	)
+
+	var before_hp_target : int = final_target.actor_data.current_hp
+	final_target.actor_data.current_hp = clampi(
+		final_target.actor_data.current_hp - final_damage,
+		0,
+		final_target.actor_data.get_max_hp()
+	)
+	var applied_damage : int = before_hp_target - final_target.actor_data.current_hp
+
+	var damage_actions : Array[Callable] = []
+	if final_target.ui_element.has_method("play_normal_hit"):
+		damage_actions.append(Callable(final_target.ui_element, "play_normal_hit"))
+	if applied_damage > 0:
+		damage_actions.append(Callable(battle_scene.battle_vfx, "pop_text").bind(final_target, applied_damage))
+
+	if has_intercept:
+		battle_scene.battle_notify_ui.queue_notification(final_name + " intercepts the attack.", damage_actions)
+	else:
+		battle_scene.battle_notify_ui.queue_on_show_actions_for_current(damage_actions)
+
+	if applied_damage > 0:
 		var dmg_ctx : Dictionary = {
-			"amount": dmg,
+			"amount": applied_damage,
 			"is_dot": false,
 			"is_poison": false,
 			"kind": "physical",
@@ -141,16 +237,13 @@ func _execute_normal_attack(use : ActionUse)->void:
 		}
 		battle_scene.status_system.on_receive_damage(final_target, attacker, use, dmg_ctx)
 
-
-
 	await battle_scene.notify_finished
 
 	if final_target.ui_element is BattleStats:
-		var stats = final_target.ui_element as BattleStats
-		await stats.hp_changed()
+		var stats_target : BattleStats = final_target.ui_element as BattleStats
+		await stats_target.hp_changed()
+
 	await check_for_death(final_target, attacker)
-
-
 
 	
 	
@@ -216,22 +309,17 @@ func _execute_run(use : ActionUse)->void:
 func _execute_defend(use : ActionUse) -> void:
 	var defender : Battler = use.user
 	var protected : Battler = use.first_target()
-	if defender == null or protected == null:
-		printerr("ActionResolver: defend missing defender or target")
-		return
+
+	assert(defender != null)
+	assert(protected != null)
 
 	var defender_name : String = defender.actor_data.get_display_name()
 	var protected_name : String = protected.actor_data.get_display_name()
 
-	var did_link : bool = false
-	if battle_scene.status_system != null:
-		did_link = battle_scene.status_system.set_defend_link(defender, protected)
-
+	var did_link : bool = battle_scene.status_system.set_defend_link(defender, protected)
 	if not did_link:
 		printerr("ActionResolver: defend failed to set defend link")
 		return
-
-
 
 	if defender == protected:
 		battle_scene.battle_notify_ui.queue_notification(defender_name + " assumes a defensive stance.")
@@ -239,24 +327,20 @@ func _execute_defend(use : ActionUse) -> void:
 		battle_scene.battle_notify_ui.queue_notification(defender_name + " moves to defend " + protected_name + ".")
 
 	await battle_scene.notify_finished
+
+
+	
 func _execute_use_skill(use : ActionUse) -> void:
-	var user = use.user
-	if user == null:
-		return
+	var user : Battler = use.user
 
-	if not use.data.has("skill"):
-		printerr("ActionResolver: USE_SKILL missing skill in use.data")
-		return
+	battle_scene.acting_battler = user
+	battle_scene.targeted_battler = use.first_target()
 
-	var skill = use.data["skill"] as Skill
-	if skill == null:
-		printerr("ActionResolver: USE_SKILL skill is null")
-		return
-
-	var user_name = user.actor_data.get_display_name()
+	var skill : Skill = use.data["skill"] as Skill
+	var user_name : String = user.actor_data.get_display_name()
 
 	var is_free_cost : bool = false
-	if use.data != null and use.data.has("free_cost"):
+	if use.data.has("free_cost"):
 		is_free_cost = bool(use.data["free_cost"])
 
 	if not is_free_cost:
@@ -269,11 +353,11 @@ func _execute_use_skill(use : ActionUse) -> void:
 	var before_user_mp : int = user.actor_data.current_sp
 
 	if not is_free_cost:
-		# Pay cost up front
 		skill.pay_cost(user.actor_data)
 
+	var after_cost_user_hp : int = user.actor_data.current_hp
 
-	var ctx = EffectContext.new()
+	var ctx := EffectContext.new()
 	ctx.mode = EffectContext.Mode.BATTLE
 	ctx.user_actor = user.actor_data
 	ctx.battle_scene = battle_scene
@@ -281,92 +365,100 @@ func _execute_use_skill(use : ActionUse) -> void:
 	ctx.current_user_battler = user
 	ctx.current_action_use = use
 
-
 	var message : String = skill.message_template
-	if battle_scene.text_parser != null:
-		message = battle_scene.text_parser.parse_skill_message(use, skill)
-	else:
-		message = message.replace("{user}", user_name)
-		message = message.replace("{skill}", skill.name)
+	message = battle_scene.text_parser.parse_skill_message(use, skill)
 	battle_scene.battle_notify_ui.queue_notification(message)
 
-	var effects = skill.get_effects_for_context(ctx)
-	var any_effect_applied = false
+	var effects : Array[Effect] = skill.get_effects_for_context(ctx)
+	var any_effect_applied : bool = false
 
 	for target in use.targets:
-		if target == null:
-			continue
 		for effect in effects:
 			if effect == null:
 				continue
 			if effect.apply_to_battler(ctx, target):
 				any_effect_applied = true
 
+	var user_damage_taken : int = after_cost_user_hp - user.actor_data.current_hp
+
+	var already_popped_user_damage : int = 0
+	if use.data.has("popped_user_damage"):
+		already_popped_user_damage = int(use.data["popped_user_damage"])
+
+	var popup_user_damage : int = user_damage_taken - already_popped_user_damage
+	if popup_user_damage < 0:
+		popup_user_damage = 0
+
+	if popup_user_damage > 0:
+		battle_scene.battle_vfx.pop_text(user, popup_user_damage)
+
 	var had_effect_feedback : bool = false
-	if ctx.queued_battle_messages != null and ctx.queued_battle_messages.size() > 0:
+	if ctx.queued_battle_messages.size() > 0:
 		had_effect_feedback = true
 
 		for i in range(ctx.queued_battle_messages.size()):
 			var template : String = ctx.queued_battle_messages[i]
 			var parsed : String = template
 
-			if battle_scene.text_parser != null:
-				var parse_targets : Array[Battler] = use.targets
+			var parse_targets : Array[Battler] = use.targets
+			if i < ctx.queued_battle_message_targets.size():
+				var override_target : Battler = ctx.queued_battle_message_targets[i]
+				if override_target != null:
+					parse_targets = [override_target]
 
-				if ctx.queued_battle_message_targets != null and i < ctx.queued_battle_message_targets.size():
-					var override_target : Battler = ctx.queued_battle_message_targets[i]
-					if override_target != null:
-						parse_targets = [override_target]
-
-				parsed = battle_scene.text_parser.parse_custom_message(template, use.user, parse_targets, skill, null)
-
+			parsed = battle_scene.text_parser.parse_custom_message(template, use.user, parse_targets, skill, null)
 			battle_scene.battle_notify_ui.queue_notification(parsed)
+
+	if not had_effect_feedback:
+		if use.data.has("had_effect_feedback"):
+			if bool(use.data["had_effect_feedback"]):
+				had_effect_feedback = true
 
 	if effects.size() > 0 and not any_effect_applied and not had_effect_feedback:
 		battle_scene.battle_notify_ui.queue_notification("It has no effect.")
 
 	await battle_scene.notify_finished
 
-	# Update user UI if cost changed
 	if user.ui_element is BattleStats:
-		var stats_user = user.ui_element as BattleStats
+		var stats_user : BattleStats = user.ui_element as BattleStats
 		if user.actor_data.current_hp != before_user_hp:
 			await stats_user.hp_changed()
 		if user.actor_data.current_sp != before_user_mp:
 			await stats_user.mp_changed()
 
-	# Update target UIs and check deaths
 	for target in use.targets:
-		if target == null:
-			continue
 		if target.ui_element is BattleStats:
-			var stats_target = target.ui_element as BattleStats
+			var stats_target : BattleStats = target.ui_element as BattleStats
 			await stats_target.hp_changed()
 			await stats_target.mp_changed()
 
 		if target.actor_data.current_hp <= 0:
 			await check_for_death(target, user)
 
+	if user.actor_data.current_hp <= 0 and not use.targets.has(user):
+		var from_battler : Battler = battle_scene.targeted_battler
+		if from_battler == null:
+			from_battler = user
+		await check_for_death(user, from_battler)
 
 
 func _execute_use_item(use : ActionUse) -> void:
-	var user = use.user
-	if user == null:
-		return
+	var user : Battler = use.user
+	assert(user != null)
 
 	if not use.data.has("item_slot"):
 		printerr("ActionResolver: USE_ITEM missing item_slot in use.data")
 		return
 
-	var slot = use.data["item_slot"] as InventorySlot
+	var slot : InventorySlot = use.data["item_slot"] as InventorySlot
 	if slot == null or slot.item == null:
 		printerr("ActionResolver: USE_ITEM slot or item is null")
 		return
 
-	var item = slot.item
-	var user_name = user.actor_data.get_display_name()
+	var item : Item = slot.item
+	var user_name : String = user.actor_data.get_display_name()
 
-	var ctx = EffectContext.new()
+	var ctx := EffectContext.new()
 	ctx.mode = EffectContext.Mode.BATTLE
 	ctx.user_actor = user.actor_data
 	ctx.battle_scene = battle_scene
@@ -375,21 +467,14 @@ func _execute_use_item(use : ActionUse) -> void:
 	ctx.current_user_battler = user
 	ctx.current_action_use = use
 
-
 	var message : String = item.message_template
-	if battle_scene.text_parser != null:
-		message = battle_scene.text_parser.parse_item_message(use, item)
-	else:
-		message = message.replace("{user}", user_name)
-		message = message.replace("{item}", item.name)
+	message = battle_scene.text_parser.parse_item_message(use, item)
 	battle_scene.battle_notify_ui.queue_notification(message)
 
 	var effects : Array[Effect] = item.get_effects_for_context(ctx)
 
-	var any_effect_applied = false
+	var any_effect_applied : bool = false
 	for target in use.targets:
-		if target == null:
-			continue
 		for effect in effects:
 			if effect == null:
 				continue
@@ -397,23 +482,20 @@ func _execute_use_item(use : ActionUse) -> void:
 				any_effect_applied = true
 
 	var had_effect_feedback : bool = false
-	if ctx.queued_battle_messages != null and ctx.queued_battle_messages.size() > 0:
+	if ctx.queued_battle_messages.size() > 0:
 		had_effect_feedback = true
 
 		for i in range(ctx.queued_battle_messages.size()):
 			var template : String = ctx.queued_battle_messages[i]
 			var parsed : String = template
 
-			if battle_scene.text_parser != null:
-				var parse_targets : Array[Battler] = use.targets
+			var parse_targets : Array[Battler] = use.targets
+			if i < ctx.queued_battle_message_targets.size():
+				var override_target : Battler = ctx.queued_battle_message_targets[i]
+				if override_target != null:
+					parse_targets = [override_target]
 
-				if ctx.queued_battle_message_targets != null and i < ctx.queued_battle_message_targets.size():
-					var override_target : Battler = ctx.queued_battle_message_targets[i]
-					if override_target != null:
-						parse_targets = [override_target]
-
-				parsed = battle_scene.text_parser.parse_custom_message(template, use.user, parse_targets, null, item)
-
+			parsed = battle_scene.text_parser.parse_custom_message(template, use.user, parse_targets, null, item)
 			battle_scene.battle_notify_ui.queue_notification(parsed)
 
 	if effects.size() > 0 and not any_effect_applied:
@@ -422,7 +504,6 @@ func _execute_use_item(use : ActionUse) -> void:
 		await battle_scene.notify_finished
 		return
 
-	# Consume item only when something applied
 	if item.consume_on_use:
 		slot.quantity -= 1
 		if slot.quantity <= 0:
@@ -430,21 +511,14 @@ func _execute_use_item(use : ActionUse) -> void:
 
 	await battle_scene.notify_finished
 
-	# Update target UIs and check deaths
 	for target in use.targets:
-		if target == null:
-			continue
-
 		if target.ui_element is BattleStats:
-			var stats_target = target.ui_element as BattleStats
+			var stats_target : BattleStats = target.ui_element as BattleStats
 			await stats_target.hp_changed()
 			await stats_target.mp_changed()
 
 		if target.actor_data.current_hp <= 0:
 			await check_for_death(target, user)
-
-
-
 
 
 

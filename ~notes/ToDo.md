@@ -7,15 +7,15 @@
 	STATS
 		Implement luck #partially completed
 			crit rate
-			evasion/hit
+			#evasion/hit
 			full resist magic damage
 			resist negative status effects + break out
 			
 		clean up formulas
-		clean up char_resource and actor data
-		Formulas for battle
+		clean up actor data
+		#Formulas for battle
 		
-	Implement a deeper system for miss / dodge/ parry / block / riposte
+	# Implement a deeper system for miss / dodge/ parry / block / riposte
 	
 	Implement status/Elemental resists
 	

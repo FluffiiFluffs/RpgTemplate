@@ -5,10 +5,6 @@ enum FactionMode { SAME_AS_USER, OTHER_THAN_USER }
 
 static func get_all_living_battlers(battle_scene : BattleScene) -> Array[Battler]:
 	var out : Array[Battler] = []
-	if battle_scene == null:
-		return out
-	if battle_scene.battlers == null:
-		return out
 
 	for n in battle_scene.battlers.get_children():
 		if n is Battler:
@@ -23,10 +19,6 @@ static func get_all_living_battlers(battle_scene : BattleScene) -> Array[Battler
 
 
 static func pick_random_living_ally(user : Battler, battle_scene : BattleScene, allow_self : bool = true, exclude : Array = []) -> Battler:
-	if user == null:
-		return null
-	if battle_scene == null:
-		return null
 
 	var pool : Array[Battler] = []
 	for b in get_all_living_battlers(battle_scene):
@@ -45,14 +37,11 @@ static func pick_random_living_ally(user : Battler, battle_scene : BattleScene, 
 
 	return pool[randi_range(0, pool.size() - 1)]
 
-
+##Returns a random battler of the opposite faction
 static func pick_random_living_enemy(user : Battler, battle_scene : BattleScene, exclude : Array = []) -> Battler:
-	if user == null:
-		return null
-	if battle_scene == null:
-		return null
 
 	var pool : Array[Battler] = []
+	#builds a pool of valid targets
 	for b in get_all_living_battlers(battle_scene):
 		if b == null:
 			continue
@@ -64,8 +53,9 @@ static func pick_random_living_enemy(user : Battler, battle_scene : BattleScene,
 
 	if pool.is_empty():
 		return null
+	var poolrand = pool.pick_random()
 
-	return pool[randi_range(0, pool.size() - 1)]
+	return poolrand
 
 
 
@@ -78,17 +68,14 @@ enum RetargetPolicy {
 	ANY_FACTION
 }
 
+##Returns true if the battler is alive
 static func is_living(b : Battler) -> bool:
-	if b == null:
-		return false
-	if b.actor_data == null:
-		return false
 	return b.actor_data.current_hp > 0
 
+
+##Returns a list of all living battlers within the same faction (or should)
 static func get_all_living_battlers_in_faction(battle_scene : BattleScene, faction : int, exclude : Array = []) -> Array[Battler]:
 	var out : Array[Battler] = []
-	if battle_scene == null:
-		return out
 
 	for b in get_all_living_battlers(battle_scene):
 		if b == null:
@@ -101,9 +88,8 @@ static func get_all_living_battlers_in_faction(battle_scene : BattleScene, facti
 
 	return out
 
+##Picks a random target from all living battlers
 static func pick_random_living_any(battle_scene : BattleScene, exclude : Array = []) -> Battler:
-	if battle_scene == null:
-		return null
 
 	var pool : Array[Battler] = []
 	for b in get_all_living_battlers(battle_scene):

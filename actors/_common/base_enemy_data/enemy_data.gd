@@ -14,5 +14,3 @@ extends ActorData
 @export var difficulty : float = 1.0
 ##AI routine for the enemy in battle
 @export var ai : EnemyAI
-##If the enemy's normal attack always lands (skills are different)
-@export var attacks_always_hit : bool = false

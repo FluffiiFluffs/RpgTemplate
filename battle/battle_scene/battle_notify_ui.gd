@@ -34,12 +34,44 @@ func notify_hide()->void:
 
 func notify_ended()->void:
 	display_notification()
-	
-func queue_notification(_message: String)->void:
-	notify_queue.append({message = _message	})
+	## Queues a notification message.
+## Optional on_show_actions run after the message becomes visible (deferred to next frame).
+func queue_notification(_message: String, on_show_actions : Array[Callable] = [])->void:
+	var actions_copy : Array[Callable] = []
+	if on_show_actions != null and on_show_actions.size() > 0:
+		actions_copy = on_show_actions.duplicate()
+
+	notify_queue.append({
+		message = _message,
+		on_show_actions = actions_copy
+	})
 	if notifying:
 		return
 	display_notification()
+
+
+## Schedules an action to occur while the current notification is being shown.
+## Used by effects that apply damage after the action message has already started.
+func queue_on_show_action_for_current(action : Callable) -> void:
+	if action == null:
+		return
+	call_deferred("_run_deferred_callable", action)
+
+
+func queue_on_show_actions_for_current(actions : Array[Callable]) -> void:
+	if actions == null:
+		return
+	for a in actions:
+		if a is Callable:
+			queue_on_show_action_for_current(a)
+
+
+func _run_deferred_callable(action : Callable) -> void:
+	if action == null:
+		return
+	if action.is_valid():
+		action.call()
+
 
 ##Displays the next notification in the notify_queue[{}]. Starts notify_timer. Timer length dependent on the message length.
 func display_notification()->void:
@@ -48,19 +80,31 @@ func display_notification()->void:
 		if battle_scene != null:
 			battle_scene.notify_finished.emit()
 		return
+
 	var _note = notify_queue.pop_front()
 	if _note == null:
 		return
-	else:
-		battle_scene.ui_state = "NOTIFYING"
-		notifying = true
-		notify_begin.emit()
-		notify_label.text = _note.message
-		notify_timer.wait_time = float(_note.message.length() / text_coefficient) + 1.0
-		#print(str(_note.message.length()))
-		#print(str(_note.message.length() / text_coefficient))
-		notify_show()
-		notify_timer.start()
+
+	battle_scene.ui_state = "NOTIFYING"
+	notifying = true
+	notify_begin.emit()
+
+	var msg : String = ""
+	if _note.has("message"):
+		msg = str(_note["message"])
+
+	notify_label.text = msg
+	notify_timer.wait_time = float(msg.length() / text_coefficient) + 1.0
+	notify_show()
+	notify_timer.start()
+
+	if _note.has("on_show_actions"):
+		var actions = _note["on_show_actions"]
+		if actions is Array:
+			for a in actions:
+				if a is Callable:
+					queue_on_show_action_for_current(a)
+
 
 ##Called automatically when the notify_timer has timed out[br]
 ##Hides notify window and emits notify_end signal.

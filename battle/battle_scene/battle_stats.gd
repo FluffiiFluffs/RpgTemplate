@@ -29,6 +29,7 @@ var battle_scene : BattleScene = null
 #Party member to be represented by the window
 var member : PartyMemberData = null
 var battler : Battler = null
+var battler_visuals : BattleParty = null
 var last_command_button_selected : CommandButton
 var last_skill_button_selected : BattleSkillButton
 var last_item_button_selected : BattleItemButton
@@ -80,7 +81,11 @@ func button_pressed()->void:
 
 ##Opens targeting selection for attack (anyone)
 func attack_button_pressed()->void:
-	battle_scene.command_controller.open_attack_targeting(battler, attack_action)
+	if battler.actor_data.normal_attack_skill == null:
+		print(battler.name + " HAS NO ATTACK SKILL SET!")
+		return
+	var normal_skill : Skill = battler.actor_data.normal_attack_skill
+	battle_scene.command_controller.begin_use_skill(battler, normal_skill)
 	pass
 
 ##Shows the skill window within BattleScene. Passes member as argument to fill out the skills that can be selected.
@@ -88,16 +93,7 @@ func skill_button_pressed()->void:
 	battle_scene.command_controller.show_skill_window(battler)
 	pass
 	
-#func skill_button_pressed() -> void:
-	#if battler == null or battler.actor_data == null:
-		#return
-	#var list = battler.actor_data.skills
-	#if list.is_empty():
-		#GameMenu.play_error_sound()
-		#return
-	#battle_scene.command_controller.begin_use_skill(battler, list[0])
 
-	
 ##Opens targeting selection (party only)
 func defend_button_pressed()->void:
 	battle_scene.command_controller.open_defend_targeting(battler, defend_action)
@@ -108,16 +104,7 @@ func item_button_pressed()->void:
 	battle_scene.command_controller.show_item_window(battler)
 	pass
 
-#
-###Attempts to run from battle
-#func run_button_pressed()->void:
-	#var runner = battle_scene.acting_battler
-	#var controller = battle_scene.command_controller
-	#var turn_id = controller.current_turn_id
-	#var use = ActionUse.new(runner, run_action, [])
-	#if runner.ui_element is BattleStats:
-		#runner.ui_element.show_commands = false
-	#controller.action_use_chosen.emit(turn_id, use)
+
 	
 func run_button_pressed()->void:
 	if run_action == null:
@@ -243,14 +230,22 @@ func mp_changed()->void:
 
 #region Graphical Scene
 
-#Instantiates battle scene
+#Instantiates battler visuals into the scene
 func update_battle_scene()->void:
+	#cleanup 
 	if member.battle_scene != null and member != null:
+		#cleans up the BattleParty children inside the container (if any exist)
+		#Should leave the marker2d used for instantiating vfx
 		for child in battle_scene_container.get_children():
-			child.queue_free()
+			if child is BattleParty:
+				child.queue_free()
 		await get_tree().process_frame
+		#Instantiates a copy of the party member's visual battle scene into the container
 		var new_battle_scene = member.battle_scene.instantiate()
 		battle_scene_container.add_child(new_battle_scene)
+		#Sets a direct reference to the party member's visual scene so it can be referenced by the passthrough scripts that trigger animations
+		await get_tree().process_frame
+		battler_visuals = new_battle_scene
 	else:
 		if member == null:
 			printerr("NO PARTY MEMBER DATA!!")
@@ -404,3 +399,35 @@ func setup_commands()->void:
 	pass
 
 #endregion Command Container
+
+
+#region Actor Visuals
+##Sets the BattleParty class node to battler_visuals so it can be referenced by vanilla scripts but still be a node with custom animations
+func set_battle_party()->void:
+	for child in battle_scene_container:
+		if child is BattleParty:
+			battler_visuals = child
+			break
+
+
+func play_normal_hit()->void:
+	battler_visuals.play_normal_hit()
+
+func play_critical_hit()->void:
+	battler_visuals.play_critical_hit()
+	
+func play_normal_attack()->void:
+	battler_visuals.play_normal_attack()
+
+func play_critical_attack()->void:
+	battler_visuals.play_critical_attack()
+	
+func play_spell_cast()->void:
+	battler_visuals.play_spell_cast()
+
+func play_death()->void:
+	battler_visuals.play_death()
+
+
+
+#endregion Actor Visuals

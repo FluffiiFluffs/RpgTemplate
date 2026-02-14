@@ -106,8 +106,6 @@ func _remove_stat_decrease(actor : ActorData) -> void:
 
 	actor.clamp_vitals()
 	_stats_applied = false
-
-
 func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	var actor : ActorData = get_receiver_actor()
 	if actor == null:
@@ -122,7 +120,7 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 		system_id = int(status_system.get_instance_id())
 		turn_id = status_system.current_turn_id
 
-	# New StatusSystem instance (new battle), reset guard
+	# New StatusSystem instance, reset guard
 	if system_id != _last_tick_status_system_id:
 		_last_tick_status_system_id = system_id
 		_last_tick_turn_id = -1
@@ -151,10 +149,10 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 			name_text = "Someone"
 
 		if bs.battle_notify_ui != null:
-			bs.battle_notify_ui.queue_notification(name_text + " suffers poison damage.")
-
-		if target_battler != null:
-			bs.battle_vfx.pop_text_poison(target_battler, dmg)
+			var actions : Array[Callable] = []
+			if target_battler != null and bs.battle_vfx != null:
+				actions.append(Callable(bs.battle_vfx, "pop_text_poison").bind(target_battler, dmg))
+			bs.battle_notify_ui.queue_notification(name_text + " suffers poison damage.", actions)
 
 	if status_system != null and target_battler != null:
 		var dmg_ctx : Dictionary = {

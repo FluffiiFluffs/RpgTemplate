@@ -287,6 +287,13 @@ func _confirm_action(targets : Array[Battler])->void:
 
 	var use = ActionUse.new(pending_user, pending_action, final_targets, pending_data)
 	
+	# Record the primary target for battle wide VFX and messaging
+	if final_targets.is_empty():
+		battle_scene.targeted_battler = null
+	else:
+		battle_scene.targeted_battler = final_targets[0]
+		
+	
 	#plays default animation for target (not sure if needed)
 	for tar in final_targets:
 		tar.ui_element.animation_player.play("RESET")

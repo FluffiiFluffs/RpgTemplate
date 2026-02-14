@@ -21,7 +21,7 @@ var queued_battle_message_targets : Array[Battler] = []
 var current_user_battler : Battler = null
 var current_action_use : ActionUse = null
 
-
+var popped_user_damage : int = 0
 
 func queue_battle_message(text : String, target_battler : Battler = null) -> void:
 	if text == "":

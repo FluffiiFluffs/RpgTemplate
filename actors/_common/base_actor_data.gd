@@ -82,6 +82,7 @@ extends Resource
 ##Array of default actions that can be taken in battle by the actor.
 @export var battle_actions:BattleActions
 @export var skills : Array[Skill] = []
+@export var normal_attack_skill : NormalAttack = null
 ##If the actor can dodge in battle
 @export var can_dodge : bool = true
 ##If the actor can parry (and riposte) in battle

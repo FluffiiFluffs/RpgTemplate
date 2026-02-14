@@ -43,65 +43,41 @@ func round_next_setup()->void:
 
 #region Turn Progression
 func battler_turn_next() -> void:
-	# Enter battler turn state
 	battle_scene.battle_state = "BATTLER_TURN"
 
-	# If there is no queued turn order, advance the round and exit
 	if battle_scene.turn_order.is_empty():
 		round_next_setup()
 		return
 
-	# Select the acting battler for this turn
 	battle_scene.acting_battler = battle_scene.turn_order[0]
 
-	# Allocate a unique id for this battler turn before status ticking
 	var turn_id : int = _next_turn_id()
-	if battle_scene.status_system != null:
-		battle_scene.status_system.current_turn_id = turn_id
+	battle_scene.status_system.current_turn_id = turn_id
 
-	# Tick or expire statuses that occur at the start of the battler's turn
-	var did_tick : bool = false
-	if battle_scene.status_system != null:
-		did_tick = await battle_scene.status_system.on_turn_start(battle_scene.acting_battler)
+	var did_tick : bool = await battle_scene.status_system.on_turn_start(battle_scene.acting_battler)
 
-	# If statuses changed HP (or otherwise require UI refresh), update and handle any death
 	if did_tick:
 		if battle_scene.acting_battler.ui_element is BattleStats:
 			var stats : BattleStats = battle_scene.acting_battler.ui_element as BattleStats
 			await stats.hp_changed()
 
-		# If the battler died from start of turn ticks, resolve death before continuing
 		if battle_scene.acting_battler.actor_data.current_hp <= 0:
 			await battle_scene.action_resolver.check_for_death(battle_scene.acting_battler, battle_scene.acting_battler)
-
-			# Wait until notify queue is finished before advancing the turn
 			await battle_scene.notify_finished
 
 			if battle_scene.battle_state == "BATTLE_END":
 				return
 
-			# Continue to the next battler turn safely (avoid coroutine recursion)
 			call_deferred("battler_turn_next")
 			return
 
-	# Cache the next battler for UI preview purposes
 	if battle_scene.turn_order.size() > 1:
 		battle_scene.next_battler = battle_scene.turn_order[1]
 	else:
 		battle_scene.next_battler = null
 
-	# Ask StatusSystem for the turn directive (forced action, permission flags)
-	var directive : Dictionary = {
-		"can_select_commands": true,
-		"can_execute_action": true,
-		"forced_action_use": null,
-		"skip_reason": ""
-	}
+	var directive : Dictionary = battle_scene.status_system.get_turn_directive(battle_scene.acting_battler)
 
-	if battle_scene.status_system != null:
-		directive = battle_scene.status_system.get_turn_directive(battle_scene.acting_battler)
-
-	# Forced action takes precedence over command selection
 	var forced_use : ActionUse = null
 	if directive.has("forced_action_use"):
 		forced_use = directive["forced_action_use"] as ActionUse
@@ -118,7 +94,6 @@ func battler_turn_next() -> void:
 		battler_turn_done()
 		return
 
-	# If statuses block taking a turn, skip cleanly
 	var can_execute : bool = true
 	if directive.has("can_execute_action"):
 		can_execute = bool(directive["can_execute_action"])
@@ -129,12 +104,10 @@ func battler_turn_next() -> void:
 		battler_turn_done()
 		return
 
-	# Build an ActionUse either from player input or enemy AI
 	var use : ActionUse = null
 
 	match battle_scene.acting_battler.faction:
 		Battler.Faction.PARTY:
-			# If acting is allowed but command selection is blocked, skip the turn here
 			var can_select : bool = true
 			if directive.has("can_select_commands"):
 				can_select = bool(directive["can_select_commands"])
@@ -145,13 +118,11 @@ func battler_turn_next() -> void:
 				battler_turn_done()
 				return
 
-			# Enter command selection flow for this battler turn
 			battle_scene.command_controller.begin_turn(turn_id)
 			party_turn()
 			use = await _await_party_action_use(turn_id)
 
 		Battler.Faction.ENEMY:
-			# Enemy AI selects the action immediately
 			use = enemy_turn()
 
 		_:
@@ -159,71 +130,60 @@ func battler_turn_next() -> void:
 			battler_turn_done()
 			return
 
-	# If no action was produced, fail safe and advance
 	if use == null:
 		printerr("battler_turn_next(): ActionUse is null")
 		battler_turn_done()
 		return
 
-	# Status driven post selection cancel (example: slow rank 3 action fail)
-	if battle_scene.status_system != null:
-		var cancel_selected : bool = battle_scene.status_system.on_action_selected(battle_scene.acting_battler, use)
-		if cancel_selected:
-			battle_scene.ui_state = "NOTIFYING"
-			battle_scene.hide_party_commands()
-			await battle_scene.notify_finished
-			battler_turn_done()
-			return
+	var cancel_selected : bool = battle_scene.status_system.on_action_selected(battle_scene.acting_battler, use)
+	if cancel_selected:
+		battle_scene.ui_state = "NOTIFYING"
+		battle_scene.hide_party_commands()
+		await battle_scene.notify_finished
+		battler_turn_done()
+		return
 
-	# Execute the chosen action
 	await battle_scene.action_resolver.execute_action_use(use)
 
 	if battle_scene.battle_state == "BATTLE_END":
 		return
 
-	# Status driven post action bonus (example: haste rank 3 extra use)
-	var bonus_use : ActionUse = null
-	if battle_scene.status_system != null:
-		bonus_use = battle_scene.status_system.get_post_action_bonus_use(use)
-
+	var bonus_use : ActionUse = battle_scene.status_system.get_post_action_bonus_use(use)
 	if bonus_use != null:
-		if battle_scene.battle_notify_ui != null:
-			var name_text : String = "Someone"
-			if bonus_use.user != null and bonus_use.user.actor_data != null:
-				name_text = bonus_use.user.actor_data.get_display_name()
+		assert(bonus_use.user != null)
+		assert(bonus_use.user.actor_data != null)
 
-			battle_scene.battle_notify_ui.queue_notification(name_text + " acts again.")
-			await battle_scene.notify_finished
+		var name_text : String = bonus_use.user.actor_data.get_display_name()
+		battle_scene.battle_notify_ui.queue_notification(name_text + " acts again.")
+		await battle_scene.notify_finished
 
 		await battle_scene.action_resolver.execute_action_use(bonus_use)
 
 		if battle_scene.battle_state == "BATTLE_END":
 			return
 
-	# Close out this battler turn and advance
 	battler_turn_done()
 
 ##Routine for when it is an enemy's turn.
-func enemy_turn()->ActionUse:
+
+func enemy_turn() -> ActionUse:
 	battle_scene.ui_state = "NOTIFYING"
-	#use enemy AI to determine what to do #TODO Make enemy AI somehow
-	#play messages (called from battleaction)
-	var enemy = battle_scene.acting_battler
+
+	var enemy : Battler = battle_scene.acting_battler
 	var use : ActionUse = null
-	var ed = enemy.actor_data as EnemyData
+
+	var ed : EnemyData = enemy.actor_data as EnemyData
 	if ed != null:
-		use = ed.ai.choose_action_use(enemy,battle_scene)
-		
+		use = ed.ai.choose_action_use(enemy, battle_scene)
+
 	if use == null:
-		use =_fallback_enemy_attack(enemy)
+		use = _fallback_enemy_attack(enemy)
+
 	return use
 
+
 func _fallback_enemy_attack(enemy : Battler) -> ActionUse:
-	if enemy == null:
-		return null
 	var target : Battler = Targeting.pick_random_living_enemy(enemy, battle_scene)
-	if target == null:
-		return null
 
 	var action : BattleAction = null
 	if enemy.actor_data != null and enemy.actor_data.battle_actions != null:
@@ -231,56 +191,49 @@ func _fallback_enemy_attack(enemy : Battler) -> ActionUse:
 			if act is BattleActionAttack:
 				action = act
 				break
+
 	return ActionUse.new(enemy, action, [target])
-	
-	
-	
-	
-	
-##Routine for when it is a party member's turn. 
-func party_turn()->void:
+
+
+func party_turn() -> void:
 	battle_scene.ui_state = "ACTION_SELECT"
-	#Pops up commands for the acting party member's BattleStats window
-	var pmember = battle_scene.acting_battler
-	var pmbstats = pmember.ui_element as BattleStats
+
+	var pmember : Battler = battle_scene.acting_battler
+	var pmbstats : BattleStats = pmember.ui_element as BattleStats
 	pmbstats.show_commands = true
 	pmbstats.last_command_button_selected.grab_button_focus()
-	
-	#allow player to select their command choice
-	#command choice recorded into variable
-	#command choice emits turn_choice_finished signal
-	#battler_turn_next() continues to process
-	#
-	pass
-
-
-
 #endregion Turn Progression
 
 #region TURN END
 func battler_turn_done()->void:
+	# End of turn status hook
+	battle_scene.status_system.on_turn_end(battle_scene.acting_battler)
+
+	# Remove the acting battler only if it is still at index 0.
+	# If the acting battler died during its own action, check_for_death() may have already removed it.
+	if not battle_scene.turn_order.is_empty():
+		if battle_scene.turn_order[0] == battle_scene.acting_battler:
+			battle_scene.turn_order.remove_at(0)
+
+	battle_scene.update_turn_order_ui()
+
+	# Always evaluate victory or defeat before starting a new round.
+	var endbattle : int = check_for_end_battle()
+	if endbattle == 1:
+		battle_scene.end_of_battle_normal_defeat()
+		return
+	if endbattle == 2:
+		battle_scene.end_of_battle_normal_victory()
+		return
+
+	# Continue turn flow
 	if battle_scene.turn_order.is_empty():
 		round_next_setup()
 		return
-	
-	if battle_scene.status_system != null:
-		battle_scene.status_system.on_turn_end(battle_scene.acting_battler)
 
-	
-	battle_scene.turn_order.remove_at(0)
-	battle_scene.update_turn_order_ui()
-	var endbattle : int = check_for_end_battle()
-	if endbattle == 1: #party defeated, game over
-		battle_scene.end_of_battle_normal_defeat()
-		pass
-	else:
-		if endbattle == 2: #enemies defeated, victory
-			battle_scene.end_of_battle_normal_victory()
-			pass
-		else: #at least one remaining on each side, battle continues.
-			battler_turn_next()
+	battler_turn_next()
 
-	pass
+
 ##Returns int value based on if an entire faction of battlers is dead. If neither is true, returns 0.[br]
 ##Value 1 or 2 will break out of the battle loop into victory.
 func check_for_end_battle()->int:

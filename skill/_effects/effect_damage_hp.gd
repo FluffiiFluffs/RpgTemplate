@@ -14,7 +14,6 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 		return false
 
 	return true
-
 func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
@@ -29,7 +28,10 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if ctx.mode == EffectContext.Mode.BATTLE:
 		if ctx.battle_scene != null and ctx.current_target_battler != null:
 			if applied_dmg > 0:
-				ctx.battle_scene.battle_vfx.pop_text(ctx.current_target_battler, applied_dmg)
+				if ctx.battle_scene.battle_notify_ui != null and ctx.battle_scene.battle_vfx != null:
+					ctx.battle_scene.battle_notify_ui.queue_on_show_action_for_current(
+						Callable(ctx.battle_scene.battle_vfx, "pop_text").bind(ctx.current_target_battler, applied_dmg)
+					)
 
 	if ctx.mode == EffectContext.Mode.BATTLE:
 		if applied_dmg > 0 and ctx.status_system != null and ctx.current_target_battler != null:

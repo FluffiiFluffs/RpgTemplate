@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_kx4ho"]
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/battleaction.gd" id="1_uxqb8"]
 [ext_resource type="PackedScene" uid="uid://dg6uqnl2ew63l" path="res://actors/1_party/02_mage/mage_field_scene.tscn" id="2_rd2pk"]
-[ext_resource type="Resource" uid="uid://b35po5gyny4f5" path="res://battle/actions/attack/battleaction_attack_party.tres" id="2_vb56e"]
 [ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/defend/battleaction_defend.tres" id="3_67xjt"]
 [ext_resource type="Resource" uid="uid://yyucdgb5imk3" path="res://battle/actions/run/battleaction_run.tres" id="4_rijue"]
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/battleactions.gd" id="5_7xiv1"]
@@ -37,7 +36,7 @@
 
 [sub_resource type="Resource" id="Resource_vb56e"]
 script = ExtResource("5_7xiv1")
-battle_actions = Array[ExtResource("1_uxqb8")]([ExtResource("2_vb56e"), ExtResource("3_67xjt"), ExtResource("4_rijue"), ExtResource("5_vb56e"), ExtResource("6_ud2tb")])
+battle_actions = Array[ExtResource("1_uxqb8")]([ExtResource("3_67xjt"), ExtResource("4_rijue"), ExtResource("5_vb56e"), ExtResource("6_ud2tb")])
 metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [resource]

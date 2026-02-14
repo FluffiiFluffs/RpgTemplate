@@ -39,8 +39,6 @@ func blocks_turn(_status_system : StatusSystem, _battler : Battler) -> bool:
 func blocks_command_selection(_status_system : StatusSystem, _battler : Battler) -> bool:
 	return true
 
-
-
 func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	var actor : ActorData = get_receiver_actor()
 	if actor == null:
@@ -55,7 +53,6 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	var name_text : String = actor.get_display_name()
 	if name_text == "":
 		name_text = "Someone"
-
 
 	# Wake check before command selection
 	if randf() < wake_chance_turn_start:
@@ -80,12 +77,12 @@ func on_turn_start_tick(status_system : StatusSystem) -> bool:
 	var applied_heal : int = actor.current_hp - before_hp
 
 	if bs != null and bs.battle_notify_ui != null:
-		bs.battle_notify_ui.queue_notification(name_text + " snores loudly.")
-
-	if applied_heal > 0 and status_system != null and bs != null and bs.battle_vfx != null:
-		var battler2 : Battler = status_system.get_battler_for_actor(actor)
-		if battler2 != null:
-			bs.battle_vfx.pop_text_healing(battler2, applied_heal)
+		var actions : Array[Callable] = []
+		if applied_heal > 0 and status_system != null and bs != null and bs.battle_vfx != null:
+			var battler2 : Battler = status_system.get_battler_for_actor(actor)
+			if battler2 != null:
+				actions.append(Callable(bs.battle_vfx, "pop_text_healing").bind(battler2, applied_heal))
+		bs.battle_notify_ui.queue_notification(name_text + " snores loudly.", actions)
 
 	return true
 
