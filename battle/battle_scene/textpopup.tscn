@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://emit5otocxf1"]
 
 [ext_resource type="Script" uid="uid://c5wtex4e12n32" path="res://battle/battle_scene/textpopup.gd" id="1_17lgg"]
-[ext_resource type="FontFile" uid="uid://cgskjtpupq3uq" path="res://_assets/fonts/PixelifySans-VariableFont_wght.ttf" id="1_buqy0"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_17lgg"]
 
 [sub_resource type="Animation" id="Animation_17lgg"]
 length = 0.001
@@ -112,6 +112,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
@@ -122,21 +123,21 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_fonts/normal_font = ExtResource("1_buqy0")
-theme_override_font_sizes/normal_font_size = 14
+theme_override_fonts/normal_font = ExtResource("2_17lgg")
+theme_override_font_sizes/normal_font_size = 10
+text = "asdf"
 horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="NumberLabel" type="RichTextLabel" parent="Control/VBoxContainer" unique_id=98017631]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 1.4456367)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_fonts/normal_font = ExtResource("1_buqy0")
-theme_override_font_sizes/normal_font_size = 14
-text = "+"
+theme_override_fonts/normal_font = ExtResource("2_17lgg")
+theme_override_font_sizes/normal_font_size = 10
+text = "1234"
 horizontal_alignment = 1
 vertical_alignment = 1
 

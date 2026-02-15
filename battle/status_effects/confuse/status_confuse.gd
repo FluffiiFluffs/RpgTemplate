@@ -8,8 +8,6 @@ extends StatusEffect
 var _turns_remaining : int = 3
 var _last_forced_turn_id : int = -1
 
-const _SKILL_ACTION_PATH : String = "res://battle/actions/skill/battleaction_skill.tres"
-
 
 func _init() -> void:
 	kind = StatusKind.AILMENT
@@ -67,7 +65,6 @@ func get_forced_action_use(status_system : StatusSystem, battler : Battler) -> A
 
 	return use
 
-
 func _build_random_action_use(status_system : StatusSystem, battler : Battler) -> ActionUse:
 	var actor : ActorData = battler.actor_data
 	if actor == null:
@@ -75,19 +72,28 @@ func _build_random_action_use(status_system : StatusSystem, battler : Battler) -
 
 	var choices : Array[Dictionary] = []
 
-	# Normal attack and defend from BattleActions
+	# Always include the receiver's normal attack skill if it exists.
+	# This keeps "attack" execution in the USE_SKILL pipeline.
+	var normal_skill : Skill = actor.normal_attack_skill
+	if normal_skill != null:
+		if normal_skill.scope != Skill.UseScope.FIELD_ONLY and normal_skill.can_pay_cost(actor):
+			choices.append({"kind": "skill", "skill": normal_skill})
+
+	# Defend from BattleActions (kept as BattleAction)
 	var actions_res : BattleActions = actor.battle_actions
 	if actions_res != null and actions_res.battle_actions != null:
 		for a in actions_res.battle_actions:
 			if a == null:
 				continue
-			if a.type == BattleAction.ActionType.NORMAL_ATTACK or a.type == BattleAction.ActionType.DEFEND:
+			if a.type == BattleAction.ActionType.DEFEND:
 				choices.append({"kind": "action", "action": a})
 
-	# All usable skills (no items, no run)
+	# All usable skills (no items, no run). Avoid duplicating the normal attack skill.
 	if actor.skills != null:
 		for s in actor.skills:
 			if s == null:
+				continue
+			if s == normal_skill:
 				continue
 			if s.scope == Skill.UseScope.FIELD_ONLY:
 				continue
@@ -95,13 +101,9 @@ func _build_random_action_use(status_system : StatusSystem, battler : Battler) -
 				continue
 			choices.append({"kind": "skill", "skill": s})
 
-	# Fallback: normal attack if nothing else exists
+	# Fallback: if nothing is usable, do nothing.
 	if choices.is_empty():
-		var fallback_action : BattleAction = _find_first_action_of_type(actor, BattleAction.ActionType.NORMAL_ATTACK)
-		if fallback_action == null:
-			return null
-		var fallback_targets : Array[Battler] = _choose_targets_for_battle_action(status_system, battler, fallback_action)
-		return ActionUse.new(battler, fallback_action, fallback_targets, {})
+		return null
 
 	var pick : Dictionary = choices[randi_range(0, choices.size() - 1)]
 
@@ -110,11 +112,13 @@ func _build_random_action_use(status_system : StatusSystem, battler : Battler) -
 		if skill == null:
 			return null
 
-		var skill_action : BattleAction = _get_skill_battle_action(actor)
+		var skill_action : BattleAction = status_system.battle_scene.BATTLEACTION_SKILL
+
 		var targets : Array[Battler] = _choose_targets_for_skill(status_system, battler, skill)
 
-		var data : Dictionary = {"skill": skill}
-		return ActionUse.new(battler, skill_action, targets, data)
+		var use : ActionUse = ActionUse.new(battler, skill_action, targets, {})
+		use.skill = skill
+		return use
 
 	var action : BattleAction = pick["action"] as BattleAction
 	if action == null:
@@ -140,23 +144,6 @@ func _find_first_action_of_type(actor : ActorData, t : int) -> BattleAction:
 
 	return null
 
-
-func _get_skill_battle_action(actor : ActorData) -> BattleAction:
-	# Prefer an authored BattleActionSkill in the actor's BattleActions list
-	if actor != null and actor.battle_actions != null and actor.battle_actions.battle_actions != null:
-		for a in actor.battle_actions.battle_actions:
-			if a == null:
-				continue
-			if a is BattleActionSkill:
-				return a
-
-	# Fall back to shared resource
-	var loaded = load(_SKILL_ACTION_PATH)
-	if loaded is BattleAction:
-		return loaded as BattleAction
-
-	# Final fallback
-	return BattleActionSkill.new()
 
 func _choose_targets_for_battle_action(status_system : StatusSystem, user : Battler, action : BattleAction) -> Array[Battler]:
 	if user == null or action == null:

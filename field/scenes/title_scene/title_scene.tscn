@@ -1,0 +1,450 @@
+[gd_scene format=4 uid="uid://b36ngnfew8k5c"]
+
+[ext_resource type="Script" uid="uid://bydbcovi5rqlh" path="res://field/scenes/title_scene/title_scene.gd" id="1_trq1k"]
+[ext_resource type="PackedScene" uid="uid://b6wqcylyqt217" path="res://field/scenes/title_scene/title_sparkle.tscn" id="3_fl6ft"]
+[ext_resource type="Texture2D" uid="uid://co84vhcqtwvrm" path="res://_assets/battle/background/placeholder_battle_back_mountain_400.png" id="3_trq1k"]
+[ext_resource type="Script" uid="uid://bc3uyg6l87yuc" path="res://field/scenes/title_scene/title_buttons.gd" id="4_fl6ft"]
+[ext_resource type="Texture2D" uid="uid://b4t5hgkgg7wgs" path="res://_assets/start_menu/sword.png" id="4_uxirf"]
+[ext_resource type="Texture2D" uid="uid://bhj0624jeib5t" path="res://_assets/start_menu/gear.png" id="5_pcbnx"]
+[ext_resource type="Texture2D" uid="uid://c06qgr2rb6wh0" path="res://_assets/start_menu/disk.png" id="6_fl6ft"]
+[ext_resource type="Texture2D" uid="uid://cgpqb6mbyf8oo" path="res://_assets/start_menu/xit.png" id="7_kni3l"]
+
+[sub_resource type="Gradient" id="Gradient_kmx5h"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_trq1k"]
+gradient = SubResource("Gradient_kmx5h")
+width = 400
+height = 224
+
+[sub_resource type="Gradient" id="Gradient_trq1k"]
+colors = PackedColorArray(0.54509807, 0.40784314, 0.7372549, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uxirf"]
+gradient = SubResource("Gradient_trq1k")
+width = 200
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pcbnx"]
+size = Vector2(44, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kni3l"]
+size = Vector2(44, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fl6ft"]
+size = Vector2(44, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0cay3"]
+size = Vector2(44, 44)
+
+[sub_resource type="Gradient" id="Gradient_i3btf"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kmx5h"]
+gradient = SubResource("Gradient_i3btf")
+width = 400
+height = 224
+fill = 2
+fill_from = Vector2(0.4615869, 0.48691073)
+
+[sub_resource type="Animation" id="Animation_trq1k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LicenseSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LicenseSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TitleGraphic:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TitleGraphic:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TitleButtons:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("TitleButtons:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("TitleBack:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("TitleBack:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_kmx5h"]
+resource_name = "show_license"
+length = 4.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LicenseSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LicenseSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_pcbnx"]
+resource_name = "show_title_back"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleBack:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TitleBack:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kni3l"]
+resource_name = "show_title_buttons"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleButtons:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TitleButtons:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fl6ft"]
+resource_name = "show_title_graphic"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleGraphic:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TitleGraphic:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_trq1k"]
+_data = {
+&"RESET": SubResource("Animation_trq1k"),
+&"show_license": SubResource("Animation_kmx5h"),
+&"show_title_back": SubResource("Animation_pcbnx"),
+&"show_title_buttons": SubResource("Animation_kni3l"),
+&"show_title_graphic": SubResource("Animation_fl6ft")
+}
+
+[node name="TitleScene" type="Node2D" unique_id=411987689]
+script = ExtResource("1_trq1k")
+
+[node name="Tile" type="Node2D" parent="." unique_id=2086663294]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Ground1" type="TileMapLayer" parent="Tile" unique_id=594847403]
+unique_name_in_owner = true
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAMAAQAAAAAAAAAAAAQAAQAAAAAAAAAAAAUAAQAAAAAAAAAAAAYAAQAAAAAAAAAAAAcAAQAAAAAAAAAAAAgAAQAAAAAAAAAAAAkAAQAAAAAAAAAAAAoAAQAAAAAAAAAAAAsAAQAAAAAAAAAAAAwAAQAAAAAAAAAAAA0AAQAAAAAAAAABAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAABAAMAAQAAAAAAAAABAAQAAQAAAAAAAAABAAUAAQAAAAAAAAABAAYAAQAAAAAAAAABAAcAAQAAAAAAAAABAAgAAQAAAAAAAAABAAkAAQAAAAAAAAABAAoAAQAAAAAAAAABAAsAAQAAAAAAAAABAAwAAQAAAAAAAAABAA0AAQAAAAAAAAACAAAAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQAAAAAAAAACAAQAAQAAAAAAAAACAAUAAQAAAAAAAAACAAYAAQAAAAAAAAACAAcAAQAAAAAAAAACAAgAAQAAAAAAAAACAAkAAQAAAAAAAAACAAoAAQAAAAAAAAACAAsAAQAAAAAAAAACAAwAAQAAAAAAAAACAA0AAQAAAAAAAAADAAAAAQAAAAAAAAADAAEAAQAAAAAAAAADAAIAAQAAAAAAAAADAAMAAQAAAAAAAAADAAQAAQAAAAAAAAADAAUAAQAAAAAAAAADAAYAAQAAAAAAAAADAAcAAQAAAAAAAAADAAgAAQAAAAAAAAADAAkAAQAAAAAAAAADAAoAAQAAAAAAAAADAAsAAQAAAAAAAAADAAwAAQAAAAAAAAADAA0AAQAAAAAAAAAEAAAAAQAAAAAAAAAEAAEAAQAAAAAAAAAEAAIAAQAAAAAAAAAEAAMAAQAAAAAAAAAEAAQAAQAAAAAAAAAEAAUAAQAAAAAAAAAEAAYAAQAAAAAAAAAEAAcAAQAAAAAAAAAEAAgAAQAAAAAAAAAEAAkAAQAAAAAAAAAEAAoAAQAAAAAAAAAEAAsAAQAAAAAAAAAEAAwAAQAAAAAAAAAEAA0AAQAAAAAAAAAFAAAAAQAAAAAAAAAFAAEAAQAAAAAAAAAFAAIAAQAAAAAAAAAFAAMAAQAAAAAAAAAFAAQAAQAAAAAAAAAFAAUAAQAAAAAAAAAFAAYAAQAAAAAAAAAFAAcAAQAAAAAAAAAFAAgAAQAAAAAAAAAFAAkAAQAAAAAAAAAFAAoAAQAAAAAAAAAFAAsAAQAAAAAAAAAFAAwAAQAAAAAAAAAFAA0AAQAAAAAAAAAGAAAAAQAAAAAAAAAGAAEAAQAAAAAAAAAGAAIAAQAAAAAAAAAGAAMAAQAAAAAAAAAGAAQAAQAAAAAAAAAGAAUAAQAAAAAAAAAGAAYAAQAAAAAAAAAGAAcAAQAAAAAAAAAGAAgAAQAAAAAAAAAGAAkAAQAAAAAAAAAGAAoAAQAAAAAAAAAGAAsAAQAAAAAAAAAGAAwAAQAAAAAAAAAGAA0AAQAAAAAAAAAHAAAAAQAAAAAAAAAHAAEAAQAAAAAAAAAHAAIAAQAAAAAAAAAHAAMAAQAAAAAAAAAHAAQAAQAAAAAAAAAHAAUAAQAAAAAAAAAHAAYAAQAAAAAAAAAHAAcAAQAAAAAAAAAHAAgAAQAAAAAAAAAHAAkAAQAAAAAAAAAHAAoAAQAAAAAAAAAHAAsAAQAAAAAAAAAHAAwAAQAAAAAAAAAHAA0AAQAAAAAAAAAIAAAAAQAAAAAAAAAIAAEAAQAAAAAAAAAIAAIAAQAAAAAAAAAIAAMAAQAAAAAAAAAIAAQAAQAAAAAAAAAIAAUAAQAAAAAAAAAIAAYAAQAAAAAAAAAIAAcAAQAAAAAAAAAIAAgAAQAAAAAAAAAIAAkAAQAAAAAAAAAIAAoAAQAAAAAAAAAIAAsAAQAAAAAAAAAIAAwAAQAAAAAAAAAIAA0AAQAAAAAAAAAJAAAAAQAAAAAAAAAJAAEAAQAAAAAAAAAJAAIAAQAAAAAAAAAJAAMAAQAAAAAAAAAJAAQAAQAAAAAAAAAJAAUAAQAAAAAAAAAJAAYAAQAAAAAAAAAJAAcAAQAAAAAAAAAJAAgAAQAAAAAAAAAJAAkAAQAAAAAAAAAJAAoAAQAAAAAAAAAJAAsAAQAAAAAAAAAJAAwAAQAAAAAAAAAJAA0AAQAAAAAAAAAKAAAAAQAAAAAAAAAKAAEAAQAAAAAAAAAKAAIAAQAAAAAAAAAKAAMAAQAAAAAAAAAKAAQAAQAAAAAAAAAKAAUAAQAAAAAAAAAKAAYAAQAAAAAAAAAKAAcAAQAAAAAAAAAKAAgAAQAAAAAAAAAKAAkAAQAAAAAAAAAKAAoAAQAAAAAAAAAKAAsAAQAAAAAAAAAKAAwAAQAAAAAAAAAKAA0AAQAAAAAAAAALAAAAAQAAAAAAAAALAAEAAQAAAAAAAAALAAIAAQAAAAAAAAALAAMAAQAAAAAAAAALAAQAAQAAAAAAAAALAAUAAQAAAAAAAAALAAYAAQAAAAAAAAALAAcAAQAAAAAAAAALAAgAAQAAAAAAAAALAAkAAQAAAAAAAAALAAoAAQAAAAAAAAALAAsAAQAAAAAAAAALAAwAAQAAAAAAAAALAA0AAQAAAAAAAAAMAAAAAQAAAAAAAAAMAAEAAQAAAAAAAAAMAAIAAQAAAAAAAAAMAAMAAQAAAAAAAAAMAAQAAQAAAAAAAAAMAAUAAQAAAAAAAAAMAAYAAQAAAAAAAAAMAAcAAQAAAAAAAAAMAAgAAQAAAAAAAAAMAAkAAQAAAAAAAAAMAAoAAQAAAAAAAAAMAAsAAQAAAAAAAAAMAAwAAQAAAAAAAAAMAA0AAQAAAAAAAAANAAAAAQAAAAAAAAANAAEAAQAAAAAAAAANAAIAAQAAAAAAAAANAAMAAQAAAAAAAAANAAQAAQAAAAAAAAANAAUAAQAAAAAAAAANAAYAAQAAAAAAAAANAAcAAQAAAAAAAAANAAgAAQAAAAAAAAANAAkAAQAAAAAAAAANAAoAAQAAAAAAAAANAAsAAQAAAAAAAAANAAwAAQAAAAAAAAANAA0AAQAAAAAAAAAOAAAAAQAAAAAAAAAOAAEAAQAAAAAAAAAOAAIAAQAAAAAAAAAOAAMAAQAAAAAAAAAOAAQAAQAAAAAAAAAOAAUAAQAAAAAAAAAOAAYAAQAAAAAAAAAOAAcAAQAAAAAAAAAOAAgAAQAAAAAAAAAOAAkAAQAAAAAAAAAOAAoAAQAAAAAAAAAOAAsAAQAAAAAAAAAOAAwAAQAAAAAAAAAOAA0AAQAAAAAAAAAPAAAAAQAAAAAAAAAPAAEAAQAAAAAAAAAPAAIAAQAAAAAAAAAPAAMAAQAAAAAAAAAPAAQAAQAAAAAAAAAPAAUAAQAAAAAAAAAPAAYAAQAAAAAAAAAPAAcAAQAAAAAAAAAPAAgAAQAAAAAAAAAPAAkAAQAAAAAAAAAPAAoAAQAAAAAAAAAPAAsAAQAAAAAAAAAPAAwAAQAAAAAAAAAPAA0AAQAAAAAAAAAQAAAAAQAAAAAAAAAQAAEAAQAAAAAAAAAQAAIAAQAAAAAAAAAQAAMAAQAAAAAAAAAQAAQAAQAAAAAAAAAQAAUAAQAAAAAAAAAQAAYAAQAAAAAAAAAQAAcAAQAAAAAAAAAQAAgAAQAAAAAAAAAQAAkAAQAAAAAAAAAQAAoAAQAAAAAAAAAQAAsAAQAAAAAAAAAQAAwAAQAAAAAAAAAQAA0AAQAAAAAAAAARAAAAAQAAAAAAAAARAAEAAQAAAAAAAAARAAIAAQAAAAAAAAARAAMAAQAAAAAAAAARAAQAAQAAAAAAAAARAAUAAQAAAAAAAAARAAYAAQAAAAAAAAARAAcAAQAAAAAAAAARAAgAAQAAAAAAAAARAAkAAQAAAAAAAAARAAoAAQAAAAAAAAARAAsAAQAAAAAAAAARAAwAAQAAAAAAAAARAA0AAQAAAAAAAAASAAAAAQAAAAAAAAASAAEAAQAAAAAAAAASAAIAAQAAAAAAAAASAAMAAQAAAAAAAAASAAQAAQAAAAAAAAASAAUAAQAAAAAAAAASAAYAAQAAAAAAAAASAAcAAQAAAAAAAAASAAgAAQAAAAAAAAASAAkAAQAAAAAAAAASAAoAAQAAAAAAAAASAAsAAQAAAAAAAAASAAwAAQAAAAAAAAASAA0AAQAAAAAAAAATAAAAAQAAAAAAAAATAAEAAQAAAAAAAAATAAIAAQAAAAAAAAATAAMAAQAAAAAAAAATAAQAAQAAAAAAAAATAAUAAQAAAAAAAAATAAYAAQAAAAAAAAATAAcAAQAAAAAAAAATAAgAAQAAAAAAAAATAAkAAQAAAAAAAAATAAoAAQAAAAAAAAATAAsAAQAAAAAAAAATAAwAAQAAAAAAAAATAA0AAQAAAAAAAAAUAAAAAQAAAAAAAAAUAAEAAQAAAAAAAAAUAAIAAQAAAAAAAAAUAAMAAQAAAAAAAAAUAAQAAQAAAAAAAAAUAAUAAQAAAAAAAAAUAAYAAQAAAAAAAAAUAAcAAQAAAAAAAAAUAAgAAQAAAAAAAAAUAAkAAQAAAAAAAAAUAAoAAQAAAAAAAAAUAAsAAQAAAAAAAAAUAAwAAQAAAAAAAAAUAA0AAQAAAAAAAAAVAAAAAQAAAAAAAAAVAAEAAQAAAAAAAAAVAAIAAQAAAAAAAAAVAAMAAQAAAAAAAAAVAAQAAQAAAAAAAAAVAAUAAQAAAAAAAAAVAAYAAQAAAAAAAAAVAAcAAQAAAAAAAAAVAAgAAQAAAAAAAAAVAAkAAQAAAAAAAAAVAAoAAQAAAAAAAAAVAAsAAQAAAAAAAAAVAAwAAQAAAAAAAAAVAA0AAQAAAAAAAAAWAAAAAQAAAAAAAAAWAAEAAQAAAAAAAAAWAAIAAQAAAAAAAAAWAAMAAQAAAAAAAAAWAAQAAQAAAAAAAAAWAAUAAQAAAAAAAAAWAAYAAQAAAAAAAAAWAAcAAQAAAAAAAAAWAAgAAQAAAAAAAAAWAAkAAQAAAAAAAAAWAAoAAQAAAAAAAAAWAAsAAQAAAAAAAAAWAAwAAQAAAAAAAAAWAA0AAQAAAAAAAAAXAAAAAQAAAAAAAAAXAAEAAQAAAAAAAAAXAAIAAQAAAAAAAAAXAAMAAQAAAAAAAAAXAAQAAQAAAAAAAAAXAAUAAQAAAAAAAAAXAAYAAQAAAAAAAAAXAAcAAQAAAAAAAAAXAAgAAQAAAAAAAAAXAAkAAQAAAAAAAAAXAAoAAQAAAAAAAAAXAAsAAQAAAAAAAAAXAAwAAQAAAAAAAAAXAA0AAQAAAAAAAAAYAAAAAQAAAAAAAAAYAAEAAQAAAAAAAAAYAAIAAQAAAAAAAAAYAAMAAQAAAAAAAAAYAAQAAQAAAAAAAAAYAAUAAQAAAAAAAAAYAAYAAQAAAAAAAAAYAAcAAQAAAAAAAAAYAAgAAQAAAAAAAAAYAAkAAQAAAAAAAAAYAAoAAQAAAAAAAAAYAAsAAQAAAAAAAAAYAAwAAQAAAAAAAAAYAA0AAQAAAAAAAAA=")
+
+[node name="Ground2" type="TileMapLayer" parent="Tile" unique_id=2025346408]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Ground3" type="TileMapLayer" parent="Tile" unique_id=489608217]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Ground4" type="TileMapLayer" parent="Tile" unique_id=673689858]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Ground5" type="TileMapLayer" parent="Tile" unique_id=1562049903]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="DecorBottom" type="TileMapLayer" parent="Tile" unique_id=1829650455]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="DecorTop" type="TileMapLayer" parent="Tile" unique_id=347368835]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="BlackBack" type="Sprite2D" parent="." unique_id=405664648]
+unique_name_in_owner = true
+position = Vector2(200, 112)
+texture = SubResource("GradientTexture2D_trq1k")
+
+[node name="TitleBack" type="Sprite2D" parent="." unique_id=2004126589]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(200, 112)
+texture = ExtResource("3_trq1k")
+
+[node name="TitleGraphic" type="Sprite2D" parent="." unique_id=2047685447]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(200, 57)
+texture = SubResource("GradientTexture2D_uxirf")
+
+[node name="TitleButtons" type="Node2D" parent="." unique_id=1593976085]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(200, 57)
+script = ExtResource("4_fl6ft")
+
+[node name="NewGame" type="Sprite2D" parent="TitleButtons" unique_id=1068990302]
+position = Vector2(-100, 135)
+texture = ExtResource("4_uxirf")
+
+[node name="NewGameArea2D" type="Area2D" parent="TitleButtons/NewGame" unique_id=1127939042]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TitleButtons/NewGame/NewGameArea2D" unique_id=1679120187]
+shape = SubResource("RectangleShape2D_pcbnx")
+
+[node name="LoadGame" type="Sprite2D" parent="TitleButtons" unique_id=1668210614]
+position = Vector2(0, 135)
+texture = ExtResource("6_fl6ft")
+
+[node name="LoadGameArea2D" type="Area2D" parent="TitleButtons/LoadGame" unique_id=1209586860]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TitleButtons/LoadGame/LoadGameArea2D" unique_id=1331692866]
+shape = SubResource("RectangleShape2D_kni3l")
+
+[node name="OptionsB" type="Sprite2D" parent="TitleButtons" unique_id=896299945]
+position = Vector2(100, 135)
+texture = ExtResource("5_pcbnx")
+
+[node name="OptionsArea2D" type="Area2D" parent="TitleButtons/OptionsB" unique_id=820704198]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TitleButtons/OptionsB/OptionsArea2D" unique_id=866964613]
+shape = SubResource("RectangleShape2D_fl6ft")
+
+[node name="ExitGame" type="Sprite2D" parent="TitleButtons" unique_id=1252827055]
+position = Vector2(163, -22)
+texture = ExtResource("7_kni3l")
+
+[node name="ExitGameArea2D" type="Area2D" parent="TitleButtons/ExitGame" unique_id=666415651]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TitleButtons/ExitGame/ExitGameArea2D" unique_id=1413678552]
+shape = SubResource("RectangleShape2D_0cay3")
+
+[node name="ChoiceText" type="Label" parent="TitleButtons" unique_id=55498228]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.5
+offset_top = 54.0
+offset_right = 49.5
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CHOICE TEXT"
+horizontal_alignment = 1
+
+[node name="LicenseSprite" type="Sprite2D" parent="." unique_id=954773874]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(200, 112)
+texture = SubResource("GradientTexture2D_kmx5h")
+
+[node name="FieldActors" type="Node2D" parent="." unique_id=1226752291]
+y_sort_enabled = true
+
+[node name="PlacedEnemies" type="Node2D" parent="FieldActors" unique_id=1969930657]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="EnemySpawners" type="Node2D" parent="FieldActors" unique_id=913952300]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="PlacedNPCs" type="Node2D" parent="FieldActors" unique_id=206549284]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Party" type="Node2D" parent="FieldActors" unique_id=189611221]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="TitleSparkle" parent="." unique_id=686763568 instance=ExtResource("3_fl6ft")]
+unique_name_in_owner = true
+position = Vector2(-76, -49)
+
+[node name="Navigation" type="NavigationRegion2D" parent="." unique_id=1202813702]
+unique_name_in_owner = true
+
+[node name="Markers" type="Node2D" parent="." unique_id=1616932999]
+unique_name_in_owner = true
+
+[node name="PlayerSpawn" type="Node2D" parent="Markers" unique_id=1425568853]
+unique_name_in_owner = true
+
+[node name="SpawnMarker2D" type="Marker2D" parent="Markers/PlayerSpawn" unique_id=1678871527]
+unique_name_in_owner = true
+position = Vector2(200, 151)
+
+[node name="Interactables" type="Node2D" parent="." unique_id=724810842]
+unique_name_in_owner = true
+
+[node name="Triggers" type="Node2D" parent="." unique_id=2076659185]
+unique_name_in_owner = true
+
+[node name="Audio" type="Node2D" parent="Triggers" unique_id=690314581]
+unique_name_in_owner = true
+
+[node name="Cutscene" type="Node2D" parent="Triggers" unique_id=130596682]
+unique_name_in_owner = true
+
+[node name="Encounter" type="Node2D" parent="Triggers" unique_id=1094863863]
+unique_name_in_owner = true
+
+[node name="TransitionAreas" type="Node2D" parent="Triggers" unique_id=1664586036]
+unique_name_in_owner = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2001112957]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_trq1k")

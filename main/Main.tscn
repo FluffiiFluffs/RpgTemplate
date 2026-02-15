@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://8mk4fr1fy0gk" path="res://main/main.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://bwiudxjxceld0" path="res://main/field_camera_rig.gd" id="2_5kcm4"]
-[ext_resource type="Script" uid="uid://c7qidetjaih36" path="res://main/field_poison_fx.gd" id="2_cmtxc"]
 [ext_resource type="PackedScene" uid="uid://lcgogxjtiq0y" path="res://main/transition_layer.tscn" id="2_i85ao"]
 [ext_resource type="Script" uid="uid://bwp3gopqemwbr" path="res://main/field_vfx.gd" id="2_tv7ag"]
 
@@ -19,27 +18,11 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 script = ExtResource("2_tv7ag")
 
-[node name="FieldPoisonFX" type="CanvasLayer" parent="FieldRoot/FieldVFX" unique_id=975613471]
-visible = false
-script = ExtResource("2_cmtxc")
-
-[node name="PoisonRect" type="ColorRect" parent="FieldRoot/FieldVFX/FieldPoisonFX" unique_id=370492103]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.25524214, 0.15594886, 0.62782896, 0.5)
-
 [node name="FieldCameraRig" type="Node2D" parent="FieldRoot" unique_id=2053319268]
 unique_name_in_owner = true
 script = ExtResource("2_5kcm4")
 
 [node name="FieldCamera" type="Camera2D" parent="FieldRoot/FieldCameraRig" unique_id=681856671]
-unique_name_in_owner = true
-
-[node name="TitleMenuLayer" type="Node" parent="." unique_id=1479621695]
 unique_name_in_owner = true
 
 [node name="BattleRoot" type="Node2D" parent="." unique_id=1515874749]
@@ -63,6 +46,3 @@ bus = &"SFX"
 [node name="VoicesAudio" type="AudioStreamPlayer" parent="AudioRoot" unique_id=1874612627]
 max_polyphony = 10
 bus = &"Voices"
-
-[node name="Runtime" type="Node" parent="." unique_id=1148603738]
-unique_name_in_owner = true

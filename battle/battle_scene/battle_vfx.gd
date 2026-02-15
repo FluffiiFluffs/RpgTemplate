@@ -27,6 +27,29 @@ func pop_text_critical(target : Battler, amount : int) -> void:
 	popup.snap_center_to_canvas_point(point)
 	popup.show_text()
 
+
+func pop_text_riposte(target : Battler, amount : int) -> void:
+	var popup : TextPopup = TEXTPOPUP.instantiate()
+	add_child(popup)
+	popup.set_number(amount)
+	popup.set_title("RIPOSTE")
+	popup.set_color(Color(0.945, 0.704, 0.0, 1.0))
+	popup.title_visible()
+	var point : Vector2 = target.ui_element.marker_2d.get_global_transform_with_canvas().origin.round()
+	popup.snap_center_to_canvas_point(point)
+	popup.show_text()
+
+func pop_text_only(target : Battler, text : String )->void:
+	var popup : TextPopup = TEXTPOPUP.instantiate()
+	add_child(popup)
+	popup.number_label.visible = false
+	popup.set_title(text)
+	popup.set_color(Color(1.0, 1.0, 1.0, 1.0))
+	popup.title_visible()
+	var point : Vector2 = target.ui_element.marker_2d.get_global_transform_with_canvas().origin.round()
+	popup.snap_center_to_canvas_point(point)
+	popup.show_text()
+
 func pop_text_healing(target : Battler, amount : int) -> void:
 	var popup : TextPopup = TEXTPOPUP.instantiate()
 	add_child(popup)

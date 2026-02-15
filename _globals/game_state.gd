@@ -19,7 +19,9 @@ enum State {
 	LOADING,
 	GAMEOVER,
 	SHOP,
-	DIALOGUE
+	DIALOGUE,
+	INTRO,
+	
 }
 
 var _gamestate : int = State.STARTMENU

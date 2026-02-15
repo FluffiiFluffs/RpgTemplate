@@ -1,6 +1,7 @@
 @tool
 class_name SceneTransitioner
 extends Area2D
+##Object to be used in scene to determine where scene transitions happen
 
 enum SIDE {UP,DOWN,LEFT,RIGHT}
 

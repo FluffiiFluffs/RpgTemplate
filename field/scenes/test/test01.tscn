@@ -23,7 +23,7 @@ enemies = Array[ExtResource("5_vsrmw")]([ExtResource("6_k3l33")])
 metadata/_custom_type_script = "uid://dudqhcylgo2st"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_75auk"]
-size = Vector2(100, 100)
+size = Vector2(364, 583)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ypob0"]
 load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
@@ -458,6 +458,7 @@ max_enemies = 8
 stays_in_shape = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FieldActors/EnemySpawners/EnemySpawner" unique_id=1395791272]
+position = Vector2(-129, -49.5)
 shape = SubResource("RectangleShape2D_75auk")
 debug_color = Color(1, 0, 0, 0.05)
 

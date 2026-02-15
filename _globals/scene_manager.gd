@@ -60,25 +60,19 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	#Clear the controlled character, too
 	CharDataKeeper.controlled_character = null
 	
-	
-	#get rid of old scene
-	#for child in main_scene.field_scene_container.get_children():
-		#main_scene.field_scene_container.call_deferred("remove_child",child)
-		#await get_tree().process_frame
-		#child.queue_free()
-	#await get_tree().process_frame
-	#
-	main_scene.current_field_scene.queue_free()
-	main_scene.current_field_scene = null
+	if main_scene.current_field_scene != null:
+		main_scene.current_field_scene.queue_free()
+		main_scene.current_field_scene = null
 	
 	#use scene path string to instantiate a scene under main_scene.field_scene_container
 	var new_scene = load(scene_path).instantiate()
 	main_scene.field_scene_container.add_child(new_scene)
 	main_scene.current_field_scene = new_scene
-	party_spawn_point = find_transitioner(main_scene.current_field_scene, next_scene_transitioner_name)
-	spawn_offset = party_spawn_point.compute_spawn_offset(transition_entry_offset)
-	make_party_at_spawn_point(party_spawn_point)
-	main_scene.field_camera_rig.follow_player()
+	if party_spawn_point != null:
+		party_spawn_point = find_transitioner(main_scene.current_field_scene, next_scene_transitioner_name)
+		spawn_offset = party_spawn_point.compute_spawn_offset(transition_entry_offset)
+		make_party_at_spawn_point(party_spawn_point)
+		main_scene.field_camera_rig.follow_player()
 	
 	
 	await get_tree().process_frame
@@ -86,8 +80,31 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	await main_scene.transition_layer.animation_player.animation_finished
 	load_completed.emit()
 	is_loading_field_scene = false
-	#play transition end
-	pass
+
+
+func load_title_scene()->void:
+	is_loading_field_scene = true
+	GameState.gamestate = GameState.State.INTRO
+	load_started.emit()
+	
+
+	
+	#Clear out the field party nodes array so it can be populated again
+	CharDataKeeper.field_party_nodes.clear()
+	#Clear the controlled character, too
+	CharDataKeeper.controlled_character = null
+
+
+	#use scene path string to instantiate a scene under main_scene.field_scene_container
+	var new_scene = load("uid://b36ngnfew8k5c").instantiate()
+	main_scene.field_scene_container.add_child(new_scene)
+	main_scene.title_menu_scene = new_scene
+
+	load_completed.emit()
+	is_loading_field_scene = false
+	main_scene.title_menu_scene
+
+
 
 
 #endregion Scene Changing

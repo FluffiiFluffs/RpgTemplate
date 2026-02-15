@@ -282,7 +282,6 @@ y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_xjh2q")
-pm_id = &"warrior01"
 
 [node name="FieldSprite" type="Sprite2D" parent="." unique_id=1373858968]
 unique_name_in_owner = true

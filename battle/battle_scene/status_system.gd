@@ -128,6 +128,9 @@ func get_forced_action_use(battler : Battler) -> ActionUse:
 			best_is_control = is_control
 
 	return best_use
+	
+	
+	
 func get_turn_directive(battler : Battler) -> Dictionary:
 	var out : Dictionary = {
 		"can_select_commands": true,
@@ -451,6 +454,8 @@ func on_action_selected(battler : Battler, use : ActionUse) -> bool:
 			return true
 
 	return false
+
+
 func on_action_start(battler : Battler, use : ActionUse) -> void:
 	if battler == null:
 		return

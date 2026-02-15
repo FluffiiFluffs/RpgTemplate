@@ -5,11 +5,11 @@
 		Also implement persistence system between scenes for certain things like opening chests
 
 	STATS
-		Implement luck #partially completed
-			crit rate
-			#evasion/hit
-			full resist magic damage
-			resist negative status effects + break out
+		#Implement luck 
+		#crit
+		#evasion/hit
+		full resist magic damage
+		resist negative status effects + break out
 			
 		clean up formulas
 		clean up actor data
@@ -32,12 +32,15 @@
 	Check DialogueManager code to try to figure out if some things implemented were already in place by default
 		within the dialoguemanager addon (specifically the portrait thing)
 		
-		
+	Implement title screen / intro sequence
+	
+	
 	Implement shop system
 
 [BATTLE] 
 	party defeat needs to be handled, currently unimplemented
 		probably needs to happen after the save-load system is implemented so a restart position / scene can be set.
+	
 	Implement semi-unique names in battle for enemies that share the same name (A B C, 1 2 3)
 
 	Implement other-party-member-leading routines for when the main character is dead
@@ -71,11 +74,10 @@
 		stats page
 		equip page
 		inventory description panel
-		
+
 	
-	Implement skill usage outside of battle
-	
-	Implement skills being rearranged / sorted just like items
+	*Implement skill usage outside of battle*
+		Implement skills being rearranged / sorted just like items
 
 	Test menu memory more thoroughly and make it default ON
 

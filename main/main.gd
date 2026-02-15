@@ -13,15 +13,14 @@ extends Node
 @onready var battle_root := %BattleRoot
 @onready var transition_layer : TransitionLayer = %TransitionLayer
 @onready var audio_root : Node = %AudioRoot
-@onready var runtime : Node = %Runtime
-@onready var title_menu_layer : Node = %TitleMenuLayer
+
 
 
 
 #endregion Node References
 
 #region Export Variables
-@export var title_menu_scene : PackedScene = null
+@export var title_menu_scene = null
 @export var starting_field_scene : PackedScene = null
 @export var starting_spawn_id : StringName = &"Start"
 
@@ -34,7 +33,7 @@ const BATTLE_SCENE = preload("uid://h63ncjrxunau")
 var current_field_scene : FieldScene = null
 var current_battle_scene : BattleScene = null
 var battling_field_enemy_scene : FieldEnemy = null
-var title_menu_instance : CanvasLayer = null
+var title_scene : TitleScene = null
 
 
 #endregion Variables
@@ -42,7 +41,7 @@ var title_menu_instance : CanvasLayer = null
 
 func _ready()->void:
 	SceneManager.main_scene = self
-
+	SceneManager.load_title_scene()
 
 
 #region Battle
@@ -133,9 +132,3 @@ func clear_battle_scene()->void:
 
 	pass
 #endregion Battle
-
-
-
-
-#region Helpers
-#endregion Helpers

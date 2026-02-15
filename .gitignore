@@ -1,5 +1,6 @@
 # Godot 4+ specific ignores
 .godot/
+*.tmp
 .nomedia
 
 # Godot-specific ignores
@@ -14,6 +15,8 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Project-specific ignores
 _assets/character/mog_idle_down.png
 _assets/character/mog_idle_down.png.import
 _assets/battle/background/TMZBattleBackExtended.png.import

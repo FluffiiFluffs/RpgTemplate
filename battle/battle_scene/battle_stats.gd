@@ -39,7 +39,7 @@ var last_item_selected : InventorySlot = null
 
 
 
-var attack_action : BattleAction = null
+#var attack_action : BattleAction = null
 var defend_action : BattleAction = null
 var run_action : BattleAction = null
 
@@ -170,11 +170,6 @@ func setup_hpmp()->void:
 	sp_progress_bar.value = member.current_sp
 	if_hp_mp_full_or_empty()
 	
-func set_attack_action()->void:
-	for bact in battler.actor_data.battle_actions.battle_actions:
-		if bact is BattleActionAttack:
-			attack_action = bact
-			break
 func set_defend_action()->void:
 	for bact in battler.actor_data.battle_actions.battle_actions:
 		if bact is BattleActionDefend:

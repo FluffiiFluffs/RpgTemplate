@@ -51,7 +51,7 @@ extends Node2D
 
 
 #region Dev Options
-#ALERT Class colors moved to PartyMemberData!
+#ALERT Class colors moved to PartyMemberData!...kept here so the colors can be quickly referenced if needed
 #@export_category("Class Colors")
 ###DEV OPTION[br]Class color for Warrior
 #@export var class_color_warrior : Color = Color("7c0000ff")
@@ -61,7 +61,8 @@ extends Node2D
 #@export var class_color_mage : Color = Color("7c007cff")
 ###DEV OPTION[br]Class color for healer
 #@export var class_color_healer : Color = Color("007c7cff")
-
+##True = shows licensing animations, otherwise skips to title screen
+@export var show_licensing : bool = false
 @export var show_states : bool = true
 #endregion
 

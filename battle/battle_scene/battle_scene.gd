@@ -59,8 +59,6 @@ var last_battler : Battler = null #last battler that had an action
 var acting_battler : Battler = null #current acting battler
 var next_battler : Battler = null #next battler that will take action
 var targeted_battler : Battler = null #battler being targeted by an action
-var battle_action_to_act : BattleAction = null #BattleAction queued to act
-#var pending_action_use : ActionUse = null #ActionUse queued to act
 var exp_earned : int = 0
 var money_earned : int = 0
 var loot_earned : Array[Item] = []
@@ -79,7 +77,7 @@ signal turn_finished
 signal notify_finished
 
 func _ready()->void:
-	button.pressed.connect(_on_button_pressed) #Victory button for testing.
+	#button.pressed.connect(_on_button_pressed) #Victory button for testing.
 	clear_placeholders()
 	set_references_self()
 	set_initial_visibility()
@@ -93,8 +91,8 @@ func set_initial_visibility()->void:
 	$BattleUI/BattlePartyUI.visible = true
 	
 	
-func _on_button_pressed()->void:
-	SceneManager.main_scene.end_battle_victory_normal()
+#func _on_button_pressed()->void:
+	#SceneManager.main_scene.end_battle_victory_normal()
 
 ##calls queue_free() on all nodes being used as placeholders within the editor during ready.
 func clear_placeholders()->void:
@@ -171,7 +169,6 @@ func setup_party()->void:
 						bat.ui_element.battler = bat
 						bat.ui_element.battle_scene = self
 						bat.ui_element.deactivate_button()
-						child.set_attack_action()
 						child.set_defend_action()
 						child.set_run_action()
 
@@ -259,7 +256,6 @@ func end_of_battle_normal_victory()->void:
 	give_items()
 	await notify_finished
 	#CharDataKeeper.check_for_level_ups()
-	#CharDataKeeper.
 	#CharDataKeeper.get_level_up_differences()
 	
 	

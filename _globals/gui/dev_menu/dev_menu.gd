@@ -18,8 +18,6 @@ extends CanvasLayer
 
 var dev_menu_open : bool = false
 
-const TEST01_SCENE : PackedScene = preload("uid://my8hd4okxhcq")
-const TEST01_SPAWN_ID : StringName = &"SceneTransition"
 
 func _ready()->void:
 	button_1.pressed.connect(on_button_1_pressed)
@@ -49,8 +47,12 @@ func _unhandled_input(_event):
 func on_button_1_pressed()->void:
 	if SceneManager.main_scene != null:
 		#instantiate scene to main
+
 		var main = SceneManager.main_scene as Main
-		var test_scene = TEST01_SCENE.instantiate()
+		
+		for child in main.field_scene_container.get_children():
+			child.queue_free()
+		var test_scene = load("uid://my8hd4okxhcq").instantiate()
 		main.field_scene_container.add_child(test_scene)
 		main.field_root.visible = true
 		var field_scene = null

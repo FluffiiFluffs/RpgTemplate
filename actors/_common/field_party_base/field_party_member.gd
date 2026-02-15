@@ -58,7 +58,7 @@ func _physics_process(_delta)->void:
 func _process(_delta) -> void:
 	if !SceneManager.is_loading_field_scene:
 		if is_controlled:
-			if GameState.gamestate == GameState.State.FIELD:
+			if GameState.gamestate == GameState.State.FIELD or GameState.gamestate == GameState.State.STARTMENU:
 				direction = Vector2( Input.get_axis("move_left",
 				"move_right"), Input.get_axis("move_up","move_down")).normalized()
 			if direction != Vector2.ZERO:

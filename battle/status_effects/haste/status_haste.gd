@@ -19,7 +19,7 @@ const _BONUS_BENEFICIAL : int = 2
 const _STAT_KEY : StringName = ActorData.STAT_AGILITY
 const _SOURCE_KEY : StringName = &"status_haste"
 
-
+const _SKILL_ACTION_PATH  = preload("uid://dmtmbb2d7605b")
 
 
 func _init() -> void:
@@ -98,23 +98,17 @@ func _remove_agility_increase(actor : ActorData) -> void:
 	actor.remove_stat_modifier(_STAT_KEY, _SOURCE_KEY)
 	actor.clamp_vitals()
 	_stats_applied = false
-
-
 func get_post_action_bonus_use(status_system : StatusSystem, original_use : ActionUse) -> ActionUse:
+	if not is_max_stack():
+		return null
+
 	if status_system == null:
 		return null
 	if original_use == null:
 		return null
 
-	if not is_max_stack():
-		return null
-
 	var user : Battler = original_use.user
 	if user == null:
-		return null
-	if user.actor_data == null:
-		return null
-	if user.actor_data.current_hp <= 0:
 		return null
 
 	var actor : ActorData = get_receiver_actor()
@@ -133,56 +127,41 @@ func get_post_action_bonus_use(status_system : StatusSystem, original_use : Acti
 	if anchor_target == null:
 		return null
 
-	var qualifies_offensive : bool = false
-	var qualifies_beneficial : bool = false
-
-	if original_use.action_type == BattleAction.ActionType.NORMAL_ATTACK:
-		qualifies_offensive = true
-	elif original_use.action_type == BattleAction.ActionType.USE_SKILL:
-		if original_use.data == null:
-			return null
-		if not original_use.data.has("skill"):
-			return null
-		var skill : Skill = original_use.data["skill"] as Skill
-		if skill == null:
-			return null
-		if skill.target_shape != Skill.TargetShape.SINGLE:
-			return null
-	
-		match skill.intent:
-			Skill.Intent.BENEFICIAL:
-				qualifies_beneficial = true
-			Skill.Intent.HARMFUL:
-				qualifies_offensive = true
-			Skill.Intent.MIXED:
-				# Treat MIXED as qualifying for a bonus use, but retarget according to the skill’s authored TargetSide.
-				qualifies_offensive = true
-			Skill.Intent.UTILITY:
-				return null
+	var original_skill : Skill = null
+	if original_use.action_type == BattleAction.ActionType.USE_SKILL:
+		original_skill = original_use.skill
+		if original_skill == null and original_use.data != null and original_use.data.has("skill"):
+			original_skill = original_use.data["skill"] as Skill
 
 	else:
 		return null
+
+	if original_skill == null:
+		return null
+
+	if original_skill.target_shape != Skill.TargetShape.SINGLE:
+		return null
+
+	var qualifies_offensive : bool = false
+	var qualifies_beneficial : bool = false
+	match original_skill.intent:
+		Skill.Intent.BENEFICIAL:
+			qualifies_beneficial = true
+		Skill.Intent.HARMFUL:
+			qualifies_offensive = true
+		Skill.Intent.MIXED:
+			qualifies_offensive = true
+		Skill.Intent.UTILITY:
+			return null
 
 	if not qualifies_offensive and not qualifies_beneficial:
 		return null
 
 	var bonus_target : Battler = null
 	if qualifies_offensive:
-		if original_use.action_type == BattleAction.ActionType.NORMAL_ATTACK:
-			bonus_target = Targeting.retarget_if_dead(
-				user,
-				status_system.battle_scene,
-				anchor_target,
-				Targeting.RetargetPolicy.OTHER_FACTION_THAN_USER
-			)
-		else:
-			var skill : Skill = original_use.data["skill"] as Skill
-			bonus_target = _pick_bonus_target_for_skill(status_system, user, skill, anchor_target)
-
+		bonus_target = _pick_bonus_target_for_skill(status_system, user, original_skill, anchor_target)
 		if bonus_target == null:
 			return null
-
-
 	elif qualifies_beneficial:
 		bonus_target = Targeting.pick_random_living_ally(user, status_system.battle_scene, true)
 		if bonus_target == null:
@@ -192,10 +171,30 @@ func get_post_action_bonus_use(status_system : StatusSystem, original_use : Acti
 	if original_use.data != null:
 		bonus_data = original_use.data.duplicate(true)
 
-	if original_use.action_type == BattleAction.ActionType.USE_SKILL:
-		bonus_data["free_cost"] = true
+	# Do not propagate transitional payload back into data
+	if bonus_data.has("skill"):
+		bonus_data.erase("skill")
 
-	return ActionUse.new(user, original_use.action, [bonus_target], bonus_data)
+	bonus_data["free_cost"] = true
+
+	var skill_action : BattleAction = null
+	if original_use.action_type == BattleAction.ActionType.USE_SKILL and original_use.action != null and original_use.action.type == BattleAction.ActionType.USE_SKILL:
+		skill_action = original_use.action
+	elif status_system != null and status_system.battle_scene != null:
+		skill_action = status_system.battle_scene.BATTLEACTION_SKILL
+	else:
+		var loaded = _SKILL_ACTION_PATH
+		if loaded is BattleAction:
+			skill_action = loaded as BattleAction
+		else:
+			skill_action = BattleActionSkill.new()
+
+	var bonus_use : ActionUse = ActionUse.new(user, skill_action, [bonus_target], bonus_data)
+	bonus_use.skill = original_skill
+	if bonus_use.data != null:
+		bonus_use.data.erase("skill")
+
+	return bonus_use
 
 
 func _retarget_policy_for_skill(skill : Skill) -> int:

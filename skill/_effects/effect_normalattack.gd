@@ -23,8 +23,7 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 
 
 func _mark_effect_feedback(ctx : EffectContext) -> void:
-	# Battle execution path guarantees current_action_use and use.data exist.
-	ctx.current_action_use.data["had_effect_feedback"] = true
+	ctx.had_effect_feedback = true
 
 
 func _queue_note(ctx : EffectContext, text : String) -> void:
@@ -33,11 +32,14 @@ func _queue_note(ctx : EffectContext, text : String) -> void:
 
 	ctx.battle_scene.battle_notify_ui.queue_notification(text)
 	_mark_effect_feedback(ctx)
-
-
+	
+	
+	
 func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
+
+	ctx.require_battle_context()
 
 	var battle_scene : BattleScene = ctx.battle_scene
 	var calc : ActionCalculator = battle_scene.action_calculator
@@ -45,9 +47,6 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	var use : ActionUse = ctx.current_action_use
 	var attacker : Battler = ctx.current_user_battler
 	var original_target : Battler = ctx.current_target_battler
-
-	battle_scene.acting_battler = attacker
-	battle_scene.targeted_battler = original_target
 
 	var final_target : Battler = original_target
 	var redirected : Battler = ctx.status_system.resolve_incoming_target(attacker, use.action, original_target)
@@ -58,19 +57,14 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 		var idx : int = use.targets.find(original_target)
 		if idx != -1:
 			use.targets[idx] = final_target
-		battle_scene.targeted_battler = final_target
 
 	var has_intercept : bool = final_target != original_target
 	var intercept_text : String = ""
 	if has_intercept:
 		intercept_text = final_target.actor_data.get_display_name() + " intercepts the attack."
 
-	# Data validity guard: this key can be absent if upstream failed to attribute the skill.
-	var skill : Skill = null
-	if use.data.has("skill") and use.data["skill"] is Skill:
-		skill = use.data["skill"] as Skill
-	if skill == null:
-		return false
+	var skill : Skill = use.skill
+	assert(skill != null)
 
 	var can_miss_local : bool = skill.can_miss
 	var can_dodge_local : bool = skill.can_dodge
@@ -96,23 +90,80 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 		if has_intercept:
 			battle_scene.battle_notify_ui.queue_notification(intercept_text)
 
+		var miss_actions : Array[Callable] = [
+			Callable(battle_scene.battle_vfx, "pop_text_only").bind(final_target, "MISS!")
+		]
+
 		var attacker_name : String = attacker.actor_data.get_display_name()
-		battle_scene.battle_notify_ui.queue_notification(attacker_name + "'s attack missed!")
+		battle_scene.battle_notify_ui.queue_notification(attacker_name + "'s attack missed!", miss_actions)
 
 		_mark_effect_feedback(ctx)
 		return true
 
+
+	# Crit (after miss, precludes dodge parry riposte)
+	var crit : bool = false
+	if allow_crit:
+		crit = calc.physical_will_crit(attacker, final_target)
+
+	if crit:
+		var raw_damage_crit : int = calc.get_raw_damage(attacker)
+		var varied_damage_crit : int = calc.vary_damage(raw_damage_crit, final_variance_percent)
+		var crit_damage : int = int(round(calc.get_crit_damage(attacker, varied_damage_crit)))
+		crit_damage = clampi(crit_damage, 1, 9999)
+
+		# Crit ignores defense mitigation and precludes dodge, parry, and riposte.
+		var final_damage_crit : int = crit_damage
+		final_damage_crit = clampi(final_damage_crit, 1, 9999)
+
+		var before_hp_target_crit : int = final_target.actor_data.current_hp
+		final_target.actor_data.current_hp = final_target.actor_data.current_hp - final_damage_crit
+		final_target.actor_data.clamp_vitals()
+
+		var applied_damage_crit : int = before_hp_target_crit - final_target.actor_data.current_hp
+		if applied_damage_crit > 0:
+			var crit_actions : Array[Callable] = []
+			if final_target.ui_element.has_method("play_normal_hit"):
+				crit_actions.append(Callable(final_target.ui_element, "play_normal_hit"))
+			crit_actions.append(Callable(battle_scene.battle_vfx, "pop_text_critical").bind(final_target, applied_damage_crit))
+
+			if has_intercept:
+				battle_scene.battle_notify_ui.queue_notification(intercept_text)
+
+			var attacker_name_crit : String = attacker.actor_data.get_display_name()
+			var target_name_crit : String = final_target.actor_data.get_display_name()
+			battle_scene.battle_notify_ui.queue_notification(attacker_name_crit + " critically strikes " + target_name_crit + ".", crit_actions)
+
+			var dmg_ctx_crit : Dictionary = {
+				"amount": applied_damage_crit,
+				"is_dot": false,
+				"is_poison": false,
+				"kind": "physical",
+				"effect_context": ctx
+			}
+			ctx.status_system.on_receive_damage(final_target, attacker, use, dmg_ctx_crit)
+
+			_mark_effect_feedback(ctx)
+			return true
+
+		_mark_effect_feedback(ctx)
+		return true
 	# Dodge
 	var dodge : bool = calc.physical_will_dodge(final_target, cannot_dodge_local)
 	if dodge:
 		if has_intercept:
 			battle_scene.battle_notify_ui.queue_notification(intercept_text)
 
+		var dodge_actions : Array[Callable] = [
+			Callable(battle_scene.battle_vfx, "pop_text_only").bind(final_target, "DODGE!")
+		]
+
 		var dodge_name : String = final_target.actor_data.get_display_name()
-		battle_scene.battle_notify_ui.queue_notification(dodge_name + " dodges the attack.")
+		battle_scene.battle_notify_ui.queue_notification(dodge_name + " dodges the attack.", dodge_actions)
 
 		_mark_effect_feedback(ctx)
 		return true
+
 
 	# Parry and riposte
 	var parry : bool = calc.physical_will_parry(final_target, cannot_parry_local)
@@ -120,8 +171,13 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 		if has_intercept:
 			battle_scene.battle_notify_ui.queue_notification(intercept_text)
 
+		var parry_actions : Array[Callable] = [
+			Callable(battle_scene.battle_vfx, "pop_text_only").bind(final_target, "PARRY!")
+		]
+
 		var parry_name : String = final_target.actor_data.get_display_name()
-		battle_scene.battle_notify_ui.queue_notification(parry_name + " parries the attack.")
+		battle_scene.battle_notify_ui.queue_notification(parry_name + " parries the attack.", parry_actions)
+
 
 		var riposte : bool = calc.physical_will_riposte()
 		if riposte:
@@ -146,7 +202,7 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 			if attacker.ui_element.has_method("play_normal_hit"):
 				riposte_actions.append(Callable(attacker.ui_element, "play_normal_hit"))
 			if applied_riposte > 0:
-				riposte_actions.append(Callable(battle_scene.battle_vfx, "pop_text").bind(attacker, applied_riposte))
+				riposte_actions.append(Callable(battle_scene.battle_vfx, "pop_text_riposte").bind(attacker, applied_riposte))
 
 			var riposte_name : String = final_target.actor_data.get_display_name()
 			battle_scene.battle_notify_ui.queue_notification(riposte_name + " ripostes!", riposte_actions)

@@ -53,13 +53,6 @@ extends Resource
 ##Base LCK for the actor
 @export var base_luck : int = 0
 
-
-
-
-
-
-
-
 @export_category("Runtime vitals")
 ##Current HP. This is always clamped against get_max_hp().
 @export var current_hp : int = 100
@@ -238,9 +231,6 @@ func get_faction() -> int:
 func get_battle_actions() -> BattleActions:
 	return battle_actions
 #endregion
-
-
-
 
 
 
@@ -608,11 +598,6 @@ func get_def_value() -> int:
 #endregion
 
 
-
-
-
-## Copies identity from CharResource only when the ActorData fields are UNSET.
-## Probably not needed since UNSET is not going to be used
 
 
 ## Rebuilds the base stat layer in one call, then clamps vitals.

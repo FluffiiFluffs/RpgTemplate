@@ -25,14 +25,6 @@ func begin_turn(turn_id : int)->void:
 #endregion TurnID
 
 #region Command Button Functions
-## Starts targeting for a standard BattleAction (attack style), initializing pending state and routing into the generic targeting flow.
-func open_attack_targeting(attacker : Battler, action : BattleAction)->void:
-	pending_user = attacker
-	pending_action = action
-	pending_data = {}
-	_begin_targeting_for_action(action, "ACTION_SELECT")
-
-
 
 ## Starts DEFEND_TARGETING, enabling living party buttons, disabling enemies, building focus neighbors, and focusing the defender by default.
 func open_defend_targeting(defender : Battler, action : BattleAction)->void:
@@ -63,66 +55,6 @@ func open_skillitem_targeting(_user : Battler, _action : BattleAction)->void:
 	pass
 	
 	
-##Begins player targeting for a non-skill/non-item BattleAction using the BattleAction's own target settings.
-##fallback_ui_state is where the UI should return if no valid targets exist.
-func _begin_targeting_for_action(action : BattleAction, fallback_ui_state : String) -> void:
-	if pending_user == null or action == null:
-		return
-
-	# Shapes that do not require target selection
-	if action.target_shape == BattleAction.TargetShape.NONE:
-		_confirm_action([])
-		return
-	if action.target_shape == BattleAction.TargetShape.SELF:
-		_confirm_action([pending_user])
-		return
-
-	var valid_targets : Array[Battler] = _gather_valid_targets_for_action(action)
-	if valid_targets.is_empty():
-		GameMenu.play_error_sound()
-		_end_targeting()
-		battle_scene.ui_state = fallback_ui_state
-		return
-
-	# ALL mode is resolved during _confirm_action by expanding from an anchor selection
-	if action.target_shape == BattleAction.TargetShape.ALL:
-		pending_data["all_mode"] = true
-
-	# Provide a default focus hint so _focus_default_target behaves consistently with skills/items
-	var focus_hint: int = int(action.default_target_focus)
-	if focus_hint == 0:
-		if action.target_side == BattleAction.TargetSide.SAME_FACTION:
-			focus_hint = 1
-		elif action.target_side == BattleAction.TargetSide.OTHER_FACTION:
-			focus_hint = 2
-	pending_data["default_target_focus"] = focus_hint
-
-	_activate_targets(valid_targets)
-	battle_scene.ui_state = "ATTACK_TARGETING"
-	_focus_default_target(valid_targets)
-
-func _gather_valid_targets_for_action(action : BattleAction) -> Array[Battler]:
-	var out : Array[Battler] = []
-	if pending_user == null or action == null:
-		return out
-
-	for bat in battle_scene.battlers.get_children():
-		if bat is Battler:
-			var is_dead = bat.actor_data.current_hp <= 0
-			if is_dead and not action.can_target_dead:
-				continue
-
-			var ok = false
-			if action.target_side == BattleAction.TargetSide.ANY_FACTION:
-				ok = true
-			elif action.target_side == BattleAction.TargetSide.SAME_FACTION:
-				ok = bat.faction == pending_user.faction
-			elif action.target_side == BattleAction.TargetSide.OTHER_FACTION:
-				ok = bat.faction != pending_user.faction
-
-			if ok:
-				out.append(bat)
-	return out
 	
 func is_all_targeting_active() -> bool:
 	if battle_scene == null:
@@ -178,8 +110,6 @@ func _get_all_target_preview(anchor : Battler) -> Array[Battler]:
 		if slot != null and slot.item != null:
 			return _build_all_targets_for_item(slot.item, anchor)
 
-	if pending_action != null:
-		return _build_all_targets_for_action(pending_action, anchor)
 
 	return []
 
@@ -280,20 +210,17 @@ func _confirm_action(targets : Array[Battler])->void:
 		if slot != null and slot.item != null and not targets.is_empty():
 			final_targets = _build_all_targets_for_item(slot.item, targets[0])
 
-		# BattleAction ALL expansion (non-skill/non-item)
-		if skill == null and slot == null and pending_action != null and not targets.is_empty():
-			final_targets = _build_all_targets_for_action(pending_action, targets[0])
-
 
 	var use = ActionUse.new(pending_user, pending_action, final_targets, pending_data)
-	
-	# Record the primary target for battle wide VFX and messaging
-	if final_targets.is_empty():
-		battle_scene.targeted_battler = null
-	else:
-		battle_scene.targeted_battler = final_targets[0]
-		
-	
+
+	if pending_data.has("skill"):
+		use.skill = pending_data["skill"] as Skill
+		use.data.erase("skill")
+
+	if pending_data.has("item_slot"):
+		use.item_slot = pending_data["item_slot"] as InventorySlot
+		use.data.erase("item_slot")
+
 	#plays default animation for target (not sure if needed)
 	for tar in final_targets:
 		tar.ui_element.animation_player.play("RESET")
@@ -363,26 +290,6 @@ func _build_all_targets_for_item(item : Item, anchor : Battler) -> Array[Battler
 
 	# SAME_FACTION and OTHER_FACTION are unambiguous from the user
 	return _gather_valid_item_targets(item)
-
-func _build_all_targets_for_action(action : BattleAction, anchor : Battler) -> Array[Battler]:
-	if action == null or anchor == null or pending_user == null:
-		return []
-
-	# ANY_FACTION uses the anchor faction to decide which side receives the ALL application
-	if action.target_side == BattleAction.TargetSide.ANY_FACTION:
-		var out : Array[Battler] = []
-		for bat in battle_scene.battlers.get_children():
-			if bat is Battler:
-				var is_dead = bat.actor_data.current_hp <= 0
-				if is_dead and not action.can_target_dead:
-					continue
-				if bat.faction == anchor.faction:
-					out.append(bat)
-		return out
-
-	# SAME_FACTION and OTHER_FACTION are unambiguous from the user
-	return _gather_valid_targets_for_action(action)
-
 
 
 func _confirm_action_other()->void:
@@ -1028,6 +935,8 @@ func _gather_valid_item_targets(item : Item) -> Array[Battler]:
 
 	return out
 
+## Creates a battle-mode EffectContext for CommandController UI targeting checks.
+## Uses pending_user as ctx.user_actor when available, and wires battle_scene and status_system.
 func _make_battle_effect_context() -> EffectContext:
 	var ctx = EffectContext.new()
 	ctx.mode = EffectContext.Mode.BATTLE
@@ -1046,8 +955,9 @@ func _filter_targets_by_skill_effects(skill : Skill, candidates : Array[Battler]
 	if pending_user == null:
 		return []
 
-	var ctx = _make_battle_effect_context()
-	var effects = skill.get_effects_for_context(ctx)
+	var ctx : EffectContext = EffectContext.make_battle_targeting(pending_user, battle_scene)
+	var effects : Array[Effect] = skill.get_effects_for_context(ctx)
+
 	if effects.is_empty():
 		return []
 
@@ -1076,10 +986,10 @@ func _filter_targets_by_item_effects(item : Item, candidates : Array[Battler]) -
 	if pending_user == null:
 		return []
 
-	var ctx = _make_battle_effect_context()
+	var ctx : EffectContext = EffectContext.make_battle_targeting(pending_user, battle_scene)
 	ctx.source_item = item
+	var effects : Array[Effect] = item.get_effects_for_context(ctx)
 
-	var effects = item.get_effects_for_context(ctx)
 	if effects.is_empty():
 		return []
 

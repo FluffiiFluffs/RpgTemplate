@@ -14,7 +14,7 @@ config/name="RPG Template"
 config/description="This is the template for RPG Systems"
 run/main_scene="uid://c8e5dflrg8xre"
 config/features=PackedStringArray("4.6", "Forward Plus")
-run/max_fps=45
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -43,7 +43,7 @@ window/size/viewport_width=400
 window/size/viewport_height=224
 window/size/window_width_override=800
 window/size/window_height_override=448
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
 [editor_plugins]
