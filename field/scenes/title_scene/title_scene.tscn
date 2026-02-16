@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bhj0624jeib5t" path="res://_assets/start_menu/gear.png" id="5_pcbnx"]
 [ext_resource type="Texture2D" uid="uid://c06qgr2rb6wh0" path="res://_assets/start_menu/disk.png" id="6_fl6ft"]
 [ext_resource type="Texture2D" uid="uid://cgpqb6mbyf8oo" path="res://_assets/start_menu/xit.png" id="7_kni3l"]
+[ext_resource type="PackedScene" uid="uid://dow6bhq3i06aj" path="res://field/scenes/title_scene/options_menu.tscn" id="9_kni3l"]
+[ext_resource type="Script" uid="uid://kdndoucar8ah" path="res://field/scenes/title_scene/options_menu.gd" id="10_0cay3"]
 
 [sub_resource type="Gradient" id="Gradient_kmx5h"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
@@ -146,6 +148,182 @@ tracks/7/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("CanvasLayer/Control/OptionsMenu:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("CanvasLayer/Control/OptionsMenu:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 225)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("CanvasLayer/Control/NewGameMenu:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("CanvasLayer/Control/NewGameMenu:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("CanvasLayer/Control/ExitGameMenu:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("CanvasLayer/Control/ExitGameMenu:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("CanvasLayer/Control/LoadGameMenu:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("CanvasLayer/Control/LoadGameMenu:position")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -224)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("CanvasLayer/Control/LoadGameConfirmMenu:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("CanvasLayer/Control/LoadGameConfirmMenu:modulate")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tef3k"]
+resource_name = "exit_game_menu_hide"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/ExitGameMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/ExitGameMenu:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_jr4w5"]
+resource_name = "exit_game_menu_show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/ExitGameMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/ExitGameMenu:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
 
 [sub_resource type="Animation" id="Animation_kmx5h"]
 resource_name = "show_license"
@@ -174,6 +352,234 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_3b7n1"]
+resource_name = "load_game_confirm_menu_hide"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/LoadGameConfirmMenu:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/LoadGameConfirmMenu:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5v0u0"]
+resource_name = "load_game_confirm_menu_show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/LoadGameConfirmMenu:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/LoadGameConfirmMenu:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_12byv"]
+resource_name = "load_game_menu_hide"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/LoadGameMenu:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/LoadGameMenu:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -224)]
+}
+
+[sub_resource type="Animation" id="Animation_di50g"]
+resource_name = "load_game_menu_show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/LoadGameMenu:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/LoadGameMenu:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -224), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xerpq"]
+resource_name = "hide_new_game_menu"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/NewGameMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/NewGameMenu:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_lr084"]
+resource_name = "show_new_game_menu"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/NewGameMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/NewGameMenu:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xq28s"]
+resource_name = "hide_options_menu"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/OptionsMenu:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/OptionsMenu:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 225)]
+}
+
+[sub_resource type="Animation" id="Animation_0cay3"]
+resource_name = "show_options_menu"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Control/OptionsMenu:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/OptionsMenu:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 225), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_pcbnx"]
@@ -260,11 +666,27 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_trq1k"]
 _data = {
 &"RESET": SubResource("Animation_trq1k"),
-&"show_license": SubResource("Animation_kmx5h"),
-&"show_title_back": SubResource("Animation_pcbnx"),
-&"show_title_buttons": SubResource("Animation_kni3l"),
-&"show_title_graphic": SubResource("Animation_fl6ft")
+&"exit_game_menu_hide": SubResource("Animation_tef3k"),
+&"exit_game_menu_show": SubResource("Animation_jr4w5"),
+&"license_show": SubResource("Animation_kmx5h"),
+&"load_game_confirm_menu_hide": SubResource("Animation_3b7n1"),
+&"load_game_confirm_menu_show": SubResource("Animation_5v0u0"),
+&"load_game_menu_hide": SubResource("Animation_12byv"),
+&"load_game_menu_show": SubResource("Animation_di50g"),
+&"new_game_menu_hide": SubResource("Animation_xerpq"),
+&"new_game_menu_show": SubResource("Animation_lr084"),
+&"options_menu_hide": SubResource("Animation_xq28s"),
+&"options_menu_show": SubResource("Animation_0cay3"),
+&"title_back_show": SubResource("Animation_pcbnx"),
+&"title_buttons_show": SubResource("Animation_kni3l"),
+&"title_graphic_show": SubResource("Animation_fl6ft")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xq28s"]
+size = Vector2(420, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lr084"]
+size = Vector2(20, 224)
 
 [node name="TitleScene" type="Node2D" unique_id=411987689]
 script = ExtResource("1_trq1k")
@@ -392,6 +814,7 @@ position = Vector2(200, 112)
 texture = SubResource("GradientTexture2D_kmx5h")
 
 [node name="FieldActors" type="Node2D" parent="." unique_id=1226752291]
+unique_name_in_owner = true
 y_sort_enabled = true
 
 [node name="PlacedEnemies" type="Node2D" parent="FieldActors" unique_id=1969930657]
@@ -412,6 +835,7 @@ y_sort_enabled = true
 
 [node name="TitleSparkle" parent="." unique_id=686763568 instance=ExtResource("3_fl6ft")]
 unique_name_in_owner = true
+visible = false
 position = Vector2(-76, -49)
 
 [node name="Navigation" type="NavigationRegion2D" parent="." unique_id=1202813702]
@@ -448,3 +872,280 @@ unique_name_in_owner = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2001112957]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_trq1k")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=717796698]
+unique_name_in_owner = true
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=157451291]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="OptionsMenu" parent="CanvasLayer/Control" unique_id=98602195 instance=ExtResource("9_kni3l")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+script = ExtResource("10_0cay3")
+
+[node name="NewGameMenu" type="Control" parent="CanvasLayer/Control" unique_id=275006498]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/NewGameMenu" unique_id=1199655078]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = -29.0
+offset_right = 73.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/NewGameMenu/PanelContainer" unique_id=916386605]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/NewGameMenu/PanelContainer/VBoxContainer" unique_id=869854032]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "START NEW GAME?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/NewGameMenu/PanelContainer/VBoxContainer" unique_id=1169428754]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="NewGameYes" type="Button" parent="CanvasLayer/Control/NewGameMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=301460401]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "Yes"
+
+[node name="NewGameNo" type="Button" parent="CanvasLayer/Control/NewGameMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1298598753]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "No"
+
+[node name="ExitGameMenu" type="Control" parent="CanvasLayer/Control" unique_id=1596323335]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/ExitGameMenu" unique_id=873444963]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = -29.0
+offset_right = 73.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/ExitGameMenu/PanelContainer" unique_id=1200422908]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/ExitGameMenu/PanelContainer/VBoxContainer" unique_id=205116692]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit Game?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/ExitGameMenu/PanelContainer/VBoxContainer" unique_id=1825643415]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="ExitGameYes" type="Button" parent="CanvasLayer/Control/ExitGameMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1977906476]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "Yes"
+
+[node name="ExitGameNo" type="Button" parent="CanvasLayer/Control/ExitGameMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=2043955961]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "No"
+
+[node name="LoadGameMenu" type="Control" parent="CanvasLayer/Control" unique_id=1347338774]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -224.0
+offset_bottom = -224.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/LoadGameMenu" unique_id=2128866443]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer" unique_id=2134538749]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer" unique_id=963965170]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer/VBoxContainer" unique_id=289438833]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=226032227]
+layout_mode = 2
+text = "LOAD GAME"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=222042037]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LoadGameCloseButton" type="Button" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1747329684]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CLOSE"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer/VBoxContainer" unique_id=808127192]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/LoadGameMenu/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=815314997]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LoadGameConfirmMenu" type="Control" parent="CanvasLayer/Control" unique_id=935481031]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -20.0
+offset_right = 100.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/LoadGameConfirmMenu" unique_id=1271976692]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = -29.0
+offset_right = 73.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/LoadGameConfirmMenu/PanelContainer" unique_id=482934644]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/LoadGameConfirmMenu/PanelContainer/VBoxContainer" unique_id=1149238548]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Load Game?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/LoadGameConfirmMenu/PanelContainer/VBoxContainer" unique_id=1323144600]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="LoadGameYes" type="Button" parent="CanvasLayer/Control/LoadGameConfirmMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1134994569]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "Yes"
+
+[node name="LoadGameNo" type="Button" parent="CanvasLayer/Control/LoadGameConfirmMenu/PanelContainer/VBoxContainer/HBoxContainer" unique_id=612625092]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+text = "No"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=711278253]
+collision_layer = 16
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1716374124]
+position = Vector2(200, 8)
+shape = SubResource("RectangleShape2D_xq28s")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1884364581]
+position = Vector2(200, 234)
+shape = SubResource("RectangleShape2D_xq28s")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D" unique_id=1985209164]
+position = Vector2(-10, 112)
+shape = SubResource("RectangleShape2D_lr084")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=831740191]
+position = Vector2(410, 112)
+shape = SubResource("RectangleShape2D_lr084")

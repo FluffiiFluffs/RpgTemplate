@@ -580,34 +580,3 @@ func try_remove_all_equipment_to_inventory(member: PartyMemberData) -> Dictionar
 
 
 #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#func _unhandled_input(_event):
-	#if Input.is_action_just_pressed("test3"):
-		#print("inventory_manager: current_inventory = " + str(current_inventory))
-	#if Input.is_action_just_pressed("test4"):
-		#for i in 200:
-			#add_item("apple", 10)
-	#if Input.is_action_just_pressed("test5"):
-		#clear_slots()
-	#

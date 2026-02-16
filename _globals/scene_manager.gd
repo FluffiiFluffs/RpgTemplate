@@ -87,22 +87,18 @@ func load_title_scene()->void:
 	GameState.gamestate = GameState.State.INTRO
 	load_started.emit()
 	
-
-	
 	#Clear out the field party nodes array so it can be populated again
 	CharDataKeeper.field_party_nodes.clear()
 	#Clear the controlled character, too
 	CharDataKeeper.controlled_character = null
 
-
 	#use scene path string to instantiate a scene under main_scene.field_scene_container
 	var new_scene = load("uid://b36ngnfew8k5c").instantiate()
 	main_scene.field_scene_container.add_child(new_scene)
-	main_scene.title_menu_scene = new_scene
+	main_scene.title_scene = new_scene
 
 	load_completed.emit()
 	is_loading_field_scene = false
-	main_scene.title_menu_scene
 
 
 

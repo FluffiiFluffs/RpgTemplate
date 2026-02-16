@@ -26,24 +26,31 @@ extends Node2D
 @export_enum("TALKING", "STILL") var portrait_type : int = 1
 
 @export_category("Movement")
-@export var always_run : bool = false
+##If the player must press cancel to run. False = must press cancel, True = always run
+@export var always_run : bool = true
 
 @export_category("Message Speeds")
-##message speed (need to make this a thing in dialogue manager)
+##message speed #TODO (need to make this a thing in dialogue manager)
 @export var message_speed : float = 1.0 # : set = set_message_speed
 ##battle message speed
 @export var battle_message_speed : float = 1.0  #: set = set_battle_message_speed
 
 @export_category("Menu Memory")
 ##If the cursor position is remembered on main menus
-@export var menu_memory : bool = false
+@export var menu_memory : bool = true
 ##If the cursor position is remembered in battle menus (per character?)
-@export var battle_menu_memory : bool = false
+@export var battle_menu_memory : bool = true
 
 
-#current-game-stats (like how many enemies killed)
-#menu colors/style
-#controls
+#-game-stats (like how many enemies killed)
+@export_category("Game Stats")
+@export var enemies_killed : int = 0
+@export var party_member_deaths : int = 0
+@export var items_used : int = 0
+@export var skills_used : int = 0
+@export var times_saved : int = 0
+@export var quests_completed : int = 0
+@export var time_played := 0
 
 
 
@@ -63,6 +70,7 @@ extends Node2D
 #@export var class_color_healer : Color = Color("007c7cff")
 ##True = shows licensing animations, otherwise skips to title screen
 @export var show_licensing : bool = false
+##If states indicators are shown above field actors
 @export var show_states : bool = true
 #endregion
 
@@ -97,7 +105,7 @@ func set_music_volume(_value: float) -> void:
 
 	var bus := AudioServer.get_bus_index("Music")
 	AudioServer.set_bus_volume_db(bus, db)
-	print("Music DB : ", AudioServer.get_bus_volume_db(bus))
+	#print("Music DB : ", AudioServer.get_bus_volume_db(bus))
 	
 func set_sfx_volume(_value:float)->void:
 	# clamp to slider range
@@ -111,7 +119,7 @@ func set_sfx_volume(_value:float)->void:
 
 	var bus := AudioServer.get_bus_index("SFX")
 	AudioServer.set_bus_volume_db(bus, db)
-	print("SFX DB : ", AudioServer.get_bus_volume_db(bus))
+	#print("SFX DB : ", AudioServer.get_bus_volume_db(bus))
 	
 func set_voices_volume(_value:float)->void:
 	# clamp to slider range
@@ -125,7 +133,8 @@ func set_voices_volume(_value:float)->void:
 
 	var bus := AudioServer.get_bus_index("Voices")
 	AudioServer.set_bus_volume_db(bus, db)
-	print("Voices DB : ", AudioServer.get_bus_volume_db(bus))
+	#print("Voices DB : ", AudioServer.get_bus_volume_db(bus))
+
 
 func set_message_speed(_value:float)->void:
 	pass

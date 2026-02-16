@@ -1958,6 +1958,10 @@ func slider_active(_slider)->void:
 func slider_inactive()->void:
 	current_selected_slider = null
 	menu_state = "OPTIONS_OPEN"
+	
+	
+#endregion
+
 
 #region SortOrderMenu
 

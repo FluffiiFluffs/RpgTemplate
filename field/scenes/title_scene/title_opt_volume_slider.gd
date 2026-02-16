@@ -1,4 +1,4 @@
-class_name OptVolumeSlider
+class_name TitleOptVolumeSlider
 extends PanelContainer
 
 
@@ -14,8 +14,6 @@ func _ready()->void:
 	button.focus_exited.connect(button_unfocused)
 	button.pressed.connect(button_pressed)
 	get_volume()
-	pass
-
 
 #also should be called when menu is opened
 func get_volume()->void:
@@ -32,13 +30,13 @@ func button_focused()->void:
 	pass
 
 func button_unfocused()->void:
-	if GameMenu.current_selected_slider == self:
+	if SceneManager.main_scene.title_scene.options_menu.current_selected_slider == self:
 		return
 	self_modulate = GameMenu.TRANS_COLOR
 
 func button_pressed()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
-	GameMenu.slider_active(self)
+	SceneManager.main_scene.title_scene.options_menu.slider_active(self)
 	h_slider.grab_focus()
 
 func set_options_value(_value:float)->void:
@@ -50,10 +48,9 @@ func set_options_value(_value:float)->void:
 		"VOICES":
 			Options.voices_volume = _value
 
-
 func _unhandled_input(_event):
-	if GameMenu.current_selected_slider == self:
+	if SceneManager.main_scene.title_scene.options_menu.current_selected_slider == self:
 		if Input.is_action_just_pressed("cancel_input"):
 			button.grab_focus()
 			await get_tree().process_frame
-			GameMenu.slider_inactive()
+			SceneManager.main_scene.title_scene.options_menu.slider_inactive() 

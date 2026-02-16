@@ -77,28 +77,28 @@ var had_effect_feedback : bool = false
 ## Creates a battle context intended for targeting and preview checks.
 ## This context includes BattleScene and StatusSystem references, plus current_user_battler and user_actor.
 ## current_action_use remains null because target filtering happens before an ActionUse exists.
-static func make_battle_targeting(user : Battler, battle_scene : BattleScene) -> EffectContext:
+static func make_battle_targeting(user : Battler, _battle_scene : BattleScene) -> EffectContext:
 	assert(user != null)
 	assert(user.actor_data != null)
-	assert(battle_scene != null)
-	assert(battle_scene.status_system != null)
+	assert(_battle_scene != null)
+	assert(_battle_scene.status_system != null)
 
 	var ctx : EffectContext = EffectContext.new()
 	ctx.mode = Mode.BATTLE
 	ctx.user_actor = user.actor_data
-	ctx.battle_scene = battle_scene
-	ctx.status_system = battle_scene.status_system
+	ctx.battle_scene = _battle_scene
+	ctx.status_system = _battle_scene.status_system
 	ctx.current_user_battler = user
 	return ctx
 
 
 ## Creates a battle context intended for skill and item execution.
 ## Sets current_action_use and then asserts that all required battle references are present.
-static func make_battle_execution(use : ActionUse, battle_scene : BattleScene) -> EffectContext:
+static func make_battle_execution(use : ActionUse, _battle_scene : BattleScene) -> EffectContext:
 	assert(use != null)
 	assert(use.user != null)
 
-	var ctx : EffectContext = make_battle_targeting(use.user, battle_scene)
+	var ctx : EffectContext = make_battle_targeting(use.user, _battle_scene)
 	ctx.current_action_use = use
 	ctx.require_battle_context()
 	return ctx

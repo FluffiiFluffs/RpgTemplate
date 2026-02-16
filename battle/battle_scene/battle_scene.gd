@@ -72,7 +72,7 @@ const BATTLEACTION_SKILL = preload("uid://dmtmbb2d7605b")
 const BATTLEACTION_ITEM = preload("uid://c6yb8mxic4rg4")
 
 
-#signal turn_choice_finished
+@warning_ignore("unused_signal")
 signal turn_finished
 signal notify_finished
 

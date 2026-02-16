@@ -27,7 +27,6 @@ var controlled_index : int = 0 : set = set_controlled_index
 
 @export_category("PartyWide Data")
 @export var money : int = 0 ##How much money the party has
-@export var time_played : float = 0 ##How much time has elapsed during the playthrough
 ##File that keeps the list of HP and SP mod values per level (shared between all characters)
 @export var hp_sp_mod : HPSPMod = null
 @export var exp_table : ExpTable = null
@@ -378,7 +377,7 @@ func _process_member_level_ups(member : PartyMemberData, queue_battle_messages :
 		var old_current_hp : int = member.current_hp
 		var old_current_sp : int = member.current_sp
 
-		var old_level : int = member.level
+		var _old_level : int = member.level
 
 		## subtract threshold as carryover
 		member.current_exp = member.current_exp - member.next_level_exp

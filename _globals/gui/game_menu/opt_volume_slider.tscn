@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dxex6icbm6dkj"]
 
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_f8sgp"]
-[ext_resource type="Script" uid="uid://bl7hjwg50qey7" path="res://_globals/gui/game_menu/opt_volume_slider.gd" id="1_wu0v7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rktiy"]
 resource_local_to_scene = true
@@ -39,7 +38,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 scale = Vector2(0.9969464, 1)
 theme_override_styles/panel = SubResource("StyleBoxFlat_rktiy")
-script = ExtResource("1_wu0v7")
 
 [node name="Button" type="Button" parent="." unique_id=1650704699]
 unique_name_in_owner = true

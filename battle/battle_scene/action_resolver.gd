@@ -429,7 +429,7 @@ func _execute_use_item(use : ActionUse) -> void:
 
 	# Resolve the Item from the inventory slot.
 	var item : Item = slot.item
-	var user_name : String = user.actor_data.get_display_name()
+	var _user_name : String = user.actor_data.get_display_name()
 
 	# Build a battle execution context and attach the item as the source for effects and parsing.
 	var ctx : EffectContext = EffectContext.make_battle_execution(use, battle_scene)

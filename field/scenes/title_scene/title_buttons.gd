@@ -1,3 +1,4 @@
+
 class_name TitleButtons
 extends Node2D
 
@@ -23,61 +24,63 @@ func _ready()->void:
 	
 
 func new_game_body_entered(body : FieldPartyMember)->void:
-	title_sparkle.restart()
-	title_sparkle.visible = true
-	title_sparkle.global_position = new_game_area_2d.global_position
-	selected_button = "new game"
-	choice_text.text = "New Game"
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.restart()
+		title_sparkle.visible = true
+		title_sparkle.global_position = new_game_area_2d.global_position
+		selected_button = "new game"
+		choice_text.text = "New Game"
+
 	
 func new_game_body_exited(body : FieldPartyMember)->void:
-	title_sparkle.emitting = false
-	title_sparkle.visible = false
-	selected_button = ""
-	choice_text.text = ""
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.emitting = false
+		title_sparkle.visible = false
+		selected_button = ""
+		choice_text.text = ""
+		
 	
 func load_game_body_entered(body : FieldPartyMember)->void:
-	title_sparkle.restart()
-	title_sparkle.visible = true
-	title_sparkle.global_position = load_game_area_2d.global_position
-	selected_button = "load game"
-	choice_text.text = "Load Game"
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.restart()
+		title_sparkle.visible = true
+		title_sparkle.global_position = load_game_area_2d.global_position
+		selected_button = "load game"
+		choice_text.text = "Load Game"
 	
 func load_game_body_exited(body : FieldPartyMember)->void:
-	title_sparkle.emitting = false
-	title_sparkle.visible = false
-	selected_button = ""
-	choice_text.text = ""
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.emitting = false
+		title_sparkle.visible = false
+		selected_button = ""
+		choice_text.text = ""
 	
 func options_body_entered(body : FieldPartyMember)->void:
-	title_sparkle.restart()
-	title_sparkle.visible = true
-	title_sparkle.global_position = options_area_2d.global_position
-	selected_button = "options"
-	choice_text.text = "Options"
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.restart()
+		title_sparkle.visible = true
+		title_sparkle.global_position = options_area_2d.global_position
+		selected_button = "options"
+		choice_text.text = "Options"
 	
 func options_body_exited(body : FieldPartyMember)->void:
-	title_sparkle.emitting = false
-	title_sparkle.visible = false
-	selected_button = ""
-	choice_text.text = ""
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.emitting = false
+		title_sparkle.visible = false
+		selected_button = ""
+		choice_text.text = ""
 	
 func exit_game_body_entered(body : FieldPartyMember)->void:
-	title_sparkle.restart()
-	title_sparkle.visible = true
-	title_sparkle.global_position = exit_game_area_2d.global_position
-	selected_button = "exit game"
-	choice_text.text = "Exit Game"
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.restart()
+		title_sparkle.visible = true
+		title_sparkle.global_position = exit_game_area_2d.global_position
+		selected_button = "exit game"
+		choice_text.text = "Exit Game"
 	
 func exit_game_body_exited(body : FieldPartyMember)->void:
-	title_sparkle.emitting = false
-	title_sparkle.visible = false
-	selected_button = ""
-	choice_text.text = ""
-	pass
+	if body is FieldPartyMember:
+		title_sparkle.emitting = false
+		title_sparkle.visible = false
+		selected_button = ""
+		choice_text.text = ""

@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://cimj2et0tktwp"]
+[gd_scene format=3 uid="uid://i1476na0kf60"]
 
-[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_lpxfp"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_rcygf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ff36"]
 resource_local_to_scene = true
@@ -47,7 +47,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(92, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("1_lpxfp")
+theme_override_fonts/font = ExtResource("1_rcygf")
 theme_override_font_sizes/font_size = 7
 text = "MESSAGE SPEED"
 horizontal_alignment = 1
@@ -60,7 +60,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 [node name="MSpeedValue" type="Label" parent="MSpeedHBox/PanelContainer5" unique_id=1472519678]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_lpxfp")
+theme_override_fonts/font = ExtResource("1_rcygf")
 theme_override_font_sizes/font_size = 7
 text = "5"
 horizontal_alignment = 1
