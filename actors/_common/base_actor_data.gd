@@ -7,8 +7,7 @@ extends Resource
 @export var battle_icon : Texture2D = null
 
 @export_category("Identity")
-##Unique identifier for this party member.
-##TODO This needs to be moved to PartyMemberData since it pertains specifically to party members
+##Unique identifier for this actor. Typically for a party member, but can be for enemy NPCs
 @export var actor_id : StringName = &""
 ##Name displayed in UI and battle messaging system
 ##Should not be empty

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatusEffectDefended" format=3 uid="uid://ceteeqwa8hu3d"]
+
+[ext_resource type="Script" uid="uid://dhpd3qm5q5i" path="res://battle/status_effects/status_effects/defend/status_defended.gd" id="1_6u7oe"]
+
+[resource]
+script = ExtResource("1_6u7oe")
+status_id = &"statusdefended"
+kind = 3
+expire_timing = 1
+remove_on_death = true
+metadata/_custom_type_script = "uid://dhpd3qm5q5i"

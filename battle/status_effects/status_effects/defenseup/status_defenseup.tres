@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatusEffectDefenseUp" format=3 uid="uid://cq66e28h10uux"]
+
+[ext_resource type="Script" uid="uid://bnnv5jm8okivn" path="res://battle/status_effects/status_effects/defenseup/status_defenseup.gd" id="1_nonmo"]
+
+[resource]
+script = ExtResource("1_nonmo")
+status_id = &"statusdefenseup"
+kind = 1
+remove_on_death = true
+metadata/_custom_type_script = "uid://bnnv5jm8okivn"

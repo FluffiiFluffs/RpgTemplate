@@ -2,10 +2,10 @@
 ##global QuestManager
 extends Node2D
 
-@export var all_quests : Array[Quest] = []
+
 
 @export var current_quests : Array[Quest] = []
-var completed_quests : Array[Quest] = []
+@export var completed_quests : Array[Quest] = []
 
 func _ready()->void:
 	pass
@@ -85,7 +85,7 @@ func _move_to_completed(quest: Quest)->void:
 
 ##Helper function to locate quest by ID in all_quests
 func _find_quest(_quest_id:StringName)->Quest:
-	for q in all_quests:
+	for q in Registry.all_quests:
 		if q.quest_id == _quest_id:
 			return q
 	return null
@@ -145,9 +145,6 @@ func update_quest_ui()->void:
 
 #region needs to be tested
 func clear_quests()->void:
-	for quest in all_quests:
-		if quest:
-			quest.reset()
 	current_quests.clear()
 	completed_quests.clear()
 #endregion

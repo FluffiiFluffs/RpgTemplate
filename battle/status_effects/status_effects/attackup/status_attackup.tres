@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatusEffectAttackUp" format=3 uid="uid://dayxpf08k8ryf"]
+
+[ext_resource type="Script" uid="uid://dtybg8l6qt3o7" path="res://battle/status_effects/status_effects/attackup/status_attackup.gd" id="1_hd7xs"]
+
+[resource]
+script = ExtResource("1_hd7xs")
+status_id = &"statusattackup"
+kind = 1
+remove_on_death = true
+metadata/_custom_type_script = "uid://dtybg8l6qt3o7"

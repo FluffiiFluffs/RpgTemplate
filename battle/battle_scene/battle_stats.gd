@@ -320,7 +320,7 @@ func focus_last_command_button()->void:
 					if child.button_type == "attack":
 						last_command_button_selected = child
 		if Options.battle_menu_memory == true:
-			last_command_button_selected.grab_focus()
+			last_command_button_selected.grab_button_focus()
 		else:
 				pass
 	else:
@@ -353,6 +353,11 @@ func focus_last_skill_button()->void:
 				if child is BattleSkillButton:
 					last_skill_button_selected = child
 					break
+
+		if last_skill_button_selected == null:
+			focus_first_skill_button()
+			return
+
 		last_skill_button_selected.grab_button_focus()
 	else:
 		focus_first_skill_button()

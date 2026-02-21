@@ -1,20 +1,23 @@
 ##chardata_keeper.gd
 ##Global script CharDataKeeper
 ##Global Script for keeping track of each playable character's stats, equipment etc
-extends Node2D
+extends Node
 
 #Timer exists to add to poison_threshold
 @onready var poison_timer: Timer = %PoisonTimer
 
-@export_category("Party Setup")
-##All recruitable characters with base stats.
-@export var all_party_members : Array[PartyMemberData] = []
+@export_category("Party Data")
 ##Size of the party
+##Maybe unneeded due to game design, but might be useful to stop accidentally adding to many members....though this shouldn't be an issue with careful planning / code. Could probably be used for if there are more than 4 playable characters and the extras need to go into the outside_members array
 @export_range(1,4,1) var party_size : int = 4
 ##Party members in the party
 @export var party_members : Array[PartyMemberData] = []
 ##Party members not in party, but are not default
-@export var outside_members : Array[PartyMemberData]
+@export var outside_members : Array[PartyMemberData] = []
+
+
+
+
 
 @export_category("Field Control")
 ##Reference to the controlled character node on the field
@@ -42,8 +45,26 @@ signal field_poison_tick(actor : ActorData, damage : int)
 @export var poison_acc_amount : float = 1.0
 @export var poison_acc_amount_run : float = 2.0
 
+
+#-game-stats (like how many enemies killed)
+@export_category("Per Game Stats")
+@export var enemies_killed : int = 0
+@export var party_member_deaths : int = 0
+@export var items_used : int = 0
+@export var skills_used : int = 0
+@export var time_played := 0
+@export var times_saved : int = 0
+@export var times_loaded : int = 0
+@export var quests_completed : int = 0
+
+
+
+
 var _poison_last_pos : Vector2 = Vector2.ZERO
 var field_status_system : StatusSystem = StatusSystem.new()
+
+
+
 
 func _ready() -> void:
 	_clean_party_array()
@@ -60,7 +81,7 @@ func _ready() -> void:
 func _rebuild_party_member_base_stats() -> void:
 	_rebuild_member_array_base_stats(party_members)
 	_rebuild_member_array_base_stats(outside_members)
-	_rebuild_member_array_base_stats(all_party_members)
+	#_rebuild_member_array_base_stats(all_party_members)
 
 
 func _rebuild_member_array_base_stats(members : Array[PartyMemberData]) -> void:
@@ -271,7 +292,7 @@ func poison_timer_timeout()->void:
 func get_runtime_party_field_scene(_pmdata : PartyMemberData)->FieldPartyMember:
 	if !field_party_nodes.is_empty(): ##if there's party members, which there should be
 		for node in field_party_nodes: #loop through the array
-			if node.actor_id == _pmdata.actor_id:
+			if node.field_actor_id == _pmdata.actor_id:
 				return node
 	return null #if for some reason it's empty, return null. This should never happen.
 
@@ -558,3 +579,12 @@ func _queue_battle_notification(message : String) -> void:
 	main.current_battle_scene.battle_notify_ui.queue_notification(message)
 
 #endregion LEVELING
+
+
+
+#region All Array Population
+
+
+
+
+#endregion All Array Population

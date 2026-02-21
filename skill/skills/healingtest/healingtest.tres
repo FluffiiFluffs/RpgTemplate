@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://cd376dtl68thx"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://_effects_scripts/base/effect.gd" id="1_xfpvk"]
+[ext_resource type="Script" uid="uid://d0cwv0mtohc84" path="res://_effects_scripts/effect_heal_hp.gd" id="2_8n61a"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="2_egl3u"]
+
+[sub_resource type="Resource" id="Resource_0433t"]
+script = ExtResource("2_8n61a")
+hp_heal_amount = 100
+metadata/_custom_type_script = "uid://d0cwv0mtohc84"
+
+[resource]
+script = ExtResource("2_egl3u")
+skill_id = &"healingtest"
+name = "Healing Test"
+description = "Heals the target for 50 HP"
+sp_cost = 1
+default_target_focus = 1
+intent = 2
+effects = Array[ExtResource("1_xfpvk")]([SubResource("Resource_0433t")])
+message_template = "{user} wishes really hard."
+metadata/_custom_type_script = "uid://c3imvl0552hk1"

@@ -29,9 +29,11 @@ extends FieldActor
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
 @onready var coll_timer : Timer = %CollTimer
 
-#@export_category("Enemy Data Resource")
-##Data Resource for this NPC. Must be set! #This now works in reverse, the enemy_data holds the enemy scene, not the other way around.
-#@export var enemy_data:EnemyData = null
+@export_category("FIELD ENEMY IDENTITY")
+##ID of the enemy
+@export var field_enemy_id : StringName = &""
+##Displayed name of the enemy (if used)
+@export var field_enemy_display_name : String = ""
 
 @export_category("Enemy Options")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on will_patrol will disable this!

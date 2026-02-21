@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BattleActionItem" format=3 uid="uid://c6yb8mxic4rg4"]
+
+[ext_resource type="Script" uid="uid://x11xua83jghj" path="res://battle/actions/battle_actions/item/battleaction_item.gd" id="1_s0lfo"]
+
+[resource]
+script = ExtResource("1_s0lfo")
+battleaction_id = &"battleactionitem"
+action_name = "Item"
+description = "Opens item menu"
+category = 2
+type = 3
+metadata/_custom_type_script = "uid://x11xua83jghj"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatusEffectMagicDown" format=3 uid="uid://y5ekievstkt"]
+
+[ext_resource type="Script" uid="uid://c0oocfryymxyp" path="res://battle/status_effects/status_effects/magicdown/status_magicdown.gd" id="1_wshqy"]
+
+[resource]
+script = ExtResource("1_wshqy")
+status_id = &"statusmagicdown"
+kind = 0
+remove_on_death = true
+metadata/_custom_type_script = "uid://c0oocfryymxyp"

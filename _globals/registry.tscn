@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c7bsn6xl11iwg"]
+
+[ext_resource type="Script" uid="uid://dbbk5lb3ohyji" path="res://_globals/registry.gd" id="1_2bse2"]
+[ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="2_pn4hd"]
+[ext_resource type="Resource" uid="uid://d0cbou2irbwf" path="res://actors/1_party/00_warrior/warrior_party_member_data.tres" id="3_yg1t7"]
+[ext_resource type="Resource" uid="uid://b5wmbkov323pp" path="res://actors/1_party/01_thief/thief_party_member_data.tres" id="4_vqeri"]
+[ext_resource type="Resource" uid="uid://yuhvgw0ir1x7" path="res://actors/1_party/02_mage/mage_party_member_data.tres" id="5_x2tyt"]
+[ext_resource type="Resource" uid="uid://5ypxra5wjlwe" path="res://actors/1_party/03_healer/healer_party_member_data.tres" id="6_8lhgq"]
+
+[node name="Registry" type="Node" unique_id=2122021573]
+script = ExtResource("1_2bse2")
+all_party_members = Array[ExtResource("2_pn4hd")]([ExtResource("3_yg1t7"), ExtResource("4_vqeri"), ExtResource("5_x2tyt"), ExtResource("6_8lhgq")])

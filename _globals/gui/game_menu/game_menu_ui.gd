@@ -352,6 +352,7 @@ func _ready()->void:
 ##Open top menu on the field
 func top_menu_open()->void:
 	if GameState.gamestate == GameState.State.FIELD:
+		field_enemy_processing_off()
 		clear_top_level_stats_containers()
 		setup_top_level_stats()
 		visible = true
@@ -385,9 +386,17 @@ func top_menu_close()->void:
 	animation_player.play("top_menu_hide")
 	await animation_player.animation_finished
 	visible = false
+	field_enemy_processing_on()
 	#play top menu animation closed
 	menu_state = "TOP_MENU_CLOSED"
 	pass
+
+##Forces the top menu closed, just in case it happens when a battle starts. 
+##Called by main when battle starts
+func force_menu_close_for_battle()->void:
+	get_viewport().gui_release_focus()
+	visible = false
+	menu_state = "TOP_MENU_CLOSED"
 
 ##Connects button presses for each button under ButtonHBox
 func setup_top_menu_button_presses()->void:
@@ -397,7 +406,6 @@ func setup_top_menu_button_presses()->void:
 	stats_button.button.pressed.connect(on_top_stats_button_pressed)
 	quests_button.button.pressed.connect(on_top_quests_button_pressed)
 	options_button.button.pressed.connect(on_top_options_button_pressed)
-	pass
 
 ##Focuses the TopMenuButton set in last_top_menu_button (must be set manually in code)
 func focus_last_top_menu_button()->void:
@@ -421,26 +429,26 @@ func change_selector_text(_text : String) ->void:
 ##Opens inventory and focuses first item in inventory
 func on_top_items_button_pressed()->void:
 	open_inventory()
-	pass
+
 ##Allows user to select a party member (top_level_stats.button) and then opens an equip page based on that.
 func on_top_equip_button_pressed()->void:
 	enter_equip_selection()
-	pass
+
 ##Allows user to select a party member (top_level_stats.button) and then opens a magic page based on that
 func on_top_magic_button_pressed()->void:
 	pass
 ##Allows user to select party member (top_level_stats.button) and then opens a status page based on that
 func on_top_stats_button_pressed()->void:
 	enter_stats_selection()
-	pass
+
 ##Opens up quests page
 func on_top_quests_button_pressed()->void:
 	open_quests_menu()
-	pass
+
 ##Opens the options page
 func on_top_options_button_pressed()->void:
 	open_options()
-	pass
+
 
 ##Loads party member information into the appropriate slot
 func load_party()->void:
@@ -1209,7 +1217,7 @@ func equip_remove_button_pressed()->void:
 
 func equip_rem_all_button_pressed() -> void:
 	last_selected_equip_option_button = equip_rem_all_button
-	equip_rem_all_button.is_active = true
+	equip_rem_all_button.is_active = false
 	equip_equip_button.is_active = false
 	equip_remove_button.is_active = false
 	update_equip_options_buttons_color()
@@ -1220,6 +1228,8 @@ func equip_rem_all_button_pressed() -> void:
 	clear_equip_equipping_list()
 	hide_equip_equipping_list()
 	hide_all_equip_differences()
+	await get_tree().process_frame
+	
 
 	var res = Inventory.try_remove_all_equipment_to_inventory(current_selected_party_member)
 	if res.ok == false:
@@ -1232,7 +1242,8 @@ func equip_rem_all_button_pressed() -> void:
 	update_current_equipment_buttons()
 
 	menu_state = "EQUIP_OPTIONS"
-	focus_last_equip_option_button()
+	equip_equip_button.grab_button_focus()
+	#focus_last_equip_option_button()
 
 
 func make_equipping_buttons_list(eqtype : int, enter_list : bool = true)->void:
@@ -2114,6 +2125,35 @@ func cancel_sort_selection()->void:
 
 #endregion Options menu
 
+
+#region Field Enemy Handling
+##Stops processing of all enemies on the field
+func field_enemy_processing_off()->void:
+	if SceneManager.main_scene.current_field_scene:
+		for fieldenemy in SceneManager.main_scene.current_field_scene.placed_enemies.get_children():
+			if fieldenemy is FieldEnemy:
+				fieldenemy.process_mode = Node.PROCESS_MODE_DISABLED
+		for spawner in SceneManager.main_scene.current_field_scene.enemy_spawners.get_children():
+			if spawner is EnemySpawner:
+				for node in spawner.get_children():
+					if node is FieldEnemy:
+						node.process_mode = Node.PROCESS_MODE_DISABLED
+
+##Enables processing of all enemies on the field
+func field_enemy_processing_on()->void:
+	if SceneManager.main_scene.current_field_scene:
+		for fieldenemy in SceneManager.main_scene.current_field_scene.placed_enemies.get_children():
+			if fieldenemy is FieldEnemy:
+				fieldenemy.process_mode = Node.PROCESS_MODE_INHERIT
+		for spawner in SceneManager.main_scene.current_field_scene.enemy_spawners.get_children():
+			if spawner is EnemySpawner:
+				for node in spawner.get_children():
+					if node is FieldEnemy:
+						node.process_mode = Node.PROCESS_MODE_INHERIT
+
+
+#endregion Field Enemy Handling
+
 #region Audio
 
 ##Plays error sound through GameMenu's AudioStreamPlayer[br]
@@ -2269,3 +2309,5 @@ func _slot_key_from_curr_button(curr_slot_scene: CurrentEquipButton) -> int:
 		return Inventory.EquipSlotKey.ACCESSORY_2
 
 	return -1
+
+#endregion helpers

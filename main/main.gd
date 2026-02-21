@@ -49,6 +49,7 @@ func start_battle(egroup : EnemyGroup)->void:
 	if GameState.gamestate == GameState.State.BATTLE:
 		printerr("ALREADY IN BATTLE STATE!")
 		return
+	GameMenu.force_menu_close_for_battle()
 	GameState.gamestate = GameState.State.BATTLE #swap game state to battle
 	transition_layer.play_begin() #play transition to black screen
 	field_root.process_mode = Node.PROCESS_MODE_DISABLED #stop processing the field

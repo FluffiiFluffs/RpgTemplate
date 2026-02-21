@@ -6,9 +6,9 @@
 [ext_resource type="Resource" uid="uid://w7qxfm10qo2r" path="res://inventory/items/0000_heal/0001_apple.tres" id="3_wtw7p"]
 [ext_resource type="Script" uid="uid://dnf22m24hntjd" path="res://actors/_common/base_enemy_data/enemy_data.gd" id="4_rbs70"]
 [ext_resource type="PackedScene" uid="uid://nev1yaebovqi" path="res://actors/2_enemy/00_test_enemy/test_enemy_battle_scene.tscn" id="5_v5x1q"]
-[ext_resource type="Resource" uid="uid://b2c8lt8f13vtd" path="res://skill/_normal_attacks/skill_normal_attack.tres" id="7_v5x1q"]
+[ext_resource type="Resource" uid="uid://b2c8lt8f13vtd" path="res://skill/skills/_normal_attacks/skill_normal_attack.tres" id="7_v5x1q"]
 [ext_resource type="PackedScene" uid="uid://vfsshe7gmbtm" path="res://actors/2_enemy/00_test_enemy/test_enemy_field_scene.tscn" id="7_y8udo"]
-[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="8_npti8"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="8_npti8"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="12_npti8"]
 
 [sub_resource type="Resource" id="Resource_mpmaf"]

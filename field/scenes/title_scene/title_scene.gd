@@ -210,7 +210,7 @@ func show_title_buttons()->void:
 	
 func spawn_title_player()->void:
 	#pick a random party member from all available party members
-	var new_player : PartyMemberData = CharDataKeeper.all_party_members.pick_random()
+	var new_player : PartyMemberData = Registry.all_party_members.pick_random()
 	var new_player_field : FieldPartyMember = new_player.field_scene.instantiate()
 	party.add_child(new_player_field)
 	new_player_field.is_controlled = true

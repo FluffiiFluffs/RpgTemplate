@@ -215,14 +215,18 @@ func _add_status_unchecked(receiver : Battler, effect : StatusEffect, caster : B
 	if caster != null:
 		caster_actor = caster.actor_data
 
-	effect.bind_battle_context(receiver_actor, caster_actor)
+	var runtime_effect : StatusEffect = effect
+	if runtime_effect.resource_path != "":
+		runtime_effect = runtime_effect.duplicate(true) as StatusEffect
+		runtime_effect.reset_runtime_state()
+
+	runtime_effect.bind_battle_context(receiver_actor, caster_actor)
 
 	if receiver.actor_data.status_effects == null:
 		receiver.actor_data.status_effects = []
 
-	receiver.actor_data.status_effects.append(effect)
-	effect.on_apply(self)
-
+	receiver.actor_data.status_effects.append(runtime_effect)
+	runtime_effect.on_apply(self)
 
 
 func try_add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> Dictionary:
@@ -574,11 +578,11 @@ func set_defend_link(defender : Battler, protected : Battler) -> bool:
 			remove_status_by_class(old_defender_battler, StatusEffectDefending)
 
 	# Create fresh per application instances
-	var defending : StatusEffectDefending = StatusEffectDefending.new()
+	var defending : StatusEffectDefending = Registry.instantiate_status(&"statusdefending") as StatusEffectDefending
 	defending.protected_actor = protected.actor_data
 	add_status(defender, defending, defender)
 
-	var defended : StatusEffectDefended = StatusEffectDefended.new()
+	var defended : StatusEffectDefended = Registry.instantiate_status(&"statusdefended") as StatusEffectDefended
 	defended.defender_actor = defender.actor_data
 	add_status(protected, defended, defender)
 

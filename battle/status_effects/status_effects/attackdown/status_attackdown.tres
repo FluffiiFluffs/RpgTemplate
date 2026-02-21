@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatusEffectAttackDown" format=3 uid="uid://d3m4fkenolbe3"]
+
+[ext_resource type="Script" uid="uid://deli3cwekj5e4" path="res://battle/status_effects/status_effects/attackdown/status_attackdown.gd" id="1_xvfp2"]
+
+[resource]
+script = ExtResource("1_xvfp2")
+status_id = &"statusattackdown"
+kind = 0
+remove_on_death = true
+metadata/_custom_type_script = "uid://deli3cwekj5e4"

@@ -3,7 +3,7 @@ class_name Quest
 extends Resource
 
 ##Unique quest ID
-@export var quest_id: StringName
+@export var quest_id: StringName = &""
 ##Name of the quest
 @export var quest_name : String = ""
 ##Description of the quest.

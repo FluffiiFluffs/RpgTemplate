@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://ct3blg8xsoesv"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://_effects_scripts/base/effect.gd" id="1_ws6p1"]
+[ext_resource type="Script" uid="uid://jej5ciujl5lp" path="res://_effects_scripts/effect_applyattackup.gd" id="2_e3l8f"]
+[ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="2_tjm6b"]
+
+[sub_resource type="Resource" id="Resource_1akii"]
+script = ExtResource("2_e3l8f")
+stack_levels_to_add = 3
+scope = 1
+metadata/_custom_type_script = "uid://jej5ciujl5lp"
+
+[resource]
+script = ExtResource("2_tjm6b")
+skill_id = &"attackup3test"
+name = "attackup3test"
+description = "Raises attack by 3 tiers."
+scope = 1
+sp_cost = 1
+default_target_focus = 1
+battle_effects = Array[ExtResource("1_ws6p1")]([SubResource("Resource_1akii")])
+message_template = "{user} uses {skill} on {target}."
+metadata/_custom_type_script = "uid://c3imvl0552hk1"

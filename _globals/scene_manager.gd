@@ -82,6 +82,7 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	is_loading_field_scene = false
 
 
+##Loads the title scene. Title scene is specifically loaded
 func load_title_scene()->void:
 	is_loading_field_scene = true
 	GameState.gamestate = GameState.State.INTRO
@@ -100,7 +101,11 @@ func load_title_scene()->void:
 	load_completed.emit()
 	is_loading_field_scene = false
 
-
+##Loads a field scene by filename.
+##Loops through res://field/scenes/field_scenes/ and subfolders, returns the file.
+##Used primary during loading a saved game.
+func load_field_scene_by_filename(filename : String)->FieldScene:
+	return null
 
 
 #endregion Scene Changing
@@ -149,7 +154,7 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				CharDataKeeper.controlled_character = pmemberscene
 				pmemberscene.name = p_data.get_display_name()
-				pmemberscene.actor_id = p_data.actor_id
+				pmemberscene.field_actor_id = p_data.actor_id
 				pmemberscene.force_face_direction(_side_to_vector(spoint.spawn_direction))
 				pmemberscene.global_position = spoint.global_position + spawn_offset
 				pmemberscene.set_controlled_on()
@@ -168,7 +173,7 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				pmemberscene.set_controlled_off()
 				#pmember.sprite_2d.texture = p_data.char_resource.char_sprite_sheet
 				pmemberscene.name = p_data.get_display_name()
-				pmemberscene.actor_id = p_data.actor_id
+				pmemberscene.field_actor_id = p_data.actor_id
 				pmemberscene.global_position = last_party_actor.global_position + Vector2(0, -1)
 				last_party_actor = pmemberscene
 				CharDataKeeper.field_party_nodes.append(pmemberscene)

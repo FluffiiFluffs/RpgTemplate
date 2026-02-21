@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://b57cn8th5v5es"]
+
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://_effects_scripts/base/effect.gd" id="1_mtft0"]
+[ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_bys5l"]
+[ext_resource type="Texture2D" uid="uid://5gsqm5it2anu" path="res://_assets/ui/icons_large/sword.png" id="3_2ig63"]
+[ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="4_jrvh6"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("4_jrvh6")
+item_id = &"test2hsword"
+name = "2HSword"
+sort_id = 5002
+type = 5
+menu_sprite = ExtResource("3_2ig63")
+description = "A 2 handed sword. For killing things."
+consume_on_use = false
+buy_price = 80
+sell_price = 40
+can_equip = 1
+two_hand = true
+atk_bonus = 10
+metadata/_custom_type_script = "uid://b1dtsbd1afb1w"

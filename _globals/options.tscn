@@ -2,6 +2,5 @@
 
 [ext_resource type="Script" uid="uid://cgtmo06vwdd46" path="res://_globals/options.gd" id="1_8gp16"]
 
-[node name="Options" type="Node2D" unique_id=1372710036]
+[node name="Options" type="Node" unique_id=493195180]
 script = ExtResource("1_8gp16")
-multi_stacks = false

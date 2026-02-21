@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StatusEffectMagicUp" format=3 uid="uid://cdln5wg078qn0"]
+
+[ext_resource type="Script" uid="uid://bv3lb03ely01v" path="res://battle/status_effects/status_effects/magicup/status_magicup.gd" id="1_lob2t"]
+
+[resource]
+script = ExtResource("1_lob2t")
+status_id = &"statusmagicup"
+kind = 1
+remove_on_death = true
+metadata/_custom_type_script = "uid://bv3lb03ely01v"

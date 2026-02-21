@@ -1,7 +1,6 @@
 class_name FieldScene
 extends Node2D
 
-@export var field_id : StringName = &""
 @export var enforce_draw_order : bool = true
 @export var adopt_placed_actors_on_enter : bool = true
 

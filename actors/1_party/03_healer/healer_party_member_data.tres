@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c3f7lt2n2gath" path="res://_assets/battle/icons/healer_battle_icon.png" id="1_tf7wx"]
 [ext_resource type="PackedScene" uid="uid://brktccwmkngwh" path="res://actors/1_party/03_healer/healer_field_scene.tscn" id="2_3gpb3"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="4_07rsg"]
-[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/status_effect.gd" id="5_34iqf"]
+[ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="5_34iqf"]
 
 [resource]
 resource_local_to_scene = true

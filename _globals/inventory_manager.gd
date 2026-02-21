@@ -1,9 +1,8 @@
 ##inventory_manager.gd
 ##global Inventory
-extends Node2D
+extends Node
 
-##All the items in the game so they're easily accessed
-@export var all_items : Array[Item]
+
 ##What items are in the current inventory
 @export var current_inventory : Array[InventorySlot]
 ##Default amount of slot to show in the UI
@@ -47,6 +46,7 @@ func clear_slots() -> void:
 	current_inventory.clear()
 	slots_filled = 0
 	#current_slots = default_slots
+
 
 ##For adding a new slot with an item.[br]
 ##If Options.multi_stacks is true: 
@@ -205,7 +205,7 @@ func can_remove_item(slot : InventorySlot, qty : int) -> bool:
 	
 ##Finds item by item_id and returns the Item
 func find_item(_item_id : StringName) -> Item:
-	for item in all_items:
+	for item in Registry.all_items:
 		if item.item_id == _item_id:
 			return item
 	return null
@@ -579,4 +579,4 @@ func try_remove_all_equipment_to_inventory(member: PartyMemberData) -> Dictionar
 	return result
 
 
-#endregion
+#endregion Helper Functions

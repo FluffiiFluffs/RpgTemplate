@@ -172,7 +172,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "button"
+text = "Save
+Test"
 
 [node name="Button7" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1338828106]
 unique_name_in_owner = true
@@ -192,7 +193,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "button"
+text = "Poison
+Test"
 
 [node name="Button9" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=877212581]
 unique_name_in_owner = true

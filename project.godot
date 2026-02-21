@@ -24,13 +24,14 @@ Options="*res://_globals/options.tscn"
 GameMenu="*res://_globals/gui/game_menu/game_menu_ui.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
-Save="*res://_globals/save_manager.tscn"
+SaveManager="*res://_globals/save_manager.tscn"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 QuestManager="*res://_globals/quest_manager.tscn"
 DM="*res://_globals/dm_helper.gd"
 Inventory="*res://_globals/inventory_manager.tscn"
 Interact="*res://_globals/interact_manager.tscn"
 DevMenu="*res://_globals/gui/dev_menu/dev_menu.tscn"
+Registry="*uid://c7bsn6xl11iwg"
 
 [dialogue_manager]
 
@@ -55,6 +56,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 folder_colors={
 "res://_assets/": "orange",
 "res://_common/": "gray",
+"res://_effects_scripts/": "pink",
 "res://_globals/": "teal",
 "res://actors/": "purple",
 "res://actors/1_party/": "purple",

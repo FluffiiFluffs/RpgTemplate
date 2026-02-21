@@ -90,6 +90,7 @@ func on_button_4_pressed() -> void:
 func on_button_5_pressed() -> void:
 	pass
 func on_button_6_pressed()->void:
+	SaveManager.test_save_slot_1()
 	pass
 	
 func on_button_7_pressed()->void:
@@ -123,7 +124,7 @@ func on_button_8_pressed()->void:
 			if s.exclusive_group_id == &"poison" or s is StatusEffectPoison:
 				ss.remove_status(dummy, s)
 
-		var new_poison : StatusVeryWeakPoison = StatusVeryWeakPoison.new()
+		var new_poison : StatusEffectPoison = Registry.instantiate_status(&"veryweakpoison") as StatusEffectPoison
 		ss.try_add_status(dummy, new_poison, null)
 
 		var fscene : FieldPartyMember = CharDataKeeper.get_runtime_party_field_scene(member)

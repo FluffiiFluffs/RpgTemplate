@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StatusEffectConfuse" format=3 uid="uid://blci36ojj8m46"]
+
+[ext_resource type="Script" uid="uid://5l2qiraaeo43" path="res://battle/status_effects/status_effects/confuse/status_confuse.gd" id="1_ypabh"]
+
+[resource]
+script = ExtResource("1_ypabh")
+status_id = &"statusconfuse"
+kind = 0
+remove_on_death = true
+exclusive_group_id = &"control"
+exclusive_rank = 10
+metadata/_custom_type_script = "uid://5l2qiraaeo43"

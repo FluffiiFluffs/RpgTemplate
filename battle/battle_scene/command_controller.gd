@@ -796,12 +796,37 @@ func begin_use_item(user : Battler, slot : InventorySlot) -> void:
 func _begin_targeting_for_skill(skill : Skill) -> void:
 	if skill == null:
 		return
+		
+	var ctx : EffectContext = EffectContext.make_battle_targeting(pending_user, battle_scene)
+	var effects : Array[Effect] = skill.get_effects_for_context(ctx)
 
+	var has_valid_effect : bool = false
+	for e in effects:
+		if e != null:
+			has_valid_effect = true
+			break
+
+	if not has_valid_effect:
+		GameMenu.play_error_sound()
+		push_error("Skill has no valid effects for battle context: %s (%s)" % [skill.name, skill.resource_path])
+
+		_clear_all_target_preview_state()
+		pending_user = null
+		pending_action = null
+		pending_data = {}
+
+		battle_scene.ui_state = "SKILL_MENU_OPEN"
+		battle_scene.go_back_to_skill_select()
+		return
 	# Optional completeness: block NONE
 	if skill.target_shape == Skill.TargetShape.NONE:
-		GameMenu.play_error_sound()
-		_end_targeting()
+		_clear_all_target_preview_state()
+		pending_user = null
+		pending_action = null
+		pending_data = {}
+
 		battle_scene.ui_state = "SKILL_MENU_OPEN"
+		battle_scene.go_back_to_skill_select()
 		return
 
 	if skill.target_shape == Skill.TargetShape.SELF:
@@ -811,8 +836,13 @@ func _begin_targeting_for_skill(skill : Skill) -> void:
 		var self_valid = _filter_targets_by_skill_effects(skill, self_list)
 		if self_valid.is_empty():
 			GameMenu.play_error_sound()
-			_end_targeting()
+			_clear_all_target_preview_state()
+			pending_user = null
+			pending_action = null
+			pending_data = {}
+
 			battle_scene.ui_state = "SKILL_MENU_OPEN"
+			battle_scene.go_back_to_skill_select()
 			return
 
 		_activate_targets(self_valid)
@@ -825,9 +855,13 @@ func _begin_targeting_for_skill(skill : Skill) -> void:
 	valid_targets = _filter_targets_by_skill_effects(skill, valid_targets)
 
 	if valid_targets.is_empty():
-		GameMenu.play_error_sound()
-		_end_targeting()
+		_clear_all_target_preview_state()
+		pending_user = null
+		pending_action = null
+		pending_data = {}
+
 		battle_scene.ui_state = "SKILL_MENU_OPEN"
+		battle_scene.go_back_to_skill_select()
 		return
 
 	if skill.target_shape == Skill.TargetShape.ALL:
@@ -1029,17 +1063,17 @@ func _focus_default_target(valid : Array[Battler]) -> void:
 	if valid.is_empty():
 		return
 
-	if Options.battle_menu_memory:
+	var focus_hint : int = 0
+	if pending_data.has("default_target_focus"):
+		focus_hint = int(pending_data["default_target_focus"])
+
+	if Options.battle_menu_memory and focus_hint == 2:
 		if pending_user != null and pending_user.ui_element is BattleStats:
 			var stats = pending_user.ui_element as BattleStats
 			if stats.last_enemy_selected != null:
 				if valid.has(stats.last_enemy_selected):
 					stats.last_enemy_selected.ui_element.grab_button_focus()
 					return
-
-	var focus_hint : int = 0
-	if pending_data.has("default_target_focus"):
-		focus_hint = int(pending_data["default_target_focus"])
 
 	if pending_user != null:
 		if focus_hint == 2:

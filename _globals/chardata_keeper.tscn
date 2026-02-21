@@ -9,9 +9,8 @@
 [ext_resource type="Resource" uid="uid://bo5takvknosy6" path="res://actors/1_party/hp_sp_mod.tres" id="7_8q0pa"]
 [ext_resource type="Resource" uid="uid://dao5qbvh1li6f" path="res://actors/1_party/exp_table.tres" id="8_08uhy"]
 
-[node name="ChardataKeeper" type="Node2D" unique_id=1417992603]
+[node name="ChardataKeeper" type="Node" unique_id=583813727]
 script = ExtResource("1_7befc")
-all_party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om"), ExtResource("4_8q0pa"), ExtResource("5_08uhy"), ExtResource("6_sqnyb")])
 party_members = Array[ExtResource("2_4byte")]([ExtResource("3_0h4om")])
 outside_members = Array[ExtResource("2_4byte")]([ExtResource("4_8q0pa"), ExtResource("6_sqnyb"), ExtResource("5_08uhy")])
 hp_sp_mod = ExtResource("7_8q0pa")

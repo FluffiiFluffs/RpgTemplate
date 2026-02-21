@@ -33,8 +33,7 @@
 		within the dialoguemanager addon (specifically the portrait thing)
 		
 	Implement title screen / intro sequence
-	
-	
+		
 	Implement shop system
 
 [BATTLE] 
@@ -62,9 +61,9 @@
 
 
 [INVENTORY]
-	Equipping/unequipping is a little buggy
+	*Equipping/unequipping is a little buggy....maybe not, think this was fixed with the refactor involving the registry
 
-	Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time.
+	#Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time. ** Implemented during registry refactor
 
 
 
@@ -74,7 +73,6 @@
 		stats page
 		equip page
 		inventory description panel
-
 	
 	*Implement skill usage outside of battle*
 		Implement skills being rearranged / sorted just like items
@@ -94,6 +92,7 @@
 		maybe clean up the way it works a little, too
 
 	Implement ! and ? overhead for interactable objects and NPCs
+		Check implementation in other project
 
 
 

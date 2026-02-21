@@ -350,10 +350,12 @@ func _unhandled_input(_event):
 				go_back_to_action_select()
 				pass
 			"SKILL_TARGETING":
-				#disable all ui_element.buttons
 				disable_all_ui_element_buttons()
-				#focus the last button selected in skill targeting 
-				go_back_to_skill_select()
+
+				if skill_window.visible:
+					go_back_to_skill_select()
+				else:
+					go_back_to_action_select()
 				pass
 			"ITEM_MENU_OPEN":
 				#hide the item menu

@@ -1,6 +1,6 @@
 ##options.gd
 ##Global Script Options
-extends Node2D
+extends Node
 
 
 #region In-Game Options (for player)
@@ -42,18 +42,6 @@ extends Node2D
 @export var battle_menu_memory : bool = true
 
 
-#-game-stats (like how many enemies killed)
-@export_category("Game Stats")
-@export var enemies_killed : int = 0
-@export var party_member_deaths : int = 0
-@export var items_used : int = 0
-@export var skills_used : int = 0
-@export var times_saved : int = 0
-@export var quests_completed : int = 0
-@export var time_played := 0
-
-
-
 #endregion
 
 
@@ -68,22 +56,22 @@ extends Node2D
 #@export var class_color_mage : Color = Color("7c007cff")
 ###DEV OPTION[br]Class color for healer
 #@export var class_color_healer : Color = Color("007c7cff")
-##True = shows licensing animations, otherwise skips to title screen
-@export var show_licensing : bool = false
-##If states indicators are shown above field actors
-@export var show_states : bool = true
-#endregion
-
-
-#region Inventory Options
-@export_category("INVENTORY")
+@export_category("DEV OPTIONS")
 ##DEV OPTION[br]
-##If true, another stack of the item will be made when it fills up
+##If true, another stack of the item will be made when it fills up.
+##This is a per-grame decision.
+## False will allow only one stack of an item, and the maximum is determined by the item's maximum items in the stack
 @export var multi_stacks : bool = true
 
-#endregion
+##True = shows licensing animations, otherwise skips to title screen
+@export var show_licensing : bool = false
+
+##If states indicators are shown above field actors
+@export var show_states : bool = true
 
 #endregion
+
+
 
 
 #region Helper Functions

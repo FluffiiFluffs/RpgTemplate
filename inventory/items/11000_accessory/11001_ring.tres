@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://cw2exte0summv"]
 
-[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://inventory/base/effect.gd" id="1_1pcv1"]
+[ext_resource type="Script" uid="uid://yqe0kue3wd07" path="res://_effects_scripts/base/effect.gd" id="1_1pcv1"]
 [ext_resource type="Script" uid="uid://ddxm3v5qgr03b" path="res://inventory/base/equip_effect.gd" id="2_t4f01"]
 [ext_resource type="Texture2D" uid="uid://c3nw7sjlqc3nv" path="res://_assets/ui/icons_large/apple.png" id="3_uqgrp"]
 [ext_resource type="Script" uid="uid://b1dtsbd1afb1w" path="res://inventory/base/item.gd" id="4_a1gxe"]

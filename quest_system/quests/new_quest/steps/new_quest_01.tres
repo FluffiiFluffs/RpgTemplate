@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_3xjfw")
+quest_step_id = &"Quest0001Step01"
 step_name = "Next Step"
 step_type = 3
 description = "Spoke to the other NPC."

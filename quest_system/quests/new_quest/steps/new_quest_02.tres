@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_gya2x")
+quest_step_id = &"Quest0001Step02"
 step_name = "Complete Quest"
 step_type = 3
 description = "Spoke to the first NPC."

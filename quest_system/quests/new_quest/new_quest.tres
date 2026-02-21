@@ -9,7 +9,7 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_llbcy")
-quest_id = &"0001"
+quest_id = &"Quest0001"
 quest_name = "First Quest"
 description = "This is the first quest."
 steps = Array[ExtResource("2_w70gt")]([ExtResource("3_ywiht"), ExtResource("4_ysh83"), ExtResource("5_oei3j")])

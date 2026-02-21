@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StatusEffectSleep" format=3 uid="uid://dvmgkjtnfdhsh"]
+
+[ext_resource type="Script" uid="uid://b06op4pikqgqs" path="res://battle/status_effects/status_effects/sleep/status_sleep.gd" id="1_rkmn3"]
+
+[resource]
+script = ExtResource("1_rkmn3")
+status_id = &"statussleep"
+kind = 0
+remove_on_death = true
+exclusive_group_id = &"control"
+exclusive_rank = 10
+metadata/_custom_type_script = "uid://b06op4pikqgqs"

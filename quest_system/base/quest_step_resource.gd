@@ -2,6 +2,7 @@
 class_name QuestStep
 extends Resource
 
+@export var quest_step_id : StringName = &""
 ##Name of the step
 @export var step_name : String = ""
 ##Type of step

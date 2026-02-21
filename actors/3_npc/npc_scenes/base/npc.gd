@@ -21,6 +21,13 @@ extends FieldActor
 @onready var state_label : Label = %StateLabel
 
 
+@export_category("NPC IDENTITY")
+##ID of the NPC
+@export var npc_id : StringName = &""
+##Displayed name of the NPC (if used)
+@export var display_name : String = ""
+
+
 
 @export_category("NPC Toggles")
 ##NPC will walk around an area (radius determined by walk_range * tile_size).[br] Turning on npc_will_patrol will disable this!

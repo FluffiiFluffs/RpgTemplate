@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatusEffectPoison" format=3 uid="uid://cltplhojdqsgv"]
+
+[ext_resource type="Script" uid="uid://dqestle882m0l" path="res://battle/status_effects/status_effects/poison/status_poison.gd" id="1_21qmc"]
+
+[resource]
+script = ExtResource("1_21qmc")
+battle_max_hp_percent_per_turn = 0.003
+field_max_hp_percent_per_step = 0.0015
+stat_percent_decrease = 0.05
+tier_name = "Very Weak Poison"
+status_id = &"veryweakpoison"
+kind = 0
+scope = 2
+remove_on_death = true
+exclusive_group_id = &"poison"
+exclusive_rank = 10
+metadata/_custom_type_script = "uid://dqestle882m0l"

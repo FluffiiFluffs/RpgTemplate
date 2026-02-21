@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="BattleActionSkill" format=3 uid="uid://dmtmbb2d7605b"]
-
-[ext_resource type="Script" uid="uid://chg0itvnkf68t" path="res://battle/actions/skill/battleaction_skill.gd" id="1_6chkh"]
-
-[resource]
-script = ExtResource("1_6chkh")
-metadata/_custom_type_script = "uid://chg0itvnkf68t"
