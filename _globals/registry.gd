@@ -38,7 +38,6 @@ extends Node
 func _ready()->void:
 	populate_all_arrays()
 
-
 #region Registry Population
 
 ##Calls all functions to populate base data arrays (including quest and items, even though they live outside CharDataKeeper).
@@ -186,9 +185,62 @@ func populate_all_items_array()->void:
 
 #endregion Registry Population
 
+#region Find by ID
 
+
+#Finds and returns a party member by ID
+func find_party_member_by_id(id : String)->PartyMemberData:
+	for pm in all_party_members:
+		if pm.actor_id == id:
+			return pm
+	return null
+
+func find_battle_action_by_id(id : String)->BattleAction:
+	for ba in all_battle_actions:
+		if ba.battleaction_id == id:
+			return ba
+	return null
+	
+func find_skill_by_id(id : String)->Skill:
+	for skill in all_skills:
+		if skill.skill_id == id:
+			return skill
+	return null
+
+#ALERT needs different pattern due to it being a dictionary	
+func find_status_effect_by_id(id : String)->StatusEffect:
+	return null
+	
+func find_quest_by_id(id : String)->Quest:
+	for quest in all_quests:
+		if quest.quest_id == id:
+			return quest
+	return null
+	
+func find_item_by_id(id : String)->Item:
+	for item in all_items:
+		if item.item_id == id:
+			return item
+	return null
+	
+
+
+#endregion Find by ID
+
+
+
+
+
+
+
+
+
+
+
+#region Status System
 func instantiate_status(status_id : StringName) -> StatusEffect:
 	var template : StatusEffect = all_status_effects[status_id] as StatusEffect
 	var instance : StatusEffect = template.duplicate(true) as StatusEffect
 	instance.reset_runtime_state()
 	return instance
+#endregion Status System

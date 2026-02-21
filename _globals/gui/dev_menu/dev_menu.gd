@@ -91,6 +91,7 @@ func on_button_5_pressed() -> void:
 	pass
 func on_button_6_pressed()->void:
 	SaveManager.test_save_slot_1()
+	SaveManager.save_options()
 	pass
 	
 func on_button_7_pressed()->void:

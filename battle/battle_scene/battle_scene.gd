@@ -299,7 +299,7 @@ func give_xp()->void:
 ##Needs to have the word for money changed to whatever it is called in the world (zenny, gil, gold, etc)
 func give_money()->void:
 	if money_earned != 0:
-		CharDataKeeper.money += money_earned
+		SaveManager.money += money_earned
 		battle_notify_ui.queue_notification("Found " + str(money_earned) + " money.")
 	pass
 

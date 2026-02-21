@@ -15,10 +15,6 @@ extends Node
 ##Party members not in party, but are not default
 @export var outside_members : Array[PartyMemberData] = []
 
-
-
-
-
 @export_category("Field Control")
 ##Reference to the controlled character node on the field
 @export var controlled_character : FieldPartyMember
@@ -29,7 +25,7 @@ var controlled_index : int = 0 : set = set_controlled_index
 @export var player_trying_move : bool = false
 
 @export_category("PartyWide Data")
-@export var money : int = 0 ##How much money the party has
+
 ##File that keeps the list of HP and SP mod values per level (shared between all characters)
 @export var hp_sp_mod : HPSPMod = null
 @export var exp_table : ExpTable = null
@@ -44,18 +40,6 @@ signal field_poison_tick(actor : ActorData, damage : int)
 ##Amount to add to poison accumulated each time poison_timer times out
 @export var poison_acc_amount : float = 1.0
 @export var poison_acc_amount_run : float = 2.0
-
-
-#-game-stats (like how many enemies killed)
-@export_category("Per Game Stats")
-@export var enemies_killed : int = 0
-@export var party_member_deaths : int = 0
-@export var items_used : int = 0
-@export var skills_used : int = 0
-@export var time_played := 0
-@export var times_saved : int = 0
-@export var times_loaded : int = 0
-@export var quests_completed : int = 0
 
 
 

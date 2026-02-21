@@ -12,4 +12,5 @@ script = ExtResource("1_crqld")
 class_color = Color(0, 0.4862745, 0.4862745, 1)
 field_scene = ExtResource("2_3gpb3")
 battle_icon = ExtResource("1_tf7wx")
+actor_id = &"healer_04"
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

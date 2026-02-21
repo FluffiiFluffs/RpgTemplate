@@ -202,6 +202,7 @@ func _get_primary_control_status(statuses : Array) -> StatusEffect:
 # -------------------------------------------------------------------
 # Core CRUD
 # -------------------------------------------------------------------
+
 func _add_status_unchecked(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> void:
 	if receiver == null:
 		return

@@ -2,23 +2,23 @@ using QuestManager
 using DM
 
 ~ npc1
-if quest_is_completed("0001") == false and has_quest("0001") == false
-	NPC1: [do set_portrait("npc", "normal")]Hello stranger. It looks like you do not have this quest yet. Go talk to the other NPC over there. I gave you a quest.[do advance_actions_taken("0001", 0)] => END
-	#[do give_quest("0001")]
-elif quest_is_completed("0001") == false and on_step("0001") == 1
+if quest_is_completed("quest0001") == false and has_quest("quest0001") == false
+	NPC1: [do set_portrait("npc", "normal")]Hello stranger. It looks like you do not have this quest yet. Go talk to the other NPC over there. I gave you a quest.[do advance_actions_taken("quest0001", 0)] => END
+	#[do give_quest("quest0001")]
+elif quest_is_completed("quest0001") == false and on_step("quest0001") == 1
 	NPC1: [do set_portrait("npc", "angry")]You need to go talk to that other NPC over there. What are you waiting for. => END
-elif quest_is_completed("0001") == false and on_step("0001") == 2
-	NPC1: [do set_portrait("npc", "happy")]You came back and talked to me.[do advance_actions_taken("0001", 2)] => END
-elif quest_is_completed("0001") == true
+elif quest_is_completed("quest0001") == false and on_step("quest0001") == 2
+	NPC1: [do set_portrait("npc", "happy")]You came back and talked to me.[do advance_actions_taken("quest0001", 2)] => END
+elif quest_is_completed("quest0001") == true
 	NPC1: [do set_portrait("npc", "surprise")]Looks like you have completed the first quest. => END
 
 
 ~ npc2
-if quest_is_completed("0001") == false and has_quest("0001") == false
+if quest_is_completed("quest0001") == false and has_quest("quest0001") == false
 	NPC2: [do set_portrait("npc", "angry")]You need to talk to the other NPC. I am not ready yet. => END
-elif quest_is_completed("0001") == false and on_step("0001") == 1
-	NPC2: [do set_portrait("npc", "normal")]You are talking to me. This is step 1. Now go talk to the first NPC.[do advance_actions_taken("0001", 01)] => END
-elif quest_is_completed("0001") == false and on_step("0001") == 2
+elif quest_is_completed("quest0001") == false and on_step("quest0001") == 1
+	NPC2: [do set_portrait("npc", "normal")]You are talking to me. This is step 1. Now go talk to the first NPC.[do advance_actions_taken("quest0001", 01)] => END
+elif quest_is_completed("quest0001") == false and on_step("quest0001") == 2
 	NPC2: [do set_portrait("npc", "angry")]I told you to go talk to the first NPC. What are you doing here. => END
-elif quest_is_completed("0001") == true
+elif quest_is_completed("quest0001") == true
 	NPC2: [do set_portrait("npc", "surprise")]Hey, you completed the first quest. => END
