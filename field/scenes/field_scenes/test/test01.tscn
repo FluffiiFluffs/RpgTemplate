@@ -78,7 +78,7 @@ load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403b
 atlas = SubResource("CompressedTexture2D_4tb3a")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_amme5"]
+[sub_resource type="Resource" id="Resource_p6xl5"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "NPC"
@@ -149,7 +149,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_vqpsj")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_k3l33"]
+[sub_resource type="Resource" id="Resource_xo7o1"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -217,7 +217,7 @@ load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403b
 atlas = SubResource("CompressedTexture2D_wt3wa")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_rushk"]
+[sub_resource type="Resource" id="Resource_h4dcs"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "NPC"
@@ -288,7 +288,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_mswpi")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_y4fdw"]
+[sub_resource type="Resource" id="Resource_p2wuy"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -359,7 +359,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_u062u")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_wu166"]
+[sub_resource type="Resource" id="Resource_f0qgu"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -374,7 +374,7 @@ tired = SubResource("AtlasTexture_1fp00")
 voice = ExtResource("13_hppd8")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
-[sub_resource type="Resource" id="Resource_kt4hr"]
+[sub_resource type="Resource" id="Resource_ahd2c"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -471,7 +471,7 @@ position = Vector2(462, -100)
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC" unique_id=1438587103 instance=ExtResource("9_wu166")]
 start_position = "npc1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_amme5"), SubResource("Resource_k3l33")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_p6xl5"), SubResource("Resource_xo7o1")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="NPC2" parent="FieldActors/PlacedNPCs" unique_id=1482229836 instance=ExtResource("7_rushk")]
@@ -479,7 +479,7 @@ position = Vector2(628, -97)
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC2" unique_id=1831271577 instance=ExtResource("9_wu166")]
 start_position = "npc2"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_rushk"), SubResource("Resource_y4fdw")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_h4dcs"), SubResource("Resource_p2wuy")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="Trashcan" parent="FieldActors/PlacedNPCs" unique_id=1824018306 instance=ExtResource("15_pg0n8")]
@@ -490,7 +490,7 @@ z_index = 1
 item_here = true
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_wu166")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_f0qgu")])
 
 [node name="Trashcan2" parent="FieldActors/PlacedNPCs" unique_id=81467877 instance=ExtResource("15_pg0n8")]
 position = Vector2(571, -167)
@@ -500,7 +500,7 @@ z_index = 1
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
 open = true
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_kt4hr")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_ahd2c")])
 
 [node name="Party" type="Node2D" parent="FieldActors" unique_id=1665240552]
 unique_name_in_owner = true

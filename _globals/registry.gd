@@ -24,8 +24,9 @@ extends Node
 
 ## All StatusEffect templates available within the game, keyed by status_id.
 ## Values are templates loaded from .tres and treated as read only.
-@export var all_status_effects : Dictionary = {}
-
+@export var all_status_effects : Array[StatusEffect] = []
+	
+	
 ##All Quests available within the game.
 ##This array is auto-populated during game load via function
 @export var all_quests : Array[Quest] = []
@@ -99,7 +100,9 @@ func populate_skills_array()->void:
 
 			if res is Skill:
 				all_skills.append(res)
-
+				
+				
+				
 ##Finds all StatusEffects within res://battle/status_effects/status_effects/ and its nested folders
 ##Adds all StatusEffect resources to all_status_effects
 ##Does not include script files defining the status effects, only the .tres resrouces
@@ -125,10 +128,7 @@ func populate_status_effects_array()->void:
 				continue
 
 			var status : StatusEffect = res as StatusEffect
-			var id : StringName = status.status_id
-
-			all_status_effects[id] = status
-			
+			all_status_effects.append(status)
 			
 			
 			
@@ -207,9 +207,13 @@ func find_skill_by_id(id : String)->Skill:
 			return skill
 	return null
 
-#ALERT needs different pattern due to it being a dictionary	
-func find_status_effect_by_id(id : String)->StatusEffect:
+func find_status_effect_by_id(id : String) -> StatusEffect:
+	var key : StringName = StringName(id)
+	for status in all_status_effects:
+		if status.status_id == key:
+			return status
 	return null
+	
 	
 func find_quest_by_id(id : String)->Quest:
 	for quest in all_quests:
@@ -219,7 +223,7 @@ func find_quest_by_id(id : String)->Quest:
 	
 func find_item_by_id(id : String)->Item:
 	for item in all_items:
-		if item.item_id == id:
+		if String(item.item_id) == id:
 			return item
 	return null
 	
@@ -227,19 +231,12 @@ func find_item_by_id(id : String)->Item:
 
 #endregion Find by ID
 
-
-
-
-
-
-
-
-
-
-
 #region Status System
 func instantiate_status(status_id : StringName) -> StatusEffect:
-	var template : StatusEffect = all_status_effects[status_id] as StatusEffect
+	var template : StatusEffect = find_status_effect_by_id(String(status_id))
+	if template == null:
+		return null
+
 	var instance : StatusEffect = template.duplicate(true) as StatusEffect
 	instance.reset_runtime_state()
 	return instance

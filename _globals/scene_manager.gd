@@ -36,10 +36,56 @@ var transition_entry_offset : Vector2 = Vector2.ZERO
 
 var is_loading_field_scene : bool = false
 
+var _field_enemies_paused : bool = false
+
+
 signal load_started
 signal load_completed
 
 #endregion
+
+
+func _ready()->void:
+	call_deferred("_connect_dialogue_pause")
+
+
+func _connect_dialogue_pause()->void:
+	DialogueManager.dialogue_started.connect(_on_dialogue_started)
+	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+
+
+func _on_dialogue_started(_resource : Resource)->void:
+	if GameState.gamestate == GameState.State.FIELD:
+		GameState.gamestate = GameState.State.DIALOGUE
+	set_field_enemies_paused(true)
+
+
+func _on_dialogue_ended(_resource : Resource)->void:
+	if GameState.gamestate == GameState.State.DIALOGUE:
+		GameState.gamestate = GameState.State.FIELD
+	set_field_enemies_paused(false)
+
+
+func set_field_enemies_paused(paused : bool)->void:
+	if paused == _field_enemies_paused:
+		return
+	_field_enemies_paused = paused
+
+	if main_scene == null:
+		return
+	if main_scene.current_field_scene == null:
+		return
+
+	var fscene : FieldScene = main_scene.current_field_scene
+
+	var mode : int = Node.PROCESS_MODE_INHERIT
+	if paused:
+		mode = Node.PROCESS_MODE_DISABLED
+
+	fscene.placed_enemies.process_mode = mode
+	fscene.enemy_spawners.process_mode = mode
+
+
 
 
 #region Scene Changing
@@ -68,8 +114,12 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	var new_scene = load(scene_path).instantiate()
 	main_scene.field_scene_container.add_child(new_scene)
 	main_scene.current_field_scene = new_scene
-	if party_spawn_point != null:
-		party_spawn_point = find_transitioner(main_scene.current_field_scene, next_scene_transitioner_name)
+	last_party_actor = null
+
+	party_spawn_point = find_transitioner(main_scene.current_field_scene, next_scene_transitioner_name)
+	if party_spawn_point == null:
+		push_error("SceneManager: transitioner not found: " + next_scene_transitioner_name + " in scene: " + scene_path)
+	else:
 		spawn_offset = party_spawn_point.compute_spawn_offset(transition_entry_offset)
 		make_party_at_spawn_point(party_spawn_point)
 		main_scene.field_camera_rig.follow_player()

@@ -14,6 +14,12 @@ extends Node
 ##[br] Scenes should be loaded by searching through res://field/scenes/field_scenes/ and subfolders to find the filename that matches
 ##[br] Field file names are unique, so there will never be an issue
 	## No need for ID, Godot is not capable of looking into a .tscn file to see an exported variable's value without actually loading that file, which is not preferable.
+var _loaded_save_sections : Dictionary = {}
+var _loaded_options_sections : Dictionary = {}
+
+const FIELD_SCENES_ROOT_DIR : String = "res://field/scenes/field_scenes"
+
+
 
 #region To Do 
 ##Things to save/load
@@ -532,36 +538,93 @@ func _format_float(v: float) -> String:
 #region Loading
 ## Loads the options file and sets their values. This should happen when the game loads
 ## Parses through game_options.sav and sets the values within Options
+## Loads the options file and sets their values. This should happen when the game loads
+## Parses through game_options.sav and sets the values within Options
 func load_options()->void:
-	pass
+	_loaded_options_sections.clear()
+	var file : FileAccess = FileAccess.open("user://game_options.sav", FileAccess.READ)
+	if file == null:
+		return
+
+	_loaded_options_sections = _parse_sav_file(file)
+	file.close()
+
+	var vol : Dictionary = _get_section(_loaded_options_sections, "options.volume")
+	if not vol.is_empty():
+		Options.set_music_volume(_sec_get_float(vol, "music_volume", Options.music_volume))
+		Options.set_sfx_volume(_sec_get_float(vol, "sfx_volume", Options.sfx_volume))
+		Options.set_voices_volume(_sec_get_float(vol, "voices_volume", Options.voices_volume))
+
+	var iso : Dictionary = _get_section(_loaded_options_sections, "options.item_sort_order")
+	if not iso.is_empty():
+		var order_pairs : Array = []
+		for k in iso.keys():
+			var key : String = String(k)
+			if not key.begins_with("item_sort_order."):
+				continue
+			var idx_str : String = key.substr("item_sort_order.".length())
+			if not idx_str.is_valid_int():
+				continue
+			order_pairs.append([int(idx_str), _sec_get_string(iso, key, "")])
+
+		order_pairs.sort_custom(func(a, b): return int(a[0]) < int(b[0]))
+		Options.item_sort_order.clear()
+		for pair in order_pairs:
+			Options.item_sort_order.append(String(pair[1]))
+
+	var dlg : Dictionary = _get_section(_loaded_options_sections, "options.dialogue")
+	if not dlg.is_empty():
+		Options.voices_type = _sec_get_int(dlg, "voices_type", Options.voices_type)
+		Options.portrait_type = _sec_get_int(dlg, "portrait_type", Options.portrait_type)
+
+	var mov : Dictionary = _get_section(_loaded_options_sections, "options.movement")
+	if not mov.is_empty():
+		Options.always_run = _sec_get_bool(mov, "always_run", Options.always_run)
+
+	var spd : Dictionary = _get_section(_loaded_options_sections, "options.message_speeds")
+	if not spd.is_empty():
+		Options.message_speed = _sec_get_float(spd, "message_speed", Options.message_speed)
+		Options.battle_message_speed = _sec_get_float(spd, "battle_message_speed", Options.battle_message_speed)
+
+	var mem : Dictionary = _get_section(_loaded_options_sections, "options.menu_memory")
+	if not mem.is_empty():
+		Options.menu_memory = _sec_get_bool(mem, "menu_memory", Options.menu_memory)
+		Options.battle_menu_memory = _sec_get_bool(mem, "battle_menu_memory", Options.battle_menu_memory)
+
+
 
 
 
 ##Loads a saved game file
 func load_game(slot : int)->void:
-	#find the saved game from requested slot
-	var saved_game_file = find_game_save(slot)
+	var saved_game_file : FileAccess = find_game_save(slot)
+	if saved_game_file == null:
+		var err : int = FileAccess.get_open_error()
+		push_error("SaveManager: failed to open save slot " + str(slot) + " (" + error_string(err) + ")")
+		return
+
+	_loaded_save_sections.clear()
+	_loaded_save_sections = _parse_sav_file(saved_game_file)
+	saved_game_file.close()
+
+	load_options()
 	clear_arrays_for_loading()
-	
+
 	load_game_statistics()
 	load_inventory()
 	load_current_quests()
 	load_completed_quests()
 	load_current_party_members()
 	load_outside_party_members()
-	
-		
-	load_saved_game_field_scene()	
-	
-	pass
+	load_saved_game_field_scene()
 	
 	
 ##Finds the save file at the slot number requested
 func find_game_save(slot : int)->FileAccess:
 	var savename : String = "user://save_" + str(slot) + ".sav"
 	var savefile = FileAccess.open(savename, FileAccess.READ)
-	return savefile
 	#return save file found in file system
+	return savefile
 	
 ## Clears all arrays for loading so new objects can be created
 func clear_arrays_for_loading()->void:
@@ -588,7 +651,26 @@ func clear_arrays_for_loading()->void:
 ## Parses selected save file and sets the game statistics (in this global script) to the correct values
 ## Reads data under the [game_statistics] heading
 func load_game_statistics()->void:
-	pass
+	var stats : Dictionary = _get_section(_loaded_save_sections, "game_statistics")
+	if stats.is_empty():
+		return
+	
+	time_played = _sec_get_int(stats, "time_played", 0)
+	times_saved = _sec_get_int(stats, "times_saved", 0)
+	times_loaded = _sec_get_int(stats, "times_loaded", 0)
+	money = _sec_get_int(stats, "money", 0)
+	quests_completed = _sec_get_int(stats, "quests_completed", 0)
+	enemies_killed = _sec_get_int(stats, "enemies_killed", 0)
+	party_member_deaths = _sec_get_int(stats, "party_member_deaths", 0)
+	items_used = _sec_get_int(stats, "items_used", 0)
+	skills_used = _sec_get_int(stats, "skills_used", 0)
+	
+## Parses the selected save file and sets up the Inventory.current_inventory.
+## Reads data under the [inventory] heading
+## Uses InventorySlot.new() to set up a new item slot
+## Sets the InventorySlot.quantity using slot_qty
+## Uses Registry.find_item_by_id(item_id) to set the item
+
 	
 ## Parses the selected save file and sets up the Inventory.current_inventory.
 ## Reads data under the [inventory] heading
@@ -596,7 +678,41 @@ func load_game_statistics()->void:
 ## Sets the InventorySlot.quantity using slot_qty
 ## Uses Registry.find_item_by_id(item_id) to set the item
 func load_inventory()->void:
-	pass
+	if Inventory.current_inventory == null:
+		Inventory.current_inventory = []
+	Inventory.current_inventory.clear()
+
+	var prefix : String = "inventory.item_slot_"
+	var slot_sections : Array[String] = []
+	for sec_name in _loaded_save_sections.keys():
+		var s : String = String(sec_name)
+		if s.begins_with(prefix):
+			slot_sections.append(s)
+
+	slot_sections.sort_custom(func(a, b):
+		var ia : int = int(a.substr(prefix.length()))
+		var ib : int = int(b.substr(prefix.length()))
+		return ia < ib
+	)
+
+	for sec in slot_sections:
+		var data : Dictionary = _get_section(_loaded_save_sections, sec)
+		var qty : int = _sec_get_int(data, "qty", 0)
+		var item_id : String = _sec_get_string(data, "item_id", "")
+		if qty <= 0:
+			continue
+		if item_id == "":
+			continue
+
+		var item : Item = Registry.find_item_by_id(item_id)
+		if item == null:
+			continue
+
+		var islot : InventorySlot = InventorySlot.new()
+		islot.item = item
+		islot.quantity = qty
+		Inventory.current_inventory.append(islot)
+		
 
 ## Parses the selected save file and sets up QuestManager.current_quests
 ## Reads data under [quests.current_quests]
@@ -606,8 +722,48 @@ func load_inventory()->void:
 	##the next actions_taken is what the quest step's actions taken is set to
 	##the next is_completed is what the quest step's is_completed flag is set to
 func load_current_quests()->void:
+	var prefix : String = "quests.current."
+	var quest_sections : Array[String] = []
+	for sec_name in _loaded_save_sections.keys():
+		var s : String = String(sec_name)
+		if s.begins_with(prefix) and s.find(".steps.") == -1:
+			quest_sections.append(s)
 
-	pass
+	quest_sections.sort()
+
+	for qsec in quest_sections:
+		var qdata : Dictionary = _get_section(_loaded_save_sections, qsec)
+		var qid : String = _sec_get_string(qdata, "quest_id", "")
+		if qid == "":
+			continue
+
+		var qtemplate : Quest = Registry.find_quest_by_id(qid)
+		if qtemplate == null:
+			continue
+
+		var quest : Quest = qtemplate.duplicate(true) as Quest
+		quest.current_step = _sec_get_int(qdata, "current_step", quest.current_step)
+		quest.is_completed = _sec_get_bool(qdata, "is_completed", quest.is_completed)
+		quest.repeatable = _sec_get_bool(qdata, "repeatable", quest.repeatable)
+
+		for step_idx in range(quest.steps.size()):
+			var ssec : String = qsec + ".steps." + str(step_idx)
+			var sdata : Dictionary = _get_section(_loaded_save_sections, ssec)
+			if sdata.is_empty():
+				continue
+
+			var step : QuestStep = quest.steps[step_idx]
+			if step == null:
+				continue
+
+			var saved_step_id : String = _sec_get_string(sdata, "quest_step_id", "")
+			if saved_step_id != "" and String(step.quest_step_id) != saved_step_id:
+				continue
+
+			step.actions_taken = _sec_get_int(sdata, "actions_taken", step.actions_taken)
+			step.is_completed = _sec_get_bool(sdata, "is_completed", step.is_completed)
+
+		QuestManager.current_quests.append(quest)
 
 
 ## Parses the selected save file and sets up QuestManager.completed_quests
@@ -618,7 +774,47 @@ func load_current_quests()->void:
 	##the next actions_taken is what the quest step's actions taken is set to
 	##the next is_completed is what the quest step's is_completed flag is set to
 func load_completed_quests()->void:
-	pass
+	var prefix : String = "quests.completed."
+	var quest_sections : Array[String] = []
+	for sec_name in _loaded_save_sections.keys():
+		var s : String = String(sec_name)
+		if s.begins_with(prefix) and s.find(".steps.") == -1:
+			quest_sections.append(s)
+
+	quest_sections.sort()
+
+	for qsec in quest_sections:
+		var qdata : Dictionary = _get_section(_loaded_save_sections, qsec)
+		var qid : String = _sec_get_string(qdata, "quest_id", "")
+		if qid == "":
+			continue
+
+		var qtemplate : Quest = Registry.find_quest_by_id(qid)
+		if qtemplate == null:
+			continue
+
+		var quest : Quest = qtemplate.duplicate(true) as Quest
+		quest.is_completed = _sec_get_bool(qdata, "is_completed", true)
+
+		for step_idx in range(quest.steps.size()):
+			var ssec : String = qsec + ".steps." + str(step_idx)
+			var sdata : Dictionary = _get_section(_loaded_save_sections, ssec)
+			if sdata.is_empty():
+				continue
+
+			var step : QuestStep = quest.steps[step_idx]
+			if step == null:
+				continue
+
+			var saved_step_id : String = _sec_get_string(sdata, "quest_step_id", "")
+			if saved_step_id != "" and String(step.quest_step_id) != saved_step_id:
+				continue
+
+			step.actions_taken = _sec_get_int(sdata, "actions_taken", step.actions_taken)
+			step.is_completed = _sec_get_bool(sdata, "is_completed", step.is_completed)
+
+		QuestManager.completed_quests.append(quest)
+	
 	
 	
 ## parses until [characters.current_party_members] is found
@@ -630,8 +826,107 @@ func load_completed_quests()->void:
 ## Prases perm stats and sets their values
 ## Repeats for each party member found within the CharDataKeeper.party_memebers array
 func load_current_party_members()->void:
-	pass
-	
+	var prefix : String = "characters.current_party_members."
+	var member_sections : Array[String] = []
+	for sec_name in _loaded_save_sections.keys():
+		var s : String = String(sec_name)
+		if s.begins_with(prefix):
+			member_sections.append(s)
+
+	member_sections.sort_custom(func(a, b):
+		var ia_str : String = a.substr(prefix.length())
+		var ib_str : String = b.substr(prefix.length())
+		var ia : int = 0
+		var ib : int = 0
+		if ia_str.is_valid_int():
+			ia = int(ia_str)
+		if ib_str.is_valid_int():
+			ib = int(ib_str)
+		return ia < ib
+	)
+
+	for msec in member_sections:
+		var data : Dictionary = _get_section(_loaded_save_sections, msec)
+		var actor_id : String = _sec_get_string(data, "actor_id", "")
+		if actor_id == "":
+			continue
+
+		var template : PartyMemberData = Registry.find_party_member_by_id(actor_id)
+		if template == null:
+			continue
+
+		var pm : PartyMemberData = template.duplicate(true) as PartyMemberData
+
+		pm.display_name = _sec_get_string(data, "display_name", pm.display_name)
+		pm.level = _sec_get_int(data, "level", pm.level)
+		pm.current_exp = _sec_get_int(data, "current_exp", pm.current_exp)
+		pm.next_level_exp = _sec_get_int(data, "next_level_exp", pm.next_level_exp)
+		pm.total_exp = _sec_get_int(data, "total_exp", pm.total_exp)
+
+		pm.perm_max_hp_flat = _sec_get_int(data, "perm_max_hp_flat", pm.perm_max_hp_flat)
+		pm.perm_max_sp_flat = _sec_get_int(data, "perm_max_sp_flat", pm.perm_max_sp_flat)
+		pm.perm_atk_flat = _sec_get_int(data, "perm_atk_flat", pm.perm_atk_flat)
+		pm.perm_def_flat = _sec_get_int(data, "perm_def_flat", pm.perm_def_flat)
+		pm.perm_strength_flat = _sec_get_int(data, "perm_strength_flat", pm.perm_strength_flat)
+		pm.perm_stamina_flat = _sec_get_int(data, "perm_stamina_flat", pm.perm_stamina_flat)
+		pm.perm_agility_flat = _sec_get_int(data, "perm_agility_flat", pm.perm_agility_flat)
+		pm.perm_magic_flat = _sec_get_int(data, "perm_magic_flat", pm.perm_magic_flat)
+		pm.perm_luck_flat = _sec_get_int(data, "perm_luck_flat", pm.perm_luck_flat)
+
+		pm.mainhand = _load_item_or_null(_sec_get_string(data, "mainhand", ""))
+		pm.offhand = _load_item_or_null(_sec_get_string(data, "offhand", ""))
+		pm.headslot = _load_item_or_null(_sec_get_string(data, "headslot", ""))
+		pm.chestslot = _load_item_or_null(_sec_get_string(data, "chestslot", ""))
+		pm.armslot = _load_item_or_null(_sec_get_string(data, "armslot", ""))
+		pm.legslot = _load_item_or_null(_sec_get_string(data, "legslot", ""))
+		pm.accy01 = _load_item_or_null(_sec_get_string(data, "accy01", ""))
+		pm.accy02 = _load_item_or_null(_sec_get_string(data, "accy02", ""))
+		pm.two_handing = _sec_get_bool(data, "two_handing", pm.two_handing)
+
+		pm.skills.clear()
+		var skill_pairs : Array = []
+		for k in data.keys():
+			var key : String = String(k)
+			if not key.begins_with("skill."):
+				continue
+			var idx_str : String = key.substr("skill.".length())
+			if not idx_str.is_valid_int():
+				continue
+			skill_pairs.append([int(idx_str), _sec_get_string(data, key, "")])
+		skill_pairs.sort_custom(func(a, b): return int(a[0]) < int(b[0]))
+		for pair in skill_pairs:
+			var sid : String = String(pair[1])
+			if sid == "":
+				continue
+			var skill : Skill = Registry.find_skill_by_id(sid)
+			if skill != null:
+				pm.skills.append(skill)
+
+		pm.status_effects.clear()
+		var status_pairs : Array = []
+		for k in data.keys():
+			var key : String = String(k)
+			if not key.begins_with("status."):
+				continue
+			var idx_str : String = key.substr("status.".length())
+			if not idx_str.is_valid_int():
+				continue
+			status_pairs.append([int(idx_str), _sec_get_string(data, key, "")])
+		status_pairs.sort_custom(func(a, b): return int(a[0]) < int(b[0]))
+		for pair in status_pairs:
+			var stid : String = String(pair[1])
+			if stid == "":
+				continue
+			var status : StatusEffect = Registry.instantiate_status(StringName(stid))
+			if status != null:
+				pm.status_effects.append(status)
+
+		pm.rebuild_base_stats()
+		pm.current_hp = _sec_get_int(data, "current_hp", pm.current_hp)
+		pm.current_sp = _sec_get_int(data, "current_sp", pm.current_sp)
+		pm.clamp_vitals()
+
+		CharDataKeeper.party_members.append(pm)
 	
 ## parses until [characters.outside_party_members] is found
 ## parses until actor_id found in save file, then uses Registry.find_party_member_by_id(actor_id)
@@ -642,15 +937,361 @@ func load_current_party_members()->void:
 ## Prases perm stats and sets their values
 ## Repeats for each party member found within the CharDataKeeper.outside_party_members array
 func load_outside_party_members()->void:
-	pass
+	var prefix : String = "characters.outside_party_members."
+	var member_sections : Array[String] = []
+	for sec_name in _loaded_save_sections.keys():
+		var s : String = String(sec_name)
+		if s.begins_with(prefix):
+			member_sections.append(s)
+
+	member_sections.sort_custom(func(a, b):
+		var ia_str : String = a.substr(prefix.length())
+		var ib_str : String = b.substr(prefix.length())
+		var ia : int = 0
+		var ib : int = 0
+		if ia_str.is_valid_int():
+			ia = int(ia_str)
+		if ib_str.is_valid_int():
+			ib = int(ib_str)
+		return ia < ib
+	)
+
+	for msec in member_sections:
+		var data : Dictionary = _get_section(_loaded_save_sections, msec)
+		var actor_id : String = _sec_get_string(data, "actor_id", "")
+		if actor_id == "":
+			continue
+
+		var template : PartyMemberData = Registry.find_party_member_by_id(actor_id)
+		if template == null:
+			continue
+
+		var pm : PartyMemberData = template.duplicate(true) as PartyMemberData
+
+		pm.display_name = _sec_get_string(data, "display_name", pm.display_name)
+		pm.level = _sec_get_int(data, "level", pm.level)
+		pm.current_exp = _sec_get_int(data, "current_exp", pm.current_exp)
+		pm.next_level_exp = _sec_get_int(data, "next_level_exp", pm.next_level_exp)
+		pm.total_exp = _sec_get_int(data, "total_exp", pm.total_exp)
+
+		pm.perm_max_hp_flat = _sec_get_int(data, "perm_max_hp_flat", pm.perm_max_hp_flat)
+		pm.perm_max_sp_flat = _sec_get_int(data, "perm_max_sp_flat", pm.perm_max_sp_flat)
+		pm.perm_atk_flat = _sec_get_int(data, "perm_atk_flat", pm.perm_atk_flat)
+		pm.perm_def_flat = _sec_get_int(data, "perm_def_flat", pm.perm_def_flat)
+		pm.perm_strength_flat = _sec_get_int(data, "perm_strength_flat", pm.perm_strength_flat)
+		pm.perm_stamina_flat = _sec_get_int(data, "perm_stamina_flat", pm.perm_stamina_flat)
+		pm.perm_agility_flat = _sec_get_int(data, "perm_agility_flat", pm.perm_agility_flat)
+		pm.perm_magic_flat = _sec_get_int(data, "perm_magic_flat", pm.perm_magic_flat)
+		pm.perm_luck_flat = _sec_get_int(data, "perm_luck_flat", pm.perm_luck_flat)
+
+		pm.mainhand = _load_item_or_null(_sec_get_string(data, "mainhand", ""))
+		pm.offhand = _load_item_or_null(_sec_get_string(data, "offhand", ""))
+		pm.headslot = _load_item_or_null(_sec_get_string(data, "headslot", ""))
+		pm.chestslot = _load_item_or_null(_sec_get_string(data, "chestslot", ""))
+		pm.armslot = _load_item_or_null(_sec_get_string(data, "armslot", ""))
+		pm.legslot = _load_item_or_null(_sec_get_string(data, "legslot", ""))
+		pm.accy01 = _load_item_or_null(_sec_get_string(data, "accy01", ""))
+		pm.accy02 = _load_item_or_null(_sec_get_string(data, "accy02", ""))
+		pm.two_handing = _sec_get_bool(data, "two_handing", pm.two_handing)
+
+		pm.skills.clear()
+		var skill_pairs : Array = []
+		for k in data.keys():
+			var key : String = String(k)
+			if not key.begins_with("skill."):
+				continue
+			var idx_str : String = key.substr("skill.".length())
+			if not idx_str.is_valid_int():
+				continue
+			skill_pairs.append([int(idx_str), _sec_get_string(data, key, "")])
+		skill_pairs.sort_custom(func(a, b): return int(a[0]) < int(b[0]))
+		for pair in skill_pairs:
+			var sid : String = String(pair[1])
+			if sid == "":
+				continue
+			var skill : Skill = Registry.find_skill_by_id(sid)
+			if skill != null:
+				pm.skills.append(skill)
+
+		pm.status_effects.clear()
+		var status_pairs : Array = []
+		for k in data.keys():
+			var key : String = String(k)
+			if not key.begins_with("status."):
+				continue
+			var idx_str : String = key.substr("status.".length())
+			if not idx_str.is_valid_int():
+				continue
+			status_pairs.append([int(idx_str), _sec_get_string(data, key, "")])
+		status_pairs.sort_custom(func(a, b): return int(a[0]) < int(b[0]))
+		for pair in status_pairs:
+			var stid : String = String(pair[1])
+			if stid == "":
+				continue
+			var status : StatusEffect = Registry.instantiate_status(StringName(stid))
+			if status != null:
+				pm.status_effects.append(status)
+
+		pm.rebuild_base_stats()
+		pm.current_hp = _sec_get_int(data, "current_hp", pm.current_hp)
+		pm.current_sp = _sec_get_int(data, "current_sp", pm.current_sp)
+		pm.clamp_vitals()
+
+		CharDataKeeper.outside_members.append(pm)
 
 ## Loads the saved game scene. Needs to be done last so party members are loaded first
 ## Parses the current_field_scene, searches the filesystem under res://field/scenes/field_scenes and subfolders for the filename. Uses SceneManager.load_scene_by_filename(filename)
 ## Instantiates CharDataKeeper.party_members at position_x and position_y (as if just spawning in, should be a simliar action to SceneManager.make_party_at_spawn_point(), except it uses the x and y locations instead of the spawn point. Player always faces down when loading.
 func load_saved_game_field_scene()->void:
-	pass
+	var sec : Dictionary = _get_section(_loaded_save_sections, "current_field_scene")
+	if sec.is_empty():
+		return
+
+	var filename : String = _sec_get_string(sec, "current_field_scene", "")
+	if filename == "":
+		return
+
+	var pos_x : float = _sec_get_float(sec, "position_x", 0.0)
+	var pos_y : float = _sec_get_float(sec, "position_y", 0.0)
+	var spawn_pos : Vector2 = Vector2(pos_x, pos_y)
+
+	var scene_path : String = _find_field_scene_path_by_filename(filename)
+	if scene_path == "":
+		push_error("SaveManager: field scene not found for filename: " + filename)
+		return
+
+	var main : Main = SceneManager.main_scene
+	if main == null:
+		return
+
+	# Clear out the field party nodes array so it can be populated again
+	CharDataKeeper.field_party_nodes.clear()
+	CharDataKeeper.controlled_character = null
+
+	# Remove any existing field or title scenes under the container
+	for child in main.field_scene_container.get_children():
+		child.queue_free()
+	main.current_field_scene = null
+	main.title_scene = null
+
+	# Load and instantiate the saved field scene
+	var new_scene : FieldScene = load(scene_path).instantiate() as FieldScene
+	main.field_scene_container.add_child(new_scene)
+	main.current_field_scene = new_scene
+
+	main.field_root.visible = true
+	main.field_root.process_mode = Node.PROCESS_MODE_INHERIT
+	GameState.gamestate = GameState.State.FIELD
+
+	_make_party_at_position(new_scene, spawn_pos)
+	main.field_camera_rig.activate()
+	main.field_camera_rig.follow_player()
+
+
+func _make_party_at_position(fscene : FieldScene, pos : Vector2) -> void:
+	if fscene == null:
+		return
+	if CharDataKeeper.party_members.is_empty():
+		return
+
+	var last_actor : FieldPartyMember = null
+
+	for i in range(CharDataKeeper.party_members.size()):
+		if i > CharDataKeeper.party_size - 1:
+			break
+		var pmember : PartyMemberData = CharDataKeeper.party_members[i]
+		if pmember == null:
+			continue
+
+		var pmemberscene : FieldPartyMember = pmember.field_scene.instantiate() as FieldPartyMember
+		fscene.party.add_child(pmemberscene)
+		pmemberscene.name = pmember.get_display_name()
+		pmemberscene.field_actor_id = pmember.actor_id
+		pmemberscene.force_face_direction(Vector2.DOWN)
+
+		if i == 0:
+			CharDataKeeper.controlled_character = pmemberscene
+			pmemberscene.global_position = pos
+			pmemberscene.set_controlled_on()
+			pmemberscene.is_controlled = true
+			last_actor = pmemberscene
+			CharDataKeeper.field_party_nodes.append(pmemberscene)
+		else:
+			pmemberscene.actor_to_follow = last_actor
+			pmemberscene.is_controlled = false
+			pmemberscene.is_following = true
+			pmemberscene.set_controlled_off()
+			pmemberscene.global_position = last_actor.global_position + Vector2(0, -1)
+			last_actor = pmemberscene
+			CharDataKeeper.field_party_nodes.append(pmemberscene)
+
+func _find_field_scene_path_by_filename(filename : String) -> String:
+	var fname : String = filename.get_basename()
+	var dir_stack : Array[String] = [FIELD_SCENES_ROOT_DIR]
+
+	while dir_stack.size() > 0:
+		var dir_path : String = dir_stack.pop_back()
+
+		for subdir_name in DirAccess.get_directories_at(dir_path):
+			dir_stack.append(dir_path.path_join(subdir_name))
+
+		for file_name in DirAccess.get_files_at(dir_path):
+			if not file_name.ends_with(".tscn"):
+				continue
+			if file_name.get_basename() == fname:
+				return dir_path.path_join(file_name)
+
+	return ""
+#endregion Loading
+
+#region Loading Helpers
+
+func _load_item_or_null(item_id : String) -> Item:
+	if item_id == "":
+		return null
+	return Registry.find_item_by_id(item_id)
+
+
+func _parse_sav_file(file : FileAccess) -> Dictionary:
+	var sections : Dictionary = {}
+	var cur_section : String = ""
+
+	while not file.eof_reached():
+		var line : String = file.get_line().strip_edges()
+		if line == "":
+			continue
+		if line.begins_with(";") or line.begins_with("#"):
+			continue
+		if line.begins_with("[") and line.ends_with("]") and line.length() >= 2:
+			cur_section = line.substr(1, line.length() - 2)
+			if not sections.has(cur_section):
+				sections[cur_section] = {}
+			continue
+
+		if cur_section == "":
+			continue
+
+		var eq : int = line.find("=")
+		if eq == -1:
+			continue
+
+		var key : String = line.substr(0, eq).strip_edges()
+		var raw : String = line.substr(eq + 1).strip_edges()
+		var value : Variant = _decode_value(raw)
+
+		var sec : Dictionary = sections.get(cur_section, {})
+		sec[key] = value
+		sections[cur_section] = sec
+
+	return sections
+
+
+func _decode_value(raw : String) -> Variant:
+	if raw == "":
+		return ""
+
+	if raw == "true":
+		return true
+	if raw == "false":
+		return false
+
+	if raw.begins_with("\"") and raw.ends_with("\"") and raw.length() >= 2:
+		return _decode_string(raw.substr(1, raw.length() - 2))
+
+	if raw.is_valid_int():
+		return int(raw)
+	if raw.is_valid_float():
+		return float(raw)
+
+	return raw
+
+
+func _decode_string(s : String) -> String:
+	var out : String = ""
+	var i : int = 0
+	while i < s.length():
+		var c : String = s[i]
+		if c == "\\" and i + 1 < s.length():
+			var n : String = s[i + 1]
+			if n == "n":
+				out += "\n"
+			elif n == "\\":
+				out += "\\"
+			elif n == "\"":
+				out += "\""
+			else:
+				out += n
+			i += 2
+			continue
+
+		out += c
+		i += 1
+	return out
+
+
+func _get_section(all_sections : Dictionary, name : String) -> Dictionary:
+	if all_sections.has(name):
+		var v : Variant = all_sections[name]
+		if typeof(v) == TYPE_DICTIONARY:
+			return v
+	return {}
+
+
+func _sec_get_string(sec : Dictionary, key : String, fallback : String) -> String:
+	if not sec.has(key):
+		return fallback
+	var v : Variant = sec[key]
+	if typeof(v) == TYPE_STRING:
+		return String(v)
+	if typeof(v) == TYPE_STRING_NAME:
+		return String(v)
+	return str(v)
+
+
+func _sec_get_int(sec : Dictionary, key : String, fallback : int) -> int:
+	if not sec.has(key):
+		return fallback
+	var v : Variant = sec[key]
+	if typeof(v) == TYPE_INT:
+		return int(v)
+	if typeof(v) == TYPE_FLOAT:
+		return int(v)
+	if typeof(v) == TYPE_STRING and String(v).is_valid_int():
+		return int(String(v))
+	return fallback
+
+
+func _sec_get_float(sec : Dictionary, key : String, fallback : float) -> float:
+	if not sec.has(key):
+		return fallback
+	var v : Variant = sec[key]
+	if typeof(v) == TYPE_FLOAT:
+		return float(v)
+	if typeof(v) == TYPE_INT:
+		return float(v)
+	if typeof(v) == TYPE_STRING and String(v).is_valid_float():
+		return float(String(v))
+	return fallback
+
+
+func _sec_get_bool(sec : Dictionary, key : String, fallback : bool) -> bool:
+	if not sec.has(key):
+		return fallback
+	var v : Variant = sec[key]
+	if typeof(v) == TYPE_BOOL:
+		return bool(v)
+	if typeof(v) == TYPE_INT:
+		return int(v) != 0
+	if typeof(v) == TYPE_STRING:
+		var s : String = String(v).to_lower()
+		if s == "true":
+			return true
+		if s == "false":
+			return false
+	return fallback
 
 #endregion Loading
+#endregion Loading Helpers
 
 
 

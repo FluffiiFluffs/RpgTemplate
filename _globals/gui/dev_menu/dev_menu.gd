@@ -79,23 +79,24 @@ func on_button_1_pressed()->void:
 
 
 func on_button_2_pressed()->void:
-	pass
+	SaveManager.save_options()
 
 func on_button_3_pressed()->void:
-	pass
+	SaveManager.test_save_slot_1()
 
 func on_button_4_pressed() -> void:
-	pass
+	SaveManager.test_save_slot_2()
+	
 
 func on_button_5_pressed() -> void:
+	SaveManager.load_options()
 	pass
 func on_button_6_pressed()->void:
-	SaveManager.test_save_slot_1()
-	SaveManager.save_options()
+	SaveManager.test_load_game_1()
 	pass
 	
 func on_button_7_pressed()->void:
-	pass
+	SaveManager.test_load_game_2()
 
 ##Give everyone poison
 func on_button_8_pressed()->void:

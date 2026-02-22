@@ -352,7 +352,7 @@ func _ready()->void:
 ##Open top menu on the field
 func top_menu_open()->void:
 	if GameState.gamestate == GameState.State.FIELD:
-		field_enemy_processing_off()
+		SceneManager.set_field_enemies_paused(true)
 		clear_top_level_stats_containers()
 		setup_top_level_stats()
 		visible = true
@@ -386,7 +386,7 @@ func top_menu_close()->void:
 	animation_player.play("top_menu_hide")
 	await animation_player.animation_finished
 	visible = false
-	field_enemy_processing_on()
+	SceneManager.set_field_enemies_paused(false)
 	#play top menu animation closed
 	menu_state = "TOP_MENU_CLOSED"
 	pass

@@ -136,6 +136,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
+text = "Save
+Options"
 
 [node name="Button3" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1646047465]
 unique_name_in_owner = true
@@ -145,6 +147,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
+text = "Save
+Slot1"
 
 [node name="Button4" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1469592686]
 unique_name_in_owner = true
@@ -154,6 +158,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
+text = "Save
+Slot2"
 
 [node name="Button5" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=486795730]
 unique_name_in_owner = true
@@ -163,6 +169,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
+text = "Load
+Options"
 
 [node name="Button6" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=320286380]
 unique_name_in_owner = true
@@ -172,8 +180,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "Save
-Test"
+text = "Load
+Save1"
 
 [node name="Button7" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1338828106]
 unique_name_in_owner = true
@@ -183,7 +191,8 @@ focus_mode = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "button"
+text = "Load
+Slot2"
 
 [node name="Button8" type="Button" parent="DevMenuPositioner/GridContainer" unique_id=1114973133]
 unique_name_in_owner = true

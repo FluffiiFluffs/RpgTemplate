@@ -39,7 +39,17 @@ enum EquipSlotKey {
 
 
 func _ready()->void:
-	pass
+	for i in range(current_inventory.size() - 1, -1, -1):
+		var slot : InventorySlot = current_inventory[i]
+		if slot == null:
+			current_inventory.remove_at(i)
+			continue
+		if slot.quantity <= 0:
+			current_inventory.remove_at(i)
+			continue
+		if slot.item == null:
+			current_inventory.remove_at(i)
+			continue
 	
 ##For new game selection
 func clear_slots() -> void:
@@ -53,17 +63,18 @@ func clear_slots() -> void:
 ##Makes a new new stack if qty is higher than the max_stack_size of the item being added
 func add_slot_by_id(_item_id : StringName, qty : int)->void:
 	var item : Item = find_item(_item_id)
-	if item == null: 
+	if item == null:
 		printerr("InventoryManager: " + str(_item_id) + " not found in all_items!")
 		return
 	if qty <= 0:
 		printerr("InventoryManager: Tried to add " + str(qty) + " of " + str(_item_id))
 		return
+
 	var new_slot : InventorySlot = InventorySlot.new()
 	new_slot.item = item
 	new_slot.quantity = qty
-	new_slot.stringname = _item_id
 	current_inventory.append(new_slot)
+
 	if new_slot.quantity > item.max_stack_size:
 		if Options.multi_stacks == true:
 			if item.unique == false:
@@ -74,47 +85,52 @@ func add_slot_by_id(_item_id : StringName, qty : int)->void:
 				new_slot.quantity = item.max_stack_size
 		else:
 			new_slot.quantity = item.max_stack_size
-	pass
-
 ##Adds an item to the inventory.[br]Checks if there'a already a stack and adds it to that.[br]If no stack is found, then it creates a stack(s).[br]
 func add_item(item_id : StringName, qty : int)->void:
-	var item : Item = find_item(item_id) as Item
-	if item == null: 
+	var item : Item = find_item(item_id)
+	if item == null:
 		printerr("InventoryManager: " + str(item_id) + " not found in all_items!")
 		return
 	if qty <= 0:
 		printerr("InventoryManager: Tried to add " + str(qty) + " of " + str(item_id))
 		return
-	# Handle unique items first
-	if item.unique:
-		# Look for the one allowed stack
-		for s in current_inventory:
-			if s.stringname == item_id:
-				var new_quantity : int = s.quantity + qty
-				s.quantity = clampi(new_quantity, 0, item.max_stack_size)
-				return
 
-		# No stack yet, create one but clamp to max
+	if item.unique == true:
+		for s in current_inventory:
+			if s == null:
+				continue
+			if s.item == null:
+				continue
+			if s.item.item_id != item_id:
+				continue
+
+			var new_quantity : int = s.quantity + qty
+			s.quantity = clampi(new_quantity, 0, item.max_stack_size)
+			return
+
 		var clamped_qty : int = min(qty, item.max_stack_size)
 		add_slot_by_id(item_id, clamped_qty)
 		return
 
-	# From here on, item is not unique
 	var item_was_found : bool = false
 	var slot : InventorySlot = null
 
-	#If current_inventory isn't empty
-	if !current_inventory.is_empty():
-		#Loop over current_inventory and try to find the item
+	if current_inventory.is_empty() == false:
 		for s in current_inventory:
-			if s.stringname == item_id:
-				if s.quantity == item.max_stack_size: # stack full, keep looking
-					continue
-				else: # partial stack found
-					item_was_found = true
-					slot = s
-					break
-	else: #Nothing in inventory, make a new item slot
+			if s == null:
+				continue
+			if s.item == null:
+				continue
+			if s.item.item_id != item_id:
+				continue
+
+			if s.quantity == item.max_stack_size:
+				continue
+
+			item_was_found = true
+			slot = s
+			break
+	else:
 		add_slot_by_id(item_id, qty)
 		return
 
@@ -123,7 +139,8 @@ func add_item(item_id : StringName, qty : int)->void:
 		if new_quantity > item.max_stack_size:
 			var difference : int = item.max_stack_size - slot.quantity
 			slot.quantity += difference
-			var difference_quantity : int = qty - difference 
+
+			var difference_quantity : int = qty - difference
 			if Options.multi_stacks == true:
 				add_slot_by_id(item_id, difference_quantity)
 		else:
@@ -131,25 +148,28 @@ func add_item(item_id : StringName, qty : int)->void:
 	else:
 		add_slot_by_id(item_id, qty)
 
-
 ##Items being used will call this function. Items being sold will call this function as well. 
 func remove_item(item_id : StringName, qty : int) -> void:
-	# Ignore nonsense calls
 	if qty <= 0:
 		return
-	var item := find_item(item_id)
-	var item_name := ""
+
+	var item : Item = find_item(item_id)
+	var item_name : String = ""
 	if item != null:
 		item_name = item.name
 	else:
 		item_name = String(item_id)
-	# First, count how many of this item we have across all stacks
+
 	var total_quantity : int = 0
 	for slot in current_inventory:
-		if slot.stringname == item_id:
-			total_quantity += slot.quantity
+		if slot == null:
+			continue
+		if slot.item == null:
+			continue
+		if slot.item.item_id != item_id:
+			continue
+		total_quantity += slot.quantity
 
-	# Guard against removing more than total amount in inventory
 	if total_quantity < qty:
 		printerr(
 			"InventoryManager: trying to remove "
@@ -162,30 +182,37 @@ func remove_item(item_id : StringName, qty : int) -> void:
 		)
 		return
 
-	# We know we have enough, so actually remove
 	var remaining : int = qty
-
 	for slot in current_inventory:
 		if remaining <= 0:
 			break
 
-		if slot.stringname != item_id:
+		if slot == null:
+			continue
+		if slot.item == null:
+			continue
+		if slot.item.item_id != item_id:
 			continue
 
 		if slot.quantity > remaining:
-			# This stack covers the rest
 			slot.quantity -= remaining
 			remaining = 0
 		else:
-			# Use up this stack completely
 			remaining -= slot.quantity
 			slot.quantity = 0
-	print("InventoryManager: Removed " + str(qty) + " " + str(item_name) + " from inventory")
-	# Clean up any stacks that hit zero quantity
-	for i in range(current_inventory.size() - 1, -1, -1):
-		if current_inventory[i].quantity <= 0:
-			current_inventory.remove_at(i)
 
+	print("InventoryManager: Removed " + str(qty) + " " + str(item_name) + " from inventory")
+
+	for i in range(current_inventory.size() - 1, -1, -1):
+		var s : InventorySlot = current_inventory[i]
+		if s == null:
+			current_inventory.remove_at(i)
+			continue
+		if s.item == null:
+			current_inventory.remove_at(i)
+			continue
+		if s.quantity <= 0:
+			current_inventory.remove_at(i)
 
 #region Helper functions
 ##Checks if the player has at least a set quantity of an item[br]
@@ -212,50 +239,59 @@ func find_item(_item_id : StringName) -> Item:
 
 ##Gets total quantity of items in the inventory by item_id
 func get_total_quantity(item_id : StringName) -> int:
-	var total := 0
+	var total : int = 0
 	for slot in current_inventory:
-		if slot.stringname == item_id:
-			total += slot.quantity
+		if slot == null:
+			continue
+		if slot.item == null:
+			continue
+		if slot.item.item_id != item_id:
+			continue
+		total += slot.quantity
 	return total
-
 
 
 ##Checks if an item can be added to the inventory (If enough slots or not). If inventory is not infinite type.
 func can_add_item(item_id : StringName, qty : int) -> bool:
-	var item := find_item(item_id)
+	var item : Item = find_item(item_id)
 	if item == null:
 		return false
 	if qty <= 0:
 		return false
 
-	if item.unique:
-		# Already has the unique item at full stack
+	if item.unique == true:
 		for slot in current_inventory:
-			if slot.stringname == item_id:
-				return slot.quantity < item.max_stack_size
-		# Unique item not in inventory yet; needs one free slot
+			if slot == null:
+				continue
+			if slot.item == null:
+				continue
+			if slot.item.item_id != item_id:
+				continue
+			return slot.quantity < item.max_stack_size
+
 		return has_free_slot()
-	
-	# Not unique. First, check if we can fill partial stacks
-	var remaining := qty
+
+	var remaining : int = qty
 	for slot in current_inventory:
-		if slot.stringname != item_id:
+		if slot == null:
 			continue
-		var free_space := item.max_stack_size - slot.quantity
+		if slot.item == null:
+			continue
+		if slot.item.item_id != item_id:
+			continue
+
+		var free_space : int = item.max_stack_size - slot.quantity
 		if free_space > 0:
 			if remaining <= free_space:
 				return true
 			remaining -= free_space
 
- 	#If we still have remaining quantity, we may need new stacks
 	while remaining > 0:
-		if !has_free_slot():
+		if has_free_slot() == false:
 			return false
 		remaining -= item.max_stack_size
-	
+
 	return true
-
-
 #Checks if there is a free slot in the inventory, if not infinite
 func has_free_slot() -> bool:
 	return current_inventory.size() < current_slots
@@ -384,7 +420,6 @@ func _enforce_equipment_invariants(member: PartyMemberData) -> void:
 	else:
 		member.two_handing = false
 
-
 func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventorySlot, slot_key: int) -> Dictionary:
 	var result = {
 		"ok": false,
@@ -428,7 +463,6 @@ func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventoryS
 		result.message_key = &"equip_error_slot_mismatch"
 		return result
 
-	# Offhand blocked while two hand is equipped
 	if slot_key == EquipSlotKey.OFFHAND:
 		if member.mainhand != null:
 			if member.mainhand.two_hand == true:
@@ -436,7 +470,6 @@ func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventoryS
 				result.message_key = &"equip_error_offhand_locked"
 				return result
 
-	# Class restriction hook
 	if member.has_method("can_equip_item"):
 		var can_equip = member.can_equip_item(chosen_item)
 		if can_equip == false:
@@ -446,10 +479,8 @@ func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventoryS
 
 	var old_item = _get_equipped_item(member, slot_key)
 
-	# Commit equipment
 	_set_equipped_item(member, slot_key, chosen_item)
 
-	# If equipping a two hand weapon, forcibly unequip offhand into inventory
 	if slot_key == EquipSlotKey.MAINHAND:
 		if chosen_item.two_hand == true:
 			if member.offhand != null:
@@ -458,16 +489,13 @@ func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventoryS
 
 	_enforce_equipment_invariants(member)
 
-	# Commit inventory changes
 	if inv_slot.quantity > 1:
 		inv_slot.quantity -= 1
 		if old_item != null:
 			add_item(old_item.item_id, 1)
 	else:
-		# quantity == 1
 		if old_item != null:
 			inv_slot.item = old_item
-			inv_slot.stringname = old_item.item_id
 			inv_slot.quantity = 1
 		else:
 			current_inventory.erase(inv_slot)
@@ -482,7 +510,6 @@ func try_equip_from_inventory_slot(member: PartyMemberData, inv_slot: InventoryS
 	emit_signal("inventory_changed")
 
 	return result
-
 
 
 func try_unequip_to_inventory(member: PartyMemberData, slot_key: int) -> Dictionary:
