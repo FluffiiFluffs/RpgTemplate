@@ -380,6 +380,7 @@ func force_top_menu_open()->void:
 	pass
 
 
+
 ##Closes top menu
 func top_menu_close()->void:
 	GameState.gamestate = GameState.State.FIELD #back to field state
