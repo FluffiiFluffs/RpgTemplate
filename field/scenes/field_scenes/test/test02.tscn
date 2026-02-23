@@ -2,7 +2,20 @@
 
 [ext_resource type="Script" uid="uid://bjyew63ska2p1" path="res://field/scenes/template/field_scene.gd" id="1_888lx"]
 [ext_resource type="TileSet" uid="uid://cymwc6uife640" path="res://field/tilesets/testtileset.tres" id="2_sxne2"]
+[ext_resource type="PackedScene" uid="uid://bqx4dkkysbkm2" path="res://_common/enemy_spawner/enemy_spawner.tscn" id="3_al7iw"]
 [ext_resource type="PackedScene" uid="uid://cy22favvd1vsj" path="res://_common/scene_transition/scene_transition.tscn" id="3_art5n"]
+[ext_resource type="Script" uid="uid://dudqhcylgo2st" path="res://battle/enemy_group/enemy_group.gd" id="4_2cj5n"]
+[ext_resource type="Script" uid="uid://dnf22m24hntjd" path="res://actors/_common/base_enemy_data/enemy_data.gd" id="5_23h30"]
+[ext_resource type="Resource" uid="uid://8mflur1rjcwr" path="res://actors/2_enemy/00_test_enemy/test_enemy_data_base.tres" id="6_kqi1p"]
+[ext_resource type="PackedScene" uid="uid://bpheiglew657y" path="res://cutscene/_common/cutscene_marker.tscn" id="7_2cj5n"]
+
+[sub_resource type="Resource" id="Resource_lpmtm"]
+script = ExtResource("4_2cj5n")
+enemies = Array[ExtResource("5_23h30")]([ExtResource("6_kqi1p")])
+metadata/_custom_type_script = "uid://dudqhcylgo2st"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xckrh"]
+size = Vector2(364, 583)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugp46"]
 size = Vector2(16, 64)
@@ -61,6 +74,20 @@ y_sort_enabled = true
 unique_name_in_owner = true
 y_sort_enabled = true
 
+[node name="EnemySpawner" parent="FieldActors/EnemySpawners" unique_id=553369173 instance=ExtResource("3_al7iw")]
+y_sort_enabled = true
+position = Vector2(201, 130)
+enemy_groups = Array[ExtResource("4_2cj5n")]([SubResource("Resource_lpmtm")])
+enemy_spawn_chance = 100.0
+min_enemies = 6
+max_enemies = 8
+stays_in_shape = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FieldActors/EnemySpawners/EnemySpawner" unique_id=1181200594]
+position = Vector2(361, -49.5)
+shape = SubResource("RectangleShape2D_xckrh")
+debug_color = Color(1, 0, 0, 0.05)
+
 [node name="PlacedNPCs" type="Node2D" parent="FieldActors" unique_id=1310553111]
 unique_name_in_owner = true
 y_sort_enabled = true
@@ -78,6 +105,16 @@ unique_name_in_owner = true
 [node name="PlayerSpawn" type="Node2D" parent="Markers" unique_id=778718095]
 unique_name_in_owner = true
 
+[node name="CutsceneMarkers" type="Node2D" parent="Markers" unique_id=696451586]
+unique_name_in_owner = true
+position = Vector2(0, 1)
+
+[node name="TestNPCMoveMarker" parent="Markers/CutsceneMarkers" unique_id=2066631123 instance=ExtResource("7_2cj5n")]
+position = Vector2(131, 61)
+marker_id = &""
+purpose = 1
+show_in_game = true
+
 [node name="Interactables" type="Node2D" parent="." unique_id=4057440]
 unique_name_in_owner = true
 
@@ -87,7 +124,7 @@ unique_name_in_owner = true
 [node name="Audio" type="Node2D" parent="Triggers" unique_id=233908075]
 unique_name_in_owner = true
 
-[node name="Cutscene" type="Node2D" parent="Triggers" unique_id=172724439]
+[node name="CutsceneTriggers" type="Node2D" parent="Triggers" unique_id=1374501106]
 unique_name_in_owner = true
 
 [node name="Encounter" type="Node2D" parent="Triggers" unique_id=1626541449]
@@ -104,3 +141,9 @@ spawn_direction = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/TransitionAreas/SceneTransition" unique_id=1123524120]
 shape = SubResource("RectangleShape2D_ugp46")
+
+[node name="Cutscenes" type="Node2D" parent="." unique_id=973313776]
+unique_name_in_owner = true
+
+[node name="CutscenePlayer" type="AnimationPlayer" parent="Cutscenes" unique_id=309091270]
+unique_name_in_owner = true

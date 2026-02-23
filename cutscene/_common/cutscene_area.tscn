@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://df5rjcq78lysg"]
+
+[ext_resource type="Script" uid="uid://b6uulr3b28gbn" path="res://cutscene/_common/cutscene_area.gd" id="1_rbo0s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kyyio"]
+
+[node name="CutsceneArea" type="Area2D" unique_id=1070423744]
+script = ExtResource("1_rbo0s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2005910007]
+shape = SubResource("RectangleShape2D_kyyio")
+debug_color = Color(0.786, 0, 0.455, 0.1)

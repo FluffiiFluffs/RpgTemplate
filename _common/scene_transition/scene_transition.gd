@@ -8,6 +8,7 @@ enum SIDE {UP,DOWN,LEFT,RIGHT}
 
 @onready var spawn_marker : Sprite2D = %SpawnMarker
 @onready var center_marker : Sprite2D = %CenterMarker
+@onready var label: Label = %Label
 
 ##Scene to be loaded when character enters Area
 @export_file("*.tscn") var scene_to_load : String = ""
@@ -26,8 +27,10 @@ enum SIDE {UP,DOWN,LEFT,RIGHT}
 func _ready()->void:
 	if Engine.is_editor_hint():
 		set_spawn_marker()
+		if label:
+			set_label_text()
 		return
-
+	label.queue_free()
 	body_entered.connect(on_body_entered)
 
 	if spawn_marker != null and is_instance_valid(spawn_marker):
@@ -103,3 +106,6 @@ func compute_spawn_offset(entry_offset : Vector2) -> Vector2:
 				offset.x = entry_offset.x
 
 	return offset
+	
+func set_label_text()->void:
+	label.text = name

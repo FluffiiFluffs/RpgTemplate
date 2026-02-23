@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://bpheiglew657y"]
+
+[ext_resource type="Script" uid="uid://cnonsd5j07yx3" path="res://cutscene/_common/cutscene_marker.gd" id="1_dxuws"]
+
+[sub_resource type="Gradient" id="Gradient_vlr5k"]
+offsets = PackedFloat32Array(0, 0.29584527, 0.4448424, 0.7141834, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.5021107, 0.5021107, 0.5021107, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8iw4s"]
+gradient = SubResource("Gradient_vlr5k")
+width = 10
+height = 10
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="CutsceneMarker" type="Marker2D" unique_id=2066631123]
+script = ExtResource("1_dxuws")
+marker_id = null
+
+[node name="Control" type="Control" parent="." unique_id=1538511968]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = -8.0
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="Control" unique_id=2124611183]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.332
+anchor_right = 0.5
+anchor_bottom = 1.332
+offset_left = -32.0
+offset_top = -15.968
+offset_right = 32.0
+offset_bottom = -7.9680004
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 5
+text = "CutsceneMarkerName"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="PurposeLabel" type="Label" parent="Control" unique_id=277527943]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.3440001
+anchor_right = 0.5
+anchor_bottom = 1.3440001
+offset_left = -31.0
+offset_top = 7.7439957
+offset_right = 31.0
+offset_bottom = 15.743996
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 5
+text = "CutsceneMarkerPurpose"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=857509699]
+unique_name_in_owner = true
+texture = SubResource("GradientTexture2D_8iw4s")

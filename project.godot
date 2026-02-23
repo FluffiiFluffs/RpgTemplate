@@ -64,6 +64,7 @@ folder_colors={
 "res://actors/field_state_machine/": "gray",
 "res://addons/": "gray",
 "res://battle/": "pink",
+"res://cutscene/": "red",
 "res://dialogue/": "blue",
 "res://field/": "green",
 "res://main/": "red",
