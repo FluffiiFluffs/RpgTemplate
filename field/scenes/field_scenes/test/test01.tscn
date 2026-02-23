@@ -8,11 +8,16 @@
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="10_kt4hr"]
 [ext_resource type="Texture2D" uid="uid://dmlv77ltpei2o" path="res://_assets/character/npc/speak_npc_spritesheet.png" id="11_ouue8"]
 [ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/voices/placeholder_voices/snd_txtsus.wav" id="12_h2dnb"]
+[ext_resource type="Script" uid="uid://b6uulr3b28gbn" path="res://cutscene/_common/cutscene_area.gd" id="13_h4dcs"]
 [ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="13_hppd8"]
 [ext_resource type="PackedScene" uid="uid://bpheiglew657y" path="res://cutscene/_common/cutscene_marker.tscn" id="13_uy666"]
 [ext_resource type="Resource" uid="uid://dc52sh8wntptq" path="res://dialogue/new_quest_dialogue.dialogue" id="14_k2s2j"]
+[ext_resource type="Script" uid="uid://ccg8s63bglcau" path="res://cutscene/_common/cutscene_script.gd" id="14_xo7o1"]
+[ext_resource type="Script" uid="uid://dldt2m47r81s8" path="res://cutscene/_common/cutscene_act.gd" id="15_h4dcs"]
 [ext_resource type="PackedScene" uid="uid://c3sfxn75o468d" path="res://field/objects/trashcan.tscn" id="15_pg0n8"]
 [ext_resource type="PackedScene" uid="uid://cqts22xonjkd5" path="res://_common/inspect_area/inspect_area.tscn" id="16_gmhun"]
+[ext_resource type="Script" uid="uid://d3x6oel5jd5vr" path="res://cutscene/_common/cutscene_action.gd" id="16_p2wuy"]
+[ext_resource type="Script" uid="uid://bfmc1k4upxhev" path="res://cutscene/_common/cutscene_actormove.gd" id="17_f0qgu"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ypob0"]
 load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
@@ -67,7 +72,7 @@ load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403b
 atlas = SubResource("CompressedTexture2D_4tb3a")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_uy666"]
+[sub_resource type="Resource" id="Resource_h4dcs"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "NPC"
@@ -138,7 +143,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_vqpsj")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_yw5v0"]
+[sub_resource type="Resource" id="Resource_p2wuy"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -206,7 +211,7 @@ load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403b
 atlas = SubResource("CompressedTexture2D_wt3wa")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_8cj7i"]
+[sub_resource type="Resource" id="Resource_f0qgu"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "NPC"
@@ -277,37 +282,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_mswpi")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_p6xl5"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-name = "Player"
-normal = SubResource("AtlasTexture_7q45y")
-talk = SubResource("AtlasTexture_n31bh")
-sad = SubResource("AtlasTexture_dve3h")
-surprise = SubResource("AtlasTexture_sdts0")
-angry = SubResource("AtlasTexture_ounjd")
-happy = SubResource("AtlasTexture_xom28")
-special = SubResource("AtlasTexture_yjlbp")
-tired = SubResource("AtlasTexture_ivxbw")
-voice = ExtResource("13_hppd8")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_xo7o1"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-name = "NPC"
-normal = SubResource("AtlasTexture_khs2v")
-talk = SubResource("AtlasTexture_ohdes")
-sad = SubResource("AtlasTexture_ta0s4")
-surprise = SubResource("AtlasTexture_sufqc")
-angry = SubResource("AtlasTexture_mlibb")
-happy = SubResource("AtlasTexture_bc3fs")
-special = SubResource("AtlasTexture_2nvu4")
-tired = SubResource("AtlasTexture_qgdhp")
-voice = ExtResource("12_h2dnb")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_h4dcs"]
+[sub_resource type="Resource" id="Resource_ahd2c"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -378,7 +353,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_u062u")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_p2wuy"]
+[sub_resource type="Resource" id="Resource_yty8o"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -393,7 +368,7 @@ tired = SubResource("AtlasTexture_1fp00")
 voice = ExtResource("13_hppd8")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
-[sub_resource type="Resource" id="Resource_f0qgu"]
+[sub_resource type="Resource" id="Resource_notke"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -410,6 +385,19 @@ metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugp46"]
 size = Vector2(16, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2wuy"]
+
+[sub_resource type="Resource" id="Resource_xo7o1"]
+script = ExtResource("17_f0qgu")
+actor_id = "cutscene_test_npc_01"
+move_location_ids = Array[StringName]([&"test_move_marker_01"])
+metadata/_custom_type_script = "uid://bfmc1k4upxhev"
+
+[sub_resource type="Resource" id="Resource_xdaqm"]
+script = ExtResource("15_h4dcs")
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_xo7o1")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
 
 [node name="Test01" type="Node2D" unique_id=45094763]
 y_sort_enabled = true
@@ -473,33 +461,26 @@ y_sort_enabled = true
 
 [node name="NPC" parent="FieldActors/PlacedNPCs" unique_id=1725512084 instance=ExtResource("7_rushk")]
 position = Vector2(462, -100)
-npc_id = &"testquestnpc01"
 display_name = "TestQuestNPC01"
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC" unique_id=1438587103 instance=ExtResource("9_wu166")]
 start_position = "npc1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_uy666"), SubResource("Resource_yw5v0")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_h4dcs"), SubResource("Resource_p2wuy")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="NPC2" parent="FieldActors/PlacedNPCs" unique_id=1482229836 instance=ExtResource("7_rushk")]
 position = Vector2(628, -97)
-npc_id = &"testquestnpc02"
 display_name = "TestQuestNPC02"
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC2" unique_id=1831271577 instance=ExtResource("9_wu166")]
 start_position = "npc2"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_8cj7i"), SubResource("Resource_p6xl5")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_f0qgu"), SubResource("Resource_ahd2c")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="NPC3" parent="FieldActors/PlacedNPCs" unique_id=1332659260 instance=ExtResource("7_rushk")]
-position = Vector2(88, 113)
-npc_id = &"cutscene_test_npc_01"
+position = Vector2(-112, -26)
 display_name = "Cutscene Test NPC 01"
-
-[node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC3" unique_id=447987433 instance=ExtResource("9_wu166")]
-start_position = "npc2"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_xo7o1"), SubResource("Resource_h4dcs")])
-dialogue = ExtResource("14_k2s2j")
+field_actor_id = &"cutscene_test_npc_01"
 
 [node name="Party" type="Node2D" parent="FieldActors" unique_id=1665240552]
 unique_name_in_owner = true
@@ -515,7 +496,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="SceneTransition" parent="Markers/PlayerSpawn" unique_id=497557306 instance=ExtResource("3_bnmu4")]
-position = Vector2(165, 74)
+position = Vector2(9, -51)
 target_transition_area = ""
 
 [node name="Interactables" type="Node2D" parent="." unique_id=1198132726]
@@ -529,7 +510,7 @@ z_index = 1
 item_here = true
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_p2wuy")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_yty8o")])
 
 [node name="Trashcan2" parent="Interactables" unique_id=81467877 instance=ExtResource("15_pg0n8")]
 position = Vector2(571, -167)
@@ -539,7 +520,7 @@ z_index = 1
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
 open = true
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_f0qgu")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_notke")])
 
 [node name="Triggers" type="Node2D" parent="." unique_id=300703836]
 unique_name_in_owner = true
@@ -570,12 +551,27 @@ unique_name_in_owner = true
 [node name="CutsceneTriggers" type="Node2D" parent="Cutscenes" unique_id=1016929395]
 unique_name_in_owner = true
 
+[node name="CutsceneArea" type="Area2D" parent="Cutscenes/CutsceneTriggers" unique_id=888316450]
+position = Vector2(-41, -24)
+script = ExtResource("13_h4dcs")
+metadata/_custom_type_script = "uid://b6uulr3b28gbn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cutscenes/CutsceneTriggers/CutsceneArea" unique_id=2076881971]
+shape = SubResource("RectangleShape2D_p2wuy")
+debug_color = Color(0.786, 0, 0.455, 0.1)
+
 [node name="CutsceneMarkers" type="Node2D" parent="Cutscenes" unique_id=174274029]
 unique_name_in_owner = true
 position = Vector2(0, 1)
 
-[node name="TestNPCMoveMarker" parent="Cutscenes/CutsceneMarkers" unique_id=2066631123 instance=ExtResource("13_uy666")]
-position = Vector2(89, 36)
-marker_id = &""
+[node name="test_move_marker_01" parent="Cutscenes/CutsceneMarkers" unique_id=2066631123 instance=ExtResource("13_uy666")]
+position = Vector2(-109, -130)
+marker_id = &"test_move_marker_01"
 purpose = 1
 show_in_game = true
+
+[node name="CutsceneScript01" type="Node" parent="Cutscenes" unique_id=1093139031]
+script = ExtResource("14_xo7o1")
+cutscene_id = &"CutsceneScript01"
+acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_xdaqm")])
+metadata/_custom_type_script = "uid://ccg8s63bglcau"

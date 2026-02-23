@@ -26,9 +26,19 @@ func _process(_delta : float)->void:
 		return
 
 func on_body_entered(body : FieldPartyMember)->void:
-	if body == CharDataKeeper.controlled_character:
-		pass
-		
-func on_body_exited(body : FieldPartyMember)->void:
-	if body == CharDataKeeper.controlled_character:
-		pass
+	#Makes sure nothing happens if it's been played
+	if one_shot:
+		if has_played:
+			return
+
+	# Only the controlled character triggers cutscenes.
+	if body != CharDataKeeper.controlled_character:
+		return
+
+	has_played = true
+	CutsceneManager.play_cutscene(cutscene_id)
+	print(str(name) + " AREA ENTERED")
+
+
+func on_body_exited(_body : FieldPartyMember)->void:
+	pass

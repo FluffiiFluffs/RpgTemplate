@@ -24,10 +24,6 @@ extends FieldActor
 @export var battle_mode : bool = false
 @export var is_running : bool = false
 
-##Exported field_actor_ID. Used to match up the party member to their actor data
-@export var field_actor_id : StringName = &""
-
-
 @export_category("Follow AI")
 ##The actor this node will attempt to follow in the follow state
 @export var actor_to_follow : FieldActor = null

@@ -19,11 +19,10 @@ extends FieldActor
 ##If player is detected, then this timer determines how long before the NPC's collision shape is turned off.[br]This allows the player to walk through the NPC so they don't get stuck.
 @onready var coll_timer : Timer = %CollTimer
 @onready var state_label : Label = %StateLabel
+@onready var id_label: Label = %IDLabel
 
 
 @export_category("NPC IDENTITY")
-##ID of the NPC
-@export var npc_id : StringName = &""
 ##Displayed name of the NPC (if used)
 @export var display_name : String = ""
 
@@ -84,6 +83,7 @@ var walk_duration : float = 1.0
 ##Set in follow state script, equal to actor_to_follow.move_speed 
 @export var follow_speed : float = 50.0
 
+
 ##Vector2 direction the NPC is facing.
 var direction : Vector2 = Vector2.ZERO
 ##Name of the direction the NPC is facing.
@@ -104,11 +104,13 @@ signal pcolldetfalse ##Signal to turn collisions back on once player exits detec
 func _ready()->void:
 	if Engine.is_editor_hint():
 		#sprite_2d.texture = npc_data.char_sprite_sheet # no longer needed, npcs will be unique scenes
+		set_id_label()
 		return
 	setup_npc()
 	if_walking()
 	if !Options.show_states:
 		state_label.visible = false
+	id_label.queue_free()
 	pass
 
 ##Setup routine for NPC
@@ -276,3 +278,7 @@ func collisions_disabled()->void:
 func collisions_enabled()->void:
 	body_collision_shape_2d.set_deferred("disabled", false)
 	pass
+
+func set_id_label()->void:
+	if id_label:
+		id_label.text = field_actor_id

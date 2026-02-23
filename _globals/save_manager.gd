@@ -1078,7 +1078,10 @@ func load_saved_game_field_scene()->void:
 	var new_scene : FieldScene = load(scene_path).instantiate() as FieldScene
 	main.field_scene_container.add_child(new_scene)
 	main.current_field_scene = new_scene
-
+	
+	# Registers the new scene within CutsceneManager
+	CutsceneManager.register_field_scene(main.current_field_scene)
+	
 	main.field_root.visible = true
 	main.field_root.process_mode = Node.PROCESS_MODE_INHERIT
 	GameState.gamestate = GameState.State.FIELD

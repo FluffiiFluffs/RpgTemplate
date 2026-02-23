@@ -32,6 +32,7 @@ Inventory="*res://_globals/inventory_manager.tscn"
 Interact="*res://_globals/interact_manager.tscn"
 DevMenu="*res://_globals/gui/dev_menu/dev_menu.tscn"
 Registry="*uid://c7bsn6xl11iwg"
+CutsceneManager="*uid://bx1j7bmj4rvs2"
 
 [dialogue_manager]
 

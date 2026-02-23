@@ -6,6 +6,7 @@ extends Area2D
 @onready var spawn_timer : Timer = %SpawnTimer
 ##Visual marker for editor
 @onready var sprite_2d : Sprite2D = %Sprite2D
+@onready var spawner_title: Label = %SpawnerTitle
 
 ###How the enemy will be represented on the field.
 #@export var enemy_actors:Array[CharResource]
@@ -16,9 +17,9 @@ extends Area2D
 ##Percent chance enemies will spawn from this node
 @export_range(1,100,0.5) var enemy_spawn_chance : float = 30.0
 ##Minimum enemies to spawn in the area
-@export_range(1,1000000,1) var min_enemies : int = 1
+@export_range(1,30,1) var min_enemies : int = 1
 ##Maximum enemies to spawn in the area
-@export_range(1, 1000000, 1) var max_enemies : int = 1
+@export_range(1, 30, 1) var max_enemies : int = 1
 ##If true, enemies will despawn when a certain distance away from the player (usually off-screen)
 @export var despawn_with_distance : bool = true
 ##How far the player must be to despawn the enemies
@@ -38,6 +39,7 @@ extends Area2D
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		z_index = 1
+
 		return
 	z_index = 0
 	sprite_2d.queue_free() #gets rid of the visual marker
@@ -47,6 +49,7 @@ func _ready() -> void:
 
 func _process(_delta)->void:
 	if Engine.is_editor_hint():
+		update_label()
 		if child_order_changed:
 			for child in get_children():
 				if get_children().is_empty():
@@ -228,3 +231,8 @@ func remove_random_enemy()->void:
 ##Subtracts enemy from enemy_amount
 func enemy_killed():
 	spawn_count -= clampi(1,0,max_enemies)
+
+func update_label()->void:
+	if spawner_title:
+		spawner_title.text = name
+	

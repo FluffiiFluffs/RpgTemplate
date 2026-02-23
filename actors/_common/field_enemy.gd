@@ -30,8 +30,6 @@ extends FieldActor
 @onready var coll_timer : Timer = %CollTimer
 
 @export_category("FIELD ENEMY IDENTITY")
-##ID of the enemy
-@export var field_enemy_id : StringName = &""
 ##Displayed name of the enemy (if used)
 @export var field_enemy_display_name : String = ""
 

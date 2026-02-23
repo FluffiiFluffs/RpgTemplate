@@ -15,7 +15,7 @@ enemies = Array[ExtResource("5_23h30")]([ExtResource("6_kqi1p")])
 metadata/_custom_type_script = "uid://dudqhcylgo2st"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xckrh"]
-size = Vector2(364, 583)
+size = Vector2(321, 239.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugp46"]
 size = Vector2(16, 64)
@@ -76,15 +76,15 @@ y_sort_enabled = true
 
 [node name="EnemySpawner" parent="FieldActors/EnemySpawners" unique_id=553369173 instance=ExtResource("3_al7iw")]
 y_sort_enabled = true
-position = Vector2(201, 130)
+position = Vector2(616, 235)
 enemy_groups = Array[ExtResource("4_2cj5n")]([SubResource("Resource_lpmtm")])
 enemy_spawn_chance = 100.0
-min_enemies = 6
-max_enemies = 8
+min_enemies = 3
+max_enemies = 3
 stays_in_shape = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FieldActors/EnemySpawners/EnemySpawner" unique_id=1181200594]
-position = Vector2(361, -49.5)
+position = Vector2(-32, 25)
 shape = SubResource("RectangleShape2D_xckrh")
 debug_color = Color(1, 0, 0, 0.05)
 
@@ -111,7 +111,7 @@ position = Vector2(0, 1)
 
 [node name="TestNPCMoveMarker" parent="Markers/CutsceneMarkers" unique_id=2066631123 instance=ExtResource("7_2cj5n")]
 position = Vector2(131, 61)
-marker_id = &""
+marker_id = &"TestNPCMoveMarker"
 purpose = 1
 show_in_game = true
 

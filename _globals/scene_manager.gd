@@ -114,6 +114,8 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 	var new_scene = load(scene_path).instantiate()
 	main_scene.field_scene_container.add_child(new_scene)
 	main_scene.current_field_scene = new_scene
+	##Registers the new field scene to CutsceneManager
+	CutsceneManager.register_field_scene(main_scene.current_field_scene)
 	last_party_actor = null
 
 	party_spawn_point = find_transitioner(main_scene.current_field_scene, next_scene_transitioner_name)

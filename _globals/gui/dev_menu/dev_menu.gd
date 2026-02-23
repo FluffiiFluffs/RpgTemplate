@@ -60,6 +60,8 @@ func on_button_1_pressed()->void:
 			if child is FieldScene:
 				field_scene = child
 		SceneManager.main_scene.current_field_scene = field_scene
+		CutsceneManager.register_field_scene(main.current_field_scene)
+		
 		#setup spawn point
 		var spawnp = null
 		for child in SceneManager.main_scene.current_field_scene.player_spawn.get_children():

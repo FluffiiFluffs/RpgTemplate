@@ -46,6 +46,7 @@ func _ready()->void:
 		sprite_2d.queue_free()
 
 func _process(_delta : float)->void:
+	set_marker_id()
 	if Engine.is_editor_hint():
 		if title_label:
 			set_title_label()
@@ -91,3 +92,6 @@ func set_purpose_label()->void:
 		Purpose.SPAWN_POINT:
 			labeltext = "SPAWN_POINT"
 	purpose_label.text = labeltext
+	
+func set_marker_id()->void:
+	marker_id = name

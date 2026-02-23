@@ -282,7 +282,7 @@ y_sort_enabled = true
 collision_mask = 52
 motion_mode = 1
 script = ExtResource("1_6iyvr")
-pm_id = &"healer04"
+field_actor_id = &"healer_04"
 
 [node name="FieldSprite" type="Sprite2D" parent="." unique_id=139916239]
 unique_name_in_owner = true
