@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bwiudxjxceld0" path="res://main/field_camera_rig.gd" id="2_5kcm4"]
 [ext_resource type="PackedScene" uid="uid://lcgogxjtiq0y" path="res://main/transition_layer.tscn" id="2_i85ao"]
 [ext_resource type="Script" uid="uid://bwp3gopqemwbr" path="res://main/field_vfx.gd" id="2_tv7ag"]
+[ext_resource type="Script" uid="uid://cxjj7k27g2qo0" path="res://main/sfx_audio.gd" id="5_tv7ag"]
 
 [node name="Main" type="Node" unique_id=16092196]
 script = ExtResource("1_glv2v")
@@ -42,6 +43,7 @@ bus = &"Music"
 [node name="SFXAudio" type="AudioStreamPlayer" parent="AudioRoot" unique_id=335144922]
 max_polyphony = 10
 bus = &"SFX"
+script = ExtResource("5_tv7ag")
 
 [node name="VoicesAudio" type="AudioStreamPlayer" parent="AudioRoot" unique_id=1874612627]
 max_polyphony = 10

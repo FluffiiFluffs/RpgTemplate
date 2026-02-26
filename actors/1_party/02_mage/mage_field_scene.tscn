@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/field_state_machine/base_state_machine_scripts/state_machine.gd" id="2_vnsu6"]
 [ext_resource type="Script" uid="uid://d5o2fabdwjw3" path="res://actors/field_state_machine/party_states/party_idle.gd" id="3_dqd70"]
 [ext_resource type="Script" uid="uid://ddqaa4rhgkdvb" path="res://actors/field_state_machine/party_states/party_walk.gd" id="4_iv8gj"]
+[ext_resource type="Script" uid="uid://cbjff145wa7wn" path="res://actors/field_state_machine/base_state_machine_scripts/cutscene.gd" id="6_6ymxn"]
 [ext_resource type="Script" uid="uid://8ociqfwtb2co" path="res://actors/field_state_machine/party_states/party_follow.gd" id="6_d7ne4"]
 [ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="7_vnsu6"]
 
@@ -322,6 +323,7 @@ unique_name_in_owner = true
 script = ExtResource("4_iv8gj")
 
 [node name="CutScene" type="Node2D" parent="StateMachine" unique_id=1225934509]
+script = ExtResource("6_6ymxn")
 
 [node name="Follow" type="Node2D" parent="StateMachine" unique_id=1171672293]
 unique_name_in_owner = true

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://bo3tptyexhxle"]
+
+[ext_resource type="Script" uid="uid://dy15a35m1ukk1" path="res://_globals/audio_manager.gd" id="1_inywd"]
+
+[node name="AudioManager" type="Node" unique_id=151681408]
+script = ExtResource("1_inywd")
+
+[node name="FieldMusicPlayer1" type="AudioStreamPlayer" parent="." unique_id=1214350060]
+unique_name_in_owner = true
+bus = &"Music"
+
+[node name="FieldMusicPlayer2" type="AudioStreamPlayer" parent="." unique_id=1343988502]
+unique_name_in_owner = true
+bus = &"Music"
+
+[node name="BattleMusicPlayer1" type="AudioStreamPlayer" parent="." unique_id=272682979]
+unique_name_in_owner = true
+bus = &"Music"
+
+[node name="BattleMusicPlayer2" type="AudioStreamPlayer" parent="." unique_id=154393554]
+unique_name_in_owner = true
+bus = &"Music"
+
+[node name="SFXPlayer1" type="AudioStreamPlayer" parent="." unique_id=775793150]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer2" type="AudioStreamPlayer" parent="." unique_id=1773896548]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer3" type="AudioStreamPlayer" parent="." unique_id=2056790346]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer4" type="AudioStreamPlayer" parent="." unique_id=366598060]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer5" type="AudioStreamPlayer" parent="." unique_id=419965907]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer6" type="AudioStreamPlayer" parent="." unique_id=111190932]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer7" type="AudioStreamPlayer" parent="." unique_id=686795895]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="SFXPlayer8" type="AudioStreamPlayer" parent="." unique_id=513207626]
+unique_name_in_owner = true
+bus = &"SFX"
+
+[node name="VoicesPlayer" type="AudioStreamPlayer" parent="." unique_id=715251058]
+unique_name_in_owner = true
+bus = &"Voices"
+
+[node name="AmbiencePlayer" type="AudioStreamPlayer" parent="." unique_id=1240392913]
+unique_name_in_owner = true
+bus = &"Ambience"
+
+[node name="UIPlayer1" type="AudioStreamPlayer" parent="." unique_id=172810974]
+unique_name_in_owner = true
+bus = &"UI"
+
+[node name="UIPlayer2" type="AudioStreamPlayer" parent="." unique_id=1446153426]
+unique_name_in_owner = true
+bus = &"UI"

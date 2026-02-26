@@ -9,6 +9,8 @@ extends Node2D
 @onready var field_camera : Camera2D = %FieldCamera
 @export var follow_speed : float = 0.0 #0.0 = snap
 @export var snap : bool = false
+@export var camera_rig_id : StringName = &"FieldCameraRig"
+
 
 var main : Main = null
 var target : Node2D = null

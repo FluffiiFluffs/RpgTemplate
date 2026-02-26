@@ -20,6 +20,7 @@ func _ready()->void:
 
 func button_focused()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
+	AudioManager.play_ui_blip()
 	pass
 
 func button_unfocused()->void:

@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=60
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://btilvb7dmfjmd"
+
 [autoload]
 
 GameState="*res://_globals/game_state.tscn"
@@ -33,6 +37,7 @@ Interact="*res://_globals/interact_manager.tscn"
 DevMenu="*res://_globals/gui/dev_menu/dev_menu.tscn"
 Registry="*uid://c7bsn6xl11iwg"
 CutsceneManager="*uid://bx1j7bmj4rvs2"
+AudioManager="*uid://bo3tptyexhxle"
 
 [dialogue_manager]
 

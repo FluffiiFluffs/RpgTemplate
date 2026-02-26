@@ -718,7 +718,8 @@ func make_item_button(invslot : InventorySlot) -> void:
 	new_inventory_item_button.item_button.pressed.connect(
 		func()->void:
 		select_item(new_inventory_item_button)
-		new_inventory_item_button.self_modulate = ENABLED_COLOR)
+		new_inventory_item_button.self_modulate = ENABLED_COLOR
+		AudioManager.play_ui_confirm())
 		
 	new_inventory_item_button.item_button.focus_entered.connect(func button_focused()->void:
 		update_item_description(islot)

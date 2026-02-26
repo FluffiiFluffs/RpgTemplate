@@ -46,7 +46,7 @@ func on_button_pressed() -> void:
 		GameMenu.last_curr_equip_slot_button = self
 		GameMenu.make_equipping_buttons_list(eqtype)
 		return
-
+	AudioManager.play_ui_confirm()
 
 func _get_eqtype_id() -> int:
 	var key = eq_item_type.strip_edges().to_upper()
@@ -99,7 +99,7 @@ func on_button_focus_entered() -> void:
 
 	GameMenu.equip_preview_owner = self
 	GameMenu.make_equipping_buttons_list(eqtype, false)
-
+	AudioManager.play_ui_blip()
 
 	
 func on_button_focus_exited()->void:

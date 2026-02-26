@@ -282,3 +282,27 @@ func collisions_enabled()->void:
 func set_id_label()->void:
 	if id_label:
 		id_label.text = field_actor_id
+
+
+func force_face_direction(new_facing : Vector2) -> void:
+	if new_facing == Vector2.ZERO:
+		return
+
+	if abs(new_facing.x) > abs(new_facing.y):
+		if new_facing.x < 0.0:
+			direction = Vector2.LEFT
+			direction_name = "left"
+		else:
+			direction = Vector2.RIGHT
+			direction_name = "right"
+	else:
+		if new_facing.y < 0.0:
+			direction = Vector2.UP
+			direction_name = "up"
+		else:
+			direction = Vector2.DOWN
+			direction_name = "down"
+
+	var anim_name : String = "idle_" + direction_name
+	if animation_player.has_animation(anim_name):
+		animation_player.play(anim_name)

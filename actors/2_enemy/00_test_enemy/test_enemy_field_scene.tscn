@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://d3x6ygbikx1wm" path="res://actors/field_state_machine/base_state_machine_scripts/state_machine.gd" id="3_vepky"]
 [ext_resource type="Script" uid="uid://bhyqgug1jbxqg" path="res://actors/field_state_machine/enemy_states/enemy_idle.gd" id="4_qb6d0"]
 [ext_resource type="Script" uid="uid://cl15npn1uos1n" path="res://actors/field_state_machine/enemy_states/enemy_walk.gd" id="5_rsn31"]
+[ext_resource type="Script" uid="uid://cbjff145wa7wn" path="res://actors/field_state_machine/base_state_machine_scripts/cutscene.gd" id="6_ojpbj"]
 [ext_resource type="Script" uid="uid://c3stcs3g00qcn" path="res://actors/field_state_machine/enemy_states/enemy_patrol.gd" id="6_pswk5"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/field_state_machine/npc_states/npc_follow.gd" id="7_xffsx"]
 [ext_resource type="Script" uid="uid://bfnnu6w6usg8o" path="res://actors/field_state_machine/enemy_states/enemy_caution.gd" id="8_3bdxp"]
@@ -238,7 +239,9 @@ unique_name_in_owner = true
 script = ExtResource("5_rsn31")
 next_state = NodePath("../Idle")
 
-[node name="Talking" type="Node2D" parent="StateMachine" unique_id=1686639626]
+[node name="Cutscene" type="Node2D" parent="StateMachine" unique_id=1686639626]
+unique_name_in_owner = true
+script = ExtResource("6_ojpbj")
 
 [node name="Patrol" type="Node2D" parent="StateMachine" unique_id=1645442758]
 unique_name_in_owner = true

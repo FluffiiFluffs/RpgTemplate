@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://d5o2fabdwjw3" path="res://actors/field_state_machine/party_states/party_idle.gd" id="4_76gxx"]
 [ext_resource type="Script" uid="uid://ddqaa4rhgkdvb" path="res://actors/field_state_machine/party_states/party_walk.gd" id="5_jb775"]
 [ext_resource type="Script" uid="uid://8ociqfwtb2co" path="res://actors/field_state_machine/party_states/party_follow.gd" id="6_7w712"]
+[ext_resource type="Script" uid="uid://cbjff145wa7wn" path="res://actors/field_state_machine/base_state_machine_scripts/cutscene.gd" id="6_bb8bj"]
 [ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="7_vau1w"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
@@ -322,6 +323,7 @@ unique_name_in_owner = true
 script = ExtResource("5_jb775")
 
 [node name="CutScene" type="Node2D" parent="StateMachine" unique_id=307753130]
+script = ExtResource("6_bb8bj")
 
 [node name="Follow" type="Node2D" parent="StateMachine" unique_id=1843222328]
 unique_name_in_owner = true

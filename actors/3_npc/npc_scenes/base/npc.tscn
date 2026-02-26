@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://55u1hx0727gw" path="res://actors/field_state_machine/npc_states/npc_walk.gd" id="5_06j4l"]
 [ext_resource type="Script" uid="uid://c24ccuf0y06bn" path="res://actors/field_state_machine/npc_states/npc_patrol.gd" id="6_06j4l"]
 [ext_resource type="Script" uid="uid://c6xswr1r23i6x" path="res://actors/field_state_machine/npc_states/npc_follow.gd" id="6_i2mv8"]
+[ext_resource type="Script" uid="uid://cbjff145wa7wn" path="res://actors/field_state_machine/base_state_machine_scripts/cutscene.gd" id="9_2l6se"]
 [ext_resource type="FontVariation" uid="uid://b5llu2gvm3oh1" path="res://_assets/fonts/pixel_loot_dialogue.tres" id="9_4pkct"]
 
 [sub_resource type="Animation" id="Animation_b1uet"]
@@ -272,6 +273,9 @@ script = ExtResource("6_06j4l")
 [node name="Follow" type="Node2D" parent="StateMachine" unique_id=1306287985]
 unique_name_in_owner = true
 script = ExtResource("6_i2mv8")
+
+[node name="Cutscene" type="Node2D" parent="StateMachine" unique_id=660809348]
+script = ExtResource("9_2l6se")
 
 [node name="P_Det_Area" type="Area2D" parent="." unique_id=145520853]
 unique_name_in_owner = true

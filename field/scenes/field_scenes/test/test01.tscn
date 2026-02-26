@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://cqts22xonjkd5" path="res://_common/inspect_area/inspect_area.tscn" id="16_gmhun"]
 [ext_resource type="Script" uid="uid://d3x6oel5jd5vr" path="res://cutscene/_common/cutscene_action.gd" id="16_p2wuy"]
 [ext_resource type="Script" uid="uid://bfmc1k4upxhev" path="res://cutscene/_common/cutscene_actormove.gd" id="17_f0qgu"]
+[ext_resource type="Script" uid="uid://cuel57vssfc0y" path="res://cutscene/_common/cutscene_cameramove.gd" id="18_h4dcs"]
+[ext_resource type="Script" uid="uid://chhxk8uwqo01c" path="res://cutscene/_common/cutscene_wait.gd" id="19_p2wuy"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ypob0"]
 load_path = "res://.godot/imported/speak_npc_spritesheet.png-71fe1574859f4c1403bffa880837c337.ctex"
@@ -353,7 +355,7 @@ load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa
 atlas = SubResource("CompressedTexture2D_u062u")
 region = Rect2(340, 4, 48, 48)
 
-[sub_resource type="Resource" id="Resource_yty8o"]
+[sub_resource type="Resource" id="Resource_ifaer"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -368,7 +370,7 @@ tired = SubResource("AtlasTexture_1fp00")
 voice = ExtResource("13_hppd8")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
-[sub_resource type="Resource" id="Resource_notke"]
+[sub_resource type="Resource" id="Resource_wuunf"]
 resource_local_to_scene = true
 script = ExtResource("10_kt4hr")
 name = "Player"
@@ -388,15 +390,67 @@ size = Vector2(16, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2wuy"]
 
-[sub_resource type="Resource" id="Resource_xo7o1"]
+[sub_resource type="Resource" id="Resource_lgl3j"]
+script = ExtResource("18_h4dcs")
+transition_type = 1
+move_location_ids = Array[StringName]([&"test_move_marker_01"])
+move_speed = 300.0
+metadata/_custom_type_script = "uid://cuel57vssfc0y"
+
+[sub_resource type="Resource" id="Resource_xdaqm"]
+script = ExtResource("19_p2wuy")
+wait_time = 1.5
+metadata/_custom_type_script = "uid://chhxk8uwqo01c"
+
+[sub_resource type="Resource" id="Resource_4aigy"]
+script = ExtResource("15_h4dcs")
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_lgl3j"), SubResource("Resource_xdaqm")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
+
+[sub_resource type="Resource" id="Resource_4rvf2"]
+script = ExtResource("19_p2wuy")
+wait_time = 5.0
+metadata/_custom_type_script = "uid://chhxk8uwqo01c"
+
+[sub_resource type="Resource" id="Resource_dx40r"]
+script = ExtResource("18_h4dcs")
+move_speed = 200.0
+metadata/_custom_type_script = "uid://cuel57vssfc0y"
+
+[sub_resource type="Resource" id="Resource_rghms"]
 script = ExtResource("17_f0qgu")
+path_type = 2
 actor_id = "cutscene_test_npc_01"
 move_location_ids = Array[StringName]([&"test_move_marker_01"])
 metadata/_custom_type_script = "uid://bfmc1k4upxhev"
 
-[sub_resource type="Resource" id="Resource_xdaqm"]
+[sub_resource type="Resource" id="Resource_m2yyj"]
 script = ExtResource("15_h4dcs")
-cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_xo7o1")])
+playtype = 1
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_4rvf2"), SubResource("Resource_dx40r"), SubResource("Resource_rghms")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
+
+[sub_resource type="Resource" id="Resource_q6wuj"]
+script = ExtResource("17_f0qgu")
+move_controlled_character = true
+move_location_ids = Array[StringName]([&"test_move_marker_01"])
+move_speed = 60.0
+metadata/_custom_type_script = "uid://bfmc1k4upxhev"
+
+[sub_resource type="Resource" id="Resource_qmboe"]
+script = ExtResource("15_h4dcs")
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_q6wuj")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
+
+[sub_resource type="Resource" id="Resource_yty8o"]
+script = ExtResource("18_h4dcs")
+move_location_ids = Array[StringName]([&"test_move_marker_02"])
+move_speed = 200.0
+metadata/_custom_type_script = "uid://cuel57vssfc0y"
+
+[sub_resource type="Resource" id="Resource_notke"]
+script = ExtResource("15_h4dcs")
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_yty8o")])
 metadata/_custom_type_script = "uid://dldt2m47r81s8"
 
 [node name="Test01" type="Node2D" unique_id=45094763]
@@ -482,6 +536,16 @@ position = Vector2(-112, -26)
 display_name = "Cutscene Test NPC 01"
 field_actor_id = &"cutscene_test_npc_01"
 
+[node name="NPC4" parent="FieldActors/PlacedNPCs" unique_id=1368451179 instance=ExtResource("7_rushk")]
+position = Vector2(28, -130)
+display_name = "dialogue_cutscene_npc_01"
+field_actor_id = &"dialogue_cutscene_npc_01"
+
+[node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC4" unique_id=447987433 instance=ExtResource("9_wu166")]
+start_position = "dialoguecutscenetest01"
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_f0qgu"), SubResource("Resource_ahd2c")])
+dialogue = ExtResource("14_k2s2j")
+
 [node name="Party" type="Node2D" parent="FieldActors" unique_id=1665240552]
 unique_name_in_owner = true
 y_sort_enabled = true
@@ -501,6 +565,7 @@ target_transition_area = ""
 
 [node name="Interactables" type="Node2D" parent="." unique_id=1198132726]
 unique_name_in_owner = true
+y_sort_enabled = true
 
 [node name="Trashcan" parent="Interactables" unique_id=1824018306 instance=ExtResource("15_pg0n8")]
 position = Vector2(504, -167)
@@ -510,7 +575,7 @@ z_index = 1
 item_here = true
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_yty8o")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_ifaer")])
 
 [node name="Trashcan2" parent="Interactables" unique_id=81467877 instance=ExtResource("15_pg0n8")]
 position = Vector2(571, -167)
@@ -520,7 +585,7 @@ z_index = 1
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
 open = true
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_notke")])
+speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_wuunf")])
 
 [node name="Triggers" type="Node2D" parent="." unique_id=300703836]
 unique_name_in_owner = true
@@ -554,6 +619,7 @@ unique_name_in_owner = true
 [node name="CutsceneArea" type="Area2D" parent="Cutscenes/CutsceneTriggers" unique_id=888316450]
 position = Vector2(-41, -24)
 script = ExtResource("13_h4dcs")
+cutscene_id = &"CutsceneScript01"
 metadata/_custom_type_script = "uid://b6uulr3b28gbn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cutscenes/CutsceneTriggers/CutsceneArea" unique_id=2076881971]
@@ -565,13 +631,31 @@ unique_name_in_owner = true
 position = Vector2(0, 1)
 
 [node name="test_move_marker_01" parent="Cutscenes/CutsceneMarkers" unique_id=2066631123 instance=ExtResource("13_uy666")]
-position = Vector2(-109, -130)
+position = Vector2(539, -4)
 marker_id = &"test_move_marker_01"
 purpose = 1
+show_in_game = true
+
+[node name="test_move_marker_02" parent="Cutscenes/CutsceneMarkers" unique_id=667071468 instance=ExtResource("13_uy666")]
+position = Vector2(627, -107)
+marker_id = &"test_move_marker_02"
+purpose = 2
 show_in_game = true
 
 [node name="CutsceneScript01" type="Node" parent="Cutscenes" unique_id=1093139031]
 script = ExtResource("14_xo7o1")
 cutscene_id = &"CutsceneScript01"
-acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_xdaqm")])
+acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_4aigy"), SubResource("Resource_m2yyj")])
+metadata/_custom_type_script = "uid://ccg8s63bglcau"
+
+[node name="CutsceneScript02" type="Node" parent="Cutscenes" unique_id=1490821386]
+script = ExtResource("14_xo7o1")
+cutscene_id = &"CutsceneScript02"
+acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_qmboe")])
+metadata/_custom_type_script = "uid://ccg8s63bglcau"
+
+[node name="CutsceneScript03" type="Node" parent="Cutscenes" unique_id=596324465]
+script = ExtResource("14_xo7o1")
+cutscene_id = &"CutsceneScript03"
+acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_notke")])
 metadata/_custom_type_script = "uid://ccg8s63bglcau"

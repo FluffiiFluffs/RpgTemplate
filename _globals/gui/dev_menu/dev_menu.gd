@@ -15,6 +15,8 @@ extends CanvasLayer
 @onready var button_8 : Button = %Button8
 @onready var button_9 : Button = %Button9
 @onready var button_10 : Button = %Button10
+@onready var button_11: Button = %Button11
+@onready var button_12: Button = %Button12
 
 var dev_menu_open : bool = false
 
@@ -30,8 +32,8 @@ func _ready()->void:
 	button_8.pressed.connect(on_button_8_pressed)
 	button_9.pressed.connect(on_button_9_pressed)
 	button_10.pressed.connect(on_button_10_pressed)
-
-
+	button_11.pressed.connect(on_button_11_pressed)
+	button_12.pressed.connect(on_button_12_pressed)
 func _unhandled_input(_event):
 	if Input.is_action_just_pressed("dev_menu"):
 		if animation_player.is_playing():
@@ -169,6 +171,21 @@ func on_button_10_pressed()->void:
 
 	for e in loose_enemies:
 		e.queue_free()
+
+
+func on_button_11_pressed()->void:
+	AudioManager.play_ui_confirm()
+
+func on_button_12_pressed()->void:
+	AudioManager.play_ui_cancel()
+
+
+
+
+
+
+
+
 
 func _collect_descendants(root: Node, out: Array[Node]) -> void:
 	if root == null:

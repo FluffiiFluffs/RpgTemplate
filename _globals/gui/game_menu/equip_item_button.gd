@@ -25,6 +25,7 @@ func on_button_pressed()->void:
 		return
 
 	GameMenu.equip_item(item, slot, curr_slot_scene)
+	AudioManager.play_ui_confirm()
 	
 	
 func grab_button_focus()->void:
@@ -42,6 +43,7 @@ func on_button_focus_entered() -> void:
 
 	if _ensure_curr_slot_scene() == false:
 		return
+	AudioManager.play_ui_blip()
 
 
 

@@ -167,3 +167,15 @@ func set_poison_flash(enabled : bool) -> void:
 	else:
 		poison_flash_enabled = false
 		field_sprite.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+		
+		
+		
+
+func on_cutscene_entered() -> void:
+	direction = Vector2.ZERO
+	velocity = Vector2.ZERO
+
+
+func on_cutscene_exited() -> void:
+	direction = Vector2.ZERO
+	velocity = Vector2.ZERO

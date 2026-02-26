@@ -25,13 +25,16 @@ var _is_playing : bool = false
 ## Used to restore game state after cutscene ends.
 var _previous_gamestate : int = GameState.State.FIELD
 
-## Stores temporary lock information per actor.
+## Stores previous State per actor so we can restore exactly after cutscene ends.
 ## Each entry contains:
 ## 1) actor : FieldActor
-## 2) sm : Node (optional, the StateMachine node if present)
-## 3) sm_mode : int (optional, previous process_mode)
-var _locked_entries : Array[Dictionary] = []
+## 2) sm : StateMachine
+## 3) prev_state : State
+var _cutscene_state_entries : Array[Dictionary] = []
 
+## Camera rigs touched by camera actions during the current cutscene.
+## Used so we can restore follow to the controlled character when the cutscene ends.
+var _camera_override_entries : Array[Dictionary] = []
 
 ## Small helper used to await completion of parallel actions.
 ## Each parallel action decrements the counter when done, and the manager awaits all_done.
@@ -102,16 +105,32 @@ func _play_cutscene_async(cutscene_id : StringName, script : CutsceneScript) -> 
 	GameState.gamestate = GameState.State.CUTSCENE
 	cutscene_start.emit(cutscene_id)
 
-	_lock_actors_referenced_by_cutscene(script)
+	_camera_override_entries.clear()
+	_enter_cutscene_states(script)
 	await _run_cutscene_script(script)
-	_unlock_actors()
+	_exit_cutscene_states()
+
+
+	# If the cutscene was launched during dialogue, the dialogue_ended signal can fire while
+	# GameState is CUTSCENE, which prevents SceneManager from restoring FIELD.
+	# Yield one frame so the balloon can process its shutdown, then decide what to restore to.
+	var restore_state : int = _previous_gamestate
+
+	if _previous_gamestate == GameState.State.DIALOGUE:
+		# DialogueManager.dialogue_ended can emit before the balloon applies the null line and queues itself.
+		# One frame gives the balloon time to close.
+		await get_tree().process_frame
+
+		if _has_active_dialogue_balloon():
+			restore_state = GameState.State.DIALOGUE
+		else:
+			restore_state = GameState.State.FIELD
 
 	if GameState.gamestate == GameState.State.CUTSCENE:
-		GameState.gamestate = _previous_gamestate
-
+		GameState.gamestate = restore_state
+	await _restore_camera_overrides_async()
 	cutscene_end.emit(cutscene_id)
 	_finish_cutscene()
-
 
 ## Clears the playing gate so future cutscenes can run.
 func _finish_cutscene() -> void:
@@ -261,29 +280,50 @@ func _run_action_and_notify(action : CutsceneAction, counter : ParallelCounter) 
 
 
 ## Dispatches a CutsceneAction to a concrete handler based on its class.
-## Add more branches here as additional CutsceneAction types are introduced.
 func _run_action(action : CutsceneAction) -> void:
 	if action is CutsceneActorMove:
 		await _run_actor_move(action)
 		return
 
+	if action is CutsceneCameraMove:
+		await _run_camera_move(action)
+		return
+
+	if action is CutsceneDialogue:
+		await _run_dialogue(action)
+		return
+
+	if action is CutsceneWait:
+		await _run_wait(action)
+		return
+
 	push_warning("CutsceneManager: action class missing implementation: " + action.get_class())
-
-
-## Executes a CutsceneActorMove.
-## 1) Resolve actor by field_actor_id
+	## Executes a CutsceneActorMove.
+## 1) Resolve actor (controlled character if requested, otherwise by field_actor_id)
 ## 2) Resolve each marker id into a CutsceneMarker
 ## 3) Move actor to each marker in order
 func _run_actor_move(action : CutsceneActorMove) -> void:
-	var actor_id_sn : StringName = StringName(action.actor_id)
-	if actor_id_sn == &"":
-		push_error("CutsceneManager: CutsceneActorMove actor_id is empty")
-		return
+	var actor : FieldActor = null
 
-	var actor : FieldActor = _find_field_actor(actor_id_sn)
-	if actor == null:
-		push_error("CutsceneManager: actor id missing in scene: " + String(actor_id_sn))
-		return
+	if action.move_controlled_character:
+		if CharDataKeeper.controlled_character == null:
+			push_error("CutsceneManager: CutsceneActorMove move_controlled_character is true, but controlled_character is null")
+			return
+		if not is_instance_valid(CharDataKeeper.controlled_character):
+			push_error("CutsceneManager: CutsceneActorMove move_controlled_character is true, but controlled_character is an invalid instance")
+			return
+
+		actor = CharDataKeeper.controlled_character
+	else:
+		var actor_id_sn : StringName = StringName(action.actor_id)
+		if actor_id_sn == &"":
+			push_error("CutsceneManager: CutsceneActorMove actor_id is empty")
+			return
+
+		actor = _find_field_actor(actor_id_sn)
+		if actor == null:
+			push_error("CutsceneManager: actor id missing in scene: " + String(actor_id_sn))
+			return
 
 	for marker_id in action.move_location_ids:
 		var marker : CutsceneMarker = _find_marker(marker_id)
@@ -293,11 +333,28 @@ func _run_actor_move(action : CutsceneActorMove) -> void:
 
 		await _move_actor_to(actor, marker.global_position, action)
 
+func _run_dialogue(action : CutsceneDialogue) -> void:
+	if action.dialogue_resource == null:
+		push_error("CutsceneManager: CutsceneDialogue dialogue_resource is null")
+		return
+
+	var start_title : String = action.dialogue_start
+	if start_title.is_empty():
+		start_title = "start"
+
+	DialogueManager._set_resources(action.speakers.duplicate())
+	DialogueManager.show_dialogue_balloon(action.dialogue_resource, start_title)
+
+	while true:
+		var ended_resource : Resource = await DialogueManager.dialogue_ended
+		if ended_resource == action.dialogue_resource:
+			break
 
 ## Moves an actor to a target position.
 ## INSTANT updates position immediately.
 ## Other path types currently use a simple tween based on move_speed.
 func _move_actor_to(actor : FieldActor, target_pos : Vector2, action : CutsceneActorMove) -> void:
+	actor.force_face_direction(target_pos - actor.global_position)
 	actor.velocity = Vector2.ZERO
 
 	if action.path_type == CutsceneActorMove.PathType.INSTANT:
@@ -345,17 +402,6 @@ func _find_field_actor(actor_id : StringName) -> FieldActor:
 	return null
 
 
-## Builds a list of actor ids referenced by the cutscene and locks them.
-## Locking currently disables the actor StateMachine node, when present.
-func _lock_actors_referenced_by_cutscene(script : CutsceneScript) -> void:
-	_locked_entries.clear()
-
-	var ids : Array[StringName] = _collect_actor_ids(script)
-	for id in ids:
-		var actor : FieldActor = _find_field_actor(id)
-		if actor == null:
-			continue
-		_lock_actor(actor)
 
 
 ## Collects a unique list of actor ids that appear in actions within this cutscene.
@@ -369,6 +415,10 @@ func _collect_actor_ids(script : CutsceneScript) -> Array[StringName]:
 		for action in act.cutscene_actions:
 			if action is CutsceneActorMove:
 				var move : CutsceneActorMove = action
+
+				if move.move_controlled_character:
+					continue
+
 				var id : StringName = StringName(move.actor_id)
 				if id == &"":
 					continue
@@ -377,35 +427,269 @@ func _collect_actor_ids(script : CutsceneScript) -> Array[StringName]:
 
 	return ids
 
+func _enter_cutscene_states(script : CutsceneScript) -> void:
+	_cutscene_state_entries.clear()
 
-## Applies the temporary lock to a specific actor.
-## Current behavior
-## 1) Zero velocity
-## 2) If a StateMachine node exists, disable its processing and remember the previous process_mode
-func _lock_actor(actor : FieldActor) -> void:
+	var ids : Array[StringName] = _collect_actor_ids(script)
+
+	## Always suppress manual input for the controlled party member during cutscenes.
+	if CharDataKeeper.controlled_character != null:
+		var controlled : FieldActor = CharDataKeeper.controlled_character
+		var cid : StringName = controlled.field_actor_id
+		if cid != &"" and not ids.has(cid):
+			ids.append(cid)
+
+	for id in ids:
+		var actor : FieldActor = _find_field_actor(id)
+		if actor == null:
+			continue
+		_enter_cutscene_state_for_actor(actor)
+
+
+func _enter_cutscene_state_for_actor(actor : FieldActor) -> void:
+	for entry in _cutscene_state_entries:
+		if entry["actor"] == actor:
+			return
+
+	var sm : StateMachine = actor.get_node_or_null("StateMachine") as StateMachine
+	if sm == null:
+		push_error("CutsceneManager: actor missing StateMachine: " + String(actor.field_actor_id))
+		return
+
+	var prev : State = sm.current_state
+	if prev == null:
+		push_error("CutsceneManager: StateMachine has no current_state: " + String(actor.field_actor_id))
+		return
+
 	actor.velocity = Vector2.ZERO
+	sm.force_state_by_name("CutScene")
 
 	var entry : Dictionary = {}
 	entry["actor"] = actor
-
-	var sm : Node = actor.get_node_or_null("StateMachine")
-	if sm != null:
-		entry["sm"] = sm
-		entry["sm_mode"] = sm.process_mode
-		sm.process_mode = Node.PROCESS_MODE_DISABLED
-
-	_locked_entries.append(entry)
+	entry["sm"] = sm
+	entry["prev_state"] = prev
+	_cutscene_state_entries.append(entry)
 
 
-## Restores all actor locks captured during this cutscene run.
-## StateMachine process_mode is restored exactly to its previous value.
-func _unlock_actors() -> void:
-	for entry in _locked_entries:
-		var sm : Node = entry.get("sm", null)
-		if sm != null:
-			sm.process_mode = entry["sm_mode"]
-
+func _exit_cutscene_states() -> void:
+	for entry in _cutscene_state_entries:
+		var sm : StateMachine = entry["sm"]
+		var prev : State = entry["prev_state"]
 		var actor : FieldActor = entry["actor"]
-		actor.velocity = Vector2.ZERO
 
-	_locked_entries.clear()
+		if sm != null and prev != null:
+			sm.change_state(prev)
+
+		if actor != null:
+			actor.velocity = Vector2.ZERO
+
+	_cutscene_state_entries.clear()
+
+
+func _has_active_dialogue_balloon() -> bool:
+	var scene = DialogueManager.get_current_scene.call()
+	if scene == null:
+		return false
+
+	var stack : Array[Node] = [scene]
+	while stack.size() > 0:
+		var n : Node = stack.pop_back()
+
+		if n is DialogBalloon:
+			if not n.is_queued_for_deletion():
+				return true
+
+		for child in n.get_children():
+			stack.append(child)
+
+	return false
+
+func _run_camera_move(action : CutsceneCameraMove) -> void:
+	var rig : Node2D = _resolve_camera_rig(action.camera_rig_id)
+	if rig == null:
+		push_error("CutsceneManager: camera rig missing: " + String(action.camera_rig_id))
+		return
+
+	if action.move_location_ids.is_empty():
+		push_warning("CutsceneManager: CutsceneCameraMove has no move_location_ids")
+		return
+
+	var entry : Dictionary = _begin_camera_override_for_rig(rig)
+
+	# The last camera move action that runs for this rig decides the cutscene end behavior.
+	entry["smooth_return_to_player"] = action.smooth_return_to_player
+	if action.smooth_return_to_player:
+		entry["return_path_type"] = action.path_type
+		entry["return_transition_type"] = action.transition_type
+		entry["return_easing_method"] = action.easing_method
+		entry["return_move_speed"] = action.move_speed
+
+	for marker_id in action.move_location_ids:
+		var marker : CutsceneMarker = _find_marker(marker_id)
+		if marker == null:
+			push_error("CutsceneManager: marker id missing in scene: " + String(marker_id))
+			continue
+
+		await _move_camera_rig_to(rig, marker.global_position, action)
+
+
+func _move_camera_rig_to(rig : Node2D, target_pos : Vector2, action : CutsceneCameraMove) -> void:
+	if action.path_type == CutsceneCameraMove.PathType.INSTANT:
+		rig.global_position = target_pos
+		await get_tree().process_frame
+		return
+
+	if action.path_type == CutsceneCameraMove.PathType.NAVIGATION:
+		# Camera navigation is not implemented yet.
+		# For now, treat it as straight line so authoring does not break.
+		push_warning("CutsceneManager: CutsceneCameraMove NAVIGATION treated as STRAIGHT_LINE")
+
+	var speed : float = action.move_speed
+	if speed <= 0.0:
+		rig.global_position = target_pos
+		await get_tree().process_frame
+		return
+
+	var dist : float = rig.global_position.distance_to(target_pos)
+	var duration : float = dist / speed
+
+	if duration <= 0.0:
+		rig.global_position = target_pos
+		await get_tree().process_frame
+		return
+
+	var tween : Tween = get_tree().create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.set_trans(action.transition_type)
+	tween.set_ease(action.easing_method)
+	tween.tween_property(rig, "global_position", target_pos, duration)
+	await tween.finished
+
+
+func _resolve_camera_rig(rig_id : StringName) -> Node2D:
+	if SceneManager.main_scene == null:
+		return null
+
+	# Common default path
+	if rig_id == &"" or rig_id == &"FieldCameraRig":
+		return SceneManager.main_scene.field_camera_rig
+
+	# Primary lookup by node name inside Main
+	var found : Node = SceneManager.main_scene.find_child(String(rig_id), true, false)
+	if found is Node2D:
+		return found
+
+	# Secondary lookup by camera_rig_id property (future proofing)
+	var stack : Array[Node] = [SceneManager.main_scene]
+	while stack.size() > 0:
+		var n : Node = stack.pop_back()
+		if n is Node2D:
+			if n.has_method("get"):
+				# Safe property probe pattern: only check if the property exists in the list
+				for p in n.get_property_list():
+					if p.name == "camera_rig_id":
+						var v = n.get("camera_rig_id")
+						if v is StringName and v == rig_id:
+							return n
+						break
+
+		for child in n.get_children():
+			stack.append(child)
+
+	return null
+
+func _begin_camera_override_for_rig(rig : Node2D) -> Dictionary:
+	# Avoid duplicate entries per cutscene
+	for entry in _camera_override_entries:
+		if entry["rig"] == rig:
+			# Ensure follow remains suppressed if a later action runs
+			if rig is FieldCameraRig:
+				var fr : FieldCameraRig = rig
+				fr.clear_target()
+				fr.activate()
+			return entry
+
+	var entry : Dictionary = {}
+	entry["rig"] = rig
+	entry["process_mode"] = rig.process_mode
+
+	# FieldCameraRig supports explicit follow suppression and restoration.
+	if rig is FieldCameraRig:
+		var fr : FieldCameraRig = rig
+		entry["prev_follow_speed"] = fr.follow_speed
+		entry["prev_snap"] = fr.snap
+		fr.clear_target()
+		fr.activate()
+
+	# Ensure the rig keeps updating even if something else is disabling processing.
+	rig.process_mode = Node.PROCESS_MODE_ALWAYS
+
+	_camera_override_entries.append(entry)
+	return entry
+func _restore_camera_overrides_async() -> void:
+	if _camera_override_entries.is_empty():
+		return
+
+	for entry in _camera_override_entries:
+		var rig = entry["rig"]
+		if not is_instance_valid(rig):
+			continue
+
+		if rig is FieldCameraRig:
+			var fr : FieldCameraRig = rig
+
+			var prev_follow_speed : float = fr.follow_speed
+			var prev_snap : bool = fr.snap
+
+			if entry.has("prev_follow_speed"):
+				prev_follow_speed = entry["prev_follow_speed"]
+			if entry.has("prev_snap"):
+				prev_snap = entry["prev_snap"]
+
+			var do_smooth_return : bool = false
+			if entry.has("smooth_return_to_player"):
+				do_smooth_return = entry["smooth_return_to_player"]
+
+			if do_smooth_return:
+				var player : FieldActor = CharDataKeeper.controlled_character
+				if player != null:
+					fr.clear_target()
+					fr.activate()
+
+					var tmp : CutsceneCameraMove = CutsceneCameraMove.new()
+					if entry.has("return_path_type"):
+						tmp.path_type = entry["return_path_type"]
+					if entry.has("return_transition_type"):
+						tmp.transition_type = entry["return_transition_type"]
+					if entry.has("return_easing_method"):
+						tmp.easing_method = entry["return_easing_method"]
+					if entry.has("return_move_speed"):
+						tmp.move_speed = entry["return_move_speed"]
+
+					await _move_camera_rig_to(fr, player.global_position, tmp)
+
+			# Restore rig settings and resume follow.
+			fr.follow_speed = prev_follow_speed
+			fr.snap = prev_snap
+
+			# Snap is fine here because we are already at the player position after the tween.
+			fr.follow_player(true)
+
+		# Restore process mode after all camera work is done for this entry.
+		if entry.has("process_mode"):
+			rig.process_mode = entry["process_mode"]
+
+	_camera_override_entries.clear()
+
+
+func _run_wait(action : CutsceneWait) -> void:
+	var t : float = action.wait_time
+
+	# Data validity: negative values behave like a one frame yield.
+	if t <= 0.0:
+		await get_tree().process_frame
+		return
+
+	# process_always = true so the timer still advances even if the tree is paused elsewhere.
+	var timer := get_tree().create_timer(t, true)
+	await timer.timeout
