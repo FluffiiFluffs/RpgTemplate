@@ -1,7 +1,8 @@
 [Big Changes]
-	Implement cutscenes
+	#Implement cutscenes
+		Cutscenes have been mostly implemented, but the system could use some refinement
 
-	Implement save/load system
+	#Implement save/load system
 		Also implement persistence system between scenes for certain things like opening chests
 
 	STATS
@@ -32,7 +33,9 @@
 	Check DialogueManager code to try to figure out if some things implemented were already in place by default
 		within the dialoguemanager addon (specifically the portrait thing)
 		
-	Implement title screen / intro sequence
+	#Implement title screen / intro sequence
+		a baseline version of this has been implemented, complete with a menu for options
+		loading menu needs to be implemented
 		
 	Implement shop system
 
@@ -47,12 +50,11 @@
 	
 	Implement magical skills that use the magic stat to determine how strong they are.
 	
-	Create quote bubble system for in-battle use
+	## maybe not 
+		Create quote bubble system for in-battle use
 	
 	Modify the battle_notify_ui to reveal text (very fast, it's battle)
-	
 	Modify battle_notify_ui to allow 3 lines of text
-	
 	Modify battle_notify_ui to scroll upwards when text reaches the 3 line limit
 	
 	Determine how many characters a line can have (need to research which character takes up the most space)
