@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://crmq4n28pcxa8"]
+
+[ext_resource type="Texture2D" uid="uid://m200ljbro5qb" path="res://_assets/dialogue/portraits/mage/mage_angry_close.png" id="1_fhfbs"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_sjbkd"]
+[ext_resource type="Texture2D" uid="uid://b3kb22dr06kf8" path="res://_assets/dialogue/portraits/mage/mage_angry_open.png" id="2_qb6bx"]
+[ext_resource type="Texture2D" uid="uid://vklx0bqeyeeg" path="res://_assets/dialogue/portraits/mage/mage_special_close.png" id="3_r0dhc"]
+[ext_resource type="Texture2D" uid="uid://un26chiygr6n" path="res://_assets/dialogue/portraits/mage/mage_special_open.png" id="4_pgpmk"]
+[ext_resource type="Texture2D" uid="uid://tpfvncosibfc" path="res://_assets/dialogue/portraits/mage/mage_normal_close.png" id="5_2uy0r"]
+[ext_resource type="Texture2D" uid="uid://ca4vb8meox44x" path="res://_assets/dialogue/portraits/mage/mage_normal_open.png" id="6_d8rxt"]
+[ext_resource type="Texture2D" uid="uid://c5r6cm11xw2tb" path="res://_assets/dialogue/portraits/mage/mage_sad_close.png" id="7_4bpyd"]
+[ext_resource type="Texture2D" uid="uid://cwpc314uo2wtr" path="res://_assets/dialogue/portraits/mage/mage_sad_open.png" id="8_cuf3a"]
+[ext_resource type="Texture2D" uid="uid://ddjojtj8dvpyc" path="res://_assets/dialogue/portraits/mage/mage_surprised_close.png" id="10_hs335"]
+[ext_resource type="Texture2D" uid="uid://bhrqmhnlelx7o" path="res://_assets/dialogue/portraits/mage/mage_surprised_open.png" id="11_wmedc"]
+[ext_resource type="Texture2D" uid="uid://epgehe1okrlr" path="res://_assets/dialogue/portraits/mage/mage_tired_close.png" id="12_wgafx"]
+[ext_resource type="Texture2D" uid="uid://bvyhh33xjdvjq" path="res://_assets/dialogue/portraits/mage/mage_tired_open.png" id="13_ht5o1"]
+[ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtral.wav" id="14_4yq55"]
+
+[resource]
+script = ExtResource("1_sjbkd")
+speaker_id = "mage03"
+display_name = "Mage"
+pronoun = 2
+voice = ExtResource("14_4yq55")
+angry_close = ExtResource("1_fhfbs")
+angry_open = ExtResource("2_qb6bx")
+happy_close = ExtResource("3_r0dhc")
+happy_open = ExtResource("4_pgpmk")
+normal_close = ExtResource("5_2uy0r")
+normal_open = ExtResource("6_d8rxt")
+sad_close = ExtResource("7_4bpyd")
+sad_open = ExtResource("8_cuf3a")
+special_close = ExtResource("3_r0dhc")
+special_open = ExtResource("4_pgpmk")
+surprise_close = ExtResource("10_hs335")
+surprise_open = ExtResource("11_wmedc")
+tired_close = ExtResource("12_wgafx")
+tired_open = ExtResource("13_ht5o1")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"

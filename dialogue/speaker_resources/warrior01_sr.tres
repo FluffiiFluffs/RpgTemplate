@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://b4v7peyea2xa8"]
+
+[ext_resource type="Texture2D" uid="uid://wawxndq41aaj" path="res://_assets/dialogue/portraits/warrior/warrior_angry_close.png" id="1_1enw2"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_by87t"]
+[ext_resource type="Texture2D" uid="uid://fwel56styayk" path="res://_assets/dialogue/portraits/warrior/warrior_angry_open.png" id="2_reuc1"]
+[ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtsus.wav" id="2_trq75"]
+[ext_resource type="Texture2D" uid="uid://btmhuua2vjmk7" path="res://_assets/dialogue/portraits/warrior/warrior_normal_close.png" id="3_a3r3q"]
+[ext_resource type="Texture2D" uid="uid://bftjco1pq8tpc" path="res://_assets/dialogue/portraits/warrior/warrior_normal_open.png" id="4_4xo1x"]
+[ext_resource type="Texture2D" uid="uid://dcvieb0uhgdg6" path="res://_assets/dialogue/portraits/warrior/warrior_sad_close.png" id="5_rlrrq"]
+[ext_resource type="Texture2D" uid="uid://b48inplelwbee" path="res://_assets/dialogue/portraits/warrior/warrior_sad_open.png" id="6_8nqv2"]
+[ext_resource type="Texture2D" uid="uid://nmporhf6hlss" path="res://_assets/dialogue/portraits/warrior/warrior_special_close.png" id="8_en602"]
+[ext_resource type="Texture2D" uid="uid://r64d2q35qha7" path="res://_assets/dialogue/portraits/warrior/warrior_special_open.png" id="9_k8pr6"]
+[ext_resource type="Texture2D" uid="uid://70t20s3oyxu3" path="res://_assets/dialogue/portraits/warrior/warrior_surprised_close.png" id="10_liff5"]
+[ext_resource type="Texture2D" uid="uid://6ttcegsvv0jh" path="res://_assets/dialogue/portraits/warrior/warrior_surprised_open.png" id="11_ptktq"]
+[ext_resource type="Texture2D" uid="uid://dovbbjjfelmah" path="res://_assets/dialogue/portraits/warrior/warrior_tired_close.png" id="12_o14al"]
+[ext_resource type="Texture2D" uid="uid://b5b56smhwfh3p" path="res://_assets/dialogue/portraits/warrior/warrior_tired_open.png" id="13_31bp7"]
+
+[resource]
+script = ExtResource("1_by87t")
+speaker_id = "warrior01"
+display_name = "Warrior"
+voice = ExtResource("2_trq75")
+angry_close = ExtResource("1_1enw2")
+angry_open = ExtResource("2_reuc1")
+normal_close = ExtResource("3_a3r3q")
+normal_open = ExtResource("4_4xo1x")
+sad_close = ExtResource("5_rlrrq")
+sad_open = ExtResource("6_8nqv2")
+special_close = ExtResource("8_en602")
+special_open = ExtResource("9_k8pr6")
+surprise_close = ExtResource("10_liff5")
+surprise_open = ExtResource("11_ptktq")
+tired_close = ExtResource("12_o14al")
+tired_open = ExtResource("13_31bp7")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"

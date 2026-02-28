@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://cd0gb0dnbu00o"]
+
+[ext_resource type="Texture2D" uid="uid://biwi2na8l561a" path="res://_assets/dialogue/portraits/thief/thief_angry_close.png" id="1_r3oa7"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_utqpn"]
+[ext_resource type="Texture2D" uid="uid://c8tvyatigwvl0" path="res://_assets/dialogue/portraits/thief/thief_angry_open.png" id="2_8g1x8"]
+[ext_resource type="Texture2D" uid="uid://j1dumposfoxo" path="res://_assets/dialogue/portraits/thief/thief_special_close.png" id="3_8qlrn"]
+[ext_resource type="Texture2D" uid="uid://c6vipjolorgbe" path="res://_assets/dialogue/portraits/thief/thief_special_open.png" id="4_pq6ua"]
+[ext_resource type="Texture2D" uid="uid://bsquahhk2i86b" path="res://_assets/dialogue/portraits/thief/thief_normal_close.png" id="5_a7ixl"]
+[ext_resource type="Texture2D" uid="uid://b56li86y4a3pr" path="res://_assets/dialogue/portraits/thief/thief_normal_open.png" id="6_3umtr"]
+[ext_resource type="Texture2D" uid="uid://c51m5pbh1mq4r" path="res://_assets/dialogue/portraits/thief/thief_sad_close.png" id="7_dl8d1"]
+[ext_resource type="Texture2D" uid="uid://cur427srvrna3" path="res://_assets/dialogue/portraits/thief/thief_sad_open.png" id="8_vdfe4"]
+[ext_resource type="Texture2D" uid="uid://f0lgtfgrvabw" path="res://_assets/dialogue/portraits/thief/thief_surprised_close.png" id="10_73fnx"]
+[ext_resource type="Texture2D" uid="uid://bn8a4sjbrt0of" path="res://_assets/dialogue/portraits/thief/thief_surprised_open.png" id="11_gem4j"]
+[ext_resource type="Texture2D" uid="uid://b1awsl62yf6vs" path="res://_assets/dialogue/portraits/thief/thief_tired_close.png" id="12_3rkda"]
+[ext_resource type="Texture2D" uid="uid://caaia4yx404gp" path="res://_assets/dialogue/portraits/thief/thief_tired_open.png" id="13_hjccx"]
+[ext_resource type="AudioStream" uid="uid://bbwmxeet4l85u" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtq.wav" id="14_xk14s"]
+
+[resource]
+script = ExtResource("1_utqpn")
+speaker_id = "thief02"
+display_name = "Thief"
+voice = ExtResource("14_xk14s")
+angry_close = ExtResource("1_r3oa7")
+angry_open = ExtResource("2_8g1x8")
+happy_close = ExtResource("3_8qlrn")
+happy_open = ExtResource("4_pq6ua")
+normal_close = ExtResource("5_a7ixl")
+normal_open = ExtResource("6_3umtr")
+sad_close = ExtResource("7_dl8d1")
+sad_open = ExtResource("8_vdfe4")
+special_close = ExtResource("3_8qlrn")
+special_open = ExtResource("4_pq6ua")
+surprise_close = ExtResource("10_73fnx")
+surprise_open = ExtResource("11_gem4j")
+tired_close = ExtResource("12_3rkda")
+tired_open = ExtResource("13_hjccx")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"

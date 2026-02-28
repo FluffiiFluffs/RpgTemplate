@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://cg2wpt0y2co3p"]
+
+[ext_resource type="Texture2D" uid="uid://b5ibwcrqdvsji" path="res://_assets/dialogue/portraits/npc/npc_angry_close.png" id="1_jkw1c"]
+[ext_resource type="Texture2D" uid="uid://32yrjf8v4qms" path="res://_assets/dialogue/portraits/npc/npc_angry_open.png" id="2_8kgjg"]
+[ext_resource type="Texture2D" uid="uid://dblldhyllsci2" path="res://_assets/dialogue/portraits/npc/npc_special_close.png" id="3_eofnk"]
+[ext_resource type="Texture2D" uid="uid://ceh7bsv52w8wo" path="res://_assets/dialogue/portraits/npc/npc_special_open.png" id="4_7av67"]
+[ext_resource type="Texture2D" uid="uid://cli8h7j6x57pr" path="res://_assets/dialogue/portraits/npc/npc_normal_close.png" id="5_nyyu1"]
+[ext_resource type="Texture2D" uid="uid://2mfty1ta2n5r" path="res://_assets/dialogue/portraits/npc/npc_normal_open.png" id="6_xe8s6"]
+[ext_resource type="Texture2D" uid="uid://ctufre7ivvu4q" path="res://_assets/dialogue/portraits/npc/npc_sad_close.png" id="7_s0g7t"]
+[ext_resource type="Texture2D" uid="uid://cr8yhv02npmat" path="res://_assets/dialogue/portraits/npc/npc_sad_open.png" id="8_hb8ef"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="9_r60xi"]
+[ext_resource type="Texture2D" uid="uid://j1lsjkwrwuhr" path="res://_assets/dialogue/portraits/npc/npc_surprised_close.png" id="10_0qgaw"]
+[ext_resource type="Texture2D" uid="uid://dj14tvx6kk3ep" path="res://_assets/dialogue/portraits/npc/npc_surprised_open.png" id="11_s65f3"]
+[ext_resource type="Texture2D" uid="uid://13kgdfimdl6k" path="res://_assets/dialogue/portraits/npc/npc_tired_close.png" id="12_uoirt"]
+[ext_resource type="Texture2D" uid="uid://c1eb67pmnjkh5" path="res://_assets/dialogue/portraits/npc/npc_tired_open.png" id="13_4clxy"]
+[ext_resource type="AudioStream" uid="uid://dv0wt34i804y6" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtal.wav" id="14_ltjn0"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("9_r60xi")
+speaker_id = "npc_test_02"
+display_name = "NPC2"
+voice = ExtResource("14_ltjn0")
+pitch_min = 0.2
+pitch_max = 0.2
+normal_close = ExtResource("5_nyyu1")
+normal_open = ExtResource("6_xe8s6")
+sad_close = ExtResource("7_s0g7t")
+sad_open = ExtResource("8_hb8ef")
+surprise_close = ExtResource("10_0qgaw")
+surprise_open = ExtResource("11_s65f3")
+angry_close = ExtResource("1_jkw1c")
+angry_open = ExtResource("2_8kgjg")
+happy_close = ExtResource("3_eofnk")
+happy_open = ExtResource("4_7av67")
+tired_close = ExtResource("12_uoirt")
+tired_open = ExtResource("13_4clxy")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"

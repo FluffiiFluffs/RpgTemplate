@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://cthqy4p6sn13x"]
+
+[ext_resource type="Texture2D" uid="uid://4c2n1j1ge2g3" path="res://_assets/dialogue/portraits/healer/healer_angry_close.png" id="1_fdmkf"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_mmwqi"]
+[ext_resource type="Texture2D" uid="uid://dqcfyrh3r3l28" path="res://_assets/dialogue/portraits/healer/healer_angry_open.png" id="2_v6j43"]
+[ext_resource type="Texture2D" uid="uid://cvh8gkwalvlsi" path="res://_assets/dialogue/portraits/healer/healer_special_close.png" id="3_3rtfe"]
+[ext_resource type="Texture2D" uid="uid://dit14k1a81fy0" path="res://_assets/dialogue/portraits/healer/healer_special_open.png" id="4_xye1r"]
+[ext_resource type="Texture2D" uid="uid://c3415krmtc3xe" path="res://_assets/dialogue/portraits/healer/healer_normal_close.png" id="5_mom2h"]
+[ext_resource type="Texture2D" uid="uid://2s3f2l06vbea" path="res://_assets/dialogue/portraits/healer/healer_normal_open.png" id="6_ywgf8"]
+[ext_resource type="Texture2D" uid="uid://21ae81jejawr" path="res://_assets/dialogue/portraits/healer/healer_sad_close.png" id="7_13ka0"]
+[ext_resource type="Texture2D" uid="uid://corw8hm4wwnay" path="res://_assets/dialogue/portraits/healer/healer_sad_open.png" id="8_2e8nf"]
+[ext_resource type="Texture2D" uid="uid://dcjsn2esng0gh" path="res://_assets/dialogue/portraits/healer/healer_surprised_close.png" id="10_3a3sp"]
+[ext_resource type="Texture2D" uid="uid://blhljtey8f2rs" path="res://_assets/dialogue/portraits/healer/healer_surprised_open.png" id="11_v7t54"]
+[ext_resource type="Texture2D" uid="uid://o1ttwaktextl" path="res://_assets/dialogue/portraits/healer/healer_tired_close.png" id="12_q076k"]
+[ext_resource type="Texture2D" uid="uid://vs043c0qas84" path="res://_assets/dialogue/portraits/healer/healer_tired_open.png" id="13_ftcj5"]
+
+[resource]
+script = ExtResource("1_mmwqi")
+speaker_id = "healer04"
+display_name = "Healer"
+pronoun = 3
+angry_close = ExtResource("1_fdmkf")
+angry_open = ExtResource("2_v6j43")
+happy_close = ExtResource("3_3rtfe")
+happy_open = ExtResource("4_xye1r")
+normal_close = ExtResource("5_mom2h")
+normal_open = ExtResource("6_ywgf8")
+sad_close = ExtResource("7_13ka0")
+sad_open = ExtResource("8_2e8nf")
+special_close = ExtResource("3_3rtfe")
+special_open = ExtResource("4_xye1r")
+surprise_close = ExtResource("10_3a3sp")
+surprise_open = ExtResource("11_v7t54")
+tired_close = ExtResource("12_q076k")
+tired_open = ExtResource("13_ftcj5")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"

@@ -40,10 +40,10 @@ elif quest_is_completed("quest0001") == true
 #	
 #	
 ~ dialoguecutscenetest01
-TESTNPC: [do set_portrait("npc", "normal")] I'm going to make you walk over to that marker over there.
+NPC01: [do set_portrait("npc", "normal")] I'm going to make you walk over to that marker over there.
 # make current player walk over to marker01 in test
 do play_cutscene("CutsceneScript02")
 => END
 
 ~ dialoguecutscenetest01_02
-TESTNPC: [do set_portrait("npc", "normal")] See, I made you move.
+NPC01: [do set_portrait("npc", "normal")] See, I made you move.

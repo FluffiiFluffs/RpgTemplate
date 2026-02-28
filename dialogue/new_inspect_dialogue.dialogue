@@ -5,6 +5,6 @@ using DM
 
 ~ trashcan1
 if interact_node.item_here == true
-	Trashcan1: [do set_portrait("", "")]The trashcan has a shiny apple inside.[do add_item("testhpheal", 20)] [do item_here_off()] [do play_parent_animation("open")] => END
+	Narrator: [do set_portrait("", "")]The trashcan has a shiny apple inside.[do add_item("testhpheal", 20)] [do item_here_off()] [do play_parent_animation("open")] => END
 if interact_node.item_here == false
-	Player: [do set_portrait("player", "sad")] Looks like there's nothing in this trashcan but poop. [do play_parent_animation("open")] => END
+	Warrior: [do set_portrait("player", "sad")] Looks like there's nothing in this trashcan but poop. [do play_parent_animation("open")] => END

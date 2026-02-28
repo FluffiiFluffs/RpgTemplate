@@ -1,75 +1,40 @@
 [gd_resource type="Resource" script_class="SpeakerResource" format=3 uid="uid://b4oqligpuxk1l"]
 
+[ext_resource type="Texture2D" uid="uid://bi8o63qq0765i" path="res://_assets/dialogue/portraits/default_player/player_angry_close.png" id="1_4r1j2"]
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_waeo2"]
-[ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/voices/placeholder_voices/snd_txtral.wav" id="2_wff2p"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_waeo2"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wff2p"]
-atlas = SubResource("CompressedTexture2D_waeo2")
-region = Rect2(4, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eqqug"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5ragq"]
-atlas = SubResource("CompressedTexture2D_eqqug")
-region = Rect2(172, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1fitx"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k8ccy"]
-atlas = SubResource("CompressedTexture2D_1fitx")
-region = Rect2(60, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u4je8"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mwsg5"]
-atlas = SubResource("CompressedTexture2D_u4je8")
-region = Rect2(116, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_uv8qt"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_etxau"]
-atlas = SubResource("CompressedTexture2D_uv8qt")
-region = Rect2(172, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wff2p"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eqqug"]
-atlas = SubResource("CompressedTexture2D_wff2p")
-region = Rect2(228, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bis0r"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4r1j2"]
-atlas = SubResource("CompressedTexture2D_bis0r")
-region = Rect2(284, 4, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vqpsj"]
-load_path = "res://.godot/imported/speak_player_spritesheet.png-c3c3bd06c1b4b7fa88e0609e0905898b.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q8fct"]
-atlas = SubResource("CompressedTexture2D_vqpsj")
-region = Rect2(340, 4, 48, 48)
+[ext_resource type="Texture2D" uid="uid://ds8jt38f0fi3r" path="res://_assets/dialogue/portraits/default_player/player_angry_open.png" id="2_vqpsj"]
+[ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtsus.wav" id="2_wff2p"]
+[ext_resource type="Texture2D" uid="uid://43p4oox0tgvr" path="res://_assets/dialogue/portraits/default_player/player_special_close.png" id="3_q8fct"]
+[ext_resource type="Texture2D" uid="uid://c15yvx6386nai" path="res://_assets/dialogue/portraits/default_player/player_special_open.png" id="4_g4252"]
+[ext_resource type="Texture2D" uid="uid://uwpr3l5wd7i1" path="res://_assets/dialogue/portraits/default_player/player_normal_close.png" id="5_a5h1p"]
+[ext_resource type="Texture2D" uid="uid://dmhtbl8fi4ydn" path="res://_assets/dialogue/portraits/default_player/player_normal_open.png" id="6_58i6d"]
+[ext_resource type="Texture2D" uid="uid://g28r8ecnvyvj" path="res://_assets/dialogue/portraits/default_player/player_sad_close.png" id="7_ptpmy"]
+[ext_resource type="Texture2D" uid="uid://dvyisykp1n7vk" path="res://_assets/dialogue/portraits/default_player/player_sad_open.png" id="8_gy63c"]
+[ext_resource type="Texture2D" uid="uid://dnnm7r5rb1ghx" path="res://_assets/dialogue/portraits/default_player/player_surprised_close.png" id="10_747vm"]
+[ext_resource type="Texture2D" uid="uid://b8k4igr43u6yc" path="res://_assets/dialogue/portraits/default_player/player_surprised_open.png" id="11_0kkta"]
+[ext_resource type="Texture2D" uid="uid://5reab2gaioju" path="res://_assets/dialogue/portraits/default_player/player_tired_close.png" id="12_3jhmx"]
+[ext_resource type="Texture2D" uid="uid://bjew2shb1pbt8" path="res://_assets/dialogue/portraits/default_player/player_tired_open.png" id="13_ugcvd"]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_waeo2")
-name = "Player"
-normal = SubResource("AtlasTexture_k8ccy")
-talk = SubResource("AtlasTexture_4r1j2")
-sad = SubResource("AtlasTexture_mwsg5")
-surprise = SubResource("AtlasTexture_eqqug")
-angry = SubResource("AtlasTexture_wff2p")
-happy = SubResource("AtlasTexture_5ragq")
-special = SubResource("AtlasTexture_etxau")
-tired = SubResource("AtlasTexture_q8fct")
+speaker_id = "Warrior"
+display_name = "Warrior"
 voice = ExtResource("2_wff2p")
+pitch_min = 0.25
+pitch_max = 0.25
+normal_close = ExtResource("5_a5h1p")
+normal_open = ExtResource("6_58i6d")
+sad_close = ExtResource("7_ptpmy")
+sad_open = ExtResource("8_gy63c")
+surprise_close = ExtResource("10_747vm")
+surprise_open = ExtResource("11_0kkta")
+angry_close = ExtResource("1_4r1j2")
+angry_open = ExtResource("2_vqpsj")
+happy_close = ExtResource("3_q8fct")
+happy_open = ExtResource("4_g4252")
+special_close = ExtResource("3_q8fct")
+special_open = ExtResource("4_g4252")
+tired_close = ExtResource("12_3jhmx")
+tired_open = ExtResource("13_ugcvd")
 metadata/_custom_type_script = "uid://dcki00a4qlvga"
