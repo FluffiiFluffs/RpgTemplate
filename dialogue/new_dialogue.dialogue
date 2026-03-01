@@ -1,12 +1,13 @@
-~ start
+using DM
 
-[do! DialogueManager._set_portrait("player","happy")] [[Hi|Hello|Howdy]], this is some dialogue.
-NPC: Here are some choices. [wait=0.5] Make your choice.
+~ start
+Warrior: [#mood=happy] [[Hi|Hello|Howdy]], this is some dialogue.
+npc_test_01: Here are some choices. [wait=0.5] Make your choice.
 - First one
-	NPC: You picked the first one.
+	npc_test_01: You picked the first one.
 - Second one
-	NPC: You picked the second one.
+	npc_test_01: You picked the second one.
 - Start again => start
 - End => END
-NPC: For more information see the online documentation.
+npc_test_01: For more information see the online documentation.
 => END

@@ -11,6 +11,9 @@ class_name DialogueManagerExampleBalloon extends CanvasLayer
 ## If running as a [Node] in a scene then auto start the dialogue.
 @export var auto_start: bool = false
 
+## If all other input is blocked as long as dialogue is shown.
+@export var will_block_other_input: bool = true
+
 ## The action to use for advancing the dialogue
 @export var next_action: StringName = &"ui_accept"
 
@@ -69,7 +72,6 @@ var mutation_cooldown: Timer = Timer.new()
 
 
 func _ready() -> void:
-	character_label.visible = false
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
 
@@ -93,14 +95,15 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(_event: InputEvent) -> void:
 	# Only the balloon is allowed to handle input while it's showing
-	get_viewport().set_input_as_handled()
+	if will_block_other_input:
+		get_viewport().set_input_as_handled()
 
 
 func _notification(what: int) -> void:
 	## Detect a change of locale and update the current dialogue line to show the new language
 	if what == NOTIFICATION_TRANSLATION_CHANGED and _locale != TranslationServer.get_locale() and is_instance_valid(dialogue_label):
 		_locale = TranslationServer.get_locale()
-		var visible_ratio = dialogue_label.visible_ratio
+		var visible_ratio: float = dialogue_label.visible_ratio
 		dialogue_line = await dialogue_resource.get_next_dialogue_line(dialogue_line.id)
 		if visible_ratio < 1:
 			dialogue_label.skip_typing()
@@ -128,7 +131,7 @@ func apply_dialogue_line() -> void:
 	balloon.grab_focus()
 
 	#character_label.visible = not dialogue_line.character.is_empty()
-	#character_label.text = tr(dialogue_line.character, "dialogue")
+	character_label.text = tr(dialogue_line.character, "dialogue")
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
@@ -155,7 +158,7 @@ func apply_dialogue_line() -> void:
 		balloon.focus_mode = Control.FOCUS_NONE
 		responses_menu.show()
 	elif dialogue_line.time != "":
-		var time = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
+		var time: float = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
 		await get_tree().create_timer(time).timeout
 		next(dialogue_line.next_id)
 	else:
@@ -210,7 +213,5 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
 
-func _exit_tree() -> void:
-	if DialogueManager.current_balloon == self:
-		DialogueManager.current_balloon = null
+
 #endregion

@@ -26,14 +26,13 @@ func opened()->void:
 				child.play("open")
 
 
-
-
 func _start_dialog() -> void:
-	if dialogue != null:
-		super()
-		if item_here: #Item is present
-				DialogueManager._set_resources(speakers.duplicate())
-				DialogueManager.show_dialogue_balloon(dialogue, item_here_start)
-		else: #Item is gone
-				DialogueManager._set_resources(speakers.duplicate())
-				DialogueManager.show_dialogue_balloon(dialogue, item_not_here_start)
+	if dialogue == null:
+		return
+
+	super()
+
+	if item_here:
+		DM.show_dialogue(dialogue, item_here_start)
+	else:
+		DM.show_dialogue(dialogue, item_not_here_start)

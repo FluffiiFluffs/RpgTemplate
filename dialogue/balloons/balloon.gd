@@ -21,7 +21,7 @@ extends CanvasLayer
 ## A sound player for voice lines (if they exist).
 @onready var audio_stream_player: AudioStreamPlayer = %AudioStreamPlayer
 
-## Panel node that holds portrait_texture. If DialogueManager.speaker_resources is blank, this hides
+## Panel node that holds portrait UI. Visible only when DM resolves a portrait texture.
 @onready var portrait_panel = %PortraitPanel
 
 ## Uses texture to show portrait
@@ -41,7 +41,6 @@ var locals: Dictionary = {}
 
 var _locale: String = TranslationServer.get_locale()
 
-## The current line
 var dialogue_line: DialogueLine:
 	set(value):
 		if value:
@@ -49,6 +48,7 @@ var dialogue_line: DialogueLine:
 			apply_dialogue_line()
 		else:
 			# The dialogue has finished so close the balloon
+			DM.clear_active_balloon(self)
 			if owner == null:
 				queue_free()
 			else:
@@ -119,14 +119,12 @@ func _notification(what: int) -> void:
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
 	temporary_game_states = [self] + extra_game_states
 	is_waiting_for_input = false
+	DM.set_active_balloon(self)
 	if is_instance_valid(with_dialogue_resource):
 		dialogue_resource = with_dialogue_resource
 	if not title.is_empty():
 		start_from_title = title
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(start_from_title, temporary_game_states)
-	#Clears speaker portrait if there are no resources set (use for inspecting stuff maybe)
-	if DialogueManager.speaker_resources == []:
-		portrait_panel.set_deferred("visible", false)
 	show()
 
 
@@ -139,14 +137,22 @@ func apply_dialogue_line() -> void:
 	balloon.focus_mode = Control.FOCUS_ALL
 	balloon.grab_focus()
 
-	#character_label.visible = not dialogue_line.character.is_empty()
-	character_label.text = tr(dialogue_line.character, "dialogue")
+	var speaker_id : StringName = DM.resolve_speaker_id(dialogue_line)
+
+	#character_label.visible = speaker_id != &""
+	character_label.text = DM.get_active_display_name()
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
 
 	responses_menu.hide()
 	responses_menu.responses = dialogue_line.responses
+	var close_tex : Texture2D = DM.get_active_portrait_close()
+	portrait_panel.visible = close_tex != null
+	if close_tex != null:
+		portrait_texture.texture = close_tex
+	else:
+		portrait_texture.texture = null
 
 	# Show our balloon
 	balloon.show()
@@ -156,9 +162,12 @@ func apply_dialogue_line() -> void:
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
 		await dialogue_label.finished_typing
+		if close_tex != null:
+			portrait_texture.texture = close_tex
 
 	# Wait for next line
 	if dialogue_line.has_tag("voice"):
+		audio_stream_player.pitch_scale = 1.0
 		audio_stream_player.stream = load(dialogue_line.get_tag_value("voice"))
 		audio_stream_player.play()
 		await audio_stream_player.finished
@@ -167,7 +176,11 @@ func apply_dialogue_line() -> void:
 		balloon.focus_mode = Control.FOCUS_NONE
 		responses_menu.show()
 	elif dialogue_line.time != "":
-		var time = dialogue_line.text.length() * 0.02 if dialogue_line.time == "auto" else dialogue_line.time.to_float()
+		var time : float = 0.0
+		if dialogue_line.time == "auto":
+			time = float(dialogue_line.text.length()) * 0.02
+		else:
+			time = dialogue_line.time.to_float()
 		await get_tree().create_timer(time).timeout
 		next(dialogue_line.next_id)
 	else:
@@ -175,10 +188,13 @@ func apply_dialogue_line() -> void:
 		balloon.focus_mode = Control.FOCUS_ALL
 		balloon.grab_focus()
 
-
 ## Go to the next line
 func next(next_id: String) -> void:
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)
+
+
+func _exit_tree() -> void:
+	DM.clear_active_balloon(self)
 
 
 #region Signals
@@ -234,29 +250,48 @@ func _on_dialogue_label_spoke(letter: String, _letter_index: int, _speed: float)
 ## 0 = FULL, voice file plays rapidly.
 ## 1 = START, voice only plays at the beginning of text.
 ## 2 = OFF, no voice plays (This function should do nothing)
-func play_voice(letter:String)->void:
+func play_voice(letter : String) -> void:
+	if Options.voices_type == 2:
+		return
+	if dialogue_line != null and dialogue_line.has_tag("voice"):
+		return
+
+	if letter == " " or letter == ";" or letter == "." or letter == "?" or letter == "m" or letter == "!":
+		return
+
 	if Options.voices_type == 0:
-		if DialogueManager.speaker_resources != null:
-			if (letter == " " or letter == ";" or letter == "." or letter == "?" or letter == "m" or letter == "!"):
-				return
-			if DialogueManager.speaker_voice == null:
-				return
-			audio_stream_player.stream = DialogueManager.speaker_voice
-			audio_stream_player.play()
-	elif Options.voices_type == 1:
-		if DialogueManager.speaker_resources != null:
-			if DialogueManager.speaker_voice == null:
-				return
-			if dialogue_label.visible_characters == 1:
-				audio_stream_player.stream = DialogueManager.speaker_voice
-				audio_stream_player.play()
+		audio_stream_player.stream = DM.get_active_voice_stream()
+		audio_stream_player.pitch_scale = DM.pick_active_voice_pitch()
+		audio_stream_player.play()
+		return
+
+	if Options.voices_type == 1:
+		if dialogue_label.visible_characters != 1:
+			return
+		audio_stream_player.stream = DM.get_active_voice_stream()
+		audio_stream_player.pitch_scale = DM.pick_active_voice_pitch()
+		audio_stream_player.play()
 	
-func animate_face(letter:String)->void:
-	if Options.portrait_type == 0:
-		if DialogueManager.speaker_resources != null:
-			if (letter == " " or letter == ";" or letter == "." or letter == "?" or letter == "m" or letter == "!"):
-				portrait_texture.texture = DialogueManager.speaker_current_expression
-			elif dialogue_label.visible_characters % 6:
-				portrait_texture.texture = DialogueManager.speaker_talk_expression
-			pass
+func animate_face(letter : String) -> void:
+	var close_tex : Texture2D = DM.get_active_portrait_close()
+	if close_tex == null:
+		return
+
+	if Options.portrait_type != 0:
+		portrait_texture.texture = close_tex
+		return
+
+	var open_tex : Texture2D = DM.get_active_portrait_open()
+	if open_tex == null:
+		portrait_texture.texture = close_tex
+		return
+
+	if letter == " " or letter == ";" or letter == "." or letter == "?" or letter == "m" or letter == "!":
+		portrait_texture.texture = close_tex
+		return
+
+	if (dialogue_label.visible_characters % 6) == 0:
+		portrait_texture.texture = open_tex
+	else:
+		portrait_texture.texture = close_tex
 #endregion

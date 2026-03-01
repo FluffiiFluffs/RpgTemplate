@@ -2,48 +2,44 @@ using QuestManager
 using DM
 using CutsceneManager
 
-
 ~ npc1
 if quest_is_completed("quest0001") == false and has_quest("quest0001") == false
-	NPC1: [do set_portrait("npc", "normal")]Hello stranger. It looks like you do not have this quest yet. Go talk to the other NPC over there. I gave you a quest.[do advance_actions_taken("quest0001", 0)] 
+	npc_test_01: Hello stranger. It looks like you do not have this quest yet. Go talk to the other NPC over there. I gave you a quest.[do advance_actions_taken("quest0001", 0)]
 	do play_cutscene("CutsceneScript03")
 	=> END
 	#[do give_quest("quest0001")]
 elif quest_is_completed("quest0001") == false and on_step("quest0001") == 1
-	NPC1: [do set_portrait("npc", "angry")]You need to go talk to that other NPC over there. What are you waiting for. => END
+	npc_test_01: [#mood=angry] You need to go talk to that other NPC over there. What are you waiting for. => END
 elif quest_is_completed("quest0001") == false and on_step("quest0001") == 2
-	NPC1: [do set_portrait("npc", "happy")]You came back and talked to me.[do advance_actions_taken("quest0001", 2)] => END
+	npc_test_01: [#mood=happy] You came back and talked to me.[do advance_actions_taken("quest0001", 2)] => END
 elif quest_is_completed("quest0001") == true
-	NPC1: [do set_portrait("npc", "surprise")]Looks like you have completed the first quest. => END
-
+	npc_test_01: [#mood=surprise] Looks like you have completed the first quest. => END
 
 ~ npc2
 if quest_is_completed("quest0001") == false and has_quest("quest0001") == false
-	NPC2: [do set_portrait("npc", "angry")]You need to talk to the other NPC. I am not ready yet. => END
+	npc_test_02: [#mood=angry] You need to talk to the other NPC. I am not ready yet. => END
 elif quest_is_completed("quest0001") == false and on_step("quest0001") == 1
-	NPC2: [do set_portrait("npc", "normal")]You are talking to me. This is step 1. Now go talk to the first NPC.[do advance_actions_taken("quest0001", 01)] => END
+	npc_test_02: You are talking to me. This is step 1. Now go talk to the first NPC.[do advance_actions_taken("quest0001", 1)] => END
 elif quest_is_completed("quest0001") == false and on_step("quest0001") == 2
-	NPC2: [do set_portrait("npc", "angry")]I told you to go talk to the first NPC. What are you doing here. => END
+	npc_test_02: [#mood=angry] I told you to go talk to the first NPC. What are you doing here. => END
 elif quest_is_completed("quest0001") == true
-	NPC2: [do set_portrait("npc", "surprise")]Hey, you completed the first quest. => END
-
-
+	npc_test_02: [#mood=surprise] Hey, you completed the first quest. => END
 
 #~ dialoguecutscenetest01
-#	TESTNPC: [do set_portrait("npc", "normal")] I'm going to make you walk over to that marker over there.
-#	#make current player walk over to marker01 in test
+#	TESTNPC: I'm going to make you walk over to that marker over there.
+#	# make current player walk over to marker01 in test
 #	do play_cutscene("CutsceneScript02")
-#=> END
-#	
+#	=> END
+#
 #~ dialoguecutscenetest01_02
-#	TESTNPC: [do set_portrait("npc", "normal")] See, I made you move. => END
-#	
-#	
+#	TESTNPC: See, I made you move. => END
+
 ~ dialoguecutscenetest01
-NPC01: [do set_portrait("npc", "normal")] I'm going to make you walk over to that marker over there.
+npc_test_01: I'm going to make you walk over to that marker over there.
 # make current player walk over to marker01 in test
 do play_cutscene("CutsceneScript02")
 => END
 
 ~ dialoguecutscenetest01_02
-NPC01: [do set_portrait("npc", "normal")] See, I made you move.
+npc_test_01: See, I made you move.
+=> END

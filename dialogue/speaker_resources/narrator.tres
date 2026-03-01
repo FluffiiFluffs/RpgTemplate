@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="1_7leqg"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7leqg"]
-
 [resource]
 script = ExtResource("1_7leqg")
-normal_close = SubResource("AtlasTexture_7leqg")
+speaker_id = "NARRATOR"
+pronoun = 3
 metadata/_custom_type_script = "uid://dcki00a4qlvga"

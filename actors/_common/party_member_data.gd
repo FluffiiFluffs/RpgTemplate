@@ -7,6 +7,8 @@ extends ActorData
 @export var stats_sprite : Texture2D
 @export var class_color : Color = Color()
 
+@export var speaker_resource : SpeakerResource = null
+
 @export_category("Progression")
 ##Progress within the current level. On level up, threshold is subtracted as carryover.
 @export var current_exp : int = 0

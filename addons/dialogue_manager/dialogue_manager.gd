@@ -29,16 +29,13 @@ signal mutated(mutation: Dictionary)
 signal dialogue_ended(resource: DialogueResource)
 
 ## Used internally.
-signal bridge_get_next_dialogue_line_completed(line: DialogueLine)
+signal bridge_get_next_dialogue_line_completed(call_index: int, line: DialogueLine)
 
 ## Used internally.
-signal bridge_get_line_completed(line: DialogueLine)
+signal bridge_get_line_completed(call_index: int, line: DialogueLine)
 
 ## Used internally
-signal bridge_dialogue_started(resource: DialogueResource)
-
-## Used internally
-signal bridge_mutated()
+signal bridge_mutated(call_index: int)
 
 
 ## The list of globals that dialogue can query
@@ -70,20 +67,6 @@ var _dotnet_dialogue_manager: RefCounted
 
 var _expression_parser: DMExpressionParser = DMExpressionParser.new()
 
-#region code not present in original script
-var speaker_resources : Array[SpeakerResource]
-var current_balloon
-var speaker_current_expression : Texture
-var speaker_normal_expression : Texture
-var speaker_talk_expression : Texture
-var speaker_sad_expression : Texture
-var speaker_surprise_expression : Texture
-var speaker_angry_expression : Texture
-var speaker_happy_expression : Texture
-var speaker_special_expression : Texture
-var speaker_tired_expression : Texture
-var speaker_voice : AudioStream
-#endregion
 
 func _ready() -> void:
 	# Cache the known Node2D properties
@@ -324,12 +307,25 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 	if resource.lines.has(line.next_id):
 		var next_line: Dictionary = resource.lines.get(line.next_id)
 
+		# If the next line is an end and we have an ID trail then see if it points to responses
+		var peeked_at_stack: bool = false
+		if next_line.next_id == DMConstants.ID_END and stack.size() > 0:
+			peeked_at_stack = true
+			var return_to_resource = resource
+			var return_to_id: String = stack.front()
+			if "@" in return_to_id:
+				var bits: PackedStringArray = return_to_id.split("@")
+				if bits[0] != _get_resource_uid(resource):
+					return_to_resource = load("uid://" + bits[0])
+				return_to_id = bits[1]
+			next_line = return_to_resource.lines.get(return_to_id)
+
 		# If the response line is marked as a title then make sure to emit the passed_title signal.
 		if line.next_id in resource.titles.values():
 			passed_title.emit(resource.titles.find_key(line.next_id))
 
 		# If the responses come from a snippet then we need to come back here afterwards.
-		if next_line.type == DMConstants.TYPE_GOTO and next_line.is_snippet and not id_trail.begins_with("|" + _get_id_with_resource(resource, next_line.next_id_after)):
+		if not peeked_at_stack and next_line.type == DMConstants.TYPE_GOTO and next_line.is_snippet and not id_trail.begins_with("|" + _get_id_with_resource(resource, next_line.next_id_after)):
 			id_trail = "|" + _get_id_with_resource(resource, next_line.next_id_after) + id_trail
 
 		# If the next line is a title then check where it points to see if that is a set of responses.
@@ -343,142 +339,6 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 
 	line.next_id = "|".join(stack) if line.next_id == DMConstants.ID_NULL else _get_id_with_resource(resource, line.next_id) + id_trail
 	return line
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#region Code not present in original script.
-
-##Puts resources into speaker_resources array (will be used in loop)
-func _set_resources(_resources : Array[SpeakerResource])->void:
-	_clear_speaker_resources()
-	speaker_resources = _resources
-	pass
-
-##Clears speaker_resources array after dialgoue has completed
-func _clear_speaker_resources()->void:
-	speaker_resources = []
-
-func _set_portrait(_speaker : String, _expression : String) -> void:
-	current_balloon.portrait_panel.set_deferred("visible", true)
-	# No resources at all
-	if speaker_resources == []:
-		current_balloon.portrait_panel.set_deferred("visible", false)
-		push_warning("DialogueManager: No speaker_resources set, cannot set portrait.")
-		return
-	if _speaker == "" and _expression == "":
-		current_balloon.portrait_panel.set_deferred("visible", false)
-		return
-	
-	# Find the matching SpeakerResource by name in the speaker_resources array
-	var speaker : SpeakerResource = null
-	for s in speaker_resources:
-		if s == null:
-			continue
-		if s.name.to_lower() == _speaker.to_lower():
-			speaker = s
-			break
-	
-	#Sets the current speaker voice when a new portrait is set.
-	if speaker.voice != null:
-		speaker_voice = speaker.voice
-	else:
-		speaker_voice = null
-	
-	#stores expressions in variables to be used during talk
-	if speaker.normal != null:
-		speaker_normal_expression = speaker.normal
-	if speaker.talk != null:
-		speaker_talk_expression = speaker.talk
-	if speaker.sad != null:
-		speaker_sad_expression = speaker.sad
-	if speaker.surprise != null:
-		speaker_surprise_expression = speaker.surprise
-	if speaker.angry != null:
-		speaker_angry_expression = speaker.angry
-	if speaker.special != null: 
-		speaker_special_expression = speaker.surprise
-	if speaker.tired != null:
-		speaker_tired_expression = speaker.tired
-
-	# Normalize expression string so dialog data can be case insensitive
-	var expr := _expression.to_lower()
-
-	# Pick the texture that corresponds to the expression
-	match expr:
-		"normal":
-			if speaker.normal != null:
-				current_balloon.portrait_texture.texture = speaker.normal
-				speaker_current_expression = speaker.normal
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"talk", "talking":
-			if speaker.talk != null:
-				current_balloon.portrait_texture.texture = speaker.talk
-				speaker_talk_expression = speaker.talk
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"sad":
-			if speaker.sad != null:
-				current_balloon.portrait_texture.texture = speaker.sad
-				speaker_current_expression = speaker.sad
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"surprise":
-			if speaker.surprise != null:
-				current_balloon.portrait_texture.texture = speaker.surprise
-				speaker_current_expression = speaker.surprise
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"angry":
-			if speaker.angry != null:
-				current_balloon.portrait_texture.texture = speaker.angry
-				speaker_current_expression = speaker.angry
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"happy":
-			if speaker.happy != null:
-				current_balloon.portrait_texture.texture = speaker.happy
-				speaker_current_expression = speaker.happy
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"special":
-			if speaker.special != null:
-				current_balloon.portrait_texture.texture = speaker.special
-				speaker_special_expression = speaker.special
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		"tired":
-			if speaker.tired != null:
-				current_balloon.portrait_texture.texture = speaker.tired
-				speaker_current_expression = speaker.tired
-			else:
-				printerr("DialogueManager tried to set '%s' expression, but does not exist!" % _expression)
-		_:
-			printerr("DialogueManager tried to set expression '%s', but it is not handled in _set_portrait." % _expression)
-#endregion
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## Replace any variables, etc in the text.
@@ -528,44 +388,74 @@ func get_resolved_line_data(data: Dictionary, extra_game_states: Array = []) -> 
 				body = bits[0]
 				body_else = bits[1]
 			var condition: Dictionary = compilation.extract_condition("if " + condition_raw, false, 0)
+			var condition_passed: bool = await _check_condition({ condition = condition }, extra_game_states)
 			# If the condition fails then use the else of ""
-			if not await _check_condition({ condition = condition }, extra_game_states):
+			if not condition_passed:
 				body = body_else
 			replacements.append({
 				start = conditional.get_start(),
 				end = conditional.get_end(),
 				string = conditional.get_string(),
-				body = body
+				body = body,
+				condition_passed = condition_passed
 			})
 
 		for i in range(replacements.size() - 1, -1, -1):
 			var r: Dictionary = replacements[i]
 			resolved_text = resolved_text.substr(0, r.start) + r.body + resolved_text.substr(r.end, 9999)
 			# Move any other markers now that the text has changed
-			var offset: int = r.end - r.start - r.body.length()
-			for key in [&"speeds", &"time"]:
-				if markers.get(key) == null: continue
-				var marker = markers.get(key)
-				var next_marker: Dictionary = {}
-				for index in marker:
-					if index < r.start:
-						next_marker[index] = marker[index]
-					elif index > r.start:
-						next_marker[index - offset] = marker[index]
-				markers.set(key, next_marker)
-			var mutations: Array[Array] = markers.mutations
-			var next_mutations: Array[Array] = []
-			for mutation in mutations:
-				var index = mutation[0]
-				if index < r.start:
-					next_mutations.append(mutation)
-				elif index > r.start:
-					next_mutations.append([index - offset, mutation[1]])
-			markers.mutations = next_mutations
+			_shift_markers(markers, r.start, r.end, r.body.length(), r.condition_passed)
+
+		var image_tags: Array[RegExMatch] = compilation.regex.IMAGE_TAGS_REGEX.search_all(resolved_text)
+		for image_tag: RegExMatch in image_tags:
+			# The [img] and [/img] tags have already been accounted for so now we just need to
+			# adjust for the path length.
+			var path_length: int = image_tag.get_string(image_tag.names.path).length()
+			_shift_markers(markers, image_tag.get_start(), image_tag.get_start() + path_length, 0)
 
 		markers.text = resolved_text
 
 	return markers
+
+
+func _shift_markers(markers: DMResolvedLineData, removed_start: int, removed_end: int, body_length: int, keep_inner: bool = true) -> void:
+	# Calculate the offset for markers after the removed range
+	var after_offset: int = removed_end - removed_start - body_length
+
+	for key in [&"speeds", &"time"]:
+		if markers.get(key) == null: continue
+		var marker = markers.get(key)
+		var next_marker: Dictionary = {}
+		for index in marker:
+			if index < removed_start:
+				next_marker[index] = marker[index]
+			elif index >= removed_end:
+				next_marker[index - after_offset] = marker[index]
+			elif keep_inner:
+				# Marker is inside the conditional range and should be kept
+				# Shift it to account for the [if] tag being removed
+				next_marker[removed_start] = marker[index]
+			else:
+				# marker is inside a failed conditional, remove it
+				continue
+		markers.set(key, next_marker)
+
+	var mutations: Array[Array] = markers.mutations
+	var next_mutations: Array[Array] = []
+	for mutation in mutations:
+		var index = mutation[0]
+		if index < removed_start:
+			next_mutations.append(mutation)
+		elif index >= removed_end:
+			next_mutations.append([index - after_offset, mutation[1]])
+		elif keep_inner:
+			# Mutation is inside the conditional range and should be kept
+			# Shift it to account for the [if] tag being removed
+			next_mutations.append([removed_start, mutation[1]])
+		else:
+			# mutation is inside a failed conditional, remove it
+			continue
+	markers.mutations = next_mutations
 
 
 ## Replace any variables, etc in the character name
@@ -639,10 +529,9 @@ func show_dialogue_balloon_scene(balloon_scene, resource: DialogueResource, titl
 		balloon_scene = balloon_scene.instantiate()
 
 	var balloon: Node = balloon_scene
-	current_balloon = balloon
-	
 	_start_balloon.call_deferred(balloon, resource, title, extra_game_states)
 	return balloon
+
 
 ## Resolve a static line ID to an actual line ID
 func static_id_to_line_id(resource: DialogueResource, static_id: String) -> String:
@@ -655,29 +544,12 @@ func static_id_to_line_id(resource: DialogueResource, static_id: String) -> Stri
 func static_id_to_line_ids(resource: DialogueResource, static_id: String) -> PackedStringArray:
 	return resource.lines.values().filter(func(l): return l.get(&"translation_key", "") == static_id).map(func(l): return l.id)
 
-#region original _start_balloon function
-## Call "start" on the given balloon.
-#func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
-	#get_current_scene.call().add_child(balloon)
-#
-	#if balloon.has_method(&"start"):
-		#balloon.start(resource, title, extra_game_states)
-	#elif balloon.has_method(&"Start"):
-		#balloon.Start(resource, title, extra_game_states)
-	#else:
-		#assert(false, DMConstants.translate(&"runtime.dialogue_balloon_missing_start_method"))
-#
-	#dialogue_started.emit(resource)
-	#bridge_dialogue_started.emit(resource)
-#endregion
-	
-func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
-	get_current_scene.call().add_child(balloon)
 
-	# Portrait panel visibility based on speaker_resources
-	if balloon.has_node("PortraitPanel"):
-		var portrait_panel: Control = balloon.get_node("PortraitPanel")
-		portrait_panel.visible = not speaker_resources.is_empty()
+# Call "start" on the given balloon.
+func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
+	dialogue_started.emit(resource)
+
+	get_current_scene.call().add_child(balloon)
 
 	if balloon.has_method(&"start"):
 		balloon.start(resource, title, extra_game_states)
@@ -686,26 +558,13 @@ func _start_balloon(balloon: Node, resource: DialogueResource, title: String, ex
 	else:
 		assert(false, DMConstants.translate(&"runtime.dialogue_balloon_missing_start_method"))
 
-	dialogue_started.emit(resource)
-	bridge_dialogue_started.emit(resource)
-
-#region Original _get_example_balloon_path script
-## Get the path to the example balloon
-#func _get_example_balloon_path() -> String:
-	#var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
-	#var balloon_path: String = "/example_balloon/small_example_balloon.tscn" if is_small_window else "/example_balloon/example_balloon.tscn"
-	#return get_script().resource_path.get_base_dir() + balloon_path
-#endregion
-
 
 # Get the path to the example balloon
 func _get_example_balloon_path() -> String:
-	var balloon_path: String = "res://dialogue/balloons/balloon.tscn"
-	return balloon_path
-	
-	
-	
-	
+	var is_small_window: bool = ProjectSettings.get_setting("display/window/size/viewport_width") < 400
+	var balloon_path: String = "/example_balloon/small_example_balloon.tscn" if is_small_window else "/example_balloon/example_balloon.tscn"
+	return get_script().resource_path.get_base_dir() + balloon_path
+
 
 #endregion
 
@@ -718,42 +577,26 @@ func _get_dotnet_dialogue_manager() -> RefCounted:
 	return _dotnet_dialogue_manager
 
 
-func _bridge_get_new_instance() -> Node:
-	# For some reason duplicating the node with its signals doesn't work so we have to copy them over manually
-	var instance = new()
-	for s: Dictionary in dialogue_started.get_connections():
-		instance.dialogue_started.connect(s.callable)
-	for s: Dictionary in passed_title.get_connections():
-		instance.passed_title.connect(s.callable)
-	for s: Dictionary in got_dialogue.get_connections():
-		instance.got_dialogue.connect(s.callable)
-	for s: Dictionary in mutated.get_connections():
-		instance.mutated.connect(s.callable)
-	for s: Dictionary in dialogue_ended.get_connections():
-		instance.dialogue_ended.connect(s.callable)
-	instance.get_current_scene = get_current_scene
-	return instance
-
-
-func _bridge_get_next_dialogue_line(resource: DialogueResource, key: String, extra_game_states: Array = [], mutation_behaviour: int = DMConstants.MutationBehaviour.Wait) -> void:
+func _bridge_get_next_dialogue_line(call_id: int, resource: DialogueResource, key: String, extra_game_states: Array = [], mutation_behaviour: int = DMConstants.MutationBehaviour.Wait) -> void:
 	# dotnet needs at least one await tick of the signal gets called too quickly
 	await Engine.get_main_loop().process_frame
 	var line = await _get_next_dialogue_line(resource, key, extra_game_states, mutation_behaviour)
-	bridge_get_next_dialogue_line_completed.emit(line)
+	bridge_get_next_dialogue_line_completed.emit(call_id, line)
 	if line == null:
 		# End the conversation
 		dialogue_ended.emit(resource)
 
 
-func _bridge_get_line(resource: DialogueResource, key: String, extra_game_states: Array = []) -> void:
+func _bridge_get_line(call_id: int, resource: DialogueResource, key: String, extra_game_states: Array = []) -> void:
 	# dotnet needs at least one await tick of the signal gets called too quickly
 	await Engine.get_main_loop().process_frame
 	var line = await get_line(resource, key, extra_game_states)
-	bridge_get_line_completed.emit(line)
+	bridge_get_line_completed.emit(call_id, line)
 
-func _bridge_mutate(mutation: Dictionary, extra_game_states: Array, is_inline_mutation: bool = false) -> void:
+
+func _bridge_mutate(call_id: int, mutation: Dictionary, extra_game_states: Array, is_inline_mutation: bool = false) -> void:
 	await _mutate(mutation, extra_game_states, is_inline_mutation)
-	bridge_mutated.emit()
+	bridge_mutated.emit(call_id)
 
 
 func _bridge_get_error_message(error: int) -> String:
@@ -898,7 +741,21 @@ func _get_game_states(extra_game_states: Array) -> Array:
 
 # Check if a condition is met
 func _check_condition(data: Dictionary, extra_game_states: Array) -> bool:
-	return bool(await _resolve_condition_value(data, extra_game_states))
+	var result: Variant = await _resolve_condition_value(data, extra_game_states)
+	if typeof(result) in [
+		TYPE_STRING, TYPE_STRING_NAME, \
+		TYPE_DICTIONARY, \
+		TYPE_ARRAY, TYPE_PACKED_BYTE_ARRAY, TYPE_PACKED_COLOR_ARRAY, \
+		TYPE_PACKED_FLOAT32_ARRAY, TYPE_PACKED_FLOAT64_ARRAY, \
+		TYPE_PACKED_INT32_ARRAY, TYPE_PACKED_INT64_ARRAY, \
+		TYPE_PACKED_STRING_ARRAY, \
+		TYPE_PACKED_VECTOR2_ARRAY, TYPE_PACKED_VECTOR3_ARRAY, TYPE_PACKED_VECTOR4_ARRAY]:
+			return (result as String).is_empty()
+
+	if result is Node or result is Resource:
+		return is_instance_valid(result)
+
+	return bool(result)
 
 
 # Resolve a condition's expression value
@@ -971,7 +828,7 @@ func _mutate(mutation: Dictionary, extra_game_states: Array, is_inline_mutation:
 
 	# Or pass through to the resolver
 	else:
-		if not _mutation_contains_assignment(mutation.expression) and not is_inline_mutation:
+		if not _mutation_contains_assignment(mutation.expression):
 			mutated.emit(mutation.merged({ is_inline = is_inline_mutation }))
 
 		if mutation.get("is_blocking", true):
@@ -1176,7 +1033,7 @@ func _resolve(tokens: Array, extra_game_states: Array):
 				var caller: Dictionary = tokens[i - 2]
 				if Builtins.is_supported(caller.value):
 					caller.type = DMConstants.TOKEN_VALUE
-					caller.value = Builtins.resolve_method(caller.value, function_name, args)
+					caller.value = await Builtins.resolve_method(caller.value, function_name, args)
 					tokens.remove_at(i)
 					tokens.remove_at(i - 1)
 					i -= 2
@@ -1390,7 +1247,7 @@ func _resolve(tokens: Array, extra_game_states: Array):
 					if Builtins.is_supported(caller.value):
 						caller.value = Builtins.resolve_property(caller.value, property)
 					else:
-						caller.value = caller.value.get(property)
+						caller.value = _resolve_thing_property(caller.value, property)
 				tokens.remove_at(i)
 				tokens.remove_at(i - 1)
 				i -= 2
@@ -1647,6 +1504,8 @@ func _thing_has_method(thing, method: String, args: Array) -> bool:
 	if thing.has_method(method):
 		return true
 
+	if thing is Script:
+		thing = thing.new()
 	if thing.get_script() and thing.get_script().resource_path.ends_with(".cs"):
 		# If we get this far then the method might be a C# method with a Task return type
 		return _get_dotnet_dialogue_manager().ThingHasMethod(thing, method, args)
@@ -1696,7 +1555,7 @@ func _get_method_info_for(thing: Variant, method: String, args: Array) -> Dictio
 
 func _resolve_thing_method(thing, method: String, args: Array):
 	if Builtins.is_supported(thing):
-		var result = Builtins.resolve_method(thing, method, args)
+		var result = await Builtins.resolve_method(thing, method, args)
 		if not Builtins.has_resolve_method_failed():
 			return result
 
@@ -1730,15 +1589,33 @@ func _resolve_thing_method(thing, method: String, args: Array):
 		return await thing.callv(method, args)
 
 	# If we get here then it's probably a C# method with a Task return type
+	if thing is Script:
+		thing = thing.new()
 	var dotnet_dialogue_manager = _get_dotnet_dialogue_manager()
-	dotnet_dialogue_manager.ResolveThingMethod(thing, method, args)
-	return await dotnet_dialogue_manager.Resolved
+	var id: float = randf()
+	dotnet_dialogue_manager.ResolveThingMethod(id, thing, method, args)
+	var x: int = 0
+	while x < 1000:
+		var result = await dotnet_dialogue_manager.Resolved
+		if result[0] == id:
+			return result[1]
+		x += 1
+
+
+func _resolve_thing_property(thing: Object, property: String) -> Variant:
+	if thing == null:
+		return false
+
+	if thing.get_script() and thing.get_script().resource_path.ends_with(".cs"):
+		# If we get this far then the property might be a C# constant.
+		return _get_dotnet_dialogue_manager().ResolveThingConstant(thing, property)
+
+	return thing.get(property)
 
 
 func _get_resource_uid(resource: DialogueResource) -> String:
-	return ResourceUID.path_to_uid(resource.resource_path).replace("uid://", "")
+	return ResourceUID.id_to_text(ResourceLoader.get_resource_uid(resource.resource_path)).replace("uid://", "")
 
 
 func _get_id_with_resource(resource: DialogueResource, id: String) -> String:
 	return id if "@" in id else "%s@%s" % [_get_resource_uid(resource), id]
-#endregion

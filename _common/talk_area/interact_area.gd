@@ -2,8 +2,7 @@ class_name InteractArea
 extends Area2D
 
 
-###Use if there should be speakers present during the interaction
-@export var speakers : Array[SpeakerResource] = []
+
 ###Dialogue resource to be used
 @export var dialogue : Resource
 ##Debug flag. Needs to be off by default.[br]

@@ -13,12 +13,14 @@
 [ext_resource type="Texture2D" uid="uid://blhljtey8f2rs" path="res://_assets/dialogue/portraits/healer/healer_surprised_open.png" id="11_v7t54"]
 [ext_resource type="Texture2D" uid="uid://o1ttwaktextl" path="res://_assets/dialogue/portraits/healer/healer_tired_close.png" id="12_q076k"]
 [ext_resource type="Texture2D" uid="uid://vs043c0qas84" path="res://_assets/dialogue/portraits/healer/healer_tired_open.png" id="13_ftcj5"]
+[ext_resource type="AudioStream" uid="uid://cgqn5gb21o8hu" path="res://_assets/dialogue/voices/placeholder_voices/snd_txttor.wav" id="14_v6j43"]
 
 [resource]
 script = ExtResource("1_mmwqi")
 speaker_id = "healer04"
 display_name = "Healer"
 pronoun = 3
+voice = ExtResource("14_v6j43")
 angry_close = ExtResource("1_fdmkf")
 angry_open = ExtResource("2_v6j43")
 happy_close = ExtResource("3_3rtfe")

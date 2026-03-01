@@ -9,7 +9,8 @@ func _ready()->void:
 	super()
 
 func _start_dialog() -> void:
-	if dialogue != null:
-		super()
-		DialogueManager._set_resources(speakers.duplicate())
-		DialogueManager.show_dialogue_balloon(dialogue, start_position)
+	if dialogue == null:
+		return
+
+	super()
+	DM.show_dialogue(dialogue, start_position)

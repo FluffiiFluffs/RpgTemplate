@@ -50,20 +50,20 @@ func _ready()->void:
 
 
 func _connect_dialogue_pause()->void:
-	DialogueManager.dialogue_started.connect(_on_dialogue_started)
-	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+	DM.dialogue_session_started.connect(_on_dialogue_session_started)
+	DM.dialogue_session_ended.connect(_on_dialogue_session_ended)
 
-
-func _on_dialogue_started(_resource : Resource)->void:
+func _on_dialogue_session_started(_resource : Resource)->void:
 	if GameState.gamestate == GameState.State.FIELD:
 		GameState.gamestate = GameState.State.DIALOGUE
 	set_field_enemies_paused(true)
 
-
-func _on_dialogue_ended(_resource : Resource)->void:
+func _on_dialogue_session_ended(_resource : Resource)->void:
+	# DialogueManager.dialogue_ended can occur before the balloon is actually removed.
+	# DM emits dialogue_session_ended only after the balloon has been cleared/invalidated.
 	if GameState.gamestate == GameState.State.DIALOGUE:
 		GameState.gamestate = GameState.State.FIELD
-	set_field_enemies_paused(false)
+		set_field_enemies_paused(false)
 
 
 func set_field_enemies_paused(paused : bool)->void:
@@ -93,6 +93,9 @@ func set_field_enemies_paused(paused : bool)->void:
 func load_field_scene(scene_path : String, scene_transition_target: String)->void:
 	is_loading_field_scene = true
 	load_started.emit()
+	
+	DM.force_cleanup_dialogue_session()
+	
 	
 	#play transition begin
 	main_scene.transition_layer.play_begin()
@@ -139,7 +142,7 @@ func load_title_scene()->void:
 	is_loading_field_scene = true
 	GameState.gamestate = GameState.State.INTRO
 	load_started.emit()
-	
+	DM.force_cleanup_dialogue_session()
 	#Clear out the field party nodes array so it can be populated again
 	CharDataKeeper.field_party_nodes.clear()
 	#Clear the controlled character, too

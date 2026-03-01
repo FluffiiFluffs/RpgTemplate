@@ -31,6 +31,7 @@
 [ext_resource type="Resource" uid="uid://v2vvl3md0g3p" path="res://skill/skills/defensedowntest/defensedown3test.tres" id="30_wd4ak"]
 [ext_resource type="Resource" uid="uid://wpwlhpwghg7v" path="res://skill/skills/magicuptest/magicuptest.tres" id="31_ugfmh"]
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="32_0eaty"]
+[ext_resource type="Resource" uid="uid://crmq4n28pcxa8" path="res://dialogue/speaker_resources/mage03_sr.tres" id="32_5bdyq"]
 [ext_resource type="Resource" uid="uid://bx5pxuqoro0ds" path="res://skill/skills/magicdowntest/magicdowntest.tres" id="32_wd4ak"]
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="33_wd4ak"]
 
@@ -43,10 +44,11 @@ metadata/_custom_type_script = "uid://curfpkctgy4ww"
 resource_local_to_scene = true
 script = ExtResource("1_kx4ho")
 class_color = Color(0.4862745, 0, 0.4862745, 1)
+speaker_resource = ExtResource("32_5bdyq")
 stats_table = ExtResource("33_wd4ak")
 field_scene = ExtResource("2_rd2pk")
 battle_icon = ExtResource("8_ugfmh")
-actor_id = &"mage_03"
+actor_id = &"mage03"
 display_name = "Mage"
 actor_class = 2
 current_sp = 50

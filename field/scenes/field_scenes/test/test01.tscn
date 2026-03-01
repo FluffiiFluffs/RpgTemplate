@@ -5,10 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cy22favvd1vsj" path="res://_common/scene_transition/scene_transition.tscn" id="3_bnmu4"]
 [ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/3_npc/npc_scenes/base/npc.tscn" id="7_rushk"]
 [ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="9_wu166"]
-[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="10_kt4hr"]
-[ext_resource type="AudioStream" uid="uid://clfy2wien445d" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtsus.wav" id="12_h2dnb"]
 [ext_resource type="Script" uid="uid://b6uulr3b28gbn" path="res://cutscene/_common/cutscene_area.gd" id="13_h4dcs"]
-[ext_resource type="AudioStream" uid="uid://s06yi0c2pjq7" path="res://_assets/dialogue/voices/placeholder_voices/snd_txtral.wav" id="13_hppd8"]
 [ext_resource type="PackedScene" uid="uid://bpheiglew657y" path="res://cutscene/_common/cutscene_marker.tscn" id="13_uy666"]
 [ext_resource type="Resource" uid="uid://dc52sh8wntptq" path="res://dialogue/new_quest_dialogue.dialogue" id="14_k2s2j"]
 [ext_resource type="Script" uid="uid://ccg8s63bglcau" path="res://cutscene/_common/cutscene_script.gd" id="14_xo7o1"]
@@ -23,54 +20,6 @@
 [ext_resource type="Script" uid="uid://dbeyleu2ccipg" path="res://cutscene/_common/cutscene_changescene.gd" id="22_ifaer"]
 [ext_resource type="Script" uid="uid://gc4vxr88hmeg" path="res://cutscene/_common/cutscene_instantiate.gd" id="23_wuunf"]
 [ext_resource type="Script" uid="uid://bkfkcx7phsu18" path="res://cutscene/_common/cutscene_queuefree.gd" id="24_yty8o"]
-
-[sub_resource type="Resource" id="Resource_wuunf"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("12_h2dnb")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_idanm"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("13_hppd8")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_54el5"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("12_h2dnb")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_7114b"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("13_hppd8")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_508rm"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("12_h2dnb")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_d3t3w"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("13_hppd8")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_i40x4"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("13_hppd8")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
-
-[sub_resource type="Resource" id="Resource_ycc3c"]
-resource_local_to_scene = true
-script = ExtResource("10_kt4hr")
-voice = ExtResource("13_hppd8")
-metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugp46"]
 size = Vector2(16, 64)
@@ -255,7 +204,6 @@ display_name = "TestQuestNPC01"
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC" unique_id=1438587103 instance=ExtResource("9_wu166")]
 start_position = "npc1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_wuunf"), SubResource("Resource_idanm")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="NPC2" parent="FieldActors/PlacedNPCs" unique_id=1482229836 instance=ExtResource("7_rushk")]
@@ -264,7 +212,6 @@ display_name = "TestQuestNPC02"
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC2" unique_id=1831271577 instance=ExtResource("9_wu166")]
 start_position = "npc2"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_54el5"), SubResource("Resource_7114b")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="NPC3" parent="FieldActors/PlacedNPCs" unique_id=1332659260 instance=ExtResource("7_rushk")]
@@ -279,7 +226,6 @@ field_actor_id = &"dialogue_cutscene_npc_01"
 
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC4" unique_id=447987433 instance=ExtResource("9_wu166")]
 start_position = "dialoguecutscenetest01"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_508rm"), SubResource("Resource_d3t3w")])
 dialogue = ExtResource("14_k2s2j")
 
 [node name="Party" type="Node2D" parent="FieldActors" unique_id=1665240552]
@@ -311,7 +257,6 @@ z_index = 1
 item_here = true
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_i40x4")])
 
 [node name="Trashcan2" parent="Interactables" unique_id=81467877 instance=ExtResource("15_pg0n8")]
 position = Vector2(571, -167)
@@ -321,7 +266,6 @@ z_index = 1
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
 open = true
-speakers = Array[ExtResource("10_kt4hr")]([SubResource("Resource_ycc3c")])
 
 [node name="Triggers" type="Node2D" parent="." unique_id=300703836]
 unique_name_in_owner = true

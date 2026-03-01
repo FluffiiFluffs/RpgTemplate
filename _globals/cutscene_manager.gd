@@ -137,7 +137,7 @@ func _play_cutscene_async(cutscene_id : StringName, script : CutsceneScript) -> 
 	if _active_pause_entities != CutsceneScript.PENTITIES.NONE:
 		GameState.gamestate = GameState.State.CUTSCENE
 		did_set_cutscene_gamestate = true
-
+		SceneManager.set_field_enemies_paused(true)
 	cutscene_start.emit(cutscene_id)
 
 	_camera_override_entries.clear()
@@ -156,14 +156,19 @@ func _play_cutscene_async(cutscene_id : StringName, script : CutsceneScript) -> 
 			# One frame gives the balloon time to close.
 			await get_tree().process_frame
 
-			if _has_active_dialogue_balloon():
+			if DM.has_active_balloon():
 				restore_state = GameState.State.DIALOGUE
 			else:
 				restore_state = GameState.State.FIELD
 
 		if GameState.gamestate == GameState.State.CUTSCENE:
 			GameState.gamestate = restore_state
-
+			
+		if GameState.gamestate == GameState.State.FIELD:
+			SceneManager.set_field_enemies_paused(false)
+		elif GameState.gamestate == GameState.State.DIALOGUE:
+			SceneManager.set_field_enemies_paused(true)
+			
 	await _restore_camera_overrides_async()
 	cutscene_end.emit(cutscene_id)
 	_finish_cutscene()
@@ -433,14 +438,12 @@ func _run_dialogue(action : CutsceneDialogue) -> void:
 	if start_title.is_empty():
 		start_title = "start"
 
-	DialogueManager._set_resources(action.speakers.duplicate())
-	DialogueManager.show_dialogue_balloon(action.dialogue_resource, start_title)
+	DM.show_dialogue(action.dialogue_resource, start_title)
 
 	while true:
-		var ended_resource : Resource = await DialogueManager.dialogue_ended
+		var ended_resource : Resource = await DM.dialogue_session_ended
 		if ended_resource == action.dialogue_resource:
 			break
-
 #endregion
 
 #region Action handlers: Scene and spawning
@@ -460,11 +463,7 @@ func _run_change_scene(action : CutsceneChangeScene) -> void:
 
 	# If this cutscene was triggered from dialogue, close the balloon so GameState can
 	# restore to FIELD after the scene load.
-	var balloon : Node = DialogueManager.current_balloon
-	if balloon != null:
-		if is_instance_valid(balloon):
-			balloon.queue_free()
-		DialogueManager.current_balloon = null
+	DM.force_cleanup_dialogue_session()
 
 	# Restore camera rig properties before the scene load so we do not carry cutscene
 	# overrides into the new field scene.
@@ -500,6 +499,10 @@ func _run_instantiate(action : CutsceneInstantiate) -> void:
 	if parent == null:
 		push_error("CutsceneManager: CutsceneInstantiate could not resolve a parent for type")
 		return
+
+	# CutsceneArea triggers can arrive during physics query flushing.
+	# Defer spawning to the next frame so physics state changes do not error.
+	await get_tree().process_frame
 
 	var spawned_actors : Array[FieldActor] = []
 
@@ -800,22 +803,14 @@ func _exit_cutscene_states() -> void:
 
 #region Dialogue helpers
 func _has_active_dialogue_balloon() -> bool:
-	var scene = DialogueManager.get_current_scene.call()
-	if scene == null:
+	var balloon : Node = DM.active_balloon
+	if balloon == null:
 		return false
-
-	var stack : Array[Node] = [scene]
-	while stack.size() > 0:
-		var n : Node = stack.pop_back()
-
-		if n is DialogBalloon:
-			if not n.is_queued_for_deletion():
-				return true
-
-		for child in n.get_children():
-			stack.append(child)
-
-	return false
+	if not is_instance_valid(balloon):
+		return false
+	if balloon.is_queued_for_deletion():
+		return false
+	return true
 
 #endregion
 
@@ -1040,7 +1035,7 @@ func _run_wait(action : CutsceneWait) -> void:
 		return
 
 	# process_always = true so the timer still advances even if the tree is paused elsewhere.
-	var timer := get_tree().create_timer(t, true)
+	var timer = get_tree().create_timer(t, true)
 	await timer.timeout
 	
 	

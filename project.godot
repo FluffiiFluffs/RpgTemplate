@@ -24,12 +24,12 @@ buses/default_bus_layout="uid://btilvb7dmfjmd"
 [autoload]
 
 GameState="*res://_globals/game_state.tscn"
+DialogueManager="*uid://c3rodes2l3gxb"
 Options="*res://_globals/options.tscn"
 GameMenu="*res://_globals/gui/game_menu/game_menu_ui.tscn"
 SceneManager="*res://_globals/scene_manager.tscn"
 CharDataKeeper="*res://_globals/chardata_keeper.tscn"
 SaveManager="*res://_globals/save_manager.tscn"
-DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 QuestManager="*res://_globals/quest_manager.tscn"
 DM="*res://_globals/dm_helper.gd"
 Inventory="*res://_globals/inventory_manager.tscn"
