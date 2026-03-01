@@ -1,6 +1,6 @@
 [Big Changes]
 	#Implement cutscenes
-		Cutscenes have been mostly implemented, but the system could use some refinement
+		**Cutscenes have been mostly implemented, but the system could use some refinement**
 
 	#Implement save/load system
 		Also implement persistence system between scenes for certain things like opening chests
@@ -30,11 +30,12 @@
 
 	Implement character naming similar to mother series with "don't care" option
 		
-	Check DialogueManager code to try to figure out if some things implemented were already in place by default
-		within the dialoguemanager addon (specifically the portrait thing)
+	#Check DialogueManager code to try to figure out if some things implemented were already in place by default
+	#	within the dialoguemanager addon (specifically the portrait thing)
+	#** Dialogue Manager handling has been reworked so that dm_helper handles almost everything. SpeakerResource reworked. Easier authoring within dialogue scripts. Also added the ability to use PLAYER: to use the speaker resource attached to the currently controlled party member's SpeakerResource.
 		
 	#Implement title screen / intro sequence
-		a baseline version of this has been implemented, complete with a menu for options
+		**a baseline version of this has been implemented, complete with a menu for options**
 		loading menu needs to be implemented
 		
 	Implement shop system

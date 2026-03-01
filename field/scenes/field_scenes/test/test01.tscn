@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bjyew63ska2p1" path="res://field/scenes/template/field_scene.gd" id="1_m38he"]
 [ext_resource type="TileSet" uid="uid://cymwc6uife640" path="res://field/tilesets/testtileset.tres" id="2_05i5j"]
+[ext_resource type="PackedScene" uid="uid://dax8kjf0kb0pe" path="res://actors/_common/state_flags/state_flag_test/state_flag_test.tscn" id="3_ahd2c"]
 [ext_resource type="PackedScene" uid="uid://cy22favvd1vsj" path="res://_common/scene_transition/scene_transition.tscn" id="3_bnmu4"]
 [ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/3_npc/npc_scenes/base/npc.tscn" id="7_rushk"]
 [ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="9_wu166"]
@@ -242,7 +243,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="SceneTransition" parent="Markers/PlayerSpawn" unique_id=497557306 instance=ExtResource("3_bnmu4")]
-position = Vector2(9, -51)
+position = Vector2(496, 63)
 target_transition_area = ""
 
 [node name="Interactables" type="Node2D" parent="." unique_id=1198132726]
@@ -266,6 +267,9 @@ z_index = 1
 item_here_start = "trashcan1"
 item_not_here_start = "trashcan1"
 open = true
+
+[node name="StateFlagTest" parent="Interactables" unique_id=905538605 instance=ExtResource("3_ahd2c")]
+position = Vector2(608, 75)
 
 [node name="Triggers" type="Node2D" parent="." unique_id=300703836]
 unique_name_in_owner = true

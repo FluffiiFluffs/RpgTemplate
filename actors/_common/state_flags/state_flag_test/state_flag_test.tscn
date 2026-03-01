@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dax8kjf0kb0pe"]
+
+[ext_resource type="Script" uid="uid://ebbq5oud7mmj" path="res://actors/_common/state_flags/state_flag_test/state_flag_test.gd" id="1_g23p5"]
+[ext_resource type="Script" uid="uid://c6q2h4bx1mq60" path="res://actors/_common/state_flags/state_flag.gd" id="2_dpr5t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4yv14"]
+size = Vector2(12, 12)
+
+[sub_resource type="Gradient" id="Gradient_g23p5"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dpr5t"]
+gradient = SubResource("Gradient_g23p5")
+width = 12
+height = 12
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_4yv14"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g23p5"]
+gradient = SubResource("Gradient_4yv14")
+width = 12
+height = 12
+
+[node name="StateFlagTest" type="Node2D" unique_id=905538605]
+script = ExtResource("1_g23p5")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1206682272]
+unique_name_in_owner = true
+position = Vector2(-16, 7)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=25902938]
+shape = SubResource("RectangleShape2D_4yv14")
+
+[node name="FlagIndicator" type="Sprite2D" parent="." unique_id=1925015101]
+unique_name_in_owner = true
+position = Vector2(16, -9)
+texture = SubResource("GradientTexture2D_dpr5t")
+offset = Vector2(0, 16)
+
+[node name="StepPlate" type="Sprite2D" parent="." unique_id=1535531924]
+unique_name_in_owner = true
+position = Vector2(-16, -9)
+texture = SubResource("GradientTexture2D_g23p5")
+offset = Vector2(0, 16)
+
+[node name="StateFlag" type="Node" parent="." unique_id=593560099]
+unique_name_in_owner = true
+script = ExtResource("2_dpr5t")
+metadata/_custom_type_script = "uid://c6q2h4bx1mq60"

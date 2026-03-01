@@ -1,151 +1,34 @@
-##save_manager.gd
-##global class SaveManager
+## SaveManager
+## Writes and reads plain text save files in user:// with .sav extension.
+## Format:
+##   [section.name]
+##   key=value
+## Values are encoded with _encode_value and decoded with _decode_value.
+
 extends Node
-##Save files to be made are saved within the user:// folder
-##[br] Saves files are plain text (not json), with the .sav filename extension
-##[br] Saves should be easy to decode:
-##[br] Save section header example : [header]
-##[br] Save key : "variable_name"
-##[br] Save value : int/float/string/whatever
 
-##[br][br]
+var _loaded_save_sections: Dictionary = {}
+var _loaded_options_sections: Dictionary = {}
 
-## Current scenes are saved using their filename (no extension)
-##[br] Scenes should be loaded by searching through res://field/scenes/field_scenes/ and subfolders to find the filename that matches
-##[br] Field file names are unique, so there will never be an issue
-	## No need for ID, Godot is not capable of looking into a .tscn file to see an exported variable's value without actually loading that file, which is not preferable.
-var _loaded_save_sections : Dictionary = {}
-var _loaded_options_sections : Dictionary = {}
+var state_flags: Array[PackedStringArray] = []
 
-const FIELD_SCENES_ROOT_DIR : String = "res://field/scenes/field_scenes"
+const FIELD_SCENES_ROOT_DIR: String = "res://field/scenes/field_scenes"
 
-
-
-#region To Do 
-##Things to save/load
-
-
-#Persistence data -- no system exists for this yet
-	#recorded per scene
-	#if special enemies were killed
-	#if certain chests were opened
-	#locked doors
-	#if certain people have been talked to
-	#One time events
-	
-#endregion To Do
-
-#region Completed
-#Arrays needing to be populated to rebuild a save during load
-	#all skills list
-		#needs script to populate array from files
-	#all battleactions list
-		#needs script to populate array from files
-	#all status effects list
-		#needs script to populate array from files
-	#all quests list
-		#needs script to populate array from files
-	#all items list
-		#needs script to populate array from files
-	#all party members (already populated by hand. Reasonable due to low amount of possible party members)
-#Battleactions, skills, and status effects should be okay to "just pull" from this list since they're defined in resources and any special cases would simply just be a different resouce with a different ID
-
-#OPTIONS
-	#Options -- needs to be its own save file to reduce player frustration
-		#music volume
-		#sfx volume
-		#voices volume
-		#item sort order array
-		#voices type
-		#portrait type
-		#always run
-		#message speed
-		#battle message speed
-		#menu memory
-		#battle menu memory
-	
-	
-#GAME SAVE(S)
-	#current scene (should probably use a filename string or UID for this)
-		#Which save point to spawn from 
-		
-	#Per Save Statistics (no implementation to increment these exist yet, but the variables exist within CharDataKeeper)
-	#enemies_killed
-	#party_member_deaths
-	#items_used
-	#skills_used
-	#time_played
-	#times_saved
-	#times_loaded
-	#quests_completede
-	#money
-
-#Quests
-	#current quests
-	#completed quests
-	#Per Quest ID
-		#current_step
-		#is completed
-		#repeatable
-		#steps array (needs ID to repopulate easily)
-			#actions taken
-			#is completed
-
-
-#CharDataKeeper Data
-	#members in the party (partymemberdata)
-		#Position in CharDataKeeper.party_member array so it can be repopulated accurately
-			#first party member should be the one that is set to is_controlled and that should be reflected during repopulation within chardatakeeper
-
-	#outside_members should be recorded, too
-	
-		#actor_data
-			#current_exp
-			#next level exp
-			#total exp
-			#display name
-			#level
-			#base_stats
-				#max hp
-				#max sp
-				#atk value
-				#def value
-				#matk value
-				#mdef value
-				#strength
-				#stamina
-				#agility
-				#magic
-				#luck
-			#current HP
-			#current sp
-			#status effects
-			#Equipment
-			#two handing true/false
-			#skills
-				#use skill ID to rebuild
-	
-#endregion Completed
-
-
-## IN GAME STATS
-## TODO no systems exist for this except for money
 @export_category("Per Game Stats")
-@export var time_played := 0 ##How long the game has been played
-@export var times_saved : int = 0
-@export var times_loaded : int = 0
-@export var money : int = 0 ##How much money the party has
-@export var quests_completed : int = 0
-@export var enemies_killed : int = 0
-@export var party_member_deaths : int = 0
-@export var items_used : int = 0
-@export var skills_used : int = 0
+@export var time_played: int = 0
+@export var times_saved: int = 0
+@export var times_loaded: int = 0
+@export var money: int = 0
+@export var quests_completed: int = 0
+@export var enemies_killed: int = 0
+@export var party_member_deaths: int = 0
+@export var items_used: int = 0
+@export var skills_used: int = 0
 
 ## Creates a save game. Save name is "save_slot#.sav"
-func save_game(slot : int)->void:
-	var slotnum : String = str(slot)
-	var filename : String = "save_" + slotnum + ".sav"
-	var lines: PackedStringArray = PackedStringArray()
+func save_game(slot : int) -> void:
+	var filename : String = "save_" + str(slot) + ".sav"
+	var lines : PackedStringArray = PackedStringArray()
 
 	lines.append_array(save_current_scene())
 	lines.append_array(save_statistics())
@@ -153,20 +36,14 @@ func save_game(slot : int)->void:
 	lines.append_array(save_inventory())
 	lines.append_array(save_quests())
 
-	var saveloc : String = "user://" + filename
-	_write_sav_lines(saveloc, lines)
+	_write_sav_lines("user://" + filename, lines)
+
 		
 
 #region Options
 ## Saves options to file. 
 ## If there is no options file present, then one is created.
 	## Options save file name = "game_ptions.sav"
-## Options save is separate from the user's save file, this way options persist across all game saves.
-## Options are saved when the options menu is closed.
-## Options are loaded only on save-game load
-## Saves options to file.
-## If there is no options file present, then one is created.
-## Options save file name = "game_options.sav"
 ## Options save is separate from the user's save file, this way options persist across all game saves.
 ## Options are saved when the options menu is closed.
 ## Options are loaded only on save-game load
@@ -228,29 +105,35 @@ func save_statistics()->PackedStringArray:
 #region Current Scene
 
 ## Returns PackedStringArray for saving the current scene.
-## Only returns the filename of the scene, no path or extension.
-func save_current_scene()->PackedStringArray:
-	var lines: PackedStringArray = PackedStringArray()
+## Saves the field scene filename basename, plus a spawn position fallback.
+func save_current_scene() -> PackedStringArray:
+	var lines : PackedStringArray = PackedStringArray()
 	lines.append("[current_field_scene]")
-	lines.append(_keyvalue_line("current_field_scene", get_current_field_scene_filename()))
-	# This may be superceded later by save point node names when loading, but still needs to be in place as a redundant safeguard(?)
-	lines.append(_keyvalue_line("position_x", CharDataKeeper.controlled_character.global_position.x))
-	lines.append(_keyvalue_line("position_y", CharDataKeeper.controlled_character.global_position.y))
+
+	var field_scene_filename : String = get_current_field_scene_filename()
+	lines.append(_keyvalue_line("current_field_scene", field_scene_filename))
+
+	var spawn_position : Vector2 = Vector2.ZERO
+	if CharDataKeeper.controlled_character != null:
+		spawn_position = CharDataKeeper.controlled_character.global_position
+
+	lines.append(_keyvalue_line("position_x", spawn_position.x))
+	lines.append(_keyvalue_line("position_y", spawn_position.y))
 	lines.append("")
 	return lines
-	
-## Returns the filename of the current field scene as a string
-## Returns the filename of the current field scene as a string (no .tscn extension)
+
+
+## Returns the filename of the current field scene (no extension).
 func get_current_field_scene_filename() -> String:
-	if SceneManager.main_scene.current_field_scene != null:
-		if SceneManager.main_scene.current_field_scene is FieldScene:
-			var cur_f_scene: FieldScene = SceneManager.main_scene.current_field_scene
+	var main_scene : Main = SceneManager.main_scene
+	if main_scene == null:
+		return "NO FIELD SCENE TO SAVE!"
 
-			var path: String = cur_f_scene.scene_file_path
-			return path.get_file().get_basename()
+	var field_scene : FieldScene = main_scene.current_field_scene as FieldScene
+	if field_scene == null:
+		return "NO FIELD SCENE TO SAVE!"
 
-	return "NO FIELD SCENE TO SAVE!"
-
+	return field_scene.scene_file_path.get_file().get_basename()
 	
 #endregion Current Scene
 
@@ -352,110 +235,68 @@ func save_characters() -> PackedStringArray:
 	return lines
 	
 	
-func save_current_party_members()->PackedStringArray:
+func _save_party_member_list(section_root : String, members : Array[PartyMemberData]) -> PackedStringArray:
 	var lines : PackedStringArray = PackedStringArray()
-	
-	lines.append("[characters.current_party_members]")
+	lines.append("[" + section_root + "]")
 	lines.append("")
-	
-	for i in range(CharDataKeeper.party_members.size()):
-		var pm : PartyMemberData = CharDataKeeper.party_members[i]
-		lines.append("[characters.current_party_members." + str(i) + "]")
-		lines.append(_keyvalue_line("actor_id", String(pm.actor_id)))
-		lines.append(_keyvalue_line("display_name", pm.display_name))
-		lines.append(_keyvalue_line("level", pm.level))
-		lines.append(_keyvalue_line("current_exp", pm.current_exp))
-		lines.append(_keyvalue_line("next_level_exp", pm.next_level_exp))
-		lines.append(_keyvalue_line("total_exp", pm.total_exp))
-		lines.append(_keyvalue_line("current_hp", pm.current_hp))
-		lines.append(_keyvalue_line("current_sp", pm.current_sp))
 
-		for s in range(pm.status_effects.size()):
-			var status : StatusEffect = pm.status_effects[s]
+	for i in range(members.size()):
+		var member : PartyMemberData = members[i]
+		if member == null:
+			continue
+
+		lines.append("[" + section_root + "." + str(i) + "]")
+		lines.append(_keyvalue_line("actor_id", String(member.actor_id)))
+		lines.append(_keyvalue_line("display_name", member.display_name))
+		lines.append(_keyvalue_line("level", member.level))
+		lines.append(_keyvalue_line("current_exp", member.current_exp))
+		lines.append(_keyvalue_line("next_level_exp", member.next_level_exp))
+		lines.append(_keyvalue_line("total_exp", member.total_exp))
+		lines.append(_keyvalue_line("current_hp", member.current_hp))
+		lines.append(_keyvalue_line("current_sp", member.current_sp))
+
+		for status_index in range(member.status_effects.size()):
+			var status : StatusEffect = member.status_effects[status_index]
 			if status == null:
 				continue
-			lines.append("status." + str(s) + "=" + _encode_value(String(status.status_id)))
+			lines.append("status." + str(status_index) + "=" + _encode_value(String(status.status_id)))
 
-		lines.append(_keyvalue_line("mainhand", _item_id_or_empty(pm.mainhand)))
-		lines.append(_keyvalue_line("offhand", _item_id_or_empty(pm.offhand)))
-		lines.append(_keyvalue_line("headslot", _item_id_or_empty(pm.headslot)))
-		lines.append(_keyvalue_line("chestslot", _item_id_or_empty(pm.chestslot)))
-		lines.append(_keyvalue_line("armslot", _item_id_or_empty(pm.armslot)))
-		lines.append(_keyvalue_line("legslot", _item_id_or_empty(pm.legslot)))
-		lines.append(_keyvalue_line("accy01", _item_id_or_empty(pm.accy01)))
-		lines.append(_keyvalue_line("accy02", _item_id_or_empty(pm.accy02)))
-		lines.append(_keyvalue_line("two_handing", pm.two_handing))
+		lines.append(_keyvalue_line("mainhand", _item_id_or_empty(member.mainhand)))
+		lines.append(_keyvalue_line("offhand", _item_id_or_empty(member.offhand)))
+		lines.append(_keyvalue_line("headslot", _item_id_or_empty(member.headslot)))
+		lines.append(_keyvalue_line("chestslot", _item_id_or_empty(member.chestslot)))
+		lines.append(_keyvalue_line("armslot", _item_id_or_empty(member.armslot)))
+		lines.append(_keyvalue_line("legslot", _item_id_or_empty(member.legslot)))
+		lines.append(_keyvalue_line("accy01", _item_id_or_empty(member.accy01)))
+		lines.append(_keyvalue_line("accy02", _item_id_or_empty(member.accy02)))
+		lines.append(_keyvalue_line("two_handing", member.two_handing))
 
-		for k in range(pm.skills.size()):
-			var skill : Skill = pm.skills[k]
+		for skill_index in range(member.skills.size()):
+			var skill : Skill = member.skills[skill_index]
 			if skill == null:
 				continue
-			lines.append("skill." + str(k) + "=" + _encode_value(String(skill.skill_id)))
+			lines.append("skill." + str(skill_index) + "=" + _encode_value(String(skill.skill_id)))
 
-		lines.append(_keyvalue_line("perm_max_hp_flat", pm.perm_max_hp_flat))
-		lines.append(_keyvalue_line("perm_max_sp_flat", pm.perm_max_sp_flat))
-		lines.append(_keyvalue_line("perm_atk_flat", pm.perm_atk_flat))
-		lines.append(_keyvalue_line("perm_def_flat", pm.perm_def_flat))
-		lines.append(_keyvalue_line("perm_strength_flat", pm.perm_strength_flat))
-		lines.append(_keyvalue_line("perm_stamina_flat", pm.perm_stamina_flat))
-		lines.append(_keyvalue_line("perm_agility_flat", pm.perm_agility_flat))
-		lines.append(_keyvalue_line("perm_magic_flat", pm.perm_magic_flat))
-		lines.append(_keyvalue_line("perm_luck_flat", pm.perm_luck_flat))
+		lines.append(_keyvalue_line("perm_max_hp_flat", member.perm_max_hp_flat))
+		lines.append(_keyvalue_line("perm_max_sp_flat", member.perm_max_sp_flat))
+		lines.append(_keyvalue_line("perm_atk_flat", member.perm_atk_flat))
+		lines.append(_keyvalue_line("perm_def_flat", member.perm_def_flat))
+		lines.append(_keyvalue_line("perm_strength_flat", member.perm_strength_flat))
+		lines.append(_keyvalue_line("perm_stamina_flat", member.perm_stamina_flat))
+		lines.append(_keyvalue_line("perm_agility_flat", member.perm_agility_flat))
+		lines.append(_keyvalue_line("perm_magic_flat", member.perm_magic_flat))
+		lines.append(_keyvalue_line("perm_luck_flat", member.perm_luck_flat))
 		lines.append("")
 
-	return lines
-func save_outside_party_members()->PackedStringArray:
-	var lines : PackedStringArray = PackedStringArray()
-	lines.append("[characters.outside_party_members]")
-	lines.append("")
-	for i in range(CharDataKeeper.outside_members.size()):
-		
-		var pm : PartyMemberData = CharDataKeeper.outside_members[i]
+	return lines	
+	
+	
+func save_current_party_members() -> PackedStringArray:
+	return _save_party_member_list("characters.current_party_members", CharDataKeeper.party_members)
 
-		lines.append("[characters.outside_party_members." + str(i) + "]")
-		lines.append(_keyvalue_line("actor_id", String(pm.actor_id)))
-		lines.append(_keyvalue_line("display_name", pm.display_name))
-		lines.append(_keyvalue_line("level", pm.level))
-		lines.append(_keyvalue_line("current_exp", pm.current_exp))
-		lines.append(_keyvalue_line("next_level_exp", pm.next_level_exp))
-		lines.append(_keyvalue_line("total_exp", pm.total_exp))
-		lines.append(_keyvalue_line("current_hp", pm.current_hp))
-		lines.append(_keyvalue_line("current_sp", pm.current_sp))
 
-		for s in range(pm.status_effects.size()):
-			var status : StatusEffect = pm.status_effects[s]
-			if status == null:
-				continue
-			lines.append("status." + str(s) + "=" + _encode_value(String(status.status_id)))
-
-		lines.append(_keyvalue_line("mainhand", _item_id_or_empty(pm.mainhand)))
-		lines.append(_keyvalue_line("offhand", _item_id_or_empty(pm.offhand)))
-		lines.append(_keyvalue_line("headslot", _item_id_or_empty(pm.headslot)))
-		lines.append(_keyvalue_line("chestslot", _item_id_or_empty(pm.chestslot)))
-		lines.append(_keyvalue_line("armslot", _item_id_or_empty(pm.armslot)))
-		lines.append(_keyvalue_line("legslot", _item_id_or_empty(pm.legslot)))
-		lines.append(_keyvalue_line("accy01", _item_id_or_empty(pm.accy01)))
-		lines.append(_keyvalue_line("accy02", _item_id_or_empty(pm.accy02)))
-		lines.append(_keyvalue_line("two_handing", pm.two_handing))
-
-		for k in range(pm.skills.size()):
-			var skill : Skill = pm.skills[k]
-			if skill == null:
-				continue
-			lines.append("skill." + str(k) + "=" + _encode_value(String(skill.skill_id)))
-
-		lines.append(_keyvalue_line("perm_max_hp_flat", pm.perm_max_hp_flat))
-		lines.append(_keyvalue_line("perm_max_sp_flat", pm.perm_max_sp_flat))
-		lines.append(_keyvalue_line("perm_atk_flat", pm.perm_atk_flat))
-		lines.append(_keyvalue_line("perm_def_flat", pm.perm_def_flat))
-		lines.append(_keyvalue_line("perm_strength_flat", pm.perm_strength_flat))
-		lines.append(_keyvalue_line("perm_stamina_flat", pm.perm_stamina_flat))
-		lines.append(_keyvalue_line("perm_agility_flat", pm.perm_agility_flat))
-		lines.append(_keyvalue_line("perm_magic_flat", pm.perm_magic_flat))
-		lines.append(_keyvalue_line("perm_luck_flat", pm.perm_luck_flat))
-		lines.append("")
-
-	return lines
+func save_outside_party_members() -> PackedStringArray:
+	return _save_party_member_list("characters.outside_party_members", CharDataKeeper.outside_members)
 	
 #endregion Party Members
 
@@ -478,40 +319,39 @@ func _keyvalue_line(key: String, value: Variant) -> String:
 	return key + "=" + _encode_value(value)
 
 
-
 func _encode_value(value: Variant) -> String:
-	var t : int = typeof(value)
+	var value_type : int = typeof(value)
 
-	if t == TYPE_NIL:
+	if value_type == TYPE_NIL:
 		return ""
 
-	if t == TYPE_BOOL:
+	if value_type == TYPE_BOOL:
 		if bool(value):
 			return "true"
 		return "false"
 
-	if t == TYPE_INT:
+	if value_type == TYPE_INT:
 		return str(int(value))
 
-	if t == TYPE_FLOAT:
+	if value_type == TYPE_FLOAT:
 		return _format_float(float(value))
 
-	if t == TYPE_STRING:
+	if value_type == TYPE_STRING:
 		return _encode_string(String(value))
 
-	if t == TYPE_STRING_NAME:
+	if value_type == TYPE_STRING_NAME:
 		return _encode_string(String(value))
 
-	push_error("SaveManager: unsupported value type for save: " + str(t))
+	push_error("SaveManager: unsupported value type for save: " + str(value_type))
 	return ""
 
 
-func _encode_string(s: String) -> String:
-	var out : String = s
-	out = out.replace("\\", "\\\\")
-	out = out.replace("\"", "\\\"")
-	out = out.replace("\n", "\\n")
-	return "\"" + out + "\""
+func _encode_string(text: String) -> String:
+	var escaped : String = text
+	escaped = escaped.replace("\\", "\\\\")
+	escaped = escaped.replace("\"", "\\\"")
+	escaped = escaped.replace("\n", "\\n")
+	return "\"" + escaped + "\""
 
 
 func _item_id_or_empty(item: Item) -> String:
@@ -520,14 +360,13 @@ func _item_id_or_empty(item: Item) -> String:
 	return ""
 
 
-
-func _format_float(v: float) -> String:
-	var s : String = String.num(v, 6)
-	while s.contains(".") and s.ends_with("0"):
-		s = s.left(s.length() - 1)
-	if s.ends_with("."):
-		s += "0"
-	return s
+func _format_float(value: float) -> String:
+	var text: String = String.num(value, 6)
+	while text.contains(".") and text.ends_with("0"):
+		text = text.left(text.length() - 1)
+	if text.ends_with("."):
+		text += "0"
+	return text
 
 
 
@@ -678,8 +517,6 @@ func load_game_statistics()->void:
 ## Sets the InventorySlot.quantity using slot_qty
 ## Uses Registry.find_item_by_id(item_id) to set the item
 func load_inventory()->void:
-	if Inventory.current_inventory == null:
-		Inventory.current_inventory = []
 	Inventory.current_inventory.clear()
 
 	var prefix : String = "inventory.item_slot_"
@@ -1155,41 +992,44 @@ func _load_item_or_null(item_id : String) -> Item:
 	return Registry.find_item_by_id(item_id)
 
 
-func _parse_sav_file(file : FileAccess) -> Dictionary:
-	var sections : Dictionary = {}
-	var cur_section : String = ""
+func _parse_sav_file(file: FileAccess) -> Dictionary:
+	var sections: Dictionary = {}
+	var current_section: String = ""
 
 	while not file.eof_reached():
-		var line : String = file.get_line().strip_edges()
-		if line == "":
+		var raw_line: String = file.get_line().strip_edges()
+		if raw_line == "":
 			continue
-		if line.begins_with(";") or line.begins_with("#"):
-			continue
-		if line.begins_with("[") and line.ends_with("]") and line.length() >= 2:
-			cur_section = line.substr(1, line.length() - 2)
-			if not sections.has(cur_section):
-				sections[cur_section] = {}
+		if raw_line.begins_with(";") or raw_line.begins_with("#"):
 			continue
 
-		if cur_section == "":
+		if raw_line.begins_with("[") and raw_line.ends_with("]") and raw_line.length() >= 2:
+			current_section = raw_line.substr(1, raw_line.length() - 2)
+			if not sections.has(current_section):
+				sections[current_section] = {}
 			continue
 
-		var eq : int = line.find("=")
-		if eq == -1:
+		if current_section == "":
 			continue
 
-		var key : String = line.substr(0, eq).strip_edges()
-		var raw : String = line.substr(eq + 1).strip_edges()
-		var value : Variant = _decode_value(raw)
+		var equals_index: int = raw_line.find("=")
+		if equals_index == -1:
+			continue
 
-		var sec : Dictionary = sections.get(cur_section, {})
-		sec[key] = value
-		sections[cur_section] = sec
+		var key: String = raw_line.substr(0, equals_index).strip_edges()
+		var raw_value: String = raw_line.substr(equals_index + 1).strip_edges()
+		var decoded_value: Variant = _decode_value(raw_value)
+
+		var section_dict: Dictionary = sections.get(current_section, {})
+		section_dict[key] = decoded_value
+		sections[current_section] = section_dict
 
 	return sections
 
 
-func _decode_value(raw : String) -> Variant:
+
+
+func _decode_value(raw: String) -> Variant:
 	if raw == "":
 		return ""
 
@@ -1209,27 +1049,32 @@ func _decode_value(raw : String) -> Variant:
 	return raw
 
 
-func _decode_string(s : String) -> String:
-	var out : String = ""
-	var i : int = 0
-	while i < s.length():
-		var c : String = s[i]
-		if c == "\\" and i + 1 < s.length():
-			var n : String = s[i + 1]
-			if n == "n":
-				out += "\n"
-			elif n == "\\":
-				out += "\\"
-			elif n == "\"":
-				out += "\""
+
+func _decode_string(encoded: String) -> String:
+	var output: String = ""
+	var index: int = 0
+
+	while index < encoded.length():
+		var ch: String = encoded[index]
+
+		if ch == "\\" and index + 1 < encoded.length():
+			var next_ch: String = encoded[index + 1]
+			if next_ch == "n":
+				output += "\n"
+			elif next_ch == "\\":
+				output += "\\"
+			elif next_ch == "\"":
+				output += "\""
 			else:
-				out += n
-			i += 2
+				output += next_ch
+
+			index += 2
 			continue
 
-		out += c
-		i += 1
-	return out
+		output += ch
+		index += 1
+
+	return output
 
 
 func _get_section(all_sections : Dictionary, name : String) -> Dictionary:
@@ -1296,6 +1141,67 @@ func _sec_get_bool(sec : Dictionary, key : String, fallback : bool) -> bool:
 #endregion Loading
 #endregion Loading Helpers
 
+#region State Flags
+
+
+func has_state_flag(scene_filename: String, object_node_name: String) -> bool:
+	if scene_filename == "":
+		return false
+	if object_node_name == "":
+		return false
+
+	for entry in state_flags:
+		if String(entry[0]) == scene_filename and String(entry[1]) == object_node_name:
+			return true
+
+	return false
+
+func set_state_flag(scene_filename: String, object_node_name: String) -> void:
+	if scene_filename == "":
+		return
+	if object_node_name == "":
+		return
+	if has_state_flag(scene_filename, object_node_name):
+		return
+
+	state_flags.append(PackedStringArray([scene_filename, object_node_name]))
+
+
+func clear_state_flag(scene_filename: String, object_node_name: String) -> void:
+	if scene_filename == "":
+		return
+	if object_node_name == "":
+		return
+
+	for i in range(state_flags.size() - 1, -1, -1):
+		var entry: PackedStringArray = state_flags[i]
+		if String(entry[0]) == scene_filename and String(entry[1]) == object_node_name:
+			state_flags.remove_at(i)
+
+
+func get_state_flags() -> Array[PackedStringArray]:
+	return state_flags.duplicate()
+
+
+func set_state_flags(new_state_flags: Array[PackedStringArray]) -> void:
+	state_flags.clear()
+
+	for entry in new_state_flags:
+		if entry.size() != 2:
+			continue
+
+		var scene_filename: String = String(entry[0])
+		var object_node_name: String = String(entry[1])
+
+		if scene_filename == "":
+			continue
+		if object_node_name == "":
+			continue
+
+		state_flags.append(PackedStringArray([scene_filename, object_node_name]))
+
+
+#endregion
 
 
 
