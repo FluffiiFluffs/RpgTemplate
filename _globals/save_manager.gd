@@ -31,6 +31,7 @@ func save_game(slot : int) -> void:
 	var lines : PackedStringArray = PackedStringArray()
 
 	lines.append_array(save_current_scene())
+	lines.append_array(save_state_flags())
 	lines.append_array(save_statistics())
 	lines.append_array(save_characters())
 	lines.append_array(save_inventory())
@@ -121,6 +122,33 @@ func save_current_scene() -> PackedStringArray:
 	lines.append(_keyvalue_line("position_y", spawn_position.y))
 	lines.append("")
 	return lines
+
+
+func save_state_flags() -> PackedStringArray:
+	var lines : PackedStringArray = PackedStringArray()
+	lines.append("[state_flags]")
+	lines.append("")
+
+	var write_index: int = 0
+	for entry in state_flags:
+		if entry.size() != 2:
+			continue
+
+		var scene_filename: String = String(entry[0])
+		var object_node_name: String = String(entry[1])
+		if scene_filename == "":
+			continue
+		if object_node_name == "":
+			continue
+
+		lines.append("[state_flags." + str(write_index) + "]")
+		lines.append(_keyvalue_line("scene_filename", scene_filename))
+		lines.append(_keyvalue_line("object_node_name", object_node_name))
+		lines.append("")
+		write_index += 1
+
+	return lines
+
 
 
 ## Returns the filename of the current field scene (no extension).
@@ -449,6 +477,8 @@ func load_game(slot : int)->void:
 	load_options()
 	clear_arrays_for_loading()
 
+	load_state_flags()
+
 	load_game_statistics()
 	load_inventory()
 	load_current_quests()
@@ -477,6 +507,8 @@ func clear_arrays_for_loading()->void:
 	items_used = 0
 	skills_used = 0
 	
+	state_flags.clear()
+	
 	CharDataKeeper.party_members.clear()
 	CharDataKeeper.outside_members.clear()
 	
@@ -484,6 +516,42 @@ func clear_arrays_for_loading()->void:
 	
 	QuestManager.current_quests.clear()
 	QuestManager.completed_quests.clear()
+	
+	
+	
+func load_state_flags() -> void:
+	state_flags.clear()
+
+	var prefix: String = "state_flags."
+	var flag_sections: Array[String] = []
+
+	for sec_name in _loaded_save_sections.keys():
+		var section_name: String = String(sec_name)
+		if not section_name.begins_with(prefix):
+			continue
+
+		var suffix: String = section_name.substr(prefix.length())
+		if not suffix.is_valid_int():
+			continue
+
+		flag_sections.append(section_name)
+
+	flag_sections.sort_custom(func(a, b):
+		var ia: int = int(a.substr(prefix.length()))
+		var ib: int = int(b.substr(prefix.length()))
+		return ia < ib
+	)
+
+	for section_name in flag_sections:
+		var data: Dictionary = _get_section(_loaded_save_sections, section_name)
+		var scene_filename: String = _sec_get_string(data, "scene_filename", "")
+		var object_node_name: String = _sec_get_string(data, "object_node_name", "")
+		if scene_filename == "":
+			continue
+		if object_node_name == "":
+			continue
+
+		state_flags.append(PackedStringArray([scene_filename, object_node_name]))
 	
 	
 

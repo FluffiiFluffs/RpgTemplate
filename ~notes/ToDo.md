@@ -1,9 +1,11 @@
+#All commented out lines are completed
+
 [Big Changes]
 	#Implement cutscenes
 		**Cutscenes have been mostly implemented, but the system could use some refinement**
 
 	#Implement save/load system
-		Also implement persistence system between scenes for certain things like opening chests
+		#Also implement persistence system between scenes for certain things like opening chests
 
 	STATS
 		#Implement luck 
@@ -12,8 +14,8 @@
 		full resist magic damage
 		resist negative status effects + break out
 			
-		clean up formulas
-		clean up actor data
+		#clean up formulas
+		#clean up actor data
 		#Formulas for battle
 		
 	# Implement a deeper system for miss / dodge/ parry / block / riposte
