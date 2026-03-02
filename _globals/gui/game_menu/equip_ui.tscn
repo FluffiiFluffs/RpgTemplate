@@ -1,0 +1,259 @@
+[gd_scene format=3 uid="uid://ch3r2iqfj4lgv"]
+
+[ext_resource type="Script" uid="uid://c7b3woubbv7yw" path="res://_globals/gui/game_menu/equip_ui.gd" id="1_jr4vx"]
+[ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_w2qtm"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_jr4vx"]
+[ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="3_8f5n0"]
+[ext_resource type="PackedScene" uid="uid://yms2njo83j7u" path="res://_globals/gui/game_menu/equip_stats.tscn" id="4_nrsuy"]
+[ext_resource type="PackedScene" uid="uid://bju67ey0myd2f" path="res://_globals/gui/game_menu/current_equip_button.tscn" id="5_pgkpp"]
+[ext_resource type="PackedScene" uid="uid://d0guj5cenunp" path="res://_globals/gui/game_menu/equip_item_button.tscn" id="6_58r6b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q0rp3"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke5u3"]
+content_margin_top = 4.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_26r4l"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldqiu"]
+
+[node name="Equip" type="Control" unique_id=1256549937]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.77800006
+offset_bottom = 49.94998
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_jr4vx")
+
+[node name="EquipPanelContainer" type="PanelContainer" parent="." unique_id=1521031527]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q0rp3")
+
+[node name="MarginContainer" type="MarginContainer" parent="EquipPanelContainer" unique_id=1722452895]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EquipPanelContainer/MarginContainer" unique_id=1208295224]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=683685061]
+layout_mode = 2
+
+[node name="NameContainer" type="PanelContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=1471038366]
+custom_minimum_size = Vector2(145, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
+
+[node name="EquipNameLabel" type="Label" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/NameContainer" unique_id=982560551]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_w2qtm")
+theme_override_fonts/font = ExtResource("2_jr4vx")
+theme_override_font_sizes/font_size = 17
+text = "WARRIOR"
+horizontal_alignment = 1
+
+[node name="EquipOptionsHBox" type="HBoxContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3" unique_id=383398320]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EquipEquipButton" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" unique_id=2132036449 instance=ExtResource("3_8f5n0")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "EQUIP"
+
+[node name="EquipRemoveButton" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" unique_id=1540246297 instance=ExtResource("3_8f5n0")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "REMOVE"
+
+[node name="EquipRemAllButton" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/EquipOptionsHBox" unique_id=1386249734 instance=ExtResource("3_8f5n0")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "REM ALL"
+
+[node name="HSeparator2" type="HSeparator" parent="EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=1111003216]
+layout_mode = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+
+[node name="MarginContainer" type="MarginContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=1779981458]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+
+[node name="EquipStatGridContainer" type="GridContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer" unique_id=1710119383]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 4
+
+[node name="EquipStatsHP" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=79919619 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "HP"
+
+[node name="EquipStatsSP" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=576830769 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "SP"
+
+[node name="EquipStatsATK" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=256682601 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "ATK"
+
+[node name="EquipStatsDEF" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=21395075 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "DEF"
+
+[node name="EquipStatsSTR" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=143445765 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "STR"
+
+[node name="EquipStatsSTM" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=2105712651 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "STM"
+
+[node name="EquipStatsSPD" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1003113626 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "SPD"
+
+[node name="EquipStatsMAG" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=123907592 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "MAG"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=437451475]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="CurrentEquipContainer" type="PanelContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2097014977]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
+
+[node name="CurrEquipVBox" type="VBoxContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer" unique_id=36029245]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CurrMainHand" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=175481149 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "MAIN HAND"
+eq_item_type = "WEAPON"
+
+[node name="CurrOffHand" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1980207533 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "OFF-HAND"
+eq_item_type = "OFFHAND"
+
+[node name="CurrHead" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=56154888 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "HEAD"
+eq_item_type = "HEAD"
+
+[node name="CurrChest" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1701070381 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "CHEST"
+eq_item_type = "CHEST"
+
+[node name="CurrArms" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1587975636 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "ARMS"
+eq_item_type = "ARMS"
+
+[node name="CurrLegs" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=821812794 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "LEGS"
+eq_item_type = "LEGS"
+
+[node name="CurrAccy1" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=1171872297 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "ACCY1"
+eq_item_type = "ACCESSORY"
+
+[node name="CurrAccy2" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer/CurrEquipVBox" unique_id=2100017597 instance=ExtResource("5_pgkpp")]
+unique_name_in_owner = true
+layout_mode = 2
+equip_title = "ACCY2"
+eq_item_type = "ACCESSORY"
+
+[node name="CurrentEquipContainer2" type="PanelContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1723912803]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2" unique_id=920162990]
+layout_mode = 2
+size_flags_horizontal = 4
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="EquipEquippingVBox" type="VBoxContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer" unique_id=4581691]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="EquipItemButton" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=571217043 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton2" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=147587049 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton3" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=614102529 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton4" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1881651565 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton5" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1939298146 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton6" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1692222474 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton7" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1732923144 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton8" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=827507937 instance=ExtResource("6_58r6b")]
+layout_mode = 2
+
+[node name="EquipItemButton9" parent="EquipPanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/CurrentEquipContainer2/ScrollContainer/EquipEquippingVBox" unique_id=1881403985 instance=ExtResource("6_58r6b")]
+layout_mode = 2

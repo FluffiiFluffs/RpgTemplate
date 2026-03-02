@@ -35,27 +35,27 @@ func on_button_pressed()->void:
 				GameMenu.last_quests_menu_state = "QUESTS_CURRENT_QUESTS"
 				is_active = false
 				GameMenu.menu_state = "QUESTS_SELECT_TYPE"
-				GameMenu.clear_quests_list()
-				GameMenu.clear_quest_description()
+				GameMenu.quests.clear_quests_list()
+				GameMenu.quests.clear_quest_description()
 				return
 			else:
 				GameMenu.menu_state = "QUESTS_CURRENT_QUESTS"
 				is_active = true
 				GameMenu.last_quests_menu_state = "QUESTS_CURRENT_QUESTS"
-				GameMenu.open_current_quests()
+				GameMenu.quests.open_current_quests()
 			pass
 		"COMPLETED":
 			if QuestManager.completed_quests.is_empty():
 				GameMenu.last_quests_menu_state = "QUESTS_COMPLETED_QUESTS"
 				is_active = false
 				GameMenu.menu_state = "QUESTS_SELECT_TYPE"
-				GameMenu.clear_quests_list()
-				GameMenu.clear_quest_description()
+				GameMenu.quests.clear_quests_list()
+				GameMenu.quests.clear_quest_description()
 			else:
 				GameMenu.menu_state = "QUESTS_CURRENT_QUESTS"
 				is_active = true
 				GameMenu.last_quests_menu_state = "QUESTS_COMPLETED_QUESTS"
-				GameMenu.open_completed_quests()
+				GameMenu.quests.open_completed_quests()
 			pass
 
 func grab_button_focus()->void:

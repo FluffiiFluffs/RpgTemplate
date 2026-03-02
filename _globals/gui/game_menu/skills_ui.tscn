@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cast1fkj8gmup"]
+
+[ext_resource type="Script" uid="uid://cd1jgjwnnlyda" path="res://_globals/gui/game_menu/skills_ui.gd" id="1_28bkj"]
+
+[node name="Skills" type="Control" unique_id=328216003]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1_28bkj")

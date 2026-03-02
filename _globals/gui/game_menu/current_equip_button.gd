@@ -34,7 +34,7 @@ func on_button_pressed() -> void:
 		return
 
 	if GameMenu.menu_state == "EQUIP_MENU_REMOVE":
-		GameMenu.remove_equipped_item(self)
+		GameMenu.equip.remove_equipped_item(self)
 		return
 
 	# Treat both of these as "equip from this slot"
@@ -44,7 +44,7 @@ func on_button_pressed() -> void:
 			return
 
 		GameMenu.last_curr_equip_slot_button = self
-		GameMenu.make_equipping_buttons_list(eqtype)
+		GameMenu.equip.make_equipping_buttons_list(eqtype)
 		return
 	AudioManager.play_ui_confirm()
 
@@ -95,10 +95,10 @@ func on_button_focus_entered() -> void:
 				eqtype = Item.ItemType.WEAPON
 
 		# Ensure no stale deltas remain visible while removing
-		GameMenu.hide_all_equip_differences()
+		GameMenu.equip.hide_all_equip_differences()
 
 	GameMenu.equip_preview_owner = self
-	GameMenu.make_equipping_buttons_list(eqtype, false)
+	GameMenu.equip.make_equipping_buttons_list(eqtype, false)
 	AudioManager.play_ui_blip()
 
 	

@@ -1,0 +1,827 @@
+[gd_scene format=3 uid="uid://di0t1rfx6vku1"]
+
+[ext_resource type="Script" uid="uid://6gq7yi3bpeph" path="res://_globals/gui/game_menu/stats_ui.gd" id="1_5ep4l"]
+[ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_mmo78"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_ereko"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q0rp3"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnvkg"]
+draw_center = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ke5u3"]
+content_margin_top = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q0rp3"]
+content_margin_top = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l35h"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_26r4l"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldqiu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mnvkg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uyx8q"]
+content_margin_top = 8.0
+
+[node name="Stats" type="Control" unique_id=816713305]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 0.77800006
+offset_bottom = -0.05001831
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_5ep4l")
+
+[node name="StatsPanelContainer" type="PanelContainer" parent="." unique_id=1688214564]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q0rp3")
+
+[node name="MarginContainer" type="MarginContainer" parent="StatsPanelContainer" unique_id=500548433]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer" unique_id=173068931]
+layout_mode = 2
+
+[node name="StatsPortraitContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer" unique_id=1787663188]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 136)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mnvkg")
+
+[node name="StatsPortrait" type="TextureRect" parent="StatsPanelContainer/MarginContainer/HBoxContainer/StatsPortraitContainer" unique_id=1805569997]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 136)
+layout_mode = 2
+stretch_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer" unique_id=1622046166]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=913926294]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="NameContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1570148354]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ke5u3")
+
+[node name="StatsNameLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/NameContainer" unique_id=946434097]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_mmo78")
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 17
+text = "WARRIOR"
+horizontal_alignment = 1
+
+[node name="ClassVBox" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2049669931]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox" unique_id=1129187957]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q0rp3")
+
+[node name="StatsClassTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer" unique_id=1285214958]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 9
+text = "CLASS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox" unique_id=176079146]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4l35h")
+
+[node name="StatsClassLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ClassVBox/PanelContainer2" unique_id=306866592]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 13
+text = "WARRIOR"
+
+[node name="HSeparator2" type="HSeparator" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=138887348]
+layout_mode = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_26r4l")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1212390887]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=981996440]
+custom_minimum_size = Vector2(170, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ldqiu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer" unique_id=889081640]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer" unique_id=476186664]
+layout_mode = 2
+
+[node name="StatsCurrLevelHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer" unique_id=614962246]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox" unique_id=798112469]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLevelTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer" unique_id=628431633]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "Level"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox" unique_id=422332864]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLevelValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsCurrLevelHBox/PanelContainer2" unique_id=905559671]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99"
+
+[node name="StatsNextLvLVBox" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1800341737]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox" unique_id=1350100762]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsNextLvLTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer" unique_id=899962617]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "EXP to Next LvL"
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox" unique_id=409581221]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsNextLvLValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/StatsNextLvLVBox/PanelContainer2" unique_id=1095528414]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "10000000"
+horizontal_alignment = 1
+
+[node name="StatsEquipVBox" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer" unique_id=1391909374]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="StatsMainHandHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=369824617]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox" unique_id=704582776]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMainHandTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer" unique_id=1518768979]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "Main Hand"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox" unique_id=100338649]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMainHandText" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsMainHandHBox/PanelContainer2" unique_id=1209178914]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD WEAPON"
+
+[node name="StatsOffHandHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=975660604]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox" unique_id=1064430424]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsOffHandTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer" unique_id=205514041]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "OFF HAND"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox" unique_id=600548657]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsOffHandText" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsOffHandHBox/PanelContainer2" unique_id=447807846]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD OFF HAND"
+
+[node name="StatsHeadHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1179711009]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox" unique_id=1731523157]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHeadTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer" unique_id=1730731125]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "HEAD"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox" unique_id=79270734]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHeadText" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsHeadHBox/PanelContainer2" unique_id=785291194]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD HELMET "
+
+[node name="StatsChestHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1374039704]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox" unique_id=488727868]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsChestTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer" unique_id=890820088]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "CHEST"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox" unique_id=209565623]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsChestText" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsChestHBox/PanelContainer2" unique_id=1024964353]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER STURDY ARMOR "
+
+[node name="StatsArmsHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=469600772]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox" unique_id=458892436]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsArmsTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer" unique_id=413095435]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ARMS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox" unique_id=2121080443]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsArmsText" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsArmsHBox/PanelContainer2" unique_id=1663339095]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER BIG SLEEVES"
+
+[node name="StastsLegsHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1914746694]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox" unique_id=1326915149]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLegsTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer" unique_id=94145128]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "LEGS"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox" unique_id=1969737056]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsLegsText" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StastsLegsHBox/PanelContainer2" unique_id=1412460415]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER GOOD LEG ARMOR"
+
+[node name="StatsAccy1HBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=254395537]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox" unique_id=2039116106]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy1TitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer" unique_id=359725731]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ACCY1"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox" unique_id=667330508]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy1Text" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAccy1HBox/PanelContainer2" unique_id=1333325486]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "RARE ACCESSORY"
+
+[node name="StatsAcc2HBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox" unique_id=1404014202]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox" unique_id=1480960668]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy2TitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer" unique_id=276879416]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ACCY2"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox" unique_id=434805411]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsAccy2Text" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/StatsEquipVBox/StatsAcc2HBox/PanelContainer2" unique_id=1767764702]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SUPER RARE ACCESSORy"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1434910561]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="StatsHPHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1949938602]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=1555258996]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsHPTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer" unique_id=331078065]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "HP"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=1115353127]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsCurrHPValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer2" unique_id=218533841]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=1724303618]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSlashLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer3" unique_id=129866258]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 8
+text = "/"
+
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox" unique_id=1339157301]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMaxHPValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsHPHBox/PanelContainer4" unique_id=1700954097]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSPHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1070112268]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox" unique_id=203230799]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSPTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox/PanelContainer" unique_id=423314042]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SP"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox" unique_id=1045882491]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsCurrSPValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox/PanelContainer2" unique_id=1227480861]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="PanelContainer3" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox" unique_id=1533455262]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSlashLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox/PanelContainer3" unique_id=1662114592]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 8
+text = "/"
+
+[node name="PanelContainer4" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox" unique_id=1418330912]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMaxSPValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/StatsSPHBox/PanelContainer4" unique_id=2071061154]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=448878543]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uyx8q")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer" unique_id=755684513]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=219193675]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1263056454]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox" unique_id=808504949]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox/PanelContainer" unique_id=574877290]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ATK"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox" unique_id=694151051]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsATKHBox/PanelContainer2" unique_id=23864137]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsDEFHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1073752764]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox" unique_id=1151268]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsDEFTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox/PanelContainer" unique_id=1441270778]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "DEF"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox" unique_id=352227516]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsDEFValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsDEFHBox/PanelContainer2" unique_id=1828936211]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSTRHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=2115500564]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox" unique_id=1646456353]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTRTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox/PanelContainer" unique_id=1721624697]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "STR"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox" unique_id=1653837546]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTRValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTRHBox/PanelContainer2" unique_id=1547936460]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSTMHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=734797934]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox" unique_id=1841031317]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTMTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox/PanelContainer" unique_id=1696921133]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "STM"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox" unique_id=33756782]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSTMValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSTMHBox/PanelContainer2" unique_id=1283494055]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=501786938]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox" unique_id=1047661924]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSPDTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer" unique_id=977599151]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "SPD"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox" unique_id=962843739]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsSPDValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer2" unique_id=1145668906]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsMAGHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1337617129]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox" unique_id=1712194190]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMagTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox/PanelContainer" unique_id=1346972231]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "MAG"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox" unique_id=144524193]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsMAGValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsMAGHBox/PanelContainer2" unique_id=222346629]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer" unique_id=935502931]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="StatsATKHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1172008945]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox" unique_id=1421881484]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox/PanelContainer" unique_id=854958988]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ATK"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox" unique_id=1381402139]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox/PanelContainer2" unique_id=1259256412]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsATKHBox2" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1785392836]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2" unique_id=289295086]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2/PanelContainer" unique_id=1096107517]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ATK"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2" unique_id=907300046]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox2/PanelContainer2" unique_id=422000899]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsATKHBox3" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=998256206]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3" unique_id=1304881436]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3/PanelContainer" unique_id=1856660050]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ATK"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3" unique_id=1942888515]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox3/PanelContainer2" unique_id=604408374]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"
+
+[node name="StatsATKHBox4" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1232891779]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4" unique_id=1120755992]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4/PanelContainer" unique_id=485333649]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "ATK"
+
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4" unique_id=1977816849]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
+
+[node name="StatsATKValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer2/StatsATKHBox4/PanelContainer2" unique_id=152360468]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ereko")
+theme_override_font_sizes/font_size = 7
+text = "99999"

@@ -1,0 +1,201 @@
+[gd_scene format=3 uid="uid://dmbj7ud0vje5r"]
+
+[ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_6does"]
+[ext_resource type="Script" uid="uid://6hkbdqirssc2" path="res://_globals/gui/game_menu/quests_ui.gd" id="1_itdc6"]
+[ext_resource type="PackedScene" uid="uid://rh6ff4x1jimv" path="res://_globals/gui/game_menu/quest_type_button.tscn" id="2_cl5hh"]
+[ext_resource type="PackedScene" uid="uid://ddiywckqcwvou" path="res://_globals/gui/game_menu/quest_button.tscn" id="3_yek3h"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="4_b0n2v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l8ib"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_c6y0t"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmrhr"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y334l"]
+
+[node name="Quests" type="Control" unique_id=40235511]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_itdc6")
+
+[node name="QuestsPositionerLeft" type="Control" parent="." unique_id=472368527]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_6does")
+
+[node name="QuestsLeftPanel" type="PanelContainer" parent="QuestsPositionerLeft" unique_id=1278649358]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 166)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.73800004
+offset_right = 0.00018310547
+offset_bottom = 58.68799
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3l8ib")
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerLeft/QuestsLeftPanel" unique_id=241981763]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer" unique_id=1029349669]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="QuestsTypeHBox" type="HBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer" unique_id=131446361]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="QuestsCurrentButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" unique_id=1284207803 instance=ExtResource("2_cl5hh")]
+unique_name_in_owner = true
+layout_mode = 2
+type = "CURRENT"
+
+[node name="QuestsCompletedButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/QuestsTypeHBox" unique_id=411602455 instance=ExtResource("2_cl5hh")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer" unique_id=2045890876]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer" unique_id=1825067575]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="QuestsListVBox" type="VBoxContainer" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=133826509]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="QuestButton" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" unique_id=1981331559 instance=ExtResource("3_yek3h")]
+layout_mode = 2
+
+[node name="QuestButton2" parent="QuestsPositionerLeft/QuestsLeftPanel/MarginContainer/VBoxContainer/ScrollContainer/QuestsListVBox" unique_id=1367067102 instance=ExtResource("3_yek3h")]
+layout_mode = 2
+
+[node name="QuestsPositionerRight" type="Control" parent="." unique_id=1098426112]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 224)
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="DescriptionPanel" type="PanelContainer" parent="QuestsPositionerRight" unique_id=1531095153]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 166)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.00048828125
+offset_right = -0.00048828125
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(58.000427, 79)
+theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestsPositionerRight/DescriptionPanel" unique_id=535224234]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer" unique_id=1304534748]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=1603859826]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
+
+[node name="QuestTitle" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer" unique_id=68264042]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_b0n2v")
+theme_override_font_sizes/font_size = 7
+text = "SUPER DEDUPER HARD LONG QUEST NAME"
+horizontal_alignment = 1
+
+[node name="QuestDescHSep1" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=394601062]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
+
+[node name="PanelContainer2" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=875460424]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
+
+[node name="QuestDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer2" unique_id=186175188]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_b0n2v")
+theme_override_font_sizes/font_size = 7
+text = "SUPER DUPER LONG QUEST DESCRIPTION TO DESCRIBE AN EXTREMELY DUPER HARD QUEST OF SOME SORT BECAUSE IT WOULD MAYBE NEED TO TELL THE PLAYER A LOT OF STUFF. BUT THIS SHOULD BE A GENERAL DESCRIPTION"
+autowrap_mode = 3
+
+[node name="QuestDescHSep2" type="HSeparator" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=2142093477]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_c6y0t")
+
+[node name="PanelContainer3" type="PanelContainer" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer" unique_id=1467244026]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_y334l")
+
+[node name="QuestStepDesc" type="Label" parent="QuestsPositionerRight/DescriptionPanel/MarginContainer/VBoxContainer/PanelContainer3" unique_id=107013474]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_b0n2v")
+theme_override_font_sizes/font_size = 7
+text = "THIS IS A SUPER DUPER LONG QUEST STEP DESCRIPTION THAT SHOULD PROBABLY TELL THE PLAYER A LOT ABOUT WHERE THEY WOULD NEED TO GO TO COMPLETE THE STEP OTHERWISE THEY WILL MOST LIKELY GET LOST"
+autowrap_mode = 3

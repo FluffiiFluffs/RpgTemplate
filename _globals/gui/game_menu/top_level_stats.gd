@@ -104,24 +104,25 @@ func on_button_pressed()->void:
 			GameMenu.update_top_level_stats_box(self)
 		"STATS_SELECTION":
 			GameMenu.last_top_level_stats_focused = self
-			GameMenu.setup_stats_menu(self)
-			GameMenu.open_stats_menu()
+			GameMenu.stats.setup_stats_menu(self)
+			GameMenu.stats.open_stats_menu()
 			GameMenu.menu_state = "STATS_OPEN"
 		"STATS_OPEN":
 			GameMenu.last_top_level_stats_focused = self
-			GameMenu.setup_stats_menu(self)
+			GameMenu.stats.setup_stats_menu(self)
 		"EQUIP_PARTY_SELECT":
 			GameMenu.last_top_level_stats_focused = self
 			GameMenu.current_selected_party_member = party_member
-			GameMenu.curr_main_hand.grab_button_focus()
-			GameMenu.equip_panel_container.self_modulate = class_color
-			GameMenu.update_equip_menu_equipment_labels(party_member)
-			GameMenu.update_equip_menu_stats_labels(party_member)
-			GameMenu.clear_equip_equipping_list()
-			GameMenu.hide_equip_equipping_list()
-			GameMenu.equip_equip_button.self_modulate = GameMenu.ENABLED_COLOR
+			GameMenu.equip.curr_main_hand.grab_button_focus()
+			GameMenu.equip.equip_panel_container.self_modulate = class_color
+			GameMenu.equip.update_equip_menu_equipment_labels(party_member)
+			GameMenu.equip.update_equip_menu_stats_labels(party_member)
+			GameMenu.equip.clear_equip_equipping_list()
+			GameMenu.equip.hide_equip_equipping_list()
+			GameMenu.equip.equip_equip_button.self_modulate = GameMenu.ENABLED_COLOR
 			GameMenu.menu_state = "EQUIP_EQUIP_SELECT"
-			GameMenu.animation_player.play("equip_menu_show")
+			#GameMenu.animation_player.play("equip_menu_show")
+			GameMenu.equip.equip_menu_show()
 			pass
 	#Selecting top level stats button opens stats page, passes self as argument to setup the stats menu
 	#opens stats menu

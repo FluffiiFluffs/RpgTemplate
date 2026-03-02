@@ -1,0 +1,512 @@
+[gd_scene format=3 uid="uid://cd1rl0nxbw05r"]
+
+[ext_resource type="Script" uid="uid://b3jswrksfg5dl" path="res://_globals/gui/game_menu/inventory_ui.gd" id="1_axlmh"]
+[ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_lrptg"]
+[ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="2_axlmh"]
+[ext_resource type="PackedScene" uid="uid://bhfhqwlqdj6ki" path="res://_globals/gui/game_menu/inventory_item_button.tscn" id="3_on6th"]
+[ext_resource type="Texture2D" uid="uid://15cocjn2s06n" path="res://_assets/ui/icons_large/banana.png" id="4_nesja"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="5_iedn0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l8ib"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmrhr"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_e31sb"]
+color = Color(1, 1, 1, 0)
+vertical = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_26r4l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_012yt"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_rmrhr"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bnqfe"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Inventory" type="Control" unique_id=1692885481]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_axlmh")
+
+[node name="InventoryPositionerLeft" type="Control" parent="." unique_id=669901851]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_lrptg")
+
+[node name="ItemListPanel" type="PanelContainer" parent="InventoryPositionerLeft" unique_id=1913959803]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.73800004
+offset_right = 0.00018310547
+offset_bottom = 8.687988
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3l8ib")
+
+[node name="MarginContainer" type="MarginContainer" parent="InventoryPositionerLeft/ItemListPanel" unique_id=762827371]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer" unique_id=527352301]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="InventoryOptionsHBox" type="HBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=2133594435]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="UseItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=2132036449 instance=ExtResource("2_axlmh")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "USE"
+
+[node name="SortItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=1224122499 instance=ExtResource("2_axlmh")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SORT"
+
+[node name="ReorderItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=1085966821 instance=ExtResource("2_axlmh")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "REORDER"
+
+[node name="ExitItemsButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/InventoryOptionsHBox" unique_id=730422894 instance=ExtResource("2_axlmh")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "EXIT"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=1502855497]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="ItemsListVBox" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=281789540]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="InventoryItemButton" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=2084332015 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton2" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=987769909 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton3" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1233660869 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryPositionerRight" type="Control" parent="." unique_id=1628245704]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 224)
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="DescriptionPanel" type="PanelContainer" parent="InventoryPositionerRight" unique_id=1458943509]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 166)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.00048828125
+offset_right = -0.00048828125
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rmrhr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel" unique_id=98188162]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="DescHeadingContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=1251726687]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="DescNameIconHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer" unique_id=1382721354]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VSeparator" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=955442746]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
+
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=1432450676]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_26r4l")
+
+[node name="DescItemTexture" type="TextureRect" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer" unique_id=544099985]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_nesja")
+stretch_mode = 3
+
+[node name="VSeparator2" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=1936847835]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
+
+[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=1091387904]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_012yt")
+
+[node name="DescItemName" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox/PanelContainer2" unique_id=1630739229]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 10
+text = "SORT OF GOOD ITEM
+WITH A LONG NAME"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="VSeparator3" type="VSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescHeadingContainer/DescNameIconHBox" unique_id=1577730071]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_e31sb")
+
+[node name="HSeparator" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=1101981406]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
+
+[node name="DescTypeQtyContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=721192278]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer" unique_id=997297454]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer" unique_id=606629782]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DescTypeText" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer/PanelContainer" unique_id=64786376]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "Type"
+
+[node name="PanelContainer2" type="PanelContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer" unique_id=73568250]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DescQtyText" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescTypeQtyContainer/HBoxContainer/PanelContainer2" unique_id=816414732]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "99"
+
+[node name="HSeparator2" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=1300264928]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
+
+[node name="DescItemContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=276754585]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="DescTextLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescItemContainer" unique_id=1614120457]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 45)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "This is a description of the item and it can be kinda long because of how large this description box is. The maximum is 4 lines of text"
+autowrap_mode = 3
+
+[node name="DescEquipContainer" type="VBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer" unique_id=191959733]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="HSeparator3" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=294726552]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
+
+[node name="DescCanUseContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=689096393]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer" unique_id=933011289]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Slot00CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=1365930636]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "WARRIOR"
+
+[node name="Slot01CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=1641649745]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "THIEF"
+
+[node name="Slot02CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=2024806355]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "MAGE"
+
+[node name="Slot03CanUseLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescCanUseContainer/HBoxContainer" unique_id=964475800]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "HEALER"
+
+[node name="HSeparator4" type="HSeparator" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=1042613314]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
+
+[node name="DescStatBonusContainer" type="MarginContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer" unique_id=123799967]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 2
+
+[node name="GridContainer" type="GridContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer" unique_id=1424423730]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 6
+columns = 4
+
+[node name="HPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=830003980]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox" unique_id=1028602328]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "HP +"
+
+[node name="HPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/HPBonusHBox" unique_id=273706704]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="SPBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=318295351]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="SPBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SPBonusHBox" unique_id=1950676422]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "MP +"
+
+[node name="SPBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/SPBonusHBox" unique_id=1425320947]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="ATKBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=1226102253]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ATKBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox" unique_id=331108983]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "ATK +"
+
+[node name="ATKBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/ATKBonusHBox" unique_id=289701961]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="DEFBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=681363411]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="DEFBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox" unique_id=2102993882]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "DEF +"
+
+[node name="DEFBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/DEFBonusHBox" unique_id=1146132116]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="StrengthBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=1684473536]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="StrengthBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox" unique_id=55335504]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "STR +"
+
+[node name="StrengthBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StrengthBonusHBox" unique_id=71859566]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="StaminaBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=1942427447]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="StaminaBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox" unique_id=147944384]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "STM +"
+
+[node name="StaminaBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/StaminaBonusHBox" unique_id=1750544767]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="AgilityBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=632955056]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="AgilityBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/AgilityBonusHBox" unique_id=298673894]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "SPD +"
+
+[node name="AgilityBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/AgilityBonusHBox" unique_id=406554721]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="MagicBonusHBox" type="HBoxContainer" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer" unique_id=2081882328]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MagicBonusLabel" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox" unique_id=367118593]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "MAG +"
+
+[node name="MagicBonusValue" type="Label" parent="InventoryPositionerRight/DescriptionPanel/VBoxContainer/DescEquipContainer/DescStatBonusContainer/GridContainer/MagicBonusHBox" unique_id=1609332655]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_iedn0")
+theme_override_font_sizes/font_size = 7
+text = "10"
+
+[node name="Hider" type="PanelContainer" parent="." unique_id=1072294798]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 174.0
+offset_right = 400.0
+offset_bottom = 224.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bnqfe")

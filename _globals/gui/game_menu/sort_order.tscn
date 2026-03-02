@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://tvpwudaxg3lq"]
+
+[ext_resource type="PackedScene" uid="uid://dwhea87oe4shd" path="res://_globals/gui/game_menu/sort_order_entry.tscn" id="1_7uyvr"]
+[ext_resource type="Script" uid="uid://dv7ln05jm8nuu" path="res://_globals/gui/game_menu/sort_order.gd" id="1_imjmh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gqqd"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[node name="SortOrder" type="Control" unique_id=1308004968]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_imjmh")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=837762711]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8gqqd")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=870587817]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="SortOrderVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=567957382]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SortOrderEntry" parent="PanelContainer/MarginContainer/SortOrderVBox" unique_id=651669440 instance=ExtResource("1_7uyvr")]
+unique_name_in_owner = true
+layout_mode = 2

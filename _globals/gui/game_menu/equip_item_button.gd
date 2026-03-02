@@ -24,7 +24,7 @@ func on_button_pressed()->void:
 	if _ensure_curr_slot_scene() == false:
 		return
 
-	GameMenu.equip_item(item, slot, curr_slot_scene)
+	GameMenu.equip.equip_item(item, slot, curr_slot_scene)
 	AudioManager.play_ui_confirm()
 	
 	
@@ -84,8 +84,8 @@ func _get_all_equip_stats() -> Array[EquipStats]:
 	if GameMenu == null:
 		return out
 
-	if GameMenu.equip_stat_grid_container != null:
-		for child in GameMenu.equip_stat_grid_container.get_children():
+	if GameMenu.equip.equip_stat_grid_container != null:
+		for child in GameMenu.equip.equip_stat_grid_container.get_children():
 			if child is EquipStats:
 				out.append(child)
 		return out
@@ -147,26 +147,26 @@ func _get_stat_deltas_for_candidate(member : PartyMemberData, candidate : Item, 
 
 	var applied = true
 	match slot_scene:
-		GameMenu.curr_main_hand:
+		GameMenu.equip.curr_main_hand:
 			member.mainhand = candidate
 			member.two_handing = candidate.two_hand
 			# Match equip_item preview: two hand main clears offhand.
 			if member.two_handing == true:
 				member.offhand = null
-		GameMenu.curr_off_hand:
+		GameMenu.equip.curr_off_hand:
 			member.offhand = candidate
 			member.two_handing = false
-		GameMenu.curr_head:
+		GameMenu.equip.curr_head:
 			member.headslot = candidate
-		GameMenu.curr_chest:
+		GameMenu.equip.curr_chest:
 			member.chestslot = candidate
-		GameMenu.curr_arms:
+		GameMenu.equip.curr_arms:
 			member.armslot = candidate
-		GameMenu.curr_legs:
+		GameMenu.equip.curr_legs:
 			member.legslot = candidate
-		GameMenu.curr_accy_1:
+		GameMenu.equip.curr_accy_1:
 			member.accy01 = candidate
-		GameMenu.curr_accy_2:
+		GameMenu.equip.curr_accy_2:
 			member.accy02 = candidate
 		_:
 			applied = false
