@@ -51,7 +51,7 @@ func open_quests_menu()->void:
 func close_quests_menu()->void:
 	#plays menu close animation
 	#animation_player.play("quests_menu_hide")
-	quests_menu_hide()
+	await quests_menu_hide()
 	clear_quests_list()
 	quests_completed_button.is_active = false
 	quests_current_button.is_active = false
@@ -224,5 +224,22 @@ func setup_quests_focus_neighbors() -> void:
 			btn.focus_neighbor_left = self_path
 			btn.focus_neighbor_right = self_path
 
+
+func force_close_for_load() -> void:
+	# Hide both panels, no tweens.
+	quests_left_panel.visible = false
+	description_panel.visible = false
+
+	quests_left_panel.position = Vector2(-200, 0)
+	description_panel.position = Vector2(200, 0)
+
+	# Clear list and reset selection visuals.
+	clear_quests_list()
+	clear_quest_description()
+
+	quests_current_button.is_active = false
+	quests_completed_button.is_active = false
+	quests_current_button.self_modulate = GameMenu.TRANS_COLOR
+	quests_completed_button.self_modulate = GameMenu.TRANS_COLOR
 
 #endregion quest menu

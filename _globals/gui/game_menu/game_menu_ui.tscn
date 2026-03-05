@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cyw8elamdnchs"]
 
 [ext_resource type="Script" uid="uid://cp1hk0ht1f7uk" path="res://_globals/gui/game_menu/game_menu_ui.gd" id="1_id8es"]
-[ext_resource type="AnimationLibrary" uid="uid://dht31f2qwuj1o" path="res://animations/ui_animations.res" id="2_26r4l"]
 [ext_resource type="PackedScene" uid="uid://dn1tymwub7g0k" path="res://_globals/gui/game_menu/top_level_ui.tscn" id="3_7foox"]
 [ext_resource type="PackedScene" uid="uid://cd1rl0nxbw05r" path="res://_globals/gui/game_menu/inventory_ui.tscn" id="4_apaxs"]
 [ext_resource type="PackedScene" uid="uid://ch3r2iqfj4lgv" path="res://_globals/gui/game_menu/equip_ui.tscn" id="5_ai7cu"]
@@ -15,46 +14,29 @@
 layer = 10
 script = ExtResource("1_id8es")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=633661301]
-unique_name_in_owner = true
-libraries/ = ExtResource("2_26r4l")
-
 [node name="TopLevel" parent="." unique_id=195872409 instance=ExtResource("3_7foox")]
 unique_name_in_owner = true
 
 [node name="Inventory" parent="." unique_id=1692885481 instance=ExtResource("4_apaxs")]
 unique_name_in_owner = true
-visible = false
 
 [node name="Equip" parent="." unique_id=1256549937 instance=ExtResource("5_ai7cu")]
 unique_name_in_owner = true
-visible = false
-offset_top = -225.0
-offset_bottom = -175.05002
 
 [node name="Skills" parent="." unique_id=328216003 instance=ExtResource("6_4lmyi")]
 unique_name_in_owner = true
-visible = false
 
 [node name="Stats" parent="." unique_id=816713305 instance=ExtResource("7_qqjhd")]
 unique_name_in_owner = true
-visible = false
-offset_top = -215.0
-offset_bottom = -215.05002
 
 [node name="Quests" parent="." unique_id=40235511 instance=ExtResource("8_4lmyi")]
 unique_name_in_owner = true
-visible = false
 
 [node name="Options" parent="." unique_id=1252324805 instance=ExtResource("9_qqjhd")]
 unique_name_in_owner = true
-visible = false
-offset_top = 225.0
-offset_bottom = 225.0008
 
 [node name="SortOrder" parent="." unique_id=1308004968 instance=ExtResource("14_apaxs")]
 unique_name_in_owner = true
-visible = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1431622732]
 unique_name_in_owner = true

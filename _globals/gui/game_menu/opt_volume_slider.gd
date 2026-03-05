@@ -38,7 +38,7 @@ func button_unfocused()->void:
 
 func button_pressed()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
-	GameMenu.slider_active(self)
+	GameMenu.options.slider_active(self)
 	h_slider.grab_focus()
 
 func set_options_value(_value:float)->void:
@@ -56,4 +56,4 @@ func _unhandled_input(_event):
 		if Input.is_action_just_pressed("cancel_input"):
 			button.grab_focus()
 			await get_tree().process_frame
-			GameMenu.slider_inactive()
+			GameMenu.options.slider_inactive()

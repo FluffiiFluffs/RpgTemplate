@@ -20,7 +20,6 @@ extends CanvasLayer
 ##Audio Stream Player for UI sounds
 @onready var audio_stream_player : AudioStreamPlayer = %AudioStreamPlayer
 ##Animation Player for controlling what's on screen
-@onready var animation_player : AnimationPlayer = %AnimationPlayer
 #endregion general onready variables
 
 
@@ -40,7 +39,7 @@ const MINUS_COLOR = Color("9b3800ff")
 
 #region General Variables
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP_PARTY_SELECT","EQUIP_OPTIONS", "EQUIP_EQUIP_SELECT", "EQUIP_MENU_EQUIPPING", "EQUIP_MENU_REMOVE", "MAGIC_PARTY_SELECT", "MAGIC_SELECT_SPELL", "MAGIC_SPELL_USE_PARTY_SELECTION", "STATS_SELECTION", "STATS_OPEN", "QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", "OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING") var menu_state : String = "TOP_MENU_CLOSED"
+@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP_PARTY_SELECT","EQUIP_OPTIONS", "EQUIP_EQUIP_SELECT", "EQUIP_MENU_EQUIPPING", "EQUIP_MENU_REMOVE", "MAGIC_PARTY_SELECT", "MAGIC_SELECT_SPELL", "MAGIC_SPELL_USE_PARTY_SELECTION", "STATS_SELECTION", "STATS_OPEN", "QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", "OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING", "OPTIONS_LOAD_MENU_OPEN") var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
@@ -149,12 +148,12 @@ func _unhandled_input(_event):
 			"TOP_MENU_CLOSED": #TOP_MENU_CLOSED
 				return
 			"TOP_MENU_OPEN":
-				top_level.top_menu_close()
+				await top_level.top_menu_close()
 
 				menu_state = "TOP_MENU_CLOSED"
 			"INVENTORY_OPTIONS":
 				#close the inventory completely, open top menu
-				inventory.close_inventory()
+				await inventory.close_inventory()
 				top_level.close_to_top_menu()
 			"USE_ITEMS":
 				inventory.use_items_button.is_active = false
@@ -223,14 +222,15 @@ func _unhandled_input(_event):
 				pass
 				
 			"STATS_SELECTION":
-				menu_state = "TOP_MENU_OPEN"
-				top_level.stats_button.is_active = false
-				top_level.focus_last_top_menu_button()
+				#menu_state = "TOP_MENU_OPEN"
+				#top_level.stats_button.is_active = false
+				#top_level.focus_last_top_menu_button()
+				GameMenu.top_level.close_to_top_menu()
 			"STATS_OPEN":
 				stats.close_stats_menu()
 				#menu_state = "STATS_SELECTION"
 			"QUESTS_SELECT_TYPE":
-				quests.close_quests_menu()
+				await quests.close_quests_menu()
 				GameMenu.top_level.close_to_top_menu()
 				pass
 			"QUESTS_CURRENT_QUESTS":
@@ -241,7 +241,7 @@ func _unhandled_input(_event):
 				pass
 			"OPTIONS_OPEN":
 				##close the options menu, open the top menu
-				options.close_options()
+				await options.close_options()
 				top_level.close_to_top_menu()
 			"OPTIONS_SLIDER":
 				#refocuses the button attached to the slider

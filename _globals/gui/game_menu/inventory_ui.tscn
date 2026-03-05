@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3jswrksfg5dl" path="res://_globals/gui/game_menu/inventory_ui.gd" id="1_axlmh"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_lrptg"]
-[ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="2_axlmh"]
+[ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_options_button.tscn" id="2_axlmh"]
 [ext_resource type="PackedScene" uid="uid://bhfhqwlqdj6ki" path="res://_globals/gui/game_menu/inventory_item_button.tscn" id="3_on6th"]
 [ext_resource type="Texture2D" uid="uid://15cocjn2s06n" path="res://_assets/ui/icons_large/banana.png" id="4_nesja"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="5_iedn0"]
@@ -13,6 +13,11 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_rmrhr"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rmrhr"]
 bg_color = Color(0, 0, 0, 1)
@@ -28,11 +33,6 @@ vertical = true
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_26r4l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_012yt"]
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_rmrhr"]
-color = Color(1, 1, 1, 1)
-grow_begin = -8.0
-grow_end = -8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bnqfe"]
 bg_color = Color(0, 0, 0, 1)
@@ -84,7 +84,7 @@ theme_override_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer" unique_id=527352301]
 layout_mode = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = 1
 
 [node name="InventoryOptionsHBox" type="HBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=2133594435]
 unique_name_in_owner = true
@@ -111,13 +111,17 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "EXIT"
 
+[node name="HSeparator" type="HSeparator" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=1280768600]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rmrhr")
+
 [node name="ScrollContainer" type="ScrollContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer" unique_id=1502855497]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 follow_focus = true
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
+vertical_scroll_mode = 2
 
 [node name="ItemsListVBox" type="VBoxContainer" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer" unique_id=281789540]
 unique_name_in_owner = true
@@ -135,10 +139,38 @@ layout_mode = 2
 [node name="InventoryItemButton3" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1233660869 instance=ExtResource("3_on6th")]
 layout_mode = 2
 
+[node name="InventoryItemButton4" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1099334390 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton5" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=36471245 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton6" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1977963284 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton7" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1583720969 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton8" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=262206967 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton9" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=1633091409 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton10" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=332820358 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton11" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=2085525280 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
+[node name="InventoryItemButton12" parent="InventoryPositionerLeft/ItemListPanel/MarginContainer/VBoxContainer/ScrollContainer/ItemsListVBox" unique_id=160295918 instance=ExtResource("3_on6th")]
+layout_mode = 2
+
 [node name="InventoryPositionerRight" type="Control" parent="." unique_id=1628245704]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 224)
 layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0

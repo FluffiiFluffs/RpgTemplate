@@ -221,7 +221,7 @@ func select_item(item_button : InventoryItemButton)->void:
 	match GameMenu.menu_state:
 		"REORDER_ITEMS":
 			#stores first item selected
-			GameMenu.last_selected_inventory_button = GameMenu.inventory.item_button
+			GameMenu.last_selected_inventory_button = item_button
 			#marks the selection as selected
 			var ilist := items_list_v_box.get_children()
 			for child in ilist:
@@ -231,7 +231,7 @@ func select_item(item_button : InventoryItemButton)->void:
 			
 		"REORDER_ITEMS_REORDERING":
 			#picks second item and swaps or cancels out if the same item is selected
-			if GameMenu.top_level.item_button == GameMenu.last_selected_inventory_button:
+			if item_button == GameMenu.last_selected_inventory_button:
 				cancel_reorder_selection()
 				return
 			var ilist := items_list_v_box.get_children()
@@ -298,7 +298,7 @@ func select_item(item_button : InventoryItemButton)->void:
 				return
 
 			# store selected item button globally so TopLevelStats can read it
-			GameMenu.last_selected_inventory_button = GameMenu.top_level.item_button
+			GameMenu.last_selected_inventory_button = item_button
 
 			# mark selection on the inventory list, so focus exit does not clear the highlight
 			var ilist = items_list_v_box.get_children()
@@ -575,5 +575,22 @@ func _swap_inventory_slots(a : int, b : int)->void:
 	var tmp = inv[a]
 	inv[a] = inv[b]
 	inv[b] = tmp
+
+func force_close_for_load() -> void:
+	# Hide both panels, no tweens.
+	item_list_panel.visible = false
+	description_panel.visible = false
+
+	item_list_panel.position = Vector2(-200, 0)
+	description_panel.position = Vector2(200, 0)
+
+	# Clear instantiated entries and reset option highlights.
+	clear_items_list()
+
+	for child in inventory_options_h_box.get_children():
+		if child is InventoryOptionsButton:
+			child.is_active = false
+
+	update_inventory_options_buttons_color()
 
 #endregion inventory

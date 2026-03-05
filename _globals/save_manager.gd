@@ -5,12 +5,20 @@
 ##   key=value
 ## Values are encoded with _encode_value and decoded with _decode_value.
 
-extends Node
+extends Control
+
+@onready var save_load_menu: SaveLoadMenu = %SaveLoadMenu
+@onready var confirm_window: SaveLoadConfirmWindow = %ConfirmWindow
 
 var _loaded_save_sections: Dictionary = {}
 var _loaded_options_sections: Dictionary = {}
 
 var state_flags: Array[PackedStringArray] = []
+
+
+## Slot number (1 based) last saved to or loaded from.
+## Copy and erase do not update this.
+var last_used_save_slot_number: int = 0
 
 const FIELD_SCENES_ROOT_DIR: String = "res://field/scenes/field_scenes"
 
@@ -30,6 +38,9 @@ func save_game(slot : int) -> void:
 	var filename : String = "save_" + str(slot) + ".sav"
 	var lines : PackedStringArray = PackedStringArray()
 
+	# Statistics are stored inside the save file, so increment before writing.
+	times_saved += 1
+
 	lines.append_array(save_current_scene())
 	lines.append_array(save_state_flags())
 	lines.append_array(save_statistics())
@@ -38,6 +49,7 @@ func save_game(slot : int) -> void:
 	lines.append_array(save_quests())
 
 	_write_sav_lines("user://" + filename, lines)
+	last_used_save_slot_number = slot
 
 		
 
@@ -473,13 +485,15 @@ func load_game(slot : int)->void:
 	_loaded_save_sections.clear()
 	_loaded_save_sections = _parse_sav_file(saved_game_file)
 	saved_game_file.close()
-
+	last_used_save_slot_number = slot
+	
 	load_options()
 	clear_arrays_for_loading()
 
 	load_state_flags()
 
 	load_game_statistics()
+	times_loaded += 1
 	load_inventory()
 	load_current_quests()
 	load_completed_quests()
@@ -494,6 +508,87 @@ func find_game_save(slot : int)->FileAccess:
 	var savefile = FileAccess.open(savename, FileAccess.READ)
 	#return save file found in file system
 	return savefile
+	
+	
+func delete_save(slot: int) -> bool:
+	if slot < 1:
+		return false
+
+	var filename: String = "save_" + str(slot) + ".sav"
+	var full_path: String = "user://" + filename
+	if not FileAccess.file_exists(full_path):
+		return false
+
+	var dir: DirAccess = DirAccess.open("user://")
+	if dir == null:
+		return false
+
+	var err: int = dir.remove(filename)
+	return err == OK
+
+
+func copy_save(src_slot: int, dst_slot: int) -> bool:
+	if src_slot < 1:
+		return false
+	if dst_slot < 1:
+		return false
+	if src_slot == dst_slot:
+		return false
+
+	var src_path: String = _get_save_file_path(src_slot)
+	var dst_path: String = _get_save_file_path(dst_slot)
+	if not FileAccess.file_exists(src_path):
+		return false
+
+	var src: FileAccess = FileAccess.open(src_path, FileAccess.READ)
+	if src == null:
+		return false
+
+	var dst: FileAccess = FileAccess.open(dst_path, FileAccess.WRITE)
+	if dst == null:
+		src.close()
+		return false
+
+	var bytes: PackedByteArray = src.get_buffer(src.get_length())
+	dst.store_buffer(bytes)
+	src.close()
+	dst.close()
+	return true
+
+
+func get_save_summary(slot: int) -> Dictionary:
+	var path: String = _get_save_file_path(slot)
+	if not FileAccess.file_exists(path):
+		return {}
+
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return {}
+
+	var sections: Dictionary = _parse_sav_file(file)
+	file.close()
+
+	var member0: Dictionary = _get_section(sections, "characters.current_party_members.0")
+	var stats: Dictionary = _get_section(sections, "game_statistics")
+	var field_scene: Dictionary = _get_section(sections, "current_field_scene")
+
+	return {
+		"player_name": _sec_get_string(member0, "display_name", ""),
+		"level": _sec_get_int(member0, "level", 0),
+		"location": _sec_get_string(field_scene, "current_field_scene", ""),
+		"money": _sec_get_int(stats, "money", 0),
+		"time_played": _sec_get_int(stats, "time_played", 0),
+		"times_saved": _sec_get_int(stats, "times_saved", 0)
+	}
+
+
+func _get_save_file_path(slot: int) -> String:
+	return "user://save_" + str(slot) + ".sav"
+	
+	
+	
+	
+	
 	
 ## Clears all arrays for loading so new objects can be created
 func clear_arrays_for_loading()->void:
@@ -948,6 +1043,9 @@ func load_outside_party_members()->void:
 ## Parses the current_field_scene, searches the filesystem under res://field/scenes/field_scenes and subfolders for the filename. Uses SceneManager.load_scene_by_filename(filename)
 ## Instantiates CharDataKeeper.party_members at position_x and position_y (as if just spawning in, should be a simliar action to SceneManager.make_party_at_spawn_point(), except it uses the x and y locations instead of the spawn point. Player always faces down when loading.
 func load_saved_game_field_scene()->void:
+	
+	SceneManager.set_field_enemies_paused(true)
+
 	var sec : Dictionary = _get_section(_loaded_save_sections, "current_field_scene")
 	if sec.is_empty():
 		return
@@ -994,6 +1092,7 @@ func load_saved_game_field_scene()->void:
 	_make_party_at_position(new_scene, spawn_pos)
 	main.field_camera_rig.activate()
 	main.field_camera_rig.follow_player()
+	SceneManager.set_field_enemies_paused(false)
 
 
 func _make_party_at_position(fscene : FieldScene, pos : Vector2) -> void:

@@ -11,7 +11,7 @@ theme_override_constants/separation = 0
 script = ExtResource("1_i57s2")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=312204915]
-custom_minimum_size = Vector2(23, 0)
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
@@ -22,7 +22,7 @@ theme_override_fonts/font = ExtResource("1_nq37o")
 theme_override_font_sizes/font_size = 7
 
 [node name="PanelContainer4" type="PanelContainer" parent="." unique_id=406974850]
-custom_minimum_size = Vector2(28, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
@@ -31,7 +31,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_nq37o")
 theme_override_font_sizes/font_size = 7
-text = "99999"
+text = "9999"
 
 [node name="PanelContainer5" type="PanelContainer" parent="." unique_id=1494153372]
 custom_minimum_size = Vector2(8, 0)
@@ -47,7 +47,7 @@ text = "+"
 horizontal_alignment = 2
 
 [node name="PanelContainer6" type="PanelContainer" parent="." unique_id=1530562236]
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
@@ -57,4 +57,4 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_nq37o")
 theme_override_font_sizes/font_size = 7
-text = "99999"
+text = "9999"

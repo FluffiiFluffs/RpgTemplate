@@ -9,7 +9,7 @@
 [sub_resource type="Resource" id="Resource_2voc5"]
 resource_local_to_scene = true
 script = ExtResource("2_2voc5")
-hp_heal_amount = 10
+hp_heal_amount = 100
 metadata/_custom_type_script = "uid://d0cwv0mtohc84"
 
 [resource]

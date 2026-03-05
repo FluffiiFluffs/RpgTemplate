@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://imgxh1mfdd2s"]
+
+[ext_resource type="Script" uid="uid://xbschq7c3tbc" path="res://_globals/save_slot.gd" id="1_aplrs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tu862"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dc78m"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aplrs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tu862"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r1au8"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8001019, 0.5380844, 0, 1)
+
+[node name="SaveSlot" type="PanelContainer" unique_id=843562972]
+theme_override_styles/panel = SubResource("StyleBoxFlat_tu862")
+script = ExtResource("1_aplrs")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=873143850]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=463092972]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=436034964]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=709545142]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=1483719398]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "PLRName"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=1599075761]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LocationLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=1410833610]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Location"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=1562284155]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2" unique_id=33723372]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer" unique_id=1087391535]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer" unique_id=1043427426]
+layout_mode = 2
+
+[node name="MoneyTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1488866755]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Money"
+
+[node name="MoneyAmount" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1831816407]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "1000"
+horizontal_alignment = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer" unique_id=243677722]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer2" unique_id=685793683]
+layout_mode = 2
+
+[node name="TimeTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer2/HBoxContainer2" unique_id=2096481303]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Time"
+
+[node name="TimeAmount" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2/VBoxContainer/PanelContainer2/HBoxContainer2" unique_id=269878790]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "00:00:00"
+horizontal_alignment = 2
+
+[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=543899017]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer3" unique_id=991264093]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer" unique_id=572416807]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer/PanelContainer" unique_id=208195275]
+layout_mode = 2
+
+[node name="LvTitleLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1110755636]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Lv"
+
+[node name="LvAmount" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer/PanelContainer/HBoxContainer" unique_id=1647270182]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "1"
+horizontal_alignment = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer" unique_id=419866967]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2" unique_id=269455576]
+layout_mode = 2
+
+[node name="SaveNumLabel" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/HBoxContainer2" unique_id=1383289330]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Save #"
+
+[node name="SaveAmount" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer3/VBoxContainer/PanelContainer2/HBoxContainer2" unique_id=1389024559]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = " 1"
+
+[node name="Button" type="Button" parent="." unique_id=1684293550]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_dc78m")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_aplrs")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tu862")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r1au8")

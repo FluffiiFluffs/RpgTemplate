@@ -22,4 +22,4 @@ func on_button_focus_exited()->void:
 
 func on_button_focus_entered()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
-	GameMenu.update_quest_description(quest)
+	GameMenu.quests.update_quest_description(quest)

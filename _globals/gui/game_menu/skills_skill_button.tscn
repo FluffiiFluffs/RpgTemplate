@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://dnxm7jb2genlm"]
+
+[ext_resource type="Script" uid="uid://dsxhekefxbo3t" path="res://_globals/gui/game_menu/skills_skill_button.gd" id="1_hpvlu"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_6mom4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5t42"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3l8ib"]
+draw_center = false
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hpvlu"]
+
+[node name="SkillsSkillButton" type="PanelContainer" unique_id=2084332015]
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o5t42")
+script = ExtResource("1_hpvlu")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=708307853]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = -2
+theme_override_constants/margin_bottom = -2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=678314098]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="SkillButton" type="Button" parent="MarginContainer/HBoxContainer" unique_id=1790278729]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_6mom4")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_3l8ib")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3l8ib")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3l8ib")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_3l8ib")
+theme_override_styles/focus = SubResource("StyleBoxFlat_3l8ib")
+toggle_mode = true
+text = "BIG BITE"
+alignment = 0
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer" unique_id=1554874414]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_hpvlu")
+
+[node name="SkillCost" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1554360327]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("2_6mom4")
+theme_override_font_sizes/font_size = 8
+text = "10"

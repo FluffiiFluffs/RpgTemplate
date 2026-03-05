@@ -64,4 +64,4 @@ layout_mode = 2
 size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("1_0ices")
 theme_override_font_sizes/font_size = 7
-text = "SUPER GOOD WEAPON"
+text = "SUPER DUPER LONG NAME"

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c7b3woubbv7yw" path="res://_globals/gui/game_menu/equip_ui.gd" id="1_jr4vx"]
 [ext_resource type="Theme" uid="uid://7n7ii34ekkpv" path="res://_globals/gui/game_menu/game_menu_theme.tres" id="1_w2qtm"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="2_jr4vx"]
-[ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_button.tscn" id="3_8f5n0"]
+[ext_resource type="PackedScene" uid="uid://dn46ocaf6y8fy" path="res://_globals/gui/game_menu/inventory_options_button.tscn" id="3_8f5n0"]
 [ext_resource type="PackedScene" uid="uid://yms2njo83j7u" path="res://_globals/gui/game_menu/equip_stats.tscn" id="4_nrsuy"]
 [ext_resource type="PackedScene" uid="uid://bju67ey0myd2f" path="res://_globals/gui/game_menu/current_equip_button.tscn" id="5_pgkpp"]
 [ext_resource type="PackedScene" uid="uid://d0guj5cenunp" path="res://_globals/gui/game_menu/equip_item_button.tscn" id="6_58r6b"]
@@ -27,9 +27,9 @@ grow_end = -8.0
 
 [node name="Equip" type="Control" unique_id=1256549937]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.77800006
-offset_bottom = 49.94998
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -109,7 +109,9 @@ theme_override_constants/margin_top = 4
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-columns = 4
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 0
+columns = 5
 
 [node name="EquipStatsHP" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=79919619 instance=ExtResource("4_nrsuy")]
 unique_name_in_owner = true
@@ -131,6 +133,9 @@ unique_name_in_owner = true
 layout_mode = 2
 stats_title = "DEF"
 
+[node name="Label" type="Label" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=930888938]
+layout_mode = 2
+
 [node name="EquipStatsSTR" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=143445765 instance=ExtResource("4_nrsuy")]
 unique_name_in_owner = true
 layout_mode = 2
@@ -150,6 +155,11 @@ stats_title = "SPD"
 unique_name_in_owner = true
 layout_mode = 2
 stats_title = "MAG"
+
+[node name="EquipStatsLCK" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=325283149 instance=ExtResource("4_nrsuy")]
+unique_name_in_owner = true
+layout_mode = 2
+stats_title = "LCK"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="EquipPanelContainer/MarginContainer/VBoxContainer" unique_id=437451475]
 layout_mode = 2

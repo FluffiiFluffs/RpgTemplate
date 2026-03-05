@@ -52,6 +52,8 @@ class_name StatsUI extends Control
 @onready var stats_spd_value : Label = %StatsSPDValue
 ##MAG value
 @onready var stats_mag_value : Label = %StatsMAGValue
+##LCK Value
+@onready var stats_lck_value: Label = %StatsLCKValue
 #endregion stats menu variables
 
 
@@ -153,6 +155,7 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 	stats_stm_value.text = str(_member.get_stamina())
 	stats_spd_value.text = str(_member.get_agility())
 	stats_mag_value.text = str(_member.get_magic())
+	stats_lck_value.text = str(_member.get_luck())
 
 
 func open_stats_menu()->void:
@@ -164,10 +167,10 @@ func open_stats_menu()->void:
 func stats_menu_show()->void:
 	GameMenu.menu_is_animating = true
 	await GameMenu.top_level.top_level_bottom_only()
-	stats_panel_container.position = Vector2(0, 0)
+	stats_panel_container.position = Vector2(0, -224)
 	stats_panel_container.visible = true
 	var tween = create_tween()
-	tween.tween_property(stats_panel_container,"position", Vector2(0,215),0.15)
+	tween.tween_property(stats_panel_container,"position", Vector2(0,0),0.15)
 	await tween.finished
 	GameMenu.menu_is_animating = false
 	
@@ -175,10 +178,10 @@ func stats_menu_show()->void:
 	
 func stats_menu_hide()->void:
 	GameMenu.menu_is_animating = true
-	stats_panel_container.position = Vector2(0, 215)
+	stats_panel_container.position = Vector2(0, 0)
 	stats_panel_container.visible = true
 	var tween = create_tween()
-	tween.tween_property(stats_panel_container,"position", Vector2(0,0),0.15)
+	tween.tween_property(stats_panel_container,"position", Vector2(0,-224),0.15)
 	await tween.finished
 	await GameMenu.top_level.top_level_bottom_only_return()
 	GameMenu.menu_is_animating = false
@@ -194,5 +197,11 @@ func close_stats_menu()->void:
 	GameMenu.menu_state = "STATS_SELECTION"
 	GameMenu.top_level.focus_last_top_level_stats()
 	pass
+
+
+func force_close_for_load() -> void:
+	stats_panel_container.visible = false
+	stats_panel_container.position = Vector2(0, -224)
+
 
 #endregion stats menu

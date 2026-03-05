@@ -407,9 +407,7 @@ func _execute_use_item(use : ActionUse) -> void:
 
 	# Item usage requires an inventory slot payload.
 	# Caller may set use.item_slot directly, or provide it in use.data["item_slot"].
-	if not use.data.has("item_slot"):
-		printerr("ActionResolver: USE_ITEM missing item_slot in use.data")
-		return
+
 
 	# Normalize the InventorySlot reference.
 	var slot : InventorySlot = use.item_slot

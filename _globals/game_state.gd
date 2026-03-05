@@ -21,6 +21,7 @@ enum State {
 	SHOP,
 	DIALOGUE,
 	INTRO,
+	SAVELOADMENU,
 	
 }
 

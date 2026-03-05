@@ -120,12 +120,12 @@ unselected = ExtResource("6_hlv5l")
 selected = ExtResource("7_6okra")
 ui_name = "Equip"
 
-[node name="MagicButton" parent="TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=1991739115 instance=ExtResource("3_cwown")]
+[node name="SkillsButton" parent="TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=1991739115 instance=ExtResource("3_cwown")]
 unique_name_in_owner = true
 layout_mode = 2
 unselected = ExtResource("8_6bqhy")
 selected = ExtResource("9_elr3a")
-ui_name = "Magic"
+ui_name = "Skills"
 
 [node name="StatsButton" parent="TopPositioner/VBoxContainer/TopLevelPanelContainer/MarginContainer/HBoxContainer/TopMenuButtonHBox" unique_id=1159332613 instance=ExtResource("3_cwown")]
 unique_name_in_owner = true

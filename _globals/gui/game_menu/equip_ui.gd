@@ -24,6 +24,7 @@ class_name EquipUI extends Control
 @onready var equip_stats_stm : EquipStats = %EquipStatsSTM
 @onready var equip_stats_spd : EquipStats = %EquipStatsSPD
 @onready var equip_stats_mag : EquipStats = %EquipStatsMAG
+@onready var equip_stats_lck: EquipStats = %EquipStatsLCK
 @onready var equip_name_label : Label = %EquipNameLabel
 @onready var equip_stat_grid_container : GridContainer = %EquipStatGridContainer
 @onready var equip_equipping_v_box : VBoxContainer = %EquipEquippingVBox
@@ -59,10 +60,10 @@ func enter_equip_selection()->void:
 func equip_menu_show()->void:
 	GameMenu.menu_is_animating = true
 	await GameMenu.top_level.top_level_bottom_only()
-	equip_panel_container.position = Vector2(0, 0)
+	equip_panel_container.position = Vector2(0, -224)
 	equip_panel_container.visible = true
 	var tween = create_tween()
-	tween.tween_property(equip_panel_container, "position", Vector2(0,224), 0.15)
+	tween.tween_property(equip_panel_container, "position", Vector2(0,0), 0.15)
 	await tween.finished
 	GameMenu.menu_is_animating = false
 	
@@ -70,10 +71,10 @@ func equip_menu_show()->void:
 ## Hides equip menu and brings down top of top_level
 func equip_menu_hide()->void:
 	GameMenu.menu_is_animating = true
-	equip_panel_container.position = Vector2(0,224)
+	equip_panel_container.position = Vector2(0,0)
 	
 	var tween = create_tween()
-	tween.tween_property(equip_panel_container, "position", Vector2(0,0), 0.15)
+	tween.tween_property(equip_panel_container, "position", Vector2(0,-224), 0.15)
 	await tween.finished
 	await GameMenu.top_level.top_level_bottom_only_return()
 	equip_panel_container.visible = false
@@ -94,6 +95,8 @@ func update_equip_menu_stats_labels(member : PartyMemberData)->void:
 	equip_stats_stm.equip_stats_base.text = str(member.get_stamina())
 	equip_stats_spd.equip_stats_base.text = str(member.get_agility())
 	equip_stats_mag.equip_stats_base.text = str(member.get_magic())
+	equip_stats_lck.equip_stats_base.text = str(member.get_luck())
+	
 
 func update_equip_menu_equipment_labels(member : PartyMemberData)->void:
 	if member == null:
@@ -460,6 +463,29 @@ func _eqtype_from_curr_button(curr_slot_scene: CurrentEquipButton) -> int:
 		return Item.ItemType.ACCESSORY
 
 	return -1
+
+
+func force_close_for_load() -> void:
+	# Hide equip panel, no tweens.
+	equip_panel_container.visible = false
+	equip_panel_container.position = Vector2(0, -224)
+
+	# Clear any open equipping list and deltas.
+	clear_equip_equipping_list()
+	hide_equip_equipping_list()
+	hide_all_equip_differences()
+
+	# Reset option buttons and current equip buttons highlight state.
+	for child in equip_options_h_box.get_children():
+		if child is InventoryOptionsButton:
+			child.is_active = false
+
+	update_equip_options_buttons_color()
+
+	for child in curr_equip_v_box.get_children():
+		if child is CurrentEquipButton:
+			child.is_active = false
+			child.self_modulate = GameMenu.TRANS_COLOR
 
 
 #endregion equip menu

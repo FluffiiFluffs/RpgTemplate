@@ -40,12 +40,19 @@ class_name OptionsUI extends Control
 @onready var load_game_button : Button = %LoadGameButton
 ##Pops up exit game confirmation.
 @onready var exit_game_button : Button = %ExitGameButton
+@onready var options_panel_container: PanelContainer = %OptionsPanelContainer
 
 
 #endregion Options Menu variables
 
 
 func _ready()->void:
+	#region initialize position and visibility
+	visible = true
+	options_panel_container.visible = false
+	options_panel_container.position = Vector2(0,-224)
+	
+	 #endregion initialize position and visibility
 	pass
 
 #region Options Menu
@@ -53,7 +60,7 @@ func _ready()->void:
 func open_options()->void:
 	setup_options_menu()
 	#animation_player.play("options_show")
-	options_show()
+	await options_show()
 	GameMenu.menu_state = "OPTIONS_OPEN"
 	GameMenu.last_top_button_focused = GameMenu.top_level.options_button
 	opt_music_slider.button.grab_focus()
@@ -61,13 +68,32 @@ func open_options()->void:
 	
 func close_options()->void:
 	#animation_player.play("options_hide")
-	options_hide()
+	GameMenu.top_level.options_button.is_active = false
+	await options_hide()
 
 
 func options_show()->void:
+	GameMenu.menu_is_animating = true
+	options_panel_container.position = Vector2(0, -224)
+	await GameMenu.top_level.top_menu_hide()
+	options_panel_container.visible = true
+	var tween = create_tween()
+	tween.tween_property(options_panel_container,"position", Vector2(0,0),0.15)
+	await tween.finished
+	GameMenu.menu_is_animating = false
+	
 	pass
 	
 func options_hide()->void:
+	GameMenu.menu_is_animating = true
+	options_panel_container.position = Vector2(0,0)
+	var tween = create_tween()
+	tween.tween_property(options_panel_container,"position", Vector2(0, -224), 0.15)
+	await tween.finished
+	await GameMenu.top_level.top_menu_show()
+	options_panel_container.visible = false
+	GameMenu.menu_is_animating = false
+	
 	pass
 
 
@@ -93,6 +119,8 @@ func setup_options_buttons_presses()->void:
 	opt_in_game_stats_button.pressed.connect(opt_in_game_stats_button_pressed)
 	load_game_button.pressed.connect(load_game_button_pressed)
 	exit_game_button.pressed.connect(exit_game_button_pressed)
+
+
 
 ##Custom setup due to menu being non-linear
 func setup_options_focus()->void:
@@ -240,7 +268,7 @@ func batt_mem_toggled(_toggle : bool)->void:
 
 ##Pops up inventory sort order window
 func opt_sort_order_button_pressed()->void:
-	GameMenu.open_sort_menu()
+	GameMenu.sort_order.open_sort_menu()
 	pass
 
 ##Pops up controls config window
@@ -253,6 +281,10 @@ func opt_in_game_stats_button_pressed()->void:
 
 ##pops up load game window
 func load_game_button_pressed()->void:
+	SaveManager.save_load_menu.show_saveload_menu()
+	SaveManager.save_load_menu.menu_mode = SaveLoadMenu.MODE.LOAD
+	SaveManager.save_load_menu.sub_mode = SaveLoadMenu.SUB_MODE.NONE
+	GameMenu.menu_state = "OPTIONS_LOAD_MENU_OPEN"
 	pass
 
 ##Pops up exit game confirmation window
@@ -267,5 +299,9 @@ func slider_inactive()->void:
 	GameMenu.current_selected_slider = null
 	GameMenu.menu_state = "OPTIONS_OPEN"
 	
-	
+func force_close_for_load() -> void:
+	options_panel_container.visible = false
+	options_panel_container.position = Vector2(0, -224)
+	GameMenu.current_selected_slider = null
+
 #endregion

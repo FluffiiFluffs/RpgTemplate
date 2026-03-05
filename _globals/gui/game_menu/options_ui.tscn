@@ -19,6 +19,14 @@ border_width_bottom = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8gqqd"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26w4u"]
+resource_local_to_scene = true
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywnk0"]
 resource_local_to_scene = true
 draw_center = false
@@ -35,19 +43,11 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nklwi"]
-resource_local_to_scene = true
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_seyew"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6y0t"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o58jk"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nklwi"]
 resource_local_to_scene = true
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -59,7 +59,7 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2g11r"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o58jk"]
 resource_local_to_scene = true
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -76,149 +76,148 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 0.00079345703
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_26w4u")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=87680694]
+[node name="OptionsPanelContainer" type="PanelContainer" parent="." unique_id=87680694]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -0.00079345703
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_so8r6")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1654376850]
+[node name="MarginContainer" type="MarginContainer" parent="OptionsPanelContainer" unique_id=1654376850]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=919378556]
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsPanelContainer/MarginContainer" unique_id=919378556]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="OptVolumeHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1532839024]
+[node name="OptVolumeHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1532839024]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="OptMusicHbox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=1087903915]
+[node name="OptMusicHbox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=1087903915]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox" unique_id=266379351]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox" unique_id=266379351]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="OptMusicLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer" unique_id=58640647]
+[node name="OptMusicLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer" unique_id=58640647]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Music"
 
-[node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox" unique_id=1443713018]
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox" unique_id=1443713018]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
 
-[node name="OptMusicSlider" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer3" unique_id=1318792223 instance=ExtResource("2_tldmv")]
+[node name="OptMusicSlider" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptMusicHbox/PanelContainer3" unique_id=1318792223 instance=ExtResource("2_tldmv")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ywnk0")
+theme_override_styles/panel = SubResource("StyleBoxFlat_26w4u")
 script = ExtResource("3_yki42")
 
-[node name="OptSFXHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=911298250]
+[node name="OptSFXHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=911298250]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox" unique_id=86453410]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox" unique_id=86453410]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="OptSFXLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer" unique_id=840281227]
+[node name="OptSFXLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer" unique_id=840281227]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "SFX"
 
-[node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox" unique_id=390403267]
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox" unique_id=390403267]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
 
-[node name="OptSFXSlider" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer3" unique_id=770308327 instance=ExtResource("2_tldmv")]
+[node name="OptSFXSlider" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptSFXHBox/PanelContainer3" unique_id=770308327 instance=ExtResource("2_tldmv")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2b6nv")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ywnk0")
 script = ExtResource("3_yki42")
 
-[node name="OptVoicesHbox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=752402468]
+[node name="OptVoicesHbox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox" unique_id=752402468]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox" unique_id=855122585]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox" unique_id=855122585]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="OptVoicesLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer" unique_id=1026537333]
+[node name="OptVoicesLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer" unique_id=1026537333]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Voices"
 
-[node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox" unique_id=1613436892]
+[node name="PanelContainer3" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox" unique_id=1613436892]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_8gqqd")
 
-[node name="OptVoicesSlider" parent="PanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer3" unique_id=154911014 instance=ExtResource("2_tldmv")]
+[node name="OptVoicesSlider" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptVolumeHBox/OptVoicesHbox/PanelContainer3" unique_id=154911014 instance=ExtResource("2_tldmv")]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_nklwi")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2b6nv")
 script = ExtResource("3_yki42")
 
-[node name="OptPVHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=831889804]
+[node name="OptPVHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=831889804]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 16
 
-[node name="VTypeHbox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox" unique_id=1195450072]
+[node name="VTypeHbox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox" unique_id=1195450072]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=1825757613]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=1825757613]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="VTypeTitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer" unique_id=1041585807]
+[node name="VTypeTitleLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer" unique_id=1041585807]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Voices Type"
 
-[node name="PanelContainer5" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=2029325441]
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=2029325441]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 
-[node name="VTypeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer5" unique_id=1073257582]
+[node name="VTypeLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer5" unique_id=1073257582]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -226,11 +225,11 @@ theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "FULL"
 
-[node name="PanelContainer6" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=136016307]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox" unique_id=136016307]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="VTypeButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer6" unique_id=1051182394]
+[node name="VTypeButton" type="CheckButton" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/VTypeHbox/PanelContainer6" unique_id=1051182394]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
@@ -238,29 +237,29 @@ focus_neighbor_right = NodePath("../../../PTypeHBox/PanelContainer6/PTypeButton"
 focus_neighbor_bottom = NodePath("../../../../MTypeHBox/PanelContainer6/MTypeButton")
 focus_next = NodePath("../../../PTypeHBox/PanelContainer6/PTypeButton")
 
-[node name="PTypeHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox" unique_id=714968151]
+[node name="PTypeHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox" unique_id=714968151]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=1842869525]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=1842869525]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="PTypeTitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer" unique_id=2026445736]
+[node name="PTypeTitleLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer" unique_id=2026445736]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Portrait Type"
 
-[node name="PanelContainer5" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=308275847]
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=308275847]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 
-[node name="PTypeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer5" unique_id=1269967428]
+[node name="PTypeLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer5" unique_id=1269967428]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -268,40 +267,40 @@ theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Talking"
 
-[node name="PanelContainer6" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=270979055]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox" unique_id=270979055]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="PTypeButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer6" unique_id=668023170]
+[node name="PTypeButton" type="CheckButton" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptPVHBox/PTypeHBox/PanelContainer6" unique_id=668023170]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../../VTypeHbox/PanelContainer6/VTypeButton")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../../../../MTypeHBox/PanelContainer6/MTypeButton")
 
-[node name="MTypeHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1452929240]
+[node name="MTypeHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1452929240]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=848118057]
+[node name="PanelContainer" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=848118057]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="MTypeTitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer" unique_id=1164801287]
+[node name="MTypeTitleLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer" unique_id=1164801287]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Movement"
 
-[node name="PanelContainer5" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=321154864]
+[node name="PanelContainer5" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=321154864]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_seyew")
 
-[node name="MTypeLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer5" unique_id=2118650182]
+[node name="MTypeLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer5" unique_id=2118650182]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -309,58 +308,58 @@ theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Walk or Run"
 
-[node name="PanelContainer6" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=935771952]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MTypeHBox" unique_id=935771952]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="MTypeButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer6" unique_id=2069373594]
+[node name="MTypeButton" type="CheckButton" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MTypeHBox/PanelContainer6" unique_id=2069373594]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_right = NodePath(".")
 button_pressed = true
 
-[node name="MsgSpeedHbox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=10987487]
+[node name="MsgSpeedHbox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=10987487]
 layout_mode = 2
 
-[node name="MSpeed" parent="PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" unique_id=638714950 instance=ExtResource("4_uwnra")]
+[node name="MSpeed" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" unique_id=638714950 instance=ExtResource("4_uwnra")]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nklwi")
+script = ExtResource("5_k27bl")
+
+[node name="BMSpeed" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" unique_id=2069549271 instance=ExtResource("4_uwnra")]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_o58jk")
 script = ExtResource("5_k27bl")
 
-[node name="BMSpeed" parent="PanelContainer/MarginContainer/VBoxContainer/MsgSpeedHbox" unique_id=2069549271 instance=ExtResource("4_uwnra")]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2g11r")
-script = ExtResource("5_k27bl")
-
-[node name="MemHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=640408584]
+[node name="MemHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=640408584]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="MenuMemHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=1731065433]
+[node name="MenuMemHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=1731065433]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox" unique_id=1701384561]
+[node name="PanelContainer2" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox" unique_id=1701384561]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="MenuMemLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer2" unique_id=808433458]
+[node name="MenuMemLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer2" unique_id=808433458]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Menu Memory"
 
-[node name="PanelContainer6" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox" unique_id=1879457887]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox" unique_id=1879457887]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="MenuMemButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer6" unique_id=1277002939]
+[node name="MenuMemButton" type="CheckButton" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/MenuMemHBox/PanelContainer6" unique_id=1277002939]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
@@ -368,28 +367,28 @@ focus_neighbor_right = NodePath("../../../BattMemHBox/PanelContainer6/BattMemBut
 focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
 focus_next = NodePath("../../../BattMemHBox/PanelContainer6/BattMemButton")
 
-[node name="BattMemHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=1460546740]
+[node name="BattMemHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=1460546740]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox" unique_id=198054958]
+[node name="PanelContainer2" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox" unique_id=198054958]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mngg1")
 
-[node name="BattMemLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer2" unique_id=2124450009]
+[node name="BattMemLabel" type="Label" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer2" unique_id=2124450009]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "Battle Memory"
 
-[node name="PanelContainer6" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox" unique_id=343865734]
+[node name="PanelContainer6" type="PanelContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox" unique_id=343865734]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6y0t")
 
-[node name="BattMemButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer6" unique_id=754483082]
+[node name="BattMemButton" type="CheckButton" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox/BattMemHBox/PanelContainer6" unique_id=754483082]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
@@ -398,7 +397,7 @@ focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
 focus_next = NodePath("../../../../OptSortOrderButton")
 focus_previous = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
 
-[node name="OptSortOrderButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=865996061]
+[node name="OptSortOrderButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=865996061]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -412,7 +411,7 @@ theme = ExtResource("6_m0evv")
 theme_type_variation = &"OptionsButton"
 text = "Configure Item Sort Order"
 
-[node name="OptControlsButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1715113713]
+[node name="OptControlsButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1715113713]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -426,7 +425,7 @@ theme = ExtResource("6_m0evv")
 theme_type_variation = &"OptionsButton"
 text = "Controls"
 
-[node name="OptInGameStatsButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1800714386]
+[node name="OptInGameStatsButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1800714386]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -442,12 +441,12 @@ theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "In-Game Stats"
 
-[node name="OptLoadExitHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1432292884]
+[node name="OptLoadExitHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1432292884]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 16
 
-[node name="LoadGameButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox" unique_id=134146175]
+[node name="LoadGameButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox" unique_id=134146175]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -463,7 +462,7 @@ theme_override_fonts/font = ExtResource("1_a126i")
 theme_override_font_sizes/font_size = 7
 text = "LOAD GAME"
 
-[node name="ExitGameButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox" unique_id=148131965]
+[node name="ExitGameButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/OptLoadExitHBox" unique_id=148131965]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

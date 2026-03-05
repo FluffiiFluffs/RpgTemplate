@@ -101,7 +101,7 @@ func on_button_pressed()->void:
 					if GameMenu.last_selected_inventory_button != null:
 						GameMenu.last_selected_inventory_button.item_qty_label.text = str(slot.quantity)
 
-			GameMenu.update_top_level_stats_box(self)
+			GameMenu.top_level.update_top_level_stats_box(self)
 		"STATS_SELECTION":
 			GameMenu.last_top_level_stats_focused = self
 			GameMenu.stats.setup_stats_menu(self)

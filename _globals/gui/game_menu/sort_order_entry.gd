@@ -21,7 +21,7 @@ func _ready()->void:
 
 func _on_sort_button_pressed()->void:
 	if GameMenu:
-		GameMenu.sort_order_button_pressed(self)
+		GameMenu.sort_order.sort_order_button_pressed(self)
 
 
 func set_selected(selected : bool)->void:

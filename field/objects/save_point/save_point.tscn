@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://k6yrhmix58h4"]
+
+[ext_resource type="Script" uid="uid://cti0803xlhjqt" path="res://field/objects/save_point/save_point.gd" id="1_7xoew"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jhce"]
+size = Vector2(12, 12)
+
+[sub_resource type="Curve" id="Curve_3jhce"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.57867646, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_7xoew"]
+curve = SubResource("Curve_3jhce")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3jhce"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(12, 12, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, -100, 0)
+scale_curve = SubResource("CurveTexture_7xoew")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7xoew"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(12, 12, 1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.25
+emission_ring_inner_radius = 1.2
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 100, 0)
+scale_curve = SubResource("CurveTexture_7xoew")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
+
+[node name="SavePoint" type="Node2D" unique_id=1484699173]
+script = ExtResource("1_7xoew")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=382506916]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=348571131]
+shape = SubResource("RectangleShape2D_3jhce")
+
+[node name="NormalSparkle" type="GPUParticles2D" parent="." unique_id=580698405]
+unique_name_in_owner = true
+y_sort_enabled = true
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_3jhce")
+
+[node name="TouchSparkle" type="GPUParticles2D" parent="." unique_id=505517012]
+unique_name_in_owner = true
+y_sort_enabled = true
+position = Vector2(0, -41)
+emitting = false
+amount = 24
+process_material = SubResource("ParticleProcessMaterial_7xoew")

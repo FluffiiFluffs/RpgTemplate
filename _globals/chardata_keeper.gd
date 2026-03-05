@@ -563,12 +563,3 @@ func _queue_battle_notification(message : String) -> void:
 	main.current_battle_scene.battle_notify_ui.queue_notification(message)
 
 #endregion LEVELING
-
-
-
-#region All Array Population
-
-
-
-
-#endregion All Array Population

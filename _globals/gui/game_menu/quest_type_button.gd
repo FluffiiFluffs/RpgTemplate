@@ -52,7 +52,7 @@ func on_button_pressed()->void:
 				GameMenu.quests.clear_quests_list()
 				GameMenu.quests.clear_quest_description()
 			else:
-				GameMenu.menu_state = "QUESTS_CURRENT_QUESTS"
+				GameMenu.menu_state = "QUESTS_COMPLETED_QUESTS"
 				is_active = true
 				GameMenu.last_quests_menu_state = "QUESTS_COMPLETED_QUESTS"
 				GameMenu.quests.open_completed_quests()

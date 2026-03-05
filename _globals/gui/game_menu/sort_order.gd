@@ -5,6 +5,12 @@ class_name SortOrderUI extends Control
 @onready var sort_order_entry: SortOrderButton = %SortOrderEntry
 
 
+func _ready()->void:
+	#region initialize visibility
+	visible = false
+	modulate = Color(0.0, 0.0, 0.0, 0.0)
+	#endregion initialize visibility
+
 
 #region SortOrderMenu
 
@@ -14,15 +20,15 @@ func open_sort_menu()->void:
 	make_sort_buttons()
 	setup_sort_order_focus_neighbors()
 	focus_first_sort_button()
+	await sort_order_show()
 	#animation_player.play("opt_sort_order_show")
-	sort_order_show()
 	GameMenu.menu_state = "OPTIONS_SORT_ORDER"
 	pass
 	
 func close_sort_menu()->void:
 	clear_sort_buttons() ##get the buttons out of memory
 	#animation_player.play("opt_sort_order_hide")
-	sort_order_hide()
+	await sort_order_hide()
 	GameMenu.sort_selected_index = -1
 	GameMenu.options.opt_sort_order_button.grab_focus()
 	GameMenu.menu_state = "OPTIONS_OPEN"
@@ -32,9 +38,24 @@ func close_sort_menu()->void:
 	pass
 
 func sort_order_show()->void:
+	GameMenu.menu_is_animating = true
+	modulate = Color(0.0, 0.0, 0.0, 0.0)
+	visible = true
+	var tween = create_tween()
+	tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.15)
+	await tween.finished
+	GameMenu.menu_is_animating = false
 	pass
 	
 func sort_order_hide()->void:
+	GameMenu.menu_is_animating = true
+	modulate = Color(1.0, 1.0, 1.0, 1.0)
+	var tween = create_tween()
+	tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.15)
+	await tween.finished
+	visible = false
+	GameMenu.menu_is_animating = false
+	
 	pass
 
 
@@ -160,6 +181,12 @@ func cancel_sort_selection()->void:
 			(child as SortOrderButton).set_selected(false)
 	GameMenu.menu_state = "OPTIONS_SORT_ORDER"
 
+func force_close_for_load() -> void:
+	clear_sort_buttons()
+	GameMenu.sort_selected_index = -1
+
+	modulate = Color(1.0, 1.0, 1.0, 0.0)
+	visible = false
 
 
 #endregion sort order menu

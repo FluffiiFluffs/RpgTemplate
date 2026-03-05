@@ -9,7 +9,7 @@ class_name TopLevelUI extends Control
 ##Button takes player to the equip screen
 @onready var equip_button : TopMenuButton = %EquipButton
 ##Button takes player to the magic screen
-@onready var magic_button : TopMenuButton = %MagicButton
+@onready var skills_button : TopMenuButton = %SkillsButton
 ##Button takes player to the stats screen
 @onready var stats_button : TopMenuButton = %StatsButton
 ##Button takes player to the quests screen
@@ -56,6 +56,7 @@ func top_menu_open()->void:
 		clear_top_level_stats_containers()
 		setup_top_level_stats()
 		top_menu_show()
+		visible = true
 		#play top menu animation open
 		GameMenu.menu_state = "TOP_MENU_OPEN"
 		if CharDataKeeper.controlled_character:
@@ -98,7 +99,7 @@ func force_menu_close_for_battle()->void:
 func setup_top_menu_button_presses()->void:
 	items_button.button.pressed.connect(on_top_items_button_pressed)
 	equip_button.button.pressed.connect(on_top_equip_button_pressed)
-	magic_button.button.pressed.connect(on_top_magic_button_pressed)
+	skills_button.button.pressed.connect(on_top_skills_button_pressed)
 	stats_button.button.pressed.connect(on_top_stats_button_pressed)
 	quests_button.button.pressed.connect(on_top_quests_button_pressed)
 	options_button.button.pressed.connect(on_top_options_button_pressed)
@@ -178,7 +179,7 @@ func top_level_bottom_only_return()->void:
 func setup_selector()->void:
 	items_button.change_text.connect(change_selector_text)
 	equip_button.change_text.connect(change_selector_text)
-	magic_button.change_text.connect(change_selector_text)
+	skills_button.change_text.connect(change_selector_text)
 	stats_button.change_text.connect(change_selector_text)
 	quests_button.change_text.connect(change_selector_text)
 	options_button.change_text.connect(change_selector_text)
@@ -198,8 +199,9 @@ func on_top_equip_button_pressed()->void:
 	GameMenu.equip.enter_equip_selection()
 
 ##Allows user to select a party member (top_level_stats.button) and then opens a magic page based on that
-func on_top_magic_button_pressed()->void:
+func on_top_skills_button_pressed()->void:
 	pass
+	
 ##Allows user to select party member (top_level_stats.button) and then opens a status page based on that
 func on_top_stats_button_pressed()->void:
 	GameMenu.stats.enter_stats_selection()
@@ -347,4 +349,23 @@ func close_to_top_menu()->void:
 	#quests_positioner_right.set_deferred("visible", true)
 	#options_positioner.set_deferred("visible", true)
 	#sort_order_positioner.set_deferred("visible", true)
+	
+	
+func force_close_for_load() -> void:
+	# Closed visual state, no tweens.
+	top_positioner.position = Vector2(0, -52)
+	bottom_positioner.position = Vector2(200, 284)
+	money_h_box.modulate = Color(1.0, 1.0, 1.0, 0.0)
+
+	top_positioner.visible = false
+	bottom_positioner.visible = false
+
+	for child in top_menu_button_h_box.get_children():
+		if child is TopMenuButton:
+			var top_button := child as TopMenuButton
+			top_button.is_active = false
+			top_button.self_modulate = GameMenu.WHITE_COLOR
+
+			if top_button.button != null:
+				top_button.button.icon = top_button.unselected
 #endregion top menu

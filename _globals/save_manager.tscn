@@ -1,6 +1,24 @@
 [gd_scene format=3 uid="uid://cp2jnm5458cct"]
 
 [ext_resource type="Script" uid="uid://c0bwuoygkpbbk" path="res://_globals/save_manager.gd" id="1_iiysl"]
+[ext_resource type="PackedScene" uid="uid://bsdf18aondwxt" path="res://_globals/save_load_menu.tscn" id="2_071nt"]
+[ext_resource type="PackedScene" uid="uid://c4rt5yrhdxenr" path="res://_globals/saveload_confirm_window.tscn" id="3_f5t15"]
 
-[node name="SaveManager" type="Node" unique_id=203962277]
+[node name="SaveManager" type="Control" unique_id=1010870977]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_iiysl")
+
+[node name="SaveLoadMenu" parent="." unique_id=585475121 instance=ExtResource("2_071nt")]
+unique_name_in_owner = true
+layout_mode = 1
+menu_mode = 0
+
+[node name="ConfirmWindow" parent="." unique_id=938938501 instance=ExtResource("3_f5t15")]
+unique_name_in_owner = true
+layout_mode = 1
