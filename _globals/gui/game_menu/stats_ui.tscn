@@ -669,28 +669,28 @@ theme_override_fonts/font = ExtResource("2_ereko")
 theme_override_font_sizes/font_size = 7
 text = "99999"
 
-[node name="StatsSPDHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=501786938]
+[node name="StatsAGIHBox" type="HBoxContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer" unique_id=501786938]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox" unique_id=1047661924]
+[node name="PanelContainer" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsAGIHBox" unique_id=1047661924]
 custom_minimum_size = Vector2(21, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSPDTitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer" unique_id=977599151]
+[node name="StatsAGITitleLabel" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsAGIHBox/PanelContainer" unique_id=977599151]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ereko")
 theme_override_font_sizes/font_size = 7
-text = "SPD"
+text = "AGI"
 
-[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox" unique_id=962843739]
+[node name="PanelContainer2" type="PanelContainer" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsAGIHBox" unique_id=962843739]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_mnvkg")
 
-[node name="StatsSPDValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsSPDHBox/PanelContainer2" unique_id=1145668906]
+[node name="StatsAGIValue" type="Label" parent="StatsPanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PanelContainer/HBoxContainer/VBoxContainer/StatsAGIHBox/PanelContainer2" unique_id=1145668906]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ereko")

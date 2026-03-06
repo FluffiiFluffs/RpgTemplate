@@ -22,6 +22,8 @@ extends Node2D
 @onready var item_grid_container : GridContainer = %ItemGridContainer
 @onready var text_parser: TextParser = %TextParser
 @onready var battle_vfx: BattleVFX = %BattleVFX
+@onready var skill_scroll_container: ScrollContainer = %SkillScrollContainer
+@onready var item_scroll_container: ScrollContainer = %ItemScrollContainer
 
 
 
@@ -241,6 +243,57 @@ func new_randomize_seed()->void:
 ##Instantiates new turn_order_box (in order) from battle_scene.turn_order[]
 func update_turn_order_ui()->void:
 	battle_turn_ui.update_turn_order_ui()
+	
+	
+func sync_skill_scroll_to_button(skill_button : BattleSkillButton) -> void:
+	if skill_button == null:
+		return
+	if not is_instance_valid(skill_button):
+		return
+
+	var skill_buttons : Array = skill_grid_container.get_children()
+	var index : int = skill_buttons.find(skill_button)
+	if index == -1:
+		return
+
+	var cols : int = skill_grid_container.columns
+	if cols <= 0:
+		cols = 1
+
+	@warning_ignore("integer_division")
+	var row : int = index / cols
+
+	if row <= 0:
+		skill_scroll_container.scroll_vertical = 0
+		return
+
+	skill_scroll_container.ensure_control_visible(skill_button)
+
+
+func sync_item_scroll_to_button(item_button : BattleItemButton) -> void:
+	if item_button == null:
+		return
+	if not is_instance_valid(item_button):
+		return
+
+	var item_buttons : Array = item_grid_container.get_children()
+	var index : int = item_buttons.find(item_button)
+	if index == -1:
+		return
+
+	var cols : int = item_grid_container.columns
+	if cols <= 0:
+		cols = 1
+
+	@warning_ignore("integer_division")
+	var row : int = index / cols
+
+	if row <= 0:
+		item_scroll_container.scroll_vertical = 0
+		return
+
+	item_scroll_container.ensure_control_visible(item_button)
+	
 #endregion Turn Order
 
 

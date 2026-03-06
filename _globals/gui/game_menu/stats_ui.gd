@@ -49,7 +49,7 @@ class_name StatsUI extends Control
 ##STM value
 @onready var stats_stm_value : Label = %StatsSTMValue
 ##SPD value
-@onready var stats_spd_value : Label = %StatsSPDValue
+@onready var stats_agi_value: Label = %StatsAGIValue
 ##MAG value
 @onready var stats_mag_value : Label = %StatsMAGValue
 ##LCK Value
@@ -153,7 +153,7 @@ func setup_stats_menu(_toplevelstats : TopLevelStats)->void:
 	stats_def_value.text = str(_member.get_def_value())
 	stats_str_value.text = str(_member.get_strength())
 	stats_stm_value.text = str(_member.get_stamina())
-	stats_spd_value.text = str(_member.get_agility())
+	stats_agi_value.text = str(_member.get_agility())
 	stats_mag_value.text = str(_member.get_magic())
 	stats_lck_value.text = str(_member.get_luck())
 

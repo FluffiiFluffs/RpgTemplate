@@ -73,6 +73,12 @@ func save_options() -> void:
 	for i in range(Options.item_sort_order.size()):
 		lines.append("item_sort_order." + str(i) + "=" + _encode_value(String(Options.item_sort_order[i])))
 	lines.append("")
+	
+	lines.append("[options.skills_sort_order]")
+	for i in range(Options.skills_sort_order.size()):
+		lines.append("skills_sort_order." + str(i) + "=" + _encode_value(String(Options.skills_sort_order[i])))
+	lines.append("")
+
 
 	lines.append("[options.dialogue]")
 	lines.append(_keyvalue_line("voices_type", Options.voices_type))
@@ -450,6 +456,24 @@ func load_options()->void:
 		Options.item_sort_order.clear()
 		for pair in order_pairs:
 			Options.item_sort_order.append(String(pair[1]))
+
+	var sso : Dictionary = _get_section(_loaded_options_sections, "options.skills_sort_order")
+	if not sso.is_empty():
+		var order_pairs : Array = []
+		for k in sso.keys():
+			var key : String = String(k)
+			if not key.begins_with("skills_sort_order."):
+				continue
+			var idx_str : String = key.substr("skills_sort_order.".length())
+			if not idx_str.is_valid_int():
+				continue
+			order_pairs.append([int(idx_str), _sec_get_string(sso, key, "")])
+
+		order_pairs.sort_custom(func(a, b): return int(a[0]) < int(b[0]))
+		Options.skills_sort_order.clear()
+		for pair in order_pairs:
+			Options.skills_sort_order.append(String(pair[1]))
+	Options.validate_skills_sort_order()
 
 	var dlg : Dictionary = _get_section(_loaded_options_sections, "options.dialogue")
 	if not dlg.is_empty():

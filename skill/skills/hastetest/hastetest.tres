@@ -18,6 +18,7 @@ scope = 1
 sp_cost = 1
 default_target_focus = 1
 intent = 2
+sort_subcategory = 7
 battle_effects = Array[ExtResource("1_gqs41")]([SubResource("Resource_wrnyt")])
 message_template = "{user} casts {skill} on {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

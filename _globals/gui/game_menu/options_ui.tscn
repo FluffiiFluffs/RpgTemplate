@@ -364,7 +364,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_right = NodePath("../../../BattMemHBox/PanelContainer6/BattMemButton")
-focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
+focus_neighbor_bottom = NodePath("../../../../OptItemSortOrderButton")
 focus_next = NodePath("../../../BattMemHBox/PanelContainer6/BattMemButton")
 
 [node name="BattMemHBox" type="HBoxContainer" parent="OptionsPanelContainer/MarginContainer/VBoxContainer/MemHBox" unique_id=1460546740]
@@ -393,34 +393,48 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../../../../OptSortOrderButton")
-focus_next = NodePath("../../../../OptSortOrderButton")
+focus_neighbor_bottom = NodePath("../../../../OptItemSortOrderButton")
+focus_next = NodePath("../../../../OptItemSortOrderButton")
 focus_previous = NodePath("../../../MenuMemHBox/PanelContainer6/MenuMemButton")
 
-[node name="OptSortOrderButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=865996061]
+[node name="OptItemSortOrderButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=865996061]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../MemHBox/MenuMemHBox/PanelContainer6/MenuMemButton")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../OptControlsButton")
-focus_next = NodePath("../OptControlsButton")
+focus_neighbor_bottom = NodePath("../OptSkillSortOrderButton")
+focus_next = NodePath("../OptSkillSortOrderButton")
 focus_previous = NodePath("../MemHBox/BattMemHBox/PanelContainer6/BattMemButton")
 theme = ExtResource("6_m0evv")
 theme_type_variation = &"OptionsButton"
 text = "Configure Item Sort Order"
+
+[node name="OptSkillSortOrderButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1033668854]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../OptItemSortOrderButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../OptControlsButton")
+focus_next = NodePath("../OptControlsButton")
+focus_previous = NodePath("../OptItemSortOrderButton")
+theme = ExtResource("6_m0evv")
+theme_type_variation = &"OptionsButton"
+text = "Configure Skill Sort Order"
 
 [node name="OptControlsButton" type="Button" parent="OptionsPanelContainer/MarginContainer/VBoxContainer" unique_id=1715113713]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../OptSortOrderButton")
+focus_neighbor_top = NodePath("../OptItemSortOrderButton")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../OptInGameStatsButton")
 focus_next = NodePath("../OptInGameStatsButton")
-focus_previous = NodePath("../OptSortOrderButton")
+focus_previous = NodePath("../OptItemSortOrderButton")
 theme = ExtResource("6_m0evv")
 theme_type_variation = &"OptionsButton"
 text = "Controls"

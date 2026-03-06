@@ -96,9 +96,19 @@ move_location_ids = Array[StringName]([&"test_move_marker_02"])
 move_speed = 200.0
 metadata/_custom_type_script = "uid://cuel57vssfc0y"
 
+[sub_resource type="Resource" id="Resource_wuunf"]
+script = ExtResource("19_p2wuy")
+wait_time = 1.2
+metadata/_custom_type_script = "uid://chhxk8uwqo01c"
+
+[sub_resource type="Resource" id="Resource_ifaer"]
+script = ExtResource("20_ahd2c")
+follow_controlled_character = true
+metadata/_custom_type_script = "uid://hkl5bunkpdqg"
+
 [sub_resource type="Resource" id="Resource_notke"]
 script = ExtResource("15_h4dcs")
-cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_yty8o")])
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_yty8o"), SubResource("Resource_wuunf"), SubResource("Resource_ifaer")])
 metadata/_custom_type_script = "uid://dldt2m47r81s8"
 
 [sub_resource type="Resource" id="Resource_i8nq4"]

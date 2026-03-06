@@ -17,7 +17,9 @@ extends Node
 @export var item_sort_order : Array = ["HPHEAL","SPHEAL", "STATUSHEAL", "TOOL", "KEY", "EQUIPMENT"]
 ## Skills menu sort buckets used when the skills Sort button is toggled on.
 ## Order is highest priority to lowest priority and is evaluated against the current selected actor.
-@export var skills_sort_order : Array = ["FIELD_USABLE", "FIELD_BENEFICIAL", "FIELD_OTHER", "BATTLE_ONLY"]
+const DEFAULT_SKILLS_SORT_ORDER: Array[String] = ["RECOVERY", "ATTACK", "EFFECT"]
+@export var skills_sort_order : Array = ["RECOVERY", "ATTACK", "EFFECT"]
+
 
 @export_category("Dialogue")
 ## 0 : FULL = Speaking characters play their voice sound rapidly.[br]
@@ -84,6 +86,7 @@ func _ready()->void:
 	set_sfx_volume(sfx_volume)
 	set_voices_volume(voices_volume)
 
+
 func set_music_volume(_value: float) -> void:
 	# clamp to slider range
 	music_volume = clampf(_value, 0.0, 10.0)
@@ -133,3 +136,27 @@ func set_message_speed(_value:float)->void:
 func set_battle_message_speed(_value:float)->void:
 	pass
 #endregion
+
+
+
+
+func validate_skills_sort_order() -> void:
+	var expected: Array[String] = DEFAULT_SKILLS_SORT_ORDER
+
+	if skills_sort_order.size() != expected.size():
+		skills_sort_order = expected.duplicate()
+		return
+
+	var seen: Dictionary = {}
+	for category_variant in skills_sort_order:
+		var category: String = String(category_variant)
+
+		if not expected.has(category):
+			skills_sort_order = expected.duplicate()
+			return
+
+		if seen.has(category):
+			skills_sort_order = expected.duplicate()
+			return
+
+		seen[category] = true

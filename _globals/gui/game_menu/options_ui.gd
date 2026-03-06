@@ -31,7 +31,9 @@ class_name OptionsUI extends Control
 ##Battle memory button toggle
 @onready var batt_mem_button : CheckButton = %BattMemButton
 ##Takes user to inventory sort order menu
-@onready var opt_sort_order_button : Button = %OptSortOrderButton
+@onready var opt_item_sort_order_button : Button = %OptItemSortOrderButton
+## Takes user to the skill sort order menu
+@onready var opt_skill_sort_order_button: Button = %OptSkillSortOrderButton
 ##Takes user to controls menu
 @onready var opt_controls_button : Button = %OptControlsButton
 ##Takes user to in-game-stats menu
@@ -114,7 +116,8 @@ func setup_options_buttons_presses()->void:
 	menu_mem_button.toggled.connect(menu_mem_toggled)
 	batt_mem_button.toggled.connect(batt_mem_toggled)
 	m_type_button.toggled.connect(m_type_button_toggled)
-	opt_sort_order_button.pressed.connect(opt_sort_order_button_pressed)
+	opt_item_sort_order_button.pressed.connect(opt_item_sort_order_button_pressed)
+	opt_skill_sort_order_button.pressed.connect(opt_skill_sort_order_button_pressed)
 	opt_controls_button.pressed.connect(opt_controls_button_pressed)
 	opt_in_game_stats_button.pressed.connect(opt_in_game_stats_button_pressed)
 	load_game_button.pressed.connect(load_game_button_pressed)
@@ -167,18 +170,34 @@ func setup_options_focus()->void:
 	bm_speed.button.focus_next = menu_mem_button.get_path()
 	
 	menu_mem_button.focus_neighbor_top = m_speed.button.get_path()
-	menu_mem_button.focus_neighbor_bottom = opt_sort_order_button.get_path()
+	menu_mem_button.focus_neighbor_bottom = opt_item_sort_order_button.get_path()
 	menu_mem_button.focus_neighbor_left = menu_mem_button.get_path()
 	menu_mem_button.focus_neighbor_right = batt_mem_button.get_path()
 	menu_mem_button.focus_previous = bm_speed.button.get_path()
 	menu_mem_button.focus_next = batt_mem_button.get_path()
 	
 	batt_mem_button.focus_neighbor_top = bm_speed.button.get_path()
-	batt_mem_button.focus_neighbor_bottom = opt_sort_order_button.get_path()
+	batt_mem_button.focus_neighbor_bottom = opt_item_sort_order_button.get_path()
 	batt_mem_button.focus_neighbor_left = menu_mem_button.get_path()
 	batt_mem_button.focus_neighbor_right = batt_mem_button.get_path()
 	batt_mem_button.focus_previous = menu_mem_button.get_path()
-	batt_mem_button.focus_next = opt_sort_order_button.get_path()
+	batt_mem_button.focus_next = opt_item_sort_order_button.get_path()
+
+	opt_item_sort_order_button.focus_neighbor_top = menu_mem_button.get_path()
+	opt_item_sort_order_button.focus_neighbor_bottom = opt_skill_sort_order_button.get_path()
+	opt_item_sort_order_button.focus_neighbor_left = opt_item_sort_order_button.get_path()
+	opt_item_sort_order_button.focus_neighbor_right = opt_item_sort_order_button.get_path()
+	opt_item_sort_order_button.focus_previous = batt_mem_button.get_path()
+	opt_item_sort_order_button.focus_next = opt_skill_sort_order_button.get_path()
+
+	opt_skill_sort_order_button.focus_neighbor_top = opt_item_sort_order_button.get_path()
+	opt_skill_sort_order_button.focus_neighbor_bottom = opt_controls_button.get_path()
+	opt_skill_sort_order_button.focus_neighbor_left = opt_skill_sort_order_button.get_path()
+	opt_skill_sort_order_button.focus_neighbor_right = opt_skill_sort_order_button.get_path()
+	opt_skill_sort_order_button.focus_previous = opt_item_sort_order_button.get_path()
+	opt_skill_sort_order_button.focus_next = opt_controls_button.get_path()
+
+
 
 func ui_set_volume()->void:
 	opt_music_slider.h_slider.value = Options.music_volume
@@ -267,8 +286,13 @@ func batt_mem_toggled(_toggle : bool)->void:
 		Options.battle_menu_memory = true
 
 ##Pops up inventory sort order window
-func opt_sort_order_button_pressed()->void:
+func opt_item_sort_order_button_pressed()->void:
 	GameMenu.sort_order.open_sort_menu()
+	pass
+
+
+func opt_skill_sort_order_button_pressed()->void:
+	GameMenu.sort_order.open_skill_sort_menu()
 	pass
 
 ##Pops up controls config window

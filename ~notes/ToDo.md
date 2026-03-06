@@ -48,10 +48,13 @@
 	
 	Implement semi-unique names in battle for enemies that share the same name (A B C, 1 2 3)
 
-	Implement other-party-member-leading routines for when the main character is dead
+	Implement other-party-member-leading routines for when the main character is dead (or later the player will be able to change the party order)
 		(needs to be like earthbound / DQ)
 	
-	Implement magical skills that use the magic stat to determine how strong they are.
+	Implement power value for skills that heal or do damage
+		Power value should be used for scaling
+		Need to implement an enum for which stat to scale from
+	
 	
 	## maybe not 
 		Create quote bubble system for in-battle use
@@ -66,21 +69,19 @@
 
 
 [INVENTORY]
-	*Equipping/unequipping is a little buggy....maybe not, think this was fixed with the refactor involving the registry
-
 	#Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time. ** Implemented during registry refactor
 
 
 
 
 [UI]
-	Update UI for luck
-		stats page
-		equip page
-		inventory description panel
+	#Update UI for luck
+		#stats page
+		#equip page
+		#inventory description panel
 	
-	*Implement skill usage outside of battle*
-		Implement skills being rearranged / sorted just like items
+	#Implement skill usage outside of battle*
+		#Implement skills being rearranged / sorted just like items
 
 	Test menu memory more thoroughly and make it default ON
 
@@ -89,12 +90,12 @@
 
 	Fix bug when player has selected defend and cancels out of targeting, attack is selected (should reselect defend)
 
-	Fix in-battle item/skill menu scroll container bug. This happens when there are enough buttons in the gridcontainer to allow scrolling. The initial position of the scroll container's vertical scroll position is set to a value other than 0 when opening the container the first time in battle. Further testing needed after attempting to fix...
+	#Fix in-battle item/skill menu scroll container bug. This happens when there are enough buttons in the gridcontainer to allow scrolling. The initial position of the scroll container's vertical scroll position is set to a value other than 0 when opening the container the first time in battle. Further testing needed after attempting to fix...
 
 	FIX when selected skills is in targeting and cancelled out of, skill selected in menu stays highlighted
 
-	Refactor the game menu UI so it is not one large script
-		maybe clean up the way it works a little, too
+	#Refactor the game menu UI so it is not one large script
+		#maybe clean up the way it works a little, too
 
 	Implement ! and ? overhead for interactable objects and NPCs
 		Check implementation in other project

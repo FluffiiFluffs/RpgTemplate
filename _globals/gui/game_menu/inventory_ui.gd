@@ -44,21 +44,25 @@ class_name InventoryUI extends Control
 ##Value of DEF Bonus
 @onready var def_bonus_value : Label = %DEFBonusValue
 ##Hbox of STR Bonus. Modulates based on bit value of item
-@onready var strength_bonus_h_box : HBoxContainer = %StrengthBonusHBox
+@onready var str_bonus_h_box: HBoxContainer = %STRBonusHBox
 ##Value of STR Bonus
-@onready var strength_bonus_value : Label = %StrengthBonusValue
-##Hbox of SPD Bonus. Modulates based on bit value of item
-@onready var agility_bonus_h_box : HBoxContainer = %AgilityBonusHBox
+@onready var str_bonus_value: Label = %STRBonusValue
 ##Hbox of STR Bonus. Modulates based on bit value of item
-@onready var stamina_bonus_h_box : HBoxContainer = %StaminaBonusHBox
+@onready var stm_bonus_h_box: HBoxContainer = %STMBonusHBox
 ##Value of STM Bonus
-@onready var stamina_bonus_value : Label = %StaminaBonusValue
-##Value of SPD bonus
-@onready var agility_bonus_value : Label = %AgilityBonusValue
+@onready var stm_bonus_value: Label = %STMBonusValue
+##Hbox of AGI Bonus. Modulates based on bit value of item
+@onready var agi_bonus_h_box: HBoxContainer = %AGIBonusHBox
+##Value of AGI bonus
+@onready var agi_bonus_value: Label = %AGIBonusValue
 ##Hbox of MAG Bonus. Modulates if value != 0
-@onready var magic_bonus_h_box : HBoxContainer = %MagicBonusHBox
+@onready var mag_bonus_h_box: HBoxContainer = %MAGBonusHBox
 ##Value of MAG Bonus
-@onready var magic_bonus_value : Label = %MagicBonusValue
+@onready var mag_bonus_value: Label = %MAGBonusValue
+##Hbox of MAG Bonus. Modulates if value != 0
+@onready var lck_bonus_h_box: HBoxContainer = %LCKBonusHBox
+## Value of LCK Bonus
+@onready var lck_bonus_value: Label = %LCKBonusValue
 
 ##Hbox containing options buttons for the inventory
 @onready var inventory_options_h_box : HBoxContainer = %InventoryOptionsHBox
@@ -75,6 +79,7 @@ class_name InventoryUI extends Control
 @onready var inventory_positioner_left: Control = %InventoryPositionerLeft
 @onready var inventory_positioner_right: Control = %InventoryPositionerRight
 @onready var item_list_panel: PanelContainer = %ItemListPanel
+@onready var scroll_container: ScrollContainer = %ScrollContainer
 
 
 func _ready()->void:
@@ -94,22 +99,21 @@ func _ready()->void:
 ##Instantiates item buttons under items_list_v_box
 func open_inventory()->void:
 	GameMenu.top_level.items_button.is_active = true
-	#clears the items list, so it can generate a new one
 	clear_items_list()
-	#generates list of items
 	generate_items_list()
-	#Sets up focus neighbors for inventory screen
 	setup_inventory_focus_neighbors()
+	scroll_container.scroll_vertical = 0
 	update_inventory_options_buttons_color()
-	#Grabs focus of the first inventory item if it's there, otherwise focuses exit button
 	call_deferred("focus_first_inventory_item")
-	
-	await inventory_show() #play inventory open animation
-	GameMenu.menu_state = "USE_ITEMS" #inventory open
+
+	await inventory_show()
+	GameMenu.menu_state = "USE_ITEMS"
 	use_items_button.is_active = true
 	GameMenu.last_selected_inventory_options_button = use_items_button
 	GameMenu.last_top_button_focused = GameMenu.top_level.items_button
-	pass
+	
+	
+	
 	
 func inventory_show()->void:
 	GameMenu.menu_is_animating = true
@@ -209,12 +213,34 @@ func make_item_button(invslot : InventorySlot) -> void:
 		update_item_description(islot)
 		if not new_inventory_item_button.is_selected:
 			new_inventory_item_button.self_modulate = GameMenu.WHITE_COLOR
+		call_deferred("_sync_scroll_to_item_button", new_inventory_item_button)
 		)
 		
 	new_inventory_item_button.item_button.focus_exited.connect(func button_unfocused()->void:
 		if not new_inventory_item_button.is_selected:
 			new_inventory_item_button.self_modulate = GameMenu.TRANS_COLOR
 		)
+
+
+func _sync_scroll_to_item_button(item_button : InventoryItemButton) -> void:
+	if item_button == null:
+		return
+	if not is_instance_valid(item_button):
+		return
+	if scroll_container == null:
+		return
+
+	var item_buttons : Array = items_list_v_box.get_children()
+	var index : int = item_buttons.find(item_button)
+	if index == -1:
+		return
+
+	if index <= 0:
+		scroll_container.scroll_vertical = 0
+		return
+
+	scroll_container.ensure_control_visible(item_button)
+
 
 ##does various things depending on what state the menu is in. used for InventoryItemButtons
 func select_item(item_button : InventoryItemButton)->void:
@@ -533,31 +559,39 @@ func update_item_description(islot:InventorySlot)->void:
 			def_bonus_value.text = "0"
 			
 		if _item.strength_bonus != 0:
-			strength_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
-			strength_bonus_value.text = str(_item.strength_bonus)
+			str_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
+			str_bonus_value.text = str(_item.strength_bonus)
 		else:
-			strength_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
-			strength_bonus_value.text = "0"
+			str_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
+			str_bonus_value.text = "0"
 
 		if _item.stamina_bonus != 0:
-			stamina_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
-			stamina_bonus_value.text = str(_item.stamina_bonus)
+			stm_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
+			stm_bonus_value.text = str(_item.stamina_bonus)
 		else:
-			stamina_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
-			stamina_bonus_value.text = "0"
+			stm_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
+			stm_bonus_value.text = "0"
+			
 		if _item.agility_bonus != 0:
-			agility_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
-			agility_bonus_value.text = str(_item.agility_bonus)
+			agi_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
+			agi_bonus_value.text = str(_item.agility_bonus)
 		else:
-			agility_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
-			agility_bonus_value.text = "0"
+			agi_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
+			agi_bonus_value.text = "0"
 		
 		if _item.magic_bonus != 0:
-			magic_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
-			magic_bonus_value.text = str(_item.magic_bonus)
+			mag_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
+			mag_bonus_value.text = str(_item.magic_bonus)
 		else:
-			magic_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
-			magic_bonus_value.text = "0"
+			mag_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
+			mag_bonus_value.text = "0"
+			
+		if _item.luck_bonus != 0:
+			lck_bonus_h_box.modulate = GameMenu.ENABLED_COLOR
+			lck_bonus_value.text = str(_item.luck_bonus)
+		else:
+			lck_bonus_h_box.modulate = GameMenu.DISABLED_COLOR
+			lck_bonus_value.text = "0"
 	pass
 
 func focus_inventory_options()->void:

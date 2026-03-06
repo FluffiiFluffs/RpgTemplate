@@ -22,7 +22,7 @@ class_name EquipUI extends Control
 @onready var equip_stats_def : EquipStats = %EquipStatsDEF
 @onready var equip_stats_str : EquipStats = %EquipStatsSTR
 @onready var equip_stats_stm : EquipStats = %EquipStatsSTM
-@onready var equip_stats_spd : EquipStats = %EquipStatsSPD
+@onready var equip_stats_agi: EquipStats = %EquipStatsAGI
 @onready var equip_stats_mag : EquipStats = %EquipStatsMAG
 @onready var equip_stats_lck: EquipStats = %EquipStatsLCK
 @onready var equip_name_label : Label = %EquipNameLabel
@@ -93,7 +93,7 @@ func update_equip_menu_stats_labels(member : PartyMemberData)->void:
 	equip_stats_def.equip_stats_base.text = str(member.get_def_value())
 	equip_stats_str.equip_stats_base.text = str(member.get_strength())
 	equip_stats_stm.equip_stats_base.text = str(member.get_stamina())
-	equip_stats_spd.equip_stats_base.text = str(member.get_agility())
+	equip_stats_agi.equip_stats_base.text = str(member.get_agility())
 	equip_stats_mag.equip_stats_base.text = str(member.get_magic())
 	equip_stats_lck.equip_stats_base.text = str(member.get_luck())
 	

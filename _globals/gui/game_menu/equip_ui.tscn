@@ -146,10 +146,10 @@ unique_name_in_owner = true
 layout_mode = 2
 stats_title = "STM"
 
-[node name="EquipStatsSPD" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1003113626 instance=ExtResource("4_nrsuy")]
+[node name="EquipStatsAGI" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=1003113626 instance=ExtResource("4_nrsuy")]
 unique_name_in_owner = true
 layout_mode = 2
-stats_title = "SPD"
+stats_title = "AGI"
 
 [node name="EquipStatsMAG" parent="EquipPanelContainer/MarginContainer/VBoxContainer/MarginContainer/EquipStatGridContainer" unique_id=123907592 instance=ExtResource("4_nrsuy")]
 unique_name_in_owner = true

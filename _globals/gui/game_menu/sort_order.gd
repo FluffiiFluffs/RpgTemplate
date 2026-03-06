@@ -1,8 +1,14 @@
 class_name SortOrderUI extends Control
 
 
+const SORT_TARGET_ITEM: String = "ITEM"
+const SORT_TARGET_SKILL: String = "SKILL"
+
 @onready var sort_order_v_box: VBoxContainer = %SortOrderVBox
 @onready var sort_order_entry: SortOrderButton = %SortOrderEntry
+
+var current_sort_target: String = SORT_TARGET_ITEM
+var return_focus_button: Button = null
 
 
 func _ready()->void:
@@ -14,28 +20,37 @@ func _ready()->void:
 
 #region SortOrderMenu
 
-func open_sort_menu()->void:
+func open_item_sort_menu()->void:
+	_open_sort_menu_for_target(SORT_TARGET_ITEM, GameMenu.options.opt_item_sort_order_button)
+
+
+func open_skill_sort_menu()->void:
+	_open_sort_menu_for_target(SORT_TARGET_SKILL, GameMenu.options.opt_skill_sort_order_button)
+
+
+func _open_sort_menu_for_target(target: String, focus_button: Button)->void:
+	current_sort_target = target
+	return_focus_button = focus_button
 	GameMenu.sort_order.set_deferred("visible", true)
 	clear_sort_buttons()
 	make_sort_buttons()
 	setup_sort_order_focus_neighbors()
 	focus_first_sort_button()
 	await sort_order_show()
-	#animation_player.play("opt_sort_order_show")
 	GameMenu.menu_state = "OPTIONS_SORT_ORDER"
 	pass
-	
+
+
 func close_sort_menu()->void:
-	clear_sort_buttons() ##get the buttons out of memory
-	#animation_player.play("opt_sort_order_hide")
+	clear_sort_buttons()
 	await sort_order_hide()
 	GameMenu.sort_selected_index = -1
-	GameMenu.options.opt_sort_order_button.grab_focus()
+	if return_focus_button != null:
+		return_focus_button.grab_focus()
 	GameMenu.menu_state = "OPTIONS_OPEN"
-	#await animation_player.animation_finished
-	
 	GameMenu.sort_order.set_deferred("visible", false)
 	pass
+
 
 func sort_order_show()->void:
 	GameMenu.menu_is_animating = true
@@ -46,7 +61,8 @@ func sort_order_show()->void:
 	await tween.finished
 	GameMenu.menu_is_animating = false
 	pass
-	
+
+
 func sort_order_hide()->void:
 	GameMenu.menu_is_animating = true
 	modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -55,9 +71,7 @@ func sort_order_hide()->void:
 	await tween.finished
 	visible = false
 	GameMenu.menu_is_animating = false
-	
 	pass
-
 
 
 func clear_sort_buttons()->void:
@@ -68,18 +82,17 @@ func clear_sort_buttons()->void:
 
 
 func make_sort_buttons()->void:
-	var count := Options.item_sort_order.size()
+	var current_order: Array = _get_current_sort_order()
+	var count: int = current_order.size()
+
 	for i in range(count):
-		var category : String = Options.item_sort_order[i]
+		var category: String = String(current_order[i])
 
-		var new_sort_button : SortOrderButton = GameMenu.SORT_ORDER_ENTRY.instantiate()
-		
-		# add to the VBox first so @onready runs
+		var new_sort_button: SortOrderButton = GameMenu.SORT_ORDER_ENTRY.instantiate()
 		sort_order_v_box.add_child(new_sort_button)
+		new_sort_button.set_label_text(i + 1)
+		new_sort_button.set_button_text(_get_sort_category_display_name(category))
 
-		# now the onready vars are valid
-		new_sort_button.set_label_text(i + 1)      # int is fine here
-		new_sort_button.set_button_text(category)
 
 func setup_sort_order_focus_neighbors()->void:
 	var slist := sort_order_v_box.get_children()
@@ -89,9 +102,9 @@ func setup_sort_order_focus_neighbors()->void:
 		return
 
 	if count == 1:
-		var only_child : SortOrderButton = slist[0]
-		var btn : Button = only_child.sort_button
-		var path : NodePath = btn.get_path()
+		var only_child: SortOrderButton = slist[0]
+		var btn: Button = only_child.sort_button
+		var path: NodePath = btn.get_path()
 		btn.focus_neighbor_top = path
 		btn.focus_neighbor_bottom = path
 		btn.focus_neighbor_left = path
@@ -99,39 +112,38 @@ func setup_sort_order_focus_neighbors()->void:
 		return
 
 	for i in range(count):
-		var entry : SortOrderButton = slist[i]
-		var btn : Button = entry.sort_button
+		var entry: SortOrderButton = slist[i]
+		var btn: Button = entry.sort_button
 
-		var top_index : int = (i - 1 + count) % count
-		var bottom_index : int = (i + 1) % count
+		var top_index: int = (i - 1 + count) % count
+		var bottom_index: int = (i + 1) % count
 
-		var top_btn : Button = (slist[top_index] as SortOrderButton).sort_button
-		var bottom_btn : Button = (slist[bottom_index] as SortOrderButton).sort_button
+		var top_btn: Button = (slist[top_index] as SortOrderButton).sort_button
+		var bottom_btn: Button = (slist[bottom_index] as SortOrderButton).sort_button
 
 		btn.focus_neighbor_top = top_btn.get_path()
 		btn.focus_neighbor_bottom = bottom_btn.get_path()
 
-		var self_path : NodePath = btn.get_path()
+		var self_path: NodePath = btn.get_path()
 		btn.focus_neighbor_left = self_path
 		btn.focus_neighbor_right = self_path
-
 
 
 func focus_first_sort_button()->void:
 	var slist := sort_order_v_box.get_children()
 	if slist.size() == 0:
 		return
-	var first : SortOrderButton = slist[0]
+	var first: SortOrderButton = slist[0]
 	first.grab_button_focus()
+
 
 func sort_order_button_pressed(button: SortOrderButton)->void:
 	var slist := sort_order_v_box.get_children()
-	var idx : int = slist.find(button)
+	var idx: int = slist.find(button)
 	if idx == -1:
 		return
 
 	if GameMenu.menu_state == "OPTIONS_SORT_ORDER":
-		# first selection
 		GameMenu.sort_selected_index = idx
 
 		for child in slist:
@@ -141,26 +153,25 @@ func sort_order_button_pressed(button: SortOrderButton)->void:
 		GameMenu.menu_state = "OPTIONS_SORT_ORDER_SORTING"
 
 	elif GameMenu.menu_state == "OPTIONS_SORT_ORDER_SORTING":
-		# second selection (or cancel if same)
 		if idx == GameMenu.sort_selected_index:
 			cancel_sort_selection()
 			return
 
-		_swap_item_sort_order(GameMenu.sort_selected_index, idx)
+		_swap_current_sort_order(GameMenu.sort_selected_index, idx)
 		cancel_sort_selection()
 
-		# rebuild the list so labels stay in the right order
 		clear_sort_buttons()
 		make_sort_buttons()
 		setup_sort_order_focus_neighbors()
 
 		var new_list := sort_order_v_box.get_children()
 		if idx >= 0 and idx < new_list.size():
-			var new_button : SortOrderButton = new_list[idx]
+			var new_button: SortOrderButton = new_list[idx]
 			new_button.grab_button_focus()
 
-func _swap_item_sort_order(a : int, b : int)->void:
-	var order : Array = Options.item_sort_order.duplicate()
+
+func _swap_current_sort_order(a: int, b: int)->void:
+	var order: Array = _get_current_sort_order().duplicate()
 
 	if a < 0 or a >= order.size():
 		return
@@ -171,7 +182,21 @@ func _swap_item_sort_order(a : int, b : int)->void:
 	order[a] = order[b]
 	order[b] = tmp
 
+	_set_current_sort_order(order)
+
+
+func _get_current_sort_order() -> Array:
+	if current_sort_target == SORT_TARGET_SKILL:
+		return Options.skills_sort_order
+	return Options.item_sort_order
+
+
+func _set_current_sort_order(order: Array) -> void:
+	if current_sort_target == SORT_TARGET_SKILL:
+		Options.skills_sort_order = order
+		return
 	Options.item_sort_order = order
+
 
 func cancel_sort_selection()->void:
 	GameMenu.sort_selected_index = -1
@@ -181,12 +206,23 @@ func cancel_sort_selection()->void:
 			(child as SortOrderButton).set_selected(false)
 	GameMenu.menu_state = "OPTIONS_SORT_ORDER"
 
+
 func force_close_for_load() -> void:
 	clear_sort_buttons()
 	GameMenu.sort_selected_index = -1
-
 	modulate = Color(1.0, 1.0, 1.0, 0.0)
 	visible = false
 
+func _get_sort_category_display_name(category: String) -> String:
+	if current_sort_target == SORT_TARGET_SKILL:
+		match category:
+			"RECOVERY":
+				return "Recovery"
+			"ATTACK":
+				return "Attack"
+			"EFFECT":
+				return "Effect"
+
+	return category
 
 #endregion sort order menu

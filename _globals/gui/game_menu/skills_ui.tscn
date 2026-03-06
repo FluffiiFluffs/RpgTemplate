@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cd1jgjwnnlyda" path="res://_globals/gui/game_menu/skills_ui.gd" id="1_28bkj"]
 [ext_resource type="PackedScene" uid="uid://bypfotk54wa7f" path="res://_globals/gui/game_menu/skills_options_button.tscn" id="2_oe4o5"]
+[ext_resource type="PackedScene" uid="uid://dnxm7jb2genlm" path="res://_globals/gui/game_menu/skills_skill_button.tscn" id="3_rr5m6"]
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="4_3suat"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28bkj"]
@@ -27,6 +28,8 @@ vertical = true
 color = Color(1, 1, 1, 1)
 grow_begin = -8.0
 grow_end = -8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnqfe"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3suat"]
 content_margin_left = 2.0
@@ -112,6 +115,7 @@ size_flags_horizontal = 3
 mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1921249616]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
@@ -146,14 +150,19 @@ mouse_filter = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_rr5m6")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=745746997]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-follow_focus = true
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1422926553]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=756140460]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=1422926553]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -161,7 +170,20 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 2
-columns = 3
+columns = 2
+
+[node name="SkillsSkillButton" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/GridContainer" unique_id=2084332015 instance=ExtResource("3_rr5m6")]
+layout_mode = 2
+
+[node name="SkillsSkillButton2" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/GridContainer" unique_id=1854460194 instance=ExtResource("3_rr5m6")]
+layout_mode = 2
+
+[node name="SkillsSkillButton3" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer/GridContainer" unique_id=1184848260 instance=ExtResource("3_rr5m6")]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/ScrollContainer/HBoxContainer" unique_id=590719411]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_bnqfe")
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer" unique_id=1545396077]
 layout_mode = 2
@@ -196,6 +218,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_r1ubs")
 layout_mode = 2
 
 [node name="CostValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer2/HBoxContainer" unique_id=1525860822]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 11)
 layout_mode = 2
 size_flags_horizontal = 0

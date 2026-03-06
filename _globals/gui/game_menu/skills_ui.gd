@@ -7,11 +7,12 @@ class_name SkillsUI extends Control
 @onready var sort_button: SkillsOptionsButton = %SortButton
 @onready var reorder_button: SkillsOptionsButton = %ReorderButton
 @onready var exit_button: SkillsOptionsButton = %ExitButton
-@onready var options_button_h_box: HBoxContainer = $PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer
+@onready var options_button_h_box: HBoxContainer = %HBoxContainer
 @onready var grid_container: GridContainer = %GridContainer
 @onready var description_label: Label = %DescriptionLabel
-@onready var cost_value_label: Label = $PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/PanelContainer2/HBoxContainer/CostValue
 @onready var cost_title_label: Label = %CostTitleLabel
+@onready var scroll_container: ScrollContainer = %ScrollContainer
+@onready var cost_value_label: Label = %CostValue
 
 const HIDDEN_POSITION: Vector2 = Vector2(0, -224)
 const VISIBLE_POSITION: Vector2 = Vector2(0, 0)
@@ -23,6 +24,7 @@ func _ready() -> void:
 	hider.queue_free()
 	panel_container.visible = false
 	panel_container.position = HIDDEN_POSITION
+	scroll_container.follow_focus = false
 
 	clear_skill_buttons()
 	reset_skill_details()
@@ -54,7 +56,7 @@ func skills_menu_open() -> void:
 	reset_skill_details()
 
 	GameMenu.last_selected_skills_option_button = use_button
-	update_option_buttons_state(use_button)
+	update_option_buttons_state(null)
 
 	await skills_menu_show()
 
@@ -65,7 +67,6 @@ func skills_menu_open() -> void:
 
 	GameMenu.menu_state = "SKILLS_SELECT_SKILL"
 	focus_remembered_skill_or_first()
-
 
 ## Closes the skills menu and returns to party selection.
 func skills_menu_close() -> void:
@@ -160,27 +161,149 @@ func make_skills_button(skill: Skill) -> void:
 
 	new_skill_button.skill_button.focus_entered.connect(
 		func() -> void:
-			update_skill_details(skill)
-			new_skill_button.refresh_visual_state()
+			_on_skill_button_focus_entered(new_skill_button)
 	)
 
 	new_skill_button.skill_button.focus_exited.connect(
 		func() -> void:
-			new_skill_button.refresh_visual_state()
+			_on_skill_button_focus_exited(new_skill_button)
 	)
+
+	new_skill_button.skill_button.gui_input.connect(
+		func(event: InputEvent) -> void:
+			_on_skill_button_gui_input(new_skill_button, event)
+	)
+func _on_skill_button_focus_entered(skill_button: SkillsSkillButton) -> void:
+	if skill_button == null:
+		return
+
+	update_skill_details(skill_button.skill)
+	skill_button.refresh_visual_state()
+	call_deferred("_sync_scroll_to_skill_button", skill_button)
+
+
+func _on_skill_button_focus_exited(skill_button: SkillsSkillButton) -> void:
+	if skill_button == null:
+		return
+
+	skill_button.refresh_visual_state()
+
+
+func _sync_scroll_to_skill_button(skill_button: SkillsSkillButton) -> void:
+	if skill_button == null:
+		return
+	if not is_instance_valid(skill_button):
+		return
+	if scroll_container == null:
+		return
+
+	var skill_buttons: Array[SkillsSkillButton] = get_skill_buttons()
+	var index: int = skill_buttons.find(skill_button)
+	if index == -1:
+		return
+
+	var cols: int = grid_container.columns
+	if cols <= 0:
+		cols = 1
+
+	@warning_ignore("integer_division")
+	var row: int = index / cols
+
+	if row <= 0:
+		scroll_container.scroll_vertical = 0
+		return
+
+	scroll_container.ensure_control_visible(skill_button)
+
+
+func _on_skill_button_gui_input(skill_button: SkillsSkillButton, event: InputEvent) -> void:
+	if GameMenu.menu_state != "SKILLS_SELECT_SKILL" and GameMenu.menu_state != "SKILLS_REORDER":
+		return
+	if skill_button == null:
+		return
+	if not skill_button.skill_button.has_focus():
+		return
+
+	var target_button: SkillsSkillButton = null
+
+	if event.is_action_pressed("ui_up"):
+		target_button = _get_wrapped_skill_neighbor(skill_button, "up")
+	elif event.is_action_pressed("ui_down"):
+		target_button = _get_wrapped_skill_neighbor(skill_button, "down")
+	elif event.is_action_pressed("ui_left"):
+		target_button = _get_wrapped_skill_neighbor(skill_button, "left")
+	elif event.is_action_pressed("ui_right"):
+		target_button = _get_wrapped_skill_neighbor(skill_button, "right")
+	else:
+		return
+
+	if target_button != null:
+		target_button.grab_button_focus()
+
+	skill_button.skill_button.accept_event()
+
+
+func _get_wrapped_skill_neighbor(skill_button: SkillsSkillButton, direction: String) -> SkillsSkillButton:
+	var skill_buttons: Array[SkillsSkillButton] = get_skill_buttons()
+	var count: int = skill_buttons.size()
+	if count == 0:
+		return null
+
+	var from_index: int = skill_buttons.find(skill_button)
+	if from_index == -1:
+		return null
+
+	var cols: int = grid_container.columns
+	if cols <= 0:
+		cols = 1
+
+	var btns: Array[Button] = []
+	btns.resize(count)
+
+	for i in range(count):
+		btns[i] = skill_buttons[i].skill_button
+
+	@warning_ignore("integer_division")
+	var rows: int = int((count + cols - 1) / cols)
+	@warning_ignore("integer_division")
+	var row: int = from_index / cols
+	var col: int = from_index % cols
+
+	var target_index: int = from_index
+
+	if direction == "left":
+		var row_start_left: int = row * cols
+		var row_len_left: int = min(cols, count - row_start_left)
+		target_index = _find_in_row(btns, row_start_left, row_len_left, from_index, -1)
+	elif direction == "right":
+		var row_start_right: int = row * cols
+		var row_len_right: int = min(cols, count - row_start_right)
+		target_index = _find_in_row(btns, row_start_right, row_len_right, from_index, 1)
+	elif direction == "up":
+		target_index = _find_in_col(btns, cols, rows, row, col, -1)
+	elif direction == "down":
+		target_index = _find_in_col(btns, cols, rows, row, col, 1)
+
+	if target_index < 0:
+		return skill_button
+	if target_index >= skill_buttons.size():
+		return skill_button
+
+	return skill_buttons[target_index]
+
+
 
 ## Enters skill selection and focuses remembered or first skill.
 func on_use_button_pressed() -> void:
 	GameMenu.last_selected_skills_option_button = use_button
-	update_option_buttons_state(use_button)
 
 	if get_skill_buttons().is_empty():
 		GameMenu.play_error_sound()
 		return
 
+	update_option_buttons_state(null)
 	GameMenu.menu_state = "SKILLS_SELECT_SKILL"
 	focus_remembered_skill_or_first()
-
 
 ## Sorts the displayed list for the current view.
 func on_sort_button_pressed() -> void:
@@ -191,8 +314,8 @@ func on_sort_button_pressed() -> void:
 	use_sorted_display = not use_sorted_display
 	propagate_skills()
 
-	GameMenu.last_selected_skills_option_button = use_button
-	update_option_buttons_state(use_button)
+	GameMenu.last_selected_skills_option_button = sort_button
+	update_option_buttons_state(null)
 	GameMenu.menu_state = "SKILLS_SELECT_SKILL"
 	focus_remembered_skill_or_first()
 
@@ -206,6 +329,7 @@ func on_reorder_button_pressed() -> void:
 	update_option_buttons_state(reorder_button)
 
 	if use_sorted_display == true:
+		_commit_current_display_order_to_member()
 		use_sorted_display = false
 		propagate_skills()
 
@@ -216,7 +340,20 @@ func on_reorder_button_pressed() -> void:
 
 	GameMenu.menu_state = "SKILLS_REORDER"
 	focus_first_skill_button()
+	
+func _commit_current_display_order_to_member() -> void:
+	var member: PartyMemberData = GameMenu.current_selected_party_member
+	if member == null:
+		return
 
+	var ordered_skills: Array[Skill] = []
+	for skill_button in get_skill_buttons():
+		if skill_button.skill != null:
+			ordered_skills.append(skill_button.skill)
+
+	member.skills.clear()
+	for skill in ordered_skills:
+		member.skills.append(skill)
 
 ## Closes the skills menu back to party select.
 func on_exit_button_pressed() -> void:
@@ -233,11 +370,10 @@ func cancel_skill_selection() -> void:
 
 	clear_skill_selection_visuals()
 	reset_skill_details()
-	update_option_buttons_state(GameMenu.last_selected_skills_option_button)
+	update_option_buttons_state(null)
 
 	GameMenu.menu_state = "SKILLS_OPTION_SELECT"
 	focus_last_skills_option_button()
-
 
 func cancel_skill_target_selection() -> void:
 	return_focus_to_selected_skill()
@@ -282,19 +418,17 @@ func refresh_skill_button_state(skill_button: SkillsSkillButton) -> void:
 	if skill_button.skill == null:
 		return
 
-	var usability: Dictionary = get_field_skill_usability(skill_button.skill, GameMenu.current_selected_party_member)
-	var can_proceed: bool = bool(usability.get("can_proceed", false))
 	skill_button.skill_cost.text = str(skill_button.skill.sp_cost)
-	skill_button.set_blocked(not can_proceed)
-
-
+	skill_button.refresh_visual_state()
+	
+	
 func cancel_reorder_selection() -> void:
 	GameMenu.selected_skill_button = null
 	GameMenu.selected_skill = null
 
 	clear_skill_selection_visuals()
 	reset_skill_details()
-	update_option_buttons_state(reorder_button)
+	update_option_buttons_state(null)
 
 	GameMenu.menu_state = "SKILLS_OPTION_SELECT"
 	reorder_button.grab_button_focus()
@@ -394,7 +528,9 @@ func _on_skill_button_pressed(skill_button: SkillsSkillButton) -> void:
 
 	match GameMenu.menu_state:
 		"SKILLS_SELECT_SKILL":
-			set_active_skill_button(skill_button)
+			clear_skill_selection_visuals()
+			GameMenu.selected_skill_button = null
+			GameMenu.selected_skill = null
 
 			var usability: Dictionary = get_field_skill_usability(
 				skill_button.skill,
@@ -410,6 +546,8 @@ func _on_skill_button_pressed(skill_button: SkillsSkillButton) -> void:
 			if not (first_valid_target_stats_variant is TopLevelStats):
 				GameMenu.play_error_sound()
 				return
+
+			set_active_skill_button(skill_button)
 
 			var first_valid_target_stats: TopLevelStats = first_valid_target_stats_variant as TopLevelStats
 			GameMenu.menu_state = "SKILLS_USE_PARTY_SELECT"
@@ -702,38 +840,58 @@ func _find_in_col(btns: Array[Button], cols: int, rows: int, from_row: int, from
 
 
 func _get_displayed_skills(member: PartyMemberData) -> Array[Skill]:
-	var display_skills: Array[Skill] = []
+	var display_entries: Array[Dictionary] = []
 
 	if member == null:
-		return display_skills
+		return []
 
-	for skill in member.skills:
-		if skill != null:
-			display_skills.append(skill)
+	for i in range(member.skills.size()):
+		var skill: Skill = member.skills[i]
+		if skill == null:
+			continue
+
+		display_entries.append({
+			"skill": skill,
+			"source_index": i,
+		})
 
 	if use_sorted_display == true:
-		display_skills.sort_custom(Callable(self, "_sort_skills_for_menu"))
+		display_entries.sort_custom(Callable(self, "_sort_skill_entries_for_menu"))
+
+	var display_skills: Array[Skill] = []
+	for entry in display_entries:
+		var skill_variant = entry.get("skill", null)
+		if skill_variant is Skill:
+			display_skills.append(skill_variant as Skill)
 
 	return display_skills
 
 
-func _sort_skills_for_menu(a: Skill, b: Skill) -> bool:
-	var a_rank: int = _skill_sort_rank(a)
-	var b_rank: int = _skill_sort_rank(b)
+func _sort_skill_entries_for_menu(a: Dictionary, b: Dictionary) -> bool:
+	var a_skill_variant = a.get("skill", null)
+	var b_skill_variant = b.get("skill", null)
 
-	if a_rank != b_rank:
-		return a_rank < b_rank
+	if not (a_skill_variant is Skill):
+		return false
+	if not (b_skill_variant is Skill):
+		return true
 
-	var a_scope_rank: int = _skill_scope_rank(a)
-	var b_scope_rank: int = _skill_scope_rank(b)
-	if a_scope_rank != b_scope_rank:
-		return a_scope_rank < b_scope_rank
+	var a_skill: Skill = a_skill_variant as Skill
+	var b_skill: Skill = b_skill_variant as Skill
 
-	if a.sp_cost != b.sp_cost:
-		return a.sp_cost < b.sp_cost
+	var a_main_rank: int = _skill_sort_rank(a_skill)
+	var b_main_rank: int = _skill_sort_rank(b_skill)
+	if a_main_rank != b_main_rank:
+		return a_main_rank < b_main_rank
 
-	return a.name.nocasecmp_to(b.name) < 0
+	var a_sub_rank: int = a_skill.get_sort_subcategory_rank()
+	var b_sub_rank: int = b_skill.get_sort_subcategory_rank()
+	if a_sub_rank != b_sub_rank:
+		return a_sub_rank < b_sub_rank
 
+	var a_source_index: int = int(a.get("source_index", 0))
+	var b_source_index: int = int(b.get("source_index", 0))
+	return a_source_index < b_source_index
 
 
 func _skill_sort_rank(skill: Skill) -> int:
@@ -746,58 +904,11 @@ func _skill_sort_rank(skill: Skill) -> int:
 
 func _classify_skill_for_sort(skill: Skill) -> String:
 	if skill == null:
-		return "UNSORTED"
+		return "EFFECT"
 
-	var usability: Dictionary = get_field_skill_usability(skill, GameMenu.current_selected_party_member)
-	if bool(usability.get("can_proceed", false)):
-		return "FIELD_USABLE"
-	if bool(usability.get("is_allowed_in_field", false)) and bool(usability.get("is_beneficial", false)):
-		return "FIELD_BENEFICIAL"
-	if skill.scope == Skill.UseScope.BATTLE_ONLY:
-		return "BATTLE_ONLY"
-	return "FIELD_OTHER"
+	return skill.get_sort_main_category_key()
 
 
-
-
-func _skill_scope_rank(skill: Skill) -> int:
-	if skill == null:
-		return 99
-
-	match skill.scope:
-		Skill.UseScope.FIELD_ONLY:
-			return 0
-		Skill.UseScope.ALL:
-			return 1
-		Skill.UseScope.BATTLE_ONLY:
-			return 2
-
-	return 99
-
-func _category_from_effect(effect: Effect) -> String:
-	if effect == null:
-		return "UNSORTED"
-
-	var script_res = effect.get_script()
-	if script_res == null:
-		return "UNSORTED"
-
-	var script_path: String = String(script_res.resource_path)
-	var script_file: String = script_path.get_file()
-
-	match script_file:
-		"effect_heal_hp.gd", "effect_heal_sp.gd":
-			return "HPHEAL"
-		"effect_healpoison.gd", "effect_healpoisonfull.gd":
-			return "STATUSHEAL"
-		"effect_damage_hp.gd":
-			return "DAMAGE"
-		"effect_applyattackup.gd", "effect_applydefenseup.gd", "effect_applymagicup.gd", "effect_applyhaste.gd":
-			return "BUFF"
-		"effect_applyattackdown.gd", "effect_applydefensedown.gd", "effect_applymagicdown.gd", "effect_applyslow.gd", "effect_applypoison.gd", "effect_applysleep.gd", "effect_applystun.gd", "effect_applyconfuse.gd":
-			return "DEBUFF"
-
-	return "UNSORTED"
 
 
 func _get_actor_memory_key(member: PartyMemberData) -> String:

@@ -37,6 +37,19 @@ enum Intent {
 }
 
 
+enum SortSubcategory {
+	HP_RECOVERY = 0,
+	FULL_RECOVERY = 1,
+	REVIVE = 2,
+	STATUS_RECOVERY = 3,
+	SP_RECOVERY = 4,
+	SINGLE_TARGET_DAMAGE = 5,
+	ALL_TARGET_DAMAGE = 6,
+	ALLY_BUFFS = 7,
+	ENEMY_DEBUFFS = 8,
+	ENEMY_STATUS_EFFECTS = 9,
+}
+
 
 
 @export_group("Identity")
@@ -70,6 +83,10 @@ enum Intent {
 @export var default_target_focus : DefaultTargetFocus = DefaultTargetFocus.AUTO
 ## Gameplay classification for systems that need a stable notion of offensive vs beneficial.
 @export var intent : Intent = Intent.UTILITY
+
+@export_group("Menu Sorting")
+@export var sort_subcategory : SortSubcategory = SortSubcategory.SINGLE_TARGET_DAMAGE
+
 
 @export_category("Tuning")
 ##If the skill can miss
@@ -126,3 +143,56 @@ func pay_cost(user_actor : ActorData) -> void:
 	user_actor.current_sp = user_actor.current_sp - sp_cost
 	user_actor.current_hp = user_actor.current_hp - hp_cost
 	user_actor.clamp_vitals()
+
+
+
+func get_sort_main_category_key() -> String:
+	match sort_subcategory:
+		SortSubcategory.HP_RECOVERY:
+			return "RECOVERY"
+		SortSubcategory.FULL_RECOVERY:
+			return "RECOVERY"
+		SortSubcategory.REVIVE:
+			return "RECOVERY"
+		SortSubcategory.STATUS_RECOVERY:
+			return "RECOVERY"
+		SortSubcategory.SP_RECOVERY:
+			return "RECOVERY"
+		SortSubcategory.SINGLE_TARGET_DAMAGE:
+			return "ATTACK"
+		SortSubcategory.ALL_TARGET_DAMAGE:
+			return "ATTACK"
+		SortSubcategory.ALLY_BUFFS:
+			return "EFFECT"
+		SortSubcategory.ENEMY_DEBUFFS:
+			return "EFFECT"
+		SortSubcategory.ENEMY_STATUS_EFFECTS:
+			return "EFFECT"
+
+	return "EFFECT"
+	
+	
+func get_sort_subcategory_rank() -> int:
+	match sort_subcategory:
+		SortSubcategory.HP_RECOVERY:
+			return 0
+		SortSubcategory.FULL_RECOVERY:
+			return 1
+		SortSubcategory.REVIVE:
+			return 2
+		SortSubcategory.STATUS_RECOVERY:
+			return 3
+		SortSubcategory.SP_RECOVERY:
+			return 4
+		SortSubcategory.SINGLE_TARGET_DAMAGE:
+			return 5
+		SortSubcategory.ALL_TARGET_DAMAGE:
+			return 6
+		SortSubcategory.ALLY_BUFFS:
+			return 7
+		SortSubcategory.ENEMY_DEBUFFS:
+			return 8
+		SortSubcategory.ENEMY_STATUS_EFFECTS:
+			return 9
+
+	return 999

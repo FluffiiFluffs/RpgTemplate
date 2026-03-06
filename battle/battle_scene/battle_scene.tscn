@@ -275,60 +275,60 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/SkillWindow" unique_id=1093706584]
+[node name="SkillScrollContainer" type="ScrollContainer" parent="BattleUI/SkillWindow" unique_id=1093706584]
+unique_name_in_owner = true
 layout_mode = 2
-follow_focus = true
 vertical_scroll_mode = 3
 
-[node name="SkillGridContainer" type="GridContainer" parent="BattleUI/SkillWindow/ScrollContainer" unique_id=1271889195]
+[node name="SkillGridContainer" type="GridContainer" parent="BattleUI/SkillWindow/SkillScrollContainer" unique_id=1271889195]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="BattleSkillButton3" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1312282428 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton3" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1312282428 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton4" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=2080816075 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton4" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=2080816075 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton5" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1595512169 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton5" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1595512169 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton6" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1155199142 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton6" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1155199142 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton7" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=201616944 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton7" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=201616944 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton8" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1223887006 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton8" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1223887006 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton9" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1308828752 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton9" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1308828752 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton10" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1244512007 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton10" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1244512007 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton11" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1014167409 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton11" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1014167409 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton12" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=638628682 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton12" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=638628682 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton13" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=2088889826 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton13" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=2088889826 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton14" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=221539710 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton14" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=221539710 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton15" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=1091873027 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton15" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=1091873027 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton16" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=91993727 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton16" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=91993727 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
-[node name="BattleSkillButton" parent="BattleUI/SkillWindow/ScrollContainer/SkillGridContainer" unique_id=697760383 instance=ExtResource("6_agadl")]
+[node name="BattleSkillButton" parent="BattleUI/SkillWindow/SkillScrollContainer/SkillGridContainer" unique_id=697760383 instance=ExtResource("6_agadl")]
 layout_mode = 2
 
 [node name="ItemWindow" type="PanelContainer" parent="BattleUI" unique_id=1559210427]
@@ -344,19 +344,19 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_jj1aw")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="BattleUI/ItemWindow" unique_id=517742519]
+[node name="ItemScrollContainer" type="ScrollContainer" parent="BattleUI/ItemWindow" unique_id=517742519]
+unique_name_in_owner = true
 layout_mode = 2
-follow_focus = true
 vertical_scroll_mode = 3
 
-[node name="ItemGridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ScrollContainer" unique_id=1374776911]
+[node name="ItemGridContainer" type="GridContainer" parent="BattleUI/ItemWindow/ItemScrollContainer" unique_id=1374776911]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 2
 columns = 4
 
-[node name="BattleItemButton" parent="BattleUI/ItemWindow/ScrollContainer/ItemGridContainer" unique_id=1746835823 instance=ExtResource("7_nfpqq")]
+[node name="BattleItemButton" parent="BattleUI/ItemWindow/ItemScrollContainer/ItemGridContainer" unique_id=1746835823 instance=ExtResource("7_nfpqq")]
 layout_mode = 2
 
 [node name="MiddleBanner" type="Control" parent="BattleUI" unique_id=783106652]

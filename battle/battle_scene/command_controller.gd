@@ -333,7 +333,8 @@ func show_skill_window(battler: Battler)->void:
 		new_button.is_active = false
 		new_button.setup()
 	battle_scene.skill_window.visible = true
-	
+	battle_scene.skill_scroll_container.scroll_vertical = 0
+
 	setup_itemskill_button_neighbors(battle_scene.skill_grid_container)
 	var skillgcontainer : GridContainer = battle_scene.skill_grid_container
 	#focus last battle skill if options set to do so
@@ -613,6 +614,7 @@ func show_item_window(battler : Battler)->void:
 				
 		battle_scene.ui_state = "ITEM_MENU_OPEN" #sets ui_state
 		battle_scene.item_window.visible = true #show the item window
+		battle_scene.item_scroll_container.scroll_vertical = 0
 		battle_scene.disable_all_ui_element_buttons() #disable ui element buttons just in case
 		var itemgcontainer : GridContainer = battle_scene.item_grid_container
 		setup_itemskill_button_neighbors(itemgcontainer) #sets up neighbors

@@ -21,6 +21,7 @@ func _ready()->void:
 func button_focused()->void:
 	self_modulate = GameMenu.ENABLED_COLOR
 	show_description()
+	SceneManager.main_scene.current_battle_scene.call_deferred("sync_skill_scroll_to_button", self)
 	pass
 
 func button_unfocused()->void:
