@@ -14,6 +14,7 @@ script = ExtResource("2_4ane5")
 skill_id = &"poisontest"
 name = "PoisonTest"
 description = "Tests out the poison mechanic!"
+scope = 1
 sp_cost = 1
 default_target_focus = 2
 intent = 1

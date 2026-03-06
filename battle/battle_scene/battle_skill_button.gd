@@ -32,13 +32,6 @@ func button_unfocused()->void:
 	pass
 
 func button_pressed()->void:
-	if battler == null:
-		printerr(name + " NO BATTLER SET!")
-		queue_free()
-		return
-	if skill == null:
-		printerr(name + " NO SKILL SET!")
-		queue_free()
 	if skill != null and battler != null:
 		is_active = true 
 		battler.ui_element.last_skill_selected = skill.name

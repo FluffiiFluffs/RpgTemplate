@@ -29,6 +29,7 @@ const SORT_ORDER_ENTRY = preload("uid://dwhea87oe4shd") #scene with customizable
 const INVENTORY_ITEM_BUTTON = preload("uid://bhfhqwlqdj6ki") #scene with button. instantiated into inventory menu to allow items to be selected/used/reorderd/sorted etc
 const QUEST_BUTTON = preload("uid://ddiywckqcwvou") #quest button scene for instantiation to show title of quest
 const EQUIP_ITEM_BUTTON = preload("uid://d0guj5cenunp") #Instantiated for equipping items
+const SKILLS_SKILL_BUTTON = preload("uid://dnxm7jb2genlm") # Instantiated into skills menu to allow skills to be selected/used/reordered/sorted
 const DISABLED_COLOR = Color("696969ff") 
 const ENABLED_COLOR = Color("f1b400ff")
 const TRANS_COLOR = Color("00000000")
@@ -39,7 +40,22 @@ const MINUS_COLOR = Color("9b3800ff")
 
 #region General Variables
 
-@export_enum("TOP_MENU_CLOSED","TOP_MENU_OPEN", "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM", "EQUIP_PARTY_SELECT","EQUIP_OPTIONS", "EQUIP_EQUIP_SELECT", "EQUIP_MENU_EQUIPPING", "EQUIP_MENU_REMOVE", "MAGIC_PARTY_SELECT", "MAGIC_SELECT_SPELL", "MAGIC_SPELL_USE_PARTY_SELECTION", "STATS_SELECTION", "STATS_OPEN", "QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", "OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING", "OPTIONS_LOAD_MENU_OPEN") var menu_state : String = "TOP_MENU_CLOSED"
+@export_enum(
+"TOP_MENU_CLOSED","TOP_MENU_OPEN",
+
+ "INVENTORY_OPTIONS", "USE_ITEMS", "USE_ITEMS_USING", "SELECT_PARTY_MEMBER", "REORDER_ITEMS", "REORDER_ITEMS_REORDERING", "SELECT_ITEM",
+
+ "EQUIP_PARTY_SELECT","EQUIP_OPTIONS", "EQUIP_EQUIP_SELECT", "EQUIP_MENU_EQUIPPING", "EQUIP_MENU_REMOVE",
+
+ "SKILLS_PARTY_SELECT","SKILLS_OPTION_SELECT", "SKILLS_SELECT_SKILL", "SKILLS_USE_PARTY_SELECT","SKILLS_REORDER",
+
+ "STATS_SELECTION", "STATS_OPEN",
+
+"QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", 
+
+"OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING", "OPTIONS_LOAD_MENU_OPEN") 
+
+var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
 var last_top_button_focused : TopMenuButton = null
@@ -66,6 +82,12 @@ var last_curr_equip_slot_button : CurrentEquipButton = null
 var equip_preview_owner : CurrentEquipButton = null
 
 var last_selected_equip_option_button : InventoryOptionsButton = null
+
+var last_selected_skills_option_button : SkillsOptionsButton = null
+var selected_skill_button : SkillsSkillButton = null
+var selected_skill : Skill = null
+var last_selected_skill_id_by_actor_id : Dictionary = {}
+
 
 var menu_is_animating : bool = false
 
@@ -177,6 +199,19 @@ func _unhandled_input(_event):
 				if first_button != null and is_instance_valid(first_button):
 					first_button.grab_button_focus()
 				pass
+			"SKILLS_PARTY_SELECT":
+				top_level.close_to_top_menu()
+			"SKILLS_OPTION_SELECT":
+				await skills.skills_menu_close()
+				top_level.focus_last_top_level_stats()
+			"SKILLS_SELECT_SKILL":
+				skills.cancel_skill_selection()
+			"SKILLS_USE_PARTY_SELECT":
+				skills.cancel_skill_target_selection()
+			"SKILLS_REORDER":
+				skills.cancel_reorder_selection()
+				
+				
 				
 			"EQUIP_PARTY_SELECT":
 				top_level.close_to_top_menu()

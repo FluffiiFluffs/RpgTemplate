@@ -17,6 +17,7 @@ description = "Raises magic by 1 tier."
 scope = 1
 sp_cost = 1
 default_target_focus = 2
+intent = 1
 battle_effects = Array[ExtResource("1_s8d40")]([SubResource("Resource_v21og")])
 message_template = "{user} casts {skill} on {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

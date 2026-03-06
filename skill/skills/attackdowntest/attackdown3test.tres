@@ -16,6 +16,7 @@ name = "attackdown3"
 description = "Lowers attack by 3 tiers."
 scope = 1
 default_target_focus = 2
+intent = 1
 battle_effects = Array[ExtResource("1_4kxww")]([SubResource("Resource_i7tbj"), null])
 message_template = "{user} uses {skill} on {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"

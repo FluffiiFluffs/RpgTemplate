@@ -23,6 +23,6 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 		return false
 
 	var before_sp = target.current_sp
-	target.current_mp = target.current_sp + sp_heal_amount
+	target.current_sp = target.current_sp + sp_heal_amount
 	target.clamp_vitals()
 	return target.current_sp != before_sp

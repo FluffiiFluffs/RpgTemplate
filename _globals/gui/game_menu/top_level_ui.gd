@@ -199,8 +199,17 @@ func on_top_equip_button_pressed()->void:
 	GameMenu.equip.enter_equip_selection()
 
 ##Allows user to select a party member (top_level_stats.button) and then opens a magic page based on that
-func on_top_skills_button_pressed()->void:
-	pass
+## Selection of party member should work like stats and equip
+
+func on_top_skills_button_pressed() -> void:
+	if party_h_box_container.get_children().is_empty():
+		return
+
+	skills_button.is_active = true
+	GameMenu.last_top_button_focused = skills_button
+	GameMenu.menu_state = "SKILLS_PARTY_SELECT"
+	focus_last_top_level_stats()
+	
 	
 ##Allows user to select party member (top_level_stats.button) and then opens a status page based on that
 func on_top_stats_button_pressed()->void:
@@ -264,6 +273,21 @@ func update_top_level_stats_box(stats_box) -> void:
 
 	stats_box.update_buffs()
 
+func find_stats_box_for_member(member: PartyMemberData) -> TopLevelStats:
+	if member == null:
+		return null
+
+	for child in party_h_box_container.get_children():
+		if not (child is TopLevelStats):
+			continue
+
+		var stats_box: TopLevelStats = child as TopLevelStats
+		if stats_box.party_member == member:
+			return stats_box
+
+	return null
+
+
 func setup_top_level_stats_button_neighbors() -> void:
 	var stats_boxes: Array[TopLevelStats] = []
 
@@ -322,13 +346,15 @@ func return_class_color(classnum : int)->Color:
 
 func focus_last_top_level_stats()->void:
 	if !party_h_box_container.get_children().is_empty():
-		if GameMenu.last_top_level_stats_focused == null:
-			for child in party_h_box_container.get_children():
-				if child is TopLevelStats:
-					child.grab_button_focus()
-					break
-		else:
-			GameMenu.last_top_level_stats_focused.grab_button_focus()
+		if GameMenu.last_top_level_stats_focused != null:
+			if is_instance_valid(GameMenu.last_top_level_stats_focused):
+				GameMenu.last_top_level_stats_focused.grab_button_focus()
+				return
+
+		for child in party_h_box_container.get_children():
+			if child is TopLevelStats:
+				child.grab_button_focus()
+				break
 			
 
 ##menu_state = "TOP_MENU_OPEN", last_top_button_focused = false, focus_last_top_menu_button()
@@ -359,6 +385,7 @@ func force_close_for_load() -> void:
 
 	top_positioner.visible = false
 	bottom_positioner.visible = false
+	GameMenu.last_top_level_stats_focused = null
 
 	for child in top_menu_button_h_box.get_children():
 		if child is TopMenuButton:

@@ -12,9 +12,12 @@ extends Node
 ## Voices volume value
 @export_range(0.0,10.0, 0.5) var voices_volume : float = 7.0 : set = set_voices_volume
 
-@export_category("Item Sort Order")
+@export_category("Sort Order")
 ##Inventory sort order. Pops up extra menu when button pressed
 @export var item_sort_order : Array = ["HPHEAL","SPHEAL", "STATUSHEAL", "TOOL", "KEY", "EQUIPMENT"]
+## Skills menu sort buckets used when the skills Sort button is toggled on.
+## Order is highest priority to lowest priority and is evaluated against the current selected actor.
+@export var skills_sort_order : Array = ["FIELD_USABLE", "FIELD_BENEFICIAL", "FIELD_OTHER", "BATTLE_ONLY"]
 
 @export_category("Dialogue")
 ## 0 : FULL = Speaking characters play their voice sound rapidly.[br]

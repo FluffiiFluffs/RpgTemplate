@@ -100,8 +100,61 @@ func on_button_pressed()->void:
 				else:
 					if GameMenu.last_selected_inventory_button != null:
 						GameMenu.last_selected_inventory_button.item_qty_label.text = str(slot.quantity)
-
 			GameMenu.top_level.update_top_level_stats_box(self)
+		"SKILLS_PARTY_SELECT":
+			if party_member == null:
+				GameMenu.play_error_sound()
+				return
+
+			GameMenu.last_top_level_stats_focused = self
+			GameMenu.current_selected_party_member = party_member
+			await GameMenu.skills.skills_menu_open()
+			
+		"SKILLS_USE_PARTY_SELECT":
+			var selected_skill: Skill = GameMenu.selected_skill
+			var user_member: PartyMemberData = GameMenu.current_selected_party_member
+
+			if selected_skill == null:
+				GameMenu.play_error_sound()
+				return
+			if user_member == null:
+				GameMenu.play_error_sound()
+				return
+			if party_member == null:
+				GameMenu.play_error_sound()
+				return
+
+			var field_ctx: EffectContext = EffectContext.new()
+			field_ctx.mode = EffectContext.Mode.FIELD
+			field_ctx.user_actor = user_member
+
+			var effects: Array[Effect] = selected_skill.get_effects_for_context(field_ctx)
+			if effects.is_empty():
+				GameMenu.play_error_sound()
+				return
+
+			var any_effect_applied: bool = false
+			for effect in effects:
+				if effect == null:
+					continue
+				if effect.apply(field_ctx, party_member):
+					any_effect_applied = true
+
+			if not any_effect_applied:
+				GameMenu.play_error_sound()
+				return
+
+			selected_skill.pay_cost(user_member)
+
+			var user_stats_box: TopLevelStats = GameMenu.top_level.find_stats_box_for_member(user_member)
+			if user_stats_box != null:
+				GameMenu.top_level.update_top_level_stats_box(user_stats_box)
+
+			if self != user_stats_box:
+				GameMenu.top_level.update_top_level_stats_box(self)
+
+			GameMenu.skills.refresh_selected_skill_after_field_use()
+			GameMenu.skills.return_focus_to_selected_skill()
 		"STATS_SELECTION":
 			GameMenu.last_top_level_stats_focused = self
 			GameMenu.stats.setup_stats_menu(self)

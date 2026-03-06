@@ -17,6 +17,7 @@ description = "Raises defense by 3 tiers!"
 scope = 1
 sp_cost = 1
 default_target_focus = 1
+intent = 2
 battle_effects = Array[ExtResource("1_nvdjw")]([SubResource("Resource_tenbs")])
 message_template = "{user} uses {skill} on {target}."
 metadata/_custom_type_script = "uid://c3imvl0552hk1"
