@@ -7,6 +7,7 @@ extends InteractArea
 
 func _ready()->void:
 	super()
+	indicator = INDICATOR.DOTDOTDOT
 
 func _start_dialog() -> void:
 	if dialogue == null:
@@ -14,3 +15,11 @@ func _start_dialog() -> void:
 
 	super()
 	DM.show_dialogue(dialogue, start_position)
+
+func _on_area_entered(_area: Area2D) -> void:
+	super(_area)
+	
+	pass
+func _on_area_exited(_area: Area2D) -> void:
+	super(_area)
+	pass

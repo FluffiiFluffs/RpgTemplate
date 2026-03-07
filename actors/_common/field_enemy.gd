@@ -310,6 +310,9 @@ func enemy_killed()->void:
 	
 #Starts battle if the player is within this area, only if the enemy has not touched the player.
 func on_encounter_area_entered(body : CharacterBody2D)->void:
+	if CutsceneManager._is_playing:
+		return
+
 	if body is FieldPartyMember:
 		if body == CharDataKeeper.controlled_character:
 			if !touched_player:
@@ -326,4 +329,3 @@ func on_encounter_area_entered(body : CharacterBody2D)->void:
 				queue_free()
 				if was_spawned:
 					enemy_spawner.spawn_count -= 1
-		

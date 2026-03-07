@@ -171,8 +171,8 @@ func _play_cutscene_async(cutscene_id : StringName, script : CutsceneScript) -> 
 			
 	@warning_ignore("redundant_await")
 	await _restore_camera_overrides_async()
-	cutscene_end.emit(cutscene_id)
 	_finish_cutscene()
+	cutscene_end.emit(cutscene_id)
 
 ## Clears the playing gate so future cutscenes can run.
 func _finish_cutscene() -> void:
@@ -419,13 +419,61 @@ func _run_actor_move(action : CutsceneActorMove) -> void:
 			push_error("CutsceneManager: actor id missing in scene: " + String(actor_id_sn))
 			return
 
+	var restore_collision_disabled : bool = _is_actor_body_collision_disabled(actor)
+	_set_actor_body_collision_disabled(actor, true)
+
 	for marker_id in action.move_location_ids:
+		if not is_instance_valid(actor):
+			break
+
 		var marker : CutsceneMarker = _find_marker(marker_id)
 		if marker == null:
 			push_error("CutsceneManager: marker id missing in scene: " + String(marker_id))
 			continue
 
 		await _move_actor_to(actor, marker.global_position, action)
+
+	if is_instance_valid(actor):
+		_set_actor_body_collision_disabled(actor, restore_collision_disabled)
+
+
+func _is_actor_body_collision_disabled(actor : FieldActor) -> bool:
+	if actor == null:
+		return false
+
+	if actor is NPC:
+		return actor.body_collision_shape_2d.disabled
+
+	if actor is FieldEnemy:
+		return actor.body_collision_shape_2d.disabled
+
+	if actor is FieldPartyMember:
+		return actor.collision_shape_2d.disabled
+
+	return false
+
+
+func _set_actor_body_collision_disabled(actor : FieldActor, disabled : bool) -> void:
+	if actor == null:
+		return
+
+	if actor is NPC:
+		if disabled:
+			actor.collisions_disabled()
+		else:
+			actor.collisions_enabled()
+		return
+
+	if actor is FieldEnemy:
+		if disabled:
+			actor.collisions_disabled()
+		else:
+			actor.collisions_enabled()
+		return
+
+	if actor is FieldPartyMember:
+		actor.collision_shape_2d.set_deferred("disabled", disabled)
+		return
 
 #endregion
 

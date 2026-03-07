@@ -98,8 +98,9 @@
 	#Refactor the game menu UI so it is not one large script
 		#maybe clean up the way it works a little, too
 
-	Implement ! and ? overhead for interactable objects and NPCs
-		Check implementation in other project
+	#Implement ! and ? overhead for interactable objects and NPCs
+	#	Check implementation in other project
+	#	Disables during cutscenes, but pops up again afterwards
 
 
 

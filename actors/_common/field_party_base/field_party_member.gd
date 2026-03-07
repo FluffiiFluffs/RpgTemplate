@@ -16,6 +16,8 @@ extends FieldActor
 @onready var interact_area_trigger_2d : Area2D = %InteractAreaTrigger2D #area for interaction detection
 @onready var state_label : Label = %StateLabel
 @onready var poison_marker_2d: Marker2D = %PoisonMarker2D
+@onready var interact_sprite_2d: Sprite2D = %InteractSprite2D # shows interaction popup sprite
+@onready var interact_animation_player: AnimationPlayer = %InteractAnimationPlayer # controls animations of the interact sprite 2d
 
 @export var is_controlled : bool = false
 @export var move_speed : float = 115.0
@@ -179,3 +181,43 @@ func on_cutscene_entered() -> void:
 func on_cutscene_exited() -> void:
 	direction = Vector2.ZERO
 	velocity = Vector2.ZERO
+
+func play_show_interact_animated(_name : String)->void:
+	pick_interaction_sprite(_name)			
+	interact_animation_player.play("show_animated")
+	pass
+	
+func play_show_interact_instant(_name : String)->void:
+	pick_interaction_sprite(_name)			
+	interact_animation_player.play("show_instant")
+	
+func play_hide_interact_animated(_name : String)->void:
+	pick_interaction_sprite(_name)			
+	interact_animation_player.play("hide_animated")
+	
+func play_hide_interact_instant(_name : String)->void:
+	pick_interaction_sprite(_name)			
+	interact_animation_player.play("hide_instant")
+
+func pick_interaction_sprite(_name : String)->void:
+		match _name.to_lower():
+			"bored":
+				interact_sprite_2d.texture = load("uid://botdvagw7mpca")
+			"cry":
+				interact_sprite_2d.texture = load("uid://dgjvqaog1r70q")
+			"dotdotdot":
+				interact_sprite_2d.texture = load("uid://bj7g5vnc7n3ci")
+			"exclamation":
+				interact_sprite_2d.texture = load("uid://qv0stddoj1mr")
+			"frustration":
+				interact_sprite_2d.texture = load("uid://cd6vyq8ne6yqi")
+			"happy":
+				interact_sprite_2d.texture = load("uid://bh7x1sb7lh7jr")
+			"question":
+				interact_sprite_2d.texture = load("uid://dmdfg1p32xkfa")
+			"quotes":
+				interact_sprite_2d.texture = load("uid://cwtq7q5hs2rbd")
+			"slash":
+				interact_sprite_2d.texture = load("uid://cddkk1juui1se")
+			"star":
+				interact_sprite_2d.texture = load("uid://cdnfveb80y7l8")

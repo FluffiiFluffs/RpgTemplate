@@ -15,6 +15,7 @@ extends InteractArea
 func _ready()->void:
 	super()
 	opened()
+	indicator = INDICATOR.QUESTION
 	pass
 	
 
@@ -36,3 +37,11 @@ func _start_dialog() -> void:
 		DM.show_dialogue(dialogue, item_here_start)
 	else:
 		DM.show_dialogue(dialogue, item_not_here_start)
+		
+		
+func _on_area_entered(_area: Area2D) -> void:
+	super(_area)
+	pass
+func _on_area_exited(_area: Area2D) -> void:
+	super(_area)
+	pass
