@@ -127,6 +127,7 @@ func on_button_pressed()->void:
 			var field_ctx: EffectContext = EffectContext.new()
 			field_ctx.mode = EffectContext.Mode.FIELD
 			field_ctx.user_actor = user_member
+			field_ctx.source_skill = selected_skill
 
 			var effects: Array[Effect] = selected_skill.get_effects_for_context(field_ctx)
 			if effects.is_empty():

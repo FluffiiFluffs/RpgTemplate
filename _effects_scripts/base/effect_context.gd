@@ -47,6 +47,10 @@ var current_target_battler : Battler = null
 ## CommandController and ActionResolver set this when evaluating or executing item effects.
 var source_item : Item = null
 
+## Optional source skill for field skill execution.
+## Battle skill execution can read the skill from current_action_use.
+var source_skill : Skill = null
+
 ## Message templates produced by effects during battle execution.
 ## ActionResolver reads and flushes these into BattleNotifyUI after effect application.
 var queued_battle_messages : Array[String] = []
@@ -124,3 +128,15 @@ func queue_battle_message(text : String, target_battler : Battler = null) -> voi
 	had_effect_feedback = true
 	queued_battle_messages.append(text)
 	queued_battle_message_targets.append(target_battler)
+
+
+
+func get_source_skill() -> Skill:
+	if source_skill != null:
+		return source_skill
+
+	if current_action_use != null:
+		if current_action_use.skill != null:
+			return current_action_use.skill
+
+	return null

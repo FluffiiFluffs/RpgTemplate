@@ -27,14 +27,14 @@ enum DefaultTargetFocus {
 	SAME_FACTION,
 	OTHER_FACTION
 }
-## High level intent classification for skill uses.
-## This is authored explicitly per skill, no automatic inference.
-enum Intent {
-	UTILITY = 0,
-	HARMFUL = 1,
-	BENEFICIAL = 2,
-	MIXED = 3
-}
+### High level intent classification for skill uses.
+### This is authored explicitly per skill, no automatic inference.
+#enum Intent {
+	#UTILITY = 0,
+	#HARMFUL = 1,
+	#BENEFICIAL = 2,
+	#MIXED = 3
+#}
 
 
 enum SortSubcategory {
@@ -50,7 +50,7 @@ enum SortSubcategory {
 	ENEMY_STATUS_EFFECTS = 9,
 }
 
-
+enum Stat {HP, SP, STR, STM, AGI, MAG, LCK}
 
 @export_group("Identity")
 ## Stable identifier for data lookups and save serialization.
@@ -73,6 +73,19 @@ enum SortSubcategory {
 ## can_pay_cost enforces current_hp must remain at least 1 after payment.
 @export var hp_cost : int = 0
 
+## Power level for skills that cause direct damage or heal.
+## Not used for abilities that do not deal with HP (also does not include poison)
+## Used on a case-by-case basis
+@export_group("Power")
+## If power to be used in the calculation at (more of a dev-indicator)
+@export var use_power_calc : bool = false
+## Which stat is used to boost the skill's power
+@export var scaler_stat : Stat = Stat.STR
+## Power of the skill.
+## This will be displayed within the UI (eventually), so its value is 10x the amount of stat scaling used. 
+	## example : 1.0 = 10, 1.5 = 15
+@export var scaler_amount : int = 10
+
 @export_group("Targeting")
 ## Targeting behavior used by CommandController during skill targeting.
 @export var target_shape : TargetShape = TargetShape.SINGLE
@@ -82,7 +95,7 @@ enum SortSubcategory {
 ## Initial focus hint applied when opening targeting for this skill.
 @export var default_target_focus : DefaultTargetFocus = DefaultTargetFocus.AUTO
 ## Gameplay classification for systems that need a stable notion of offensive vs beneficial.
-@export var intent : Intent = Intent.UTILITY
+#@export var intent : Intent = Intent.UTILITY
 
 @export_group("Menu Sorting")
 @export var sort_subcategory : SortSubcategory = SortSubcategory.SINGLE_TARGET_DAMAGE
@@ -196,3 +209,99 @@ func get_sort_subcategory_rank() -> int:
 			return 9
 
 	return 999
+
+
+
+func is_beneficial_subcategory() -> bool:
+	match sort_subcategory:
+		SortSubcategory.HP_RECOVERY:
+			return true
+		SortSubcategory.FULL_RECOVERY:
+			return true
+		SortSubcategory.REVIVE:
+			return true
+		SortSubcategory.STATUS_RECOVERY:
+			return true
+		SortSubcategory.SP_RECOVERY:
+			return true
+		SortSubcategory.ALLY_BUFFS:
+			return true
+
+	return false
+
+
+func is_harmful_subcategory() -> bool:
+	match sort_subcategory:
+		SortSubcategory.SINGLE_TARGET_DAMAGE:
+			return true
+		SortSubcategory.ALL_TARGET_DAMAGE:
+			return true
+		SortSubcategory.ENEMY_DEBUFFS:
+			return true
+		SortSubcategory.ENEMY_STATUS_EFFECTS:
+			return true
+
+	return false
+
+
+func is_field_usable_subcategory() -> bool:
+	return is_beneficial_subcategory()
+
+
+func get_auto_target_focus_from_subcategory() -> int:
+	if is_beneficial_subcategory():
+		return DefaultTargetFocus.SAME_FACTION
+
+	if is_harmful_subcategory():
+		return DefaultTargetFocus.OTHER_FACTION
+
+	return DefaultTargetFocus.SAME_FACTION
+
+
+func qualifies_as_haste_beneficial() -> bool:
+	return is_beneficial_subcategory()
+
+
+func qualifies_as_haste_offensive() -> bool:
+	return is_harmful_subcategory()
+
+
+func get_scaler_stat_value(user_actor : ActorData) -> int:
+	if user_actor == null:
+		return 0
+
+	match scaler_stat:
+		Stat.HP:
+			return user_actor.current_hp
+		Stat.SP:
+			return user_actor.current_sp
+		Stat.STR:
+			return user_actor.get_strength()
+		Stat.STM:
+			return user_actor.get_stamina()
+		Stat.AGI:
+			return user_actor.get_agility()
+		Stat.MAG:
+			return user_actor.get_magic()
+		Stat.LCK:
+			return user_actor.get_luck()
+
+	return 0
+
+
+func get_power_scaled_amount(user_actor : ActorData, base_amount : int) -> int:
+	if not use_power_calc:
+		return base_amount
+
+	if user_actor == null:
+		return base_amount
+
+	var stat_value : int = get_scaler_stat_value(user_actor)
+	var multiplier : float = float(scaler_amount) / 10.0
+	var bonus : int = roundi(float(stat_value) * multiplier)
+	var final_amount : int = base_amount + bonus
+
+	if final_amount < 0:
+		return 0
+
+	return final_amount

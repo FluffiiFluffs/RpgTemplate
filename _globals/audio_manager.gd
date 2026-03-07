@@ -38,7 +38,7 @@ const LEVELUP_02 = preload("uid://cmevudv4hrv7e")
 
 
 #res://_assets/music/field_music/
-func play_field_music_by_filename(filename : String)->void:
+func play_field_music_by_filename(_filename : String)->void:
 	#if music player 1 or 2 is playing music (one should be silent)
 		#fade out the music player out that is playing music
 		#load the requested file by UID into the unused music player
@@ -48,7 +48,7 @@ func play_field_music_by_filename(filename : String)->void:
 
 
 #res://_assets/music/battle_music/
-func play_battle_music_by_filename(filename : String)->void:
+func play_battle_music_by_filename(_filename : String)->void:
 	
 	#if field music is playing, fade out and pause it (don't stop)
 	pause_field_music()
@@ -68,14 +68,14 @@ func resume_field_music()->void:
 	pass
 
 #maybe need to cache this instead, voices are fast
-func play_voice_by_filename(filename : String)->void:
+func play_voice_by_filename(_filename : String)->void:
 	#play voice through voicesplayer or should be handled by another audiostreamplayer (probably the one in the bubble since dialogue manager will already have the file loaded)
 	pass
 
-func play_ambience_by_filename(filename : String)->void:
+func play_ambience_by_filename(_filename : String)->void:
 	pass
 
-func play_sfx_by_filename(filename : String)->void:
+func play_sfx_by_filename(_filename : String)->void:
 	#loop through all music players
 	#the first one that is not being used, play the SFX file
 	pass

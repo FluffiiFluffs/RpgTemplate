@@ -92,7 +92,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(92, 136)
 layout_mode = 2
 mouse_filter = 2
-stretch_mode = 3
+expand_mode = 5
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=1278150930]
 layout_mode = 2

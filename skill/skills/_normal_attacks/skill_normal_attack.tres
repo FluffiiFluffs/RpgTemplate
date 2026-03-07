@@ -16,7 +16,6 @@ name = "Normal Attack"
 description = "Normal physical attack"
 scope = 1
 default_target_focus = 2
-intent = 1
 effects = Array[ExtResource("1_8gxy7")]([SubResource("Resource_uj8e4")])
 message_template = "{user} attacks {target}."
 metadata/_custom_type_script = "uid://c8idnuvewucej"

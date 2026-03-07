@@ -82,7 +82,9 @@ func set_field_enemies_paused(paused : bool)->void:
 	if paused:
 		mode = Node.PROCESS_MODE_DISABLED
 
+	@warning_ignore("int_as_enum_without_cast")
 	fscene.placed_enemies.process_mode = mode
+	@warning_ignore("int_as_enum_without_cast")
 	fscene.enemy_spawners.process_mode = mode
 
 
@@ -159,6 +161,7 @@ func load_title_scene()->void:
 ##Loads a field scene by filename.
 ##Loops through res://field/scenes/field_scenes/ and subfolders, returns the file.
 ##Used primary during loading a saved game.
+@warning_ignore("unused_parameter")
 func load_field_scene_by_filename(filename : String)->FieldScene:
 	return null
 

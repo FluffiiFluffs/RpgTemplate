@@ -169,6 +169,7 @@ func _play_cutscene_async(cutscene_id : StringName, script : CutsceneScript) -> 
 		elif GameState.gamestate == GameState.State.DIALOGUE:
 			SceneManager.set_field_enemies_paused(true)
 			
+	@warning_ignore("redundant_await")
 	await _restore_camera_overrides_async()
 	cutscene_end.emit(cutscene_id)
 	_finish_cutscene()
@@ -876,6 +877,7 @@ func _run_camera_follow(action : CutsceneCameraFollow) -> void:
 			fr.activate()
 
 			var tmp : CutsceneCameraMove = CutsceneCameraMove.new()
+			@warning_ignore("int_as_enum_without_cast")
 			tmp.path_type = int(action.path_type)
 			tmp.transition_type = action.transition_type
 			tmp.easing_method = action.easing_method
@@ -889,6 +891,7 @@ func _run_camera_follow(action : CutsceneCameraFollow) -> void:
 
 	if action.do_transition_to_target:
 		var tmp_generic : CutsceneCameraMove = CutsceneCameraMove.new()
+		@warning_ignore("int_as_enum_without_cast")
 		tmp_generic.path_type = int(action.path_type)
 		tmp_generic.transition_type = action.transition_type
 		tmp_generic.easing_method = action.easing_method

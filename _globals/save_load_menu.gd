@@ -97,6 +97,7 @@ func show_saveload_menu()->void:
 
 	visible = true
 	confirm_window.visible = false
+	@warning_ignore("int_as_enum_without_cast")
 	last_game_state = GameState.gamestate
 	if last_game_state == GameState.State.FIELD:
 		SceneManager.set_field_enemies_paused(true)
@@ -404,7 +405,9 @@ func _format_time_hhh_mm_ss(total_seconds: int) -> String:
 	if clamped_seconds < 0:
 		clamped_seconds = 0
 
+	@warning_ignore("integer_division")
 	var hours: int = clamped_seconds / 3600
+	@warning_ignore("integer_division")
 	var minutes: int = (clamped_seconds / 60) % 60
 	var seconds: int = clamped_seconds % 60
 

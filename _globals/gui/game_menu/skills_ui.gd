@@ -959,13 +959,15 @@ func get_field_skill_usability(skill: Skill, actor: PartyMemberData) -> Dictiona
 	var is_allowed_in_field: bool = skill.scope != Skill.UseScope.BATTLE_ONLY
 	result["is_allowed_in_field"] = is_allowed_in_field
 
-	var is_beneficial: bool = skill.intent == Skill.Intent.BENEFICIAL
+	var is_beneficial: bool = skill.is_beneficial_subcategory()
 	result["is_beneficial"] = is_beneficial
+
+	var is_field_usable: bool = skill.is_field_usable_subcategory()
 
 	var can_pay_cost: bool = skill.can_pay_cost(actor)
 	result["can_pay_cost"] = can_pay_cost
 
-	if is_allowed_in_field and is_beneficial:
+	if is_allowed_in_field and is_field_usable:
 		var field_ctx: EffectContext = EffectContext.new()
 		field_ctx.mode = EffectContext.Mode.FIELD
 		field_ctx.user_actor = actor
@@ -986,7 +988,7 @@ func get_field_skill_usability(skill: Skill, actor: PartyMemberData) -> Dictiona
 					break
 
 	var has_valid_target: bool = bool(result.get("has_valid_target", false))
-	result["can_proceed"] = is_allowed_in_field and is_beneficial and can_pay_cost and has_valid_target
+	result["can_proceed"] = is_allowed_in_field and is_field_usable and can_pay_cost and has_valid_target
 	return result
 
 

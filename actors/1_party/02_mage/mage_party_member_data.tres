@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_kx4ho"]
 [ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/base/battleaction.gd" id="1_uxqb8"]
+[ext_resource type="Script" uid="uid://txqlda50q5r6" path="res://battle/actions/battle_actions/defend/battleaction_defend.gd" id="2_qbt5q"]
 [ext_resource type="PackedScene" uid="uid://dg6uqnl2ew63l" path="res://actors/1_party/02_mage/mage_field_scene.tscn" id="2_rd2pk"]
-[ext_resource type="Resource" uid="uid://dj5botfwwiv4s" path="res://battle/actions/battle_actions/defend/battleaction_defend.tres" id="3_67xjt"]
-[ext_resource type="Resource" uid="uid://yyucdgb5imk3" path="res://battle/actions/battle_actions/run/battleaction_run.tres" id="4_rijue"]
+[ext_resource type="Script" uid="uid://b837nwbupckgt" path="res://battle/actions/battle_actions/run/battleaction_run.gd" id="3_uwda6"]
+[ext_resource type="Script" uid="uid://chg0itvnkf68t" path="res://battle/actions/battle_actions/skill/battleaction_skill.gd" id="4_xmuul"]
 [ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/base/battleactions.gd" id="5_7xiv1"]
-[ext_resource type="Resource" uid="uid://dmtmbb2d7605b" path="res://battle/actions/battle_actions/skill/battleaction_skill.tres" id="5_vb56e"]
-[ext_resource type="Resource" uid="uid://c6yb8mxic4rg4" path="res://battle/actions/battle_actions/item/battleaction_item.tres" id="6_ud2tb"]
+[ext_resource type="Script" uid="uid://x11xua83jghj" path="res://battle/actions/battle_actions/item/battleaction_item.gd" id="5_msi1o"]
 [ext_resource type="Texture2D" uid="uid://8b7snta02g40" path="res://_assets/battle/icons/mage_battle_icon.png" id="8_ugfmh"]
+[ext_resource type="Resource" uid="uid://b2c8lt8f13vtd" path="res://skill/skills/_normal_attacks/skill_normal_attack.tres" id="9_vswry"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="11_qepbb"]
 [ext_resource type="Resource" uid="uid://duaob2jiqcxig" path="res://skill/skills/damagetest/damagetest.tres" id="12_vb56e"]
 [ext_resource type="Resource" uid="uid://b813l6o3ccy87" path="res://skill/skills/poisontest/poisonhealtest.tres" id="13_qepbb"]
@@ -33,16 +34,57 @@
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="32_0eaty"]
 [ext_resource type="Resource" uid="uid://crmq4n28pcxa8" path="res://dialogue/speaker_resources/mage03_sr.tres" id="32_5bdyq"]
 [ext_resource type="Resource" uid="uid://bx5pxuqoro0ds" path="res://skill/skills/magicdowntest/magicdowntest.tres" id="32_wd4ak"]
+[ext_resource type="Texture2D" uid="uid://hs5f86komehq" path="res://_assets/character/party/mage/octopus_mage_concept_01.png" id="33_5bdyq"]
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="33_wd4ak"]
 
-[sub_resource type="Resource" id="Resource_vb56e"]
+[sub_resource type="Resource" id="Resource_kt3md"]
+script = ExtResource("2_qbt5q")
+battleaction_id = &"battleactiondefend"
+action_name = "defend"
+description = "Defends a target (any allies). Single target."
+category = 3
+type = 1
+target_side = 0
+message_template = "{user} defends {target}."
+metadata/_custom_type_script = "uid://txqlda50q5r6"
+
+[sub_resource type="Resource" id="Resource_ryqjo"]
+script = ExtResource("3_uwda6")
+battleaction_id = &"battleactionrun"
+action_name = "run"
+description = "Attempt to run from battle!"
+category = 4
+type = 2
+target_shape = 1
+target_side = 0
+message_template = "{user} tries to run from battle!"
+metadata/_custom_type_script = "uid://b837nwbupckgt"
+
+[sub_resource type="Resource" id="Resource_3usji"]
+script = ExtResource("4_xmuul")
+battleaction_id = &"battleactionskill"
+action_name = "Skill"
+description = "Opens skill menu"
+metadata/_custom_type_script = "uid://chg0itvnkf68t"
+
+[sub_resource type="Resource" id="Resource_d2ph1"]
+script = ExtResource("5_msi1o")
+battleaction_id = &"battleactionitem"
+action_name = "Item"
+description = "Opens item menu"
+category = 2
+type = 3
+metadata/_custom_type_script = "uid://x11xua83jghj"
+
+[sub_resource type="Resource" id="Resource_jnn10"]
 script = ExtResource("5_7xiv1")
-battle_actions = Array[ExtResource("1_uxqb8")]([ExtResource("3_67xjt"), ExtResource("4_rijue"), ExtResource("5_vb56e"), ExtResource("6_ud2tb")])
+battle_actions = Array[ExtResource("1_uxqb8")]([SubResource("Resource_kt3md"), SubResource("Resource_ryqjo"), SubResource("Resource_3usji"), SubResource("Resource_d2ph1")])
 metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_kx4ho")
+stats_sprite = ExtResource("33_5bdyq")
 class_color = Color(0.4862745, 0, 0.4862745, 1)
 speaker_resource = ExtResource("32_5bdyq")
 stats_table = ExtResource("33_wd4ak")
@@ -52,6 +94,7 @@ actor_id = &"mage03"
 display_name = "Mage"
 actor_class = 2
 current_sp = 50
-battle_actions = SubResource("Resource_vb56e")
+battle_actions = SubResource("Resource_jnn10")
 skills = Array[ExtResource("11_qepbb")]([ExtResource("12_vb56e"), ExtResource("13_qepbb"), ExtResource("14_setsa"), ExtResource("15_iqprl"), ExtResource("16_naxd5"), ExtResource("17_naxd5"), ExtResource("18_l3iya"), ExtResource("19_b0hrx"), ExtResource("20_w2bvq"), ExtResource("21_cw0a4"), ExtResource("22_b318c"), ExtResource("23_musbd"), ExtResource("24_nvvyk"), ExtResource("25_keaea"), ExtResource("26_uhrxp"), ExtResource("27_3mmpc"), ExtResource("28_0eaty"), ExtResource("29_ugfmh"), ExtResource("30_wd4ak"), ExtResource("31_ugfmh"), ExtResource("32_wd4ak")])
+normal_attack_skill = ExtResource("9_vswry")
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

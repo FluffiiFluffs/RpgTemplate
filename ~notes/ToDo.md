@@ -51,10 +51,11 @@
 	Implement other-party-member-leading routines for when the main character is dead (or later the player will be able to change the party order)
 		(needs to be like earthbound / DQ)
 	
-	Implement power value for skills that heal or do damage
-		Power value should be used for scaling
-		Need to implement an enum for which stat to scale from
-	
+
+#	Implement power value for skills that heal or do damage
+#		Power value should be used for scaling
+#		Need to implement an enum for which stat to scale from
+
 	
 	## maybe not 
 		Create quote bubble system for in-battle use

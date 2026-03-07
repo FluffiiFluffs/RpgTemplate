@@ -1268,9 +1268,10 @@ func _decode_string(encoded: String) -> String:
 	return output
 
 
-func _get_section(all_sections : Dictionary, name : String) -> Dictionary:
-	if all_sections.has(name):
-		var v : Variant = all_sections[name]
+
+func _get_section(all_sections : Dictionary, _name : String) -> Dictionary:
+	if all_sections.has(_name):
+		var v : Variant = all_sections[_name]
 		if typeof(v) == TYPE_DICTIONARY:
 			return v
 	return {}

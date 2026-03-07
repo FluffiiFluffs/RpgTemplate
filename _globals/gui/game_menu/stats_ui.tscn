@@ -80,7 +80,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mnvkg")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(92, 136)
 layout_mode = 2
-stretch_mode = 3
+expand_mode = 5
 
 [node name="VSeparator" type="VSeparator" parent="StatsPanelContainer/MarginContainer/HBoxContainer" unique_id=780223545]
 layout_mode = 2

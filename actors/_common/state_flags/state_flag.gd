@@ -65,8 +65,8 @@ func _resolve_field_scene_filename() -> String:
 	while current_node != null:
 		if current_node is FieldScene:
 			var field_scene: FieldScene = current_node as FieldScene
-			var scene_file_path: String = field_scene.scene_file_path
-			return scene_file_path.get_file().get_basename()
+			var _scene_file_path: String = field_scene._scene_file_path
+			return _scene_file_path.get_file().get_basename()
 		current_node = current_node.get_parent()
 
 	return ""

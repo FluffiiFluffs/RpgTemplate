@@ -43,6 +43,7 @@
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="34_mxdmr"]
 [ext_resource type="Resource" uid="uid://b4v7peyea2xa8" path="res://dialogue/speaker_resources/warrior01_sr.tres" id="41_2bxqk"]
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="41_8wptv"]
+[ext_resource type="Texture2D" uid="uid://cls7bpea46qiv" path="res://_assets/character/party/warrior/wolf_warrior_concept_03.png" id="42_gq8b5"]
 
 [sub_resource type="Resource" id="Resource_v56fi"]
 script = ExtResource("3_qx4j5")
@@ -52,6 +53,7 @@ metadata/_custom_type_script = "uid://curfpkctgy4ww"
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_5o3im")
+stats_sprite = ExtResource("42_gq8b5")
 class_color = Color(0.4862745, 0, 0, 1)
 speaker_resource = ExtResource("41_2bxqk")
 stats_table = ExtResource("34_mxdmr")

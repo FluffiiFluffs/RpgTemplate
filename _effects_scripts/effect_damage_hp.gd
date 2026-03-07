@@ -14,13 +14,25 @@ func can_apply(ctx : EffectContext, target : ActorData) -> bool:
 		return false
 
 	return true
+	
+	
 func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if not can_apply(ctx, target):
 		return false
 
+	var final_damage : int = hp_damage_amount
+
+	if ctx != null:
+		var source_skill : Skill = ctx.get_source_skill()
+		if source_skill != null and ctx.user_actor != null:
+			final_damage = source_skill.get_power_scaled_amount(ctx.user_actor, hp_damage_amount)
+
+	if final_damage <= 0:
+		return false
+
 	var before_hp : int = target.current_hp
 
-	target.current_hp = target.current_hp - hp_damage_amount
+	target.current_hp = target.current_hp - final_damage
 	target.clamp_vitals()
 
 	var applied_dmg : int = before_hp - target.current_hp

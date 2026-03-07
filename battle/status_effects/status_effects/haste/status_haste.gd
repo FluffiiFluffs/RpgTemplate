@@ -128,17 +128,8 @@ func get_post_action_bonus_use(status_system : StatusSystem, original_use : Acti
 	if original_skill.target_shape != Skill.TargetShape.SINGLE:
 		return null
 
-	var qualifies_offensive : bool = false
-	var qualifies_beneficial : bool = false
-	match original_skill.intent:
-		Skill.Intent.BENEFICIAL:
-			qualifies_beneficial = true
-		Skill.Intent.HARMFUL:
-			qualifies_offensive = true
-		Skill.Intent.MIXED:
-			qualifies_offensive = true
-		Skill.Intent.UTILITY:
-			return null
+	var qualifies_offensive: bool = original_skill.qualifies_as_haste_offensive()
+	var qualifies_beneficial: bool = original_skill.qualifies_as_haste_beneficial()
 
 	if not qualifies_offensive and not qualifies_beneficial:
 		return null
