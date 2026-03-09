@@ -21,6 +21,10 @@ extends ActorData
 @export_category("Stats")
 @export var stats_table : StatsTable = null
 
+@export_category("Names")
+## Names to be used when the player hits "pick for me" in the naming scene
+@export var possible_names : Array[String] = []
+
 
 func rebuild_base_stats() -> void:
 	if stats_table == null:

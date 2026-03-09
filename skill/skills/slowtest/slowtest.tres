@@ -17,7 +17,6 @@ description = "Slows the target down a bit (3 max)."
 scope = 1
 sp_cost = 1
 default_target_focus = 2
-intent = 1
 sort_subcategory = 8
 battle_effects = Array[ExtResource("1_cpc4p")]([SubResource("Resource_la3de")])
 message_template = "{user} casts {skill} on {target}."

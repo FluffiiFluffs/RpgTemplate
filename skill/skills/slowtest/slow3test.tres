@@ -18,7 +18,6 @@ description = "Fully slows the target!"
 scope = 1
 sp_cost = 1
 default_target_focus = 2
-intent = 1
 sort_subcategory = 8
 battle_effects = Array[ExtResource("1_cf0ka")]([SubResource("Resource_0ymvc")])
 message_template = "{user} casts {skill} on {target}."

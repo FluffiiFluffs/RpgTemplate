@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://b0n3k5e6sou6i"]
+
+[ext_resource type="Script" uid="uid://bjyn7yejbnt5o" path="res://field/scenes/name_input/gender_button.gd" id="1_pxb33"]
+[ext_resource type="FontFile" uid="uid://c430yru54h27l" path="res://_assets/fonts/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf" id="1_wr16h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pxb33"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pxb33"]
+
+[node name="GenderButton" type="PanelContainer" unique_id=1638348996]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pxb33")
+script = ExtResource("1_pxb33")
+
+[node name="Button" type="Button" parent="." unique_id=2121047672]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wr16h")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pxb33")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_pxb33")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pxb33")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pxb33")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pxb33")
+text = "♂"

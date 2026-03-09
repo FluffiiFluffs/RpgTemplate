@@ -12,6 +12,10 @@ extends Resource
 ##Name displayed in UI and battle messaging system
 ##Should not be empty
 @export var display_name : String = ""
+
+## Gender of the actor
+@export_enum("HE", "SHE", "THEM", "IT") var gender : int = 0
+
 ##The class of the actor
 ##Maybe needs to live in PartyMemberData, too like actor_id
 @export_enum("WARRIOR","THIEF","MAGE","HEALER") var actor_class : int = 0

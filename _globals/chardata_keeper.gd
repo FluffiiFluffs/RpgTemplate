@@ -7,6 +7,9 @@ extends Node
 @onready var poison_timer: Timer = %PoisonTimer
 
 @export_category("Party Data")
+## A list of all the party members available in the game.
+#ALERT MOVED TO REGISTRY!
+#@export var all_party_members : Array[PartyMemberData] = []
 ##Size of the party
 ##Maybe unneeded due to game design, but might be useful to stop accidentally adding to many members....though this shouldn't be an issue with careful planning / code. Could probably be used for if there are more than 4 playable characters and the extras need to go into the outside_members array
 @export_range(1,4,1) var party_size : int = 4

@@ -18,7 +18,6 @@ description = "Raises attack by 3 tiers."
 scope = 1
 sp_cost = 1
 default_target_focus = 1
-intent = 2
 sort_subcategory = 7
 battle_effects = Array[ExtResource("1_ws6p1")]([SubResource("Resource_1akii")])
 message_template = "{user} uses {skill} on {target}."

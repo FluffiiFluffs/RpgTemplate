@@ -17,7 +17,6 @@ description = "Lowers attack by 1 tier."
 scope = 1
 sp_cost = 1
 default_target_focus = 2
-intent = 1
 sort_subcategory = 8
 battle_effects = Array[ExtResource("1_rrc4h")]([SubResource("Resource_q7lbu")])
 message_template = "{user} uses {skill} on {target}."

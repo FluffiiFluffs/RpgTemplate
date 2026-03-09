@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cos3t0ctsf8g0"]
+
+[ext_resource type="FontFile" uid="uid://cgskjtpupq3uq" path="res://_assets/fonts/PixelifySans-VariableFont_wght.ttf" id="1_jbxeh"]
+[ext_resource type="Script" uid="uid://d0draclg08mmr" path="res://field/scenes/name_input/input_letter.gd" id="1_viawy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nrt72"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_viawy"]
+color = Color(1, 1, 1, 1)
+
+[node name="InputLetter" type="PanelContainer" unique_id=1759422442]
+custom_minimum_size = Vector2(8, 8)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_nrt72")
+script = ExtResource("1_viawy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1936670646]
+layout_mode = 2
+theme_override_constants/separation = -3
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=47769444]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_jbxeh")
+theme_override_font_sizes/font_size = 8
+text = "-"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer" unique_id=1085094337]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_viawy")

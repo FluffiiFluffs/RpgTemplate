@@ -31,6 +31,7 @@ unique_name_in_owner = true
 visible = false
 
 [node name="OverScene" type="Node2D" parent="." unique_id=456635059]
+unique_name_in_owner = true
 
 [node name="TransitionLayer" parent="." unique_id=527234191 instance=ExtResource("2_i85ao")]
 unique_name_in_owner = true

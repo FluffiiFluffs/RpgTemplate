@@ -17,7 +17,6 @@ description = "Attempts to put a target to sleep"
 scope = 1
 sp_cost = 1
 default_target_focus = 2
-intent = 1
 sort_subcategory = 9
 battle_effects = Array[ExtResource("1_6pny8")]([SubResource("Resource_u0dvs")])
 message_template = "{user} attempts to put {target} asleep..."

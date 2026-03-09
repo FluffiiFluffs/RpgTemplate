@@ -1,0 +1,956 @@
+[gd_scene format=3 uid="uid://u03vmppwcufq"]
+
+[ext_resource type="Script" uid="uid://c74idjn27nbg8" path="res://field/scenes/name_input/name_input.gd" id="1_vtmxq"]
+[ext_resource type="Texture2D" uid="uid://cuaj6pmnmyyux" path="res://_assets/character/party/thief/fatfox_thief_concept_01.png" id="2_0pvbt"]
+[ext_resource type="PackedScene" uid="uid://cos3t0ctsf8g0" path="res://field/scenes/name_input/input_letter.tscn" id="3_15xk2"]
+[ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="3_fngv7"]
+[ext_resource type="FontFile" uid="uid://cgskjtpupq3uq" path="res://_assets/fonts/PixelifySans-VariableFont_wght.ttf" id="3_nrt72"]
+[ext_resource type="PackedScene" uid="uid://drj2rcxjqg0lg" path="res://actors/1_party/00_warrior/warrior_field_scene.tscn" id="3_ou20y"]
+[ext_resource type="PackedScene" uid="uid://hrpnbq3vbfnm" path="res://field/scenes/name_input/l_entry_button.tscn" id="5_fngv7"]
+[ext_resource type="PackedScene" uid="uid://b6w4y1pc02xoo" path="res://field/scenes/name_input/backspace_entry_button.tscn" id="7_go54n"]
+[ext_resource type="PackedScene" uid="uid://b0n3k5e6sou6i" path="res://field/scenes/name_input/gender_button.tscn" id="8_ee6c6"]
+
+[sub_resource type="Gradient" id="Gradient_l8xt1"]
+colors = PackedColorArray(0.91775256, 0, 0, 1, 0, 0, 0.8417356, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vtmxq"]
+gradient = SubResource("Gradient_l8xt1")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fngv7"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.5)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nrt72"]
+bg_color = Color(0.010485102, 0.010485106, 0.010485095, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_i5xpj"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpmpa"]
+content_margin_left = 2.0
+content_margin_top = 1.0
+content_margin_right = 2.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eumik"]
+bg_color = Color(0.945, 0.704, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xbg21"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_15xk2"]
+content_margin_left = 2.0
+content_margin_top = 1.0
+content_margin_right = 2.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ee6c6"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.945, 0.704, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrnld"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.945, 0.704, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfncb"]
+bg_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_go54n"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.945, 0.704, 0, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_0pvbt"]
+color = Color(1, 1, 1, 1)
+grow_begin = -8.0
+grow_end = -8.0
+vertical = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ou20y"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t1tcg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bcbqu"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1e83"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.945, 0.704, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_68vfh"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.40603796, 0.40603796, 0.40603793, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[node name="NameInput" type="CanvasLayer" unique_id=848492337]
+layer = 99
+script = ExtResource("1_vtmxq")
+
+[node name="BackgroundControl" type="Control" parent="." unique_id=317890525]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="BackgroundControl" unique_id=496365589]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_vtmxq")
+
+[node name="NameGenderControl" type="Control" parent="." unique_id=2113735671]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="NameGenderControl" unique_id=1372409118]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer2" type="PanelContainer" parent="NameGenderControl/MarginContainer" unique_id=239999965]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fngv7")
+
+[node name="MarginContainer" type="MarginContainer" parent="NameGenderControl/MarginContainer/PanelContainer2" unique_id=503423274]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer" unique_id=1437458229]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer" unique_id=1651164137]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1918251844]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1558492189]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="QuestionLabel" type="Label" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1159960146]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_fngv7")
+theme_override_font_sizes/font_size = 7
+text = "What will you name this character?"
+
+[node name="InputLetterHBox" type="HBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=981922115]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="InputLetter" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=1759422442 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter2" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=388706710 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter3" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=1770730345 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter4" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=1889088457 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter5" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=1691377377 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter6" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=1187071988 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter7" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=306272089 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter8" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=703267274 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter9" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=399101108 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InputLetter10" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/InputLetterHBox" unique_id=1847875033 instance=ExtResource("3_15xk2")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GenderLabel" type="Label" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=261956092]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_font_sizes/font_size = 8
+text = "HE HIM HIS "
+
+[node name="FieldSpriteContainer" type="PanelContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1670943116]
+custom_minimum_size = Vector2(38, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nrt72")
+
+[node name="FieldSpriteMarker" type="Marker2D" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/FieldSpriteContainer" unique_id=54409508]
+unique_name_in_owner = true
+position = Vector2(19, 39)
+
+[node name="Warrior" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/FieldSpriteContainer/FieldSpriteMarker" unique_id=724567487 instance=ExtResource("3_ou20y")]
+
+[node name="HSeparator2" type="HSeparator" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1315710459]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_i5xpj")
+
+[node name="LetterGrid" type="GridContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1296957810]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 15
+
+[node name="A" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=93363974 instance=ExtResource("5_fngv7")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "A"
+letter = "A"
+
+[node name="B" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1778849450 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "B"
+letter = "B"
+
+[node name="C" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1626645231 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "C"
+letter = "C"
+
+[node name="D" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=814494286 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "D"
+letter = "D"
+
+[node name="E" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1724182477 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "E"
+letter = "E"
+
+[node name="F" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1432630780 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "F"
+letter = "F"
+
+[node name="G" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=408758243 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "G"
+letter = "G"
+
+[node name="H" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=704233582 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "H"
+letter = "H"
+
+[node name="I" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1801850806 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "I"
+letter = "I"
+
+[node name="J" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1644414072 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "J"
+letter = "J"
+
+[node name="K" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1832741576 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "K"
+letter = "K"
+
+[node name="L" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1181649375 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "L"
+letter = "L"
+
+[node name="M" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=778949716 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "M"
+letter = "M"
+
+[node name="N" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=534827209 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "N"
+letter = "N"
+
+[node name="O" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1273807422 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "O"
+letter = "O"
+
+[node name="P" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1814129911 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "P"
+letter = "P"
+
+[node name="Q" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=92955506 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "Q"
+letter = "Q"
+
+[node name="R" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1754731270 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "R"
+letter = "R"
+
+[node name="S" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=907734326 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "S"
+letter = "S"
+
+[node name="T" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1414726022 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "T"
+letter = "T"
+
+[node name="U" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=817870547 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "U"
+letter = "U"
+
+[node name="V" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=158283629 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "V"
+letter = "V"
+
+[node name="W" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=61244381 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "W"
+letter = "W"
+
+[node name="X" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1697393843 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "X"
+letter = "X"
+
+[node name="Y" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2122055983 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "Y"
+letter = "Y"
+
+[node name="Z" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=592721220 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "Z"
+letter = "Z"
+
+[node name="SPACE3" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1127631252 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "  "
+letter = "  "
+
+[node name="BLANK2" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1540907453 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK3" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1171575654 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK4" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=712494058 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="a" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1222562463 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "a"
+letter = "a"
+
+[node name="b" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1679109793 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "b"
+letter = "b"
+
+[node name="c" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=339363334 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "c"
+letter = "c"
+
+[node name="d" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2111430573 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "d"
+letter = "d"
+
+[node name="e" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=545247807 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "e"
+letter = "e"
+
+[node name="f" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1999908302 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "f"
+letter = "f"
+
+[node name="g" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1941119159 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "g"
+letter = "g"
+
+[node name="h" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=508244385 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "h"
+letter = "h"
+
+[node name="i" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1735085600 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "i"
+letter = "i"
+
+[node name="j" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2118848514 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "j"
+letter = "j"
+
+[node name="k" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=629908974 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "k"
+letter = "k"
+
+[node name="l" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=377530338 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "l"
+letter = "l"
+
+[node name="m" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1718484789 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "m"
+letter = "m"
+
+[node name="n" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=422495373 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "n"
+letter = "n"
+
+[node name="o" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1203689319 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "o"
+letter = "o"
+
+[node name="p" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=683979707 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "p"
+letter = "p"
+
+[node name="q" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2071891540 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "q"
+letter = "q"
+
+[node name="r" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1994162963 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "r"
+letter = "r"
+
+[node name="s" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1686383317 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "s"
+letter = "s"
+
+[node name="t" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=573062540 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "t"
+letter = "t"
+
+[node name="u" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1103028560 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "u"
+letter = "u"
+
+[node name="v" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=42335753 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "v"
+letter = "v"
+
+[node name="w" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=422377574 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "w"
+letter = "w"
+
+[node name="x" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=464471576 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "x"
+letter = "x"
+
+[node name="y" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=550443603 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "y"
+letter = "y"
+
+[node name="z" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=290680298 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "z"
+letter = "z"
+
+[node name="SPACE2" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2120220327 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = " "
+letter = " "
+
+[node name="BLANK16" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=205595091 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK17" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1319014291 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK18" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=59750271 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK19" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2128006588 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "1"
+letter = "1"
+
+[node name="BLANK20" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=565967346 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "2"
+letter = "2"
+
+[node name="BLANK21" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=180630969 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "3"
+letter = "3"
+
+[node name="BLANK22" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=358936672 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "4"
+letter = "4"
+
+[node name="BLANK23" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1343496917 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "5"
+letter = "5"
+
+[node name="BLANK24" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1971950677 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "6"
+letter = "6"
+
+[node name="BLANK25" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=774648675 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "7"
+letter = "7"
+
+[node name="BLANK26" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=597800302 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "8"
+letter = "8"
+
+[node name="BLANK27" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1779746511 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "9"
+letter = "9"
+
+[node name="BLANK28" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1689221579 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "0"
+letter = "0"
+
+[node name="BLANK29" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1635413241 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK30" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2140689802 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK32" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=744098057 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK33" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=404765805 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="BLANK34" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1721565012 instance=ExtResource("5_fngv7")]
+modulate = Color(0, 0, 0, 0.5)
+layout_mode = 2
+blank = true
+
+[node name="dash" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=365119741 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "-"
+letter = "-"
+
+[node name="plus" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=507005993 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "+"
+letter = "+"
+
+[node name="star" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2081603893 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "*"
+letter = "*"
+
+[node name="forwardslash" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=672614620 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "/"
+letter = "/"
+
+[node name="equals" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=847611500 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "="
+letter = "="
+
+[node name="period" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=289739229 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "."
+letter = "."
+
+[node name="excalmation" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1054360279 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "!"
+letter = "!"
+
+[node name="questionmark" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=345390782 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "?"
+letter = "?"
+
+[node name="tilde" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=505800437 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "~"
+letter = "~"
+
+[node name="atsign" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=379999604 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "@"
+letter = "@"
+
+[node name="ampersand" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1721656815 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "&"
+letter = "&"
+
+[node name="apostrophe" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=657232527 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "'"
+letter = "'"
+
+[node name="degree" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1523799498 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "°"
+letter = "°"
+
+[node name="note" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=792681460 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "𝅘𝅥𝅮"
+letter = "𝅘𝅥𝅮"
+
+[node name="heart" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=2005865026 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "♡"
+letter = "♡"
+
+[node name="Backspace" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=1625072390 instance=ExtResource("7_go54n")]
+layout_mode = 2
+
+[node name="SPACE4" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/LetterGrid" unique_id=361090114 instance=ExtResource("5_fngv7")]
+layout_mode = 2
+text = "  "
+letter = "  "
+
+[node name="GenderGrid" type="GridContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=215963960]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 4
+
+[node name="HE" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/GenderGrid" unique_id=2121047672 instance=ExtResource("8_ee6c6")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SHE" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/GenderGrid" unique_id=350576486 instance=ExtResource("8_ee6c6")]
+unique_name_in_owner = true
+layout_mode = 2
+gender = 1
+
+[node name="THEM" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/GenderGrid" unique_id=1267984204 instance=ExtResource("8_ee6c6")]
+unique_name_in_owner = true
+layout_mode = 2
+gender = 2
+
+[node name="IT" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/GenderGrid" unique_id=1444058399 instance=ExtResource("8_ee6c6")]
+unique_name_in_owner = true
+layout_mode = 2
+gender = 3
+
+[node name="EntryOptionsBox" type="HBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=875945436]
+layout_mode = 2
+
+[node name="PickForMe" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=513239901]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_fpmpa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eumik")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eumik")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xbg21")
+theme_override_styles/focus = SubResource("StyleBoxFlat_eumik")
+text = "Pick For Me"
+
+[node name="RESET" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=1699317368]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_fpmpa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eumik")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eumik")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xbg21")
+theme_override_styles/focus = SubResource("StyleBoxFlat_eumik")
+text = "RESET"
+
+[node name="Next" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=347554856]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_15xk2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ee6c6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hrnld")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xfncb")
+theme_override_styles/focus = SubResource("StyleBoxFlat_go54n")
+text = "Next"
+
+[node name="VSeparator" type="VSeparator" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer" unique_id=1701243375]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_0pvbt")
+
+[node name="LargePortraitContainer" type="PanelContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer" unique_id=1738264075]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 136)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ou20y")
+
+[node name="StatsPortrait" type="TextureRect" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/LargePortraitContainer" unique_id=1612578872]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(92, 136)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_0pvbt")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Timer" type="Timer" parent="." unique_id=4991273]
+
+[node name="ConfirmationControl" type="Control" parent="." unique_id=307304327]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ConfirmationControl" unique_id=278254640]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -82.5
+offset_right = 74.0
+offset_bottom = 82.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t1tcg")
+
+[node name="MarginContainer" type="MarginContainer" parent="ConfirmationControl/PanelContainer" unique_id=1744189349]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationControl/PanelContainer/MarginContainer" unique_id=741468258]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer" unique_id=837170165]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_nrt72")
+text = "Is this correct?"
+
+[node name="FieldSpriteContainerConfirm" type="PanelContainer" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer" unique_id=126092207]
+custom_minimum_size = Vector2(38, 48)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_styles/panel = SubResource("StyleBoxFlat_nrt72")
+
+[node name="FieldSpriteMarkerConfirm" type="Marker2D" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer/FieldSpriteContainerConfirm" unique_id=1788077352]
+unique_name_in_owner = true
+position = Vector2(19, 39)
+
+[node name="Warrior" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer/FieldSpriteContainerConfirm/FieldSpriteMarkerConfirm" unique_id=965476490 instance=ExtResource("3_ou20y")]
+
+[node name="GenderLabelConfirm" type="Label" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer" unique_id=1098929585]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "⬤"
+
+[node name="NameLabelConfirm" type="Label" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer" unique_id=175017054]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_nrt72")
+text = "PLAYERNAME"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer" unique_id=1173867777]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="NoConfirm" type="Button" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=52743424]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bcbqu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1e83")
+theme_override_styles/hover = SubResource("StyleBoxFlat_j1e83")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_68vfh")
+theme_override_styles/focus = SubResource("StyleBoxFlat_j1e83")
+text = "NO"
+
+[node name="YesConfirm" type="Button" parent="ConfirmationControl/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=384525945]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_styles/normal = SubResource("StyleBoxFlat_bcbqu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j1e83")
+theme_override_styles/hover = SubResource("StyleBoxFlat_j1e83")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_68vfh")
+theme_override_styles/focus = SubResource("StyleBoxFlat_j1e83")
+text = "YES"

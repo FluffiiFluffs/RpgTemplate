@@ -138,13 +138,10 @@ func on_button_8_pressed()->void:
 			fscene.set_poison_flash(true)
 
 func on_button_9_pressed()->void:
-	if SceneManager.main_scene.current_battle_scene != null:
-		var _not_ui = SceneManager.main_scene.current_battle_scene.battle_notify_ui
-		_not_ui.queue_notification("THIS IS A TEST MESSAGE.")
-		_not_ui.queue_notification("THIS IS ANOTHER TEST MESSAGE.")
-		_not_ui.queue_notification("THIS TEST MESSSAGE IS THE THIRD TEST MESSAGE")
-		pass
-
+	SceneManager.begin_naming_sequence("warrior01")
+	
+	
+	
 func on_button_10_pressed()->void:
 	var main = SceneManager.main_scene
 	if main == null:

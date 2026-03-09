@@ -166,6 +166,19 @@ func load_field_scene_by_filename(filename : String)->FieldScene:
 	return null
 
 
+## Entry point for character naming routine
+## Instantiates name_input.tscn into main.overscene (uses load, not preload)
+## Changes game state from whatever it's at, and records what it was before that point so it can be restored after naming is done
+## Uses ID in the argument to call NameInput.load_member_by_id(id). It is assumed both of these functions will be called with ids specified (via a cutscene action or dialogue call)
+func begin_naming_sequence(id : StringName)->void:
+	var name_input_scene : NameInput = load("uid://u03vmppwcufq").instantiate()
+	name_input_scene.previous_gamestate = GameState.gamestate
+	main_scene.over_scene.add_child(name_input_scene)
+	GameState.gamestate = GameState.State.NAMING
+	await get_tree().process_frame
+	name_input_scene.load_member_by_id(id)
+	name_input_scene.start()
+
 #endregion Scene Changing
 
 

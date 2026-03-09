@@ -22,6 +22,7 @@ enum State {
 	DIALOGUE,
 	INTRO,
 	SAVELOADMENU,
+	NAMING,
 	
 }
 

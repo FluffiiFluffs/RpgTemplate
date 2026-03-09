@@ -13,6 +13,7 @@ extends Node
 @onready var battle_root := %BattleRoot
 @onready var transition_layer : TransitionLayer = %TransitionLayer
 @onready var audio_root : Node = %AudioRoot
+@onready var over_scene: Node2D = %OverScene
 
 
 

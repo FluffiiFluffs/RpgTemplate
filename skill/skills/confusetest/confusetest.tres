@@ -17,7 +17,6 @@ description = "Confuse the target"
 scope = 1
 sp_cost = 1
 default_target_focus = 2
-intent = 1
 sort_subcategory = 9
 battle_effects = Array[ExtResource("1_51slr")]([SubResource("Resource_wd8id")])
 message_template = "{user} blurts out random words to {target}."

@@ -30,8 +30,21 @@
 		Refactor should involve CLEARLY defining what each system does instead of having the UI decide certain things vs the actual systems doing that and the UI simply asking for it or something 
 			(need to really think about this)
 
-	Implement character naming similar to mother series with "don't care" option
-		
+
+	[NEXT]
+	#Implement character naming similar to mother series with "don't care" option
+	This is mostly implemented, however the title scene needs to be updated
+		Options menu needs to be updated to just have an instantiated version of what's in game menu now that it is split up into its own scene
+		New Game needs to trigger naming
+			cutscene actions need to be added to:
+				await
+				call function from a script (somehow)
+			The way this should work is:
+				new game button is pressed, confirm pops up, yes is pressed, cutscene starts, first cutscene action calls scenemanager instantiation of the naming scene for warrior, second cutscene action is await until it hears a signal that naming is done, third cutscene action is to load a field scene that is the intro the the game.	
+	[NEXT]
+	
+	
+	
 	#Check DialogueManager code to try to figure out if some things implemented were already in place by default
 	#	within the dialoguemanager addon (specifically the portrait thing)
 	#** Dialogue Manager handling has been reworked so that dm_helper handles almost everything. SpeakerResource reworked. Easier authoring within dialogue scripts. Also added the ability to use PLAYER: to use the speaker resource attached to the currently controlled party member's SpeakerResource.
@@ -72,6 +85,8 @@
 [INVENTORY]
 	#Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time. ** Implemented during registry refactor
 
+[QUESTS]
+	FIX Quests do not seem to work properly when the game is loaded, needs more testing
 
 
 
@@ -88,6 +103,7 @@
 
 	Fix Quest system UI
 		(selecting completed quests does not focus the first quest in the list)
+		Focus still works a little weird
 
 	Fix bug when player has selected defend and cancels out of targeting, attack is selected (should reselect defend)
 
@@ -102,7 +118,8 @@
 	#	Check implementation in other project
 	#	Disables during cutscenes, but pops up again afterwards
 
-
+	#FIX cutscene actors pushing each other around when moving
+	#	fixed, but may need later tweaking
 
 	
 #Create item/skill fields that can be parsed by battle_scene's textparser so it can be converted to a string for the battle notify UI to show

@@ -58,7 +58,7 @@ extends Node2D
 
 
 
-@export_enum("ALL_CLOSED", "NEW_GAME_MENU_OPEN", "LOAD_GAME_MENU_OPEN", "LOAD_GAME_CONFIRM", "OPTIONS_MENU_OPEN", "OPTIONS_SLIDER","CONTROLS_MENU_OPEN", "EXIT_GAME_MENU_OPEN") var menu_state : String = "ALL_CLOSED"
+@export_enum("ALL_CLOSED", "NEW_GAME_MENU_OPEN", "LOAD_GAME_MENU_OPEN", "LOAD_GAME_MENU_CONFIRM", "OPTIONS_MENU_OPEN", "OPTIONS_SLIDER", "CONTROLS_MENU_OPEN", "EXIT_GAME_MENU_OPEN") var menu_state : String = "ALL_CLOSED"
 
 signal license_done
 
@@ -364,32 +364,29 @@ func exit_game_menu_close()->void:
 
 #endregion Show Hide Menus
 
-
-
 func _unhandled_input(_event: InputEvent) -> void:
+	if GameState.gamestate != GameState.State.STARTMENU:
+		return
+
 	if Input.is_action_just_pressed("confirm_input"):
 		if menu_state == "ALL_CLOSED":
 			match title_buttons.selected_button:
 				"new game":
 					print("New Game")
 					new_game_confirm_open()
-					#take player to name entry / new game routine
 				"load game":
 					print("Load Game")
 					load_game_menu_open()
-					#Open load game menu
 				"options":
 					print("Options")
 					options_menu_open()
-					#open options menu
 				"exit game":
 					print("Exit Game")
 					exit_game_menu_open()
-					#Open are you sure window
 				"":
 					print("Nothing!")
 					return
-					
+
 	if Input.is_action_just_pressed("cancel_input"):
 		match menu_state:
 			"ALL_CLOSED":
@@ -398,16 +395,13 @@ func _unhandled_input(_event: InputEvent) -> void:
 				new_game_confirm_close()
 			"LOAD_GAME_MENU_OPEN":
 				load_game_menu_close()
-			"LOAD_GAME_CONFIRM":
+			"LOAD_GAME_MENU_CONFIRM":
 				load_game_menu_confirm_close()
 			"OPTIONS_MENU_OPEN":
 				options_menu_close()
 			"OPTIONS_SLIDER":
-				#Refocus last in options menu, this already happens via options menu scripting
-				menu_state = "OPTIONS_OPEN"
+				menu_state = "OPTIONS_MENU_OPEN"
 			"CONTROLS_MENU_OPEN":
 				pass
-			
 			"EXIT_GAME_MENU_OPEN":
 				exit_game_menu_close()
-				menu_state = "ALL_CLOSED"
