@@ -69,10 +69,9 @@ func open_options()->void:
 	GameMenu.top_level.options_button.is_active = true
 	
 func close_options()->void:
-	#animation_player.play("options_hide")
 	GameMenu.top_level.options_button.is_active = false
+	SaveManager.save_options()
 	await options_hide()
-
 
 func options_show()->void:
 	GameMenu.menu_is_animating = true
@@ -287,7 +286,7 @@ func batt_mem_toggled(_toggle : bool)->void:
 
 ##Pops up inventory sort order window
 func opt_item_sort_order_button_pressed()->void:
-	GameMenu.sort_order.open_sort_menu()
+	GameMenu.sort_order.open_item_sort_menu()
 	pass
 
 

@@ -33,6 +33,10 @@ const FIELD_SCENES_ROOT_DIR: String = "res://field/scenes/field_scenes"
 @export var items_used: int = 0
 @export var skills_used: int = 0
 
+
+func _ready()->void:
+	load_options()
+
 ## Creates a save game. Save name is "save_slot#.sav"
 func save_game(slot : int) -> void:
 	var filename : String = "save_" + str(slot) + ".sav"

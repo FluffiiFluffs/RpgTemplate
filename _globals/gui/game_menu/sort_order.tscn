@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://tvpwudaxg3lq"]
 
 [ext_resource type="PackedScene" uid="uid://dwhea87oe4shd" path="res://_globals/gui/game_menu/sort_order_entry.tscn" id="1_7uyvr"]
-[ext_resource type="Script" uid="uid://dv7ln05jm8nuu" path="res://_globals/gui/game_menu/sort_order.gd" id="1_imjmh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gqqd"]
 bg_color = Color(0, 0, 0, 1)
@@ -20,7 +19,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_imjmh")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=837762711]
 layout_mode = 1

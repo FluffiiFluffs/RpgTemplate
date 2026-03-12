@@ -311,7 +311,31 @@ func on_sort_button_pressed() -> void:
 		GameMenu.play_error_sound()
 		return
 
-	use_sorted_display = not use_sorted_display
+	var member: PartyMemberData = GameMenu.current_selected_party_member
+	if member == null:
+		return
+
+	var display_entries: Array[Dictionary] = []
+
+	for i in range(member.skills.size()):
+		var skill: Skill = member.skills[i]
+		if skill == null:
+			continue
+
+		display_entries.append({
+			"skill": skill,
+			"source_index": i,
+		})
+
+	display_entries.sort_custom(Callable(self, "_sort_skill_entries_for_menu"))
+
+	member.skills.clear()
+	for entry in display_entries:
+		var skill_variant = entry.get("skill", null)
+		if skill_variant is Skill:
+			member.skills.append(skill_variant as Skill)
+
+	use_sorted_display = false
 	propagate_skills()
 
 	GameMenu.last_selected_skills_option_button = sort_button
@@ -840,32 +864,16 @@ func _find_in_col(btns: Array[Button], cols: int, rows: int, from_row: int, from
 
 
 func _get_displayed_skills(member: PartyMemberData) -> Array[Skill]:
-	var display_entries: Array[Dictionary] = []
+	var display_skills: Array[Skill] = []
 
 	if member == null:
-		return []
+		return display_skills
 
-	for i in range(member.skills.size()):
-		var skill: Skill = member.skills[i]
-		if skill == null:
-			continue
-
-		display_entries.append({
-			"skill": skill,
-			"source_index": i,
-		})
-
-	if use_sorted_display == true:
-		display_entries.sort_custom(Callable(self, "_sort_skill_entries_for_menu"))
-
-	var display_skills: Array[Skill] = []
-	for entry in display_entries:
-		var skill_variant = entry.get("skill", null)
-		if skill_variant is Skill:
-			display_skills.append(skill_variant as Skill)
+	for skill in member.skills:
+		if skill != null:
+			display_skills.append(skill)
 
 	return display_skills
-
 
 func _sort_skill_entries_for_menu(a: Dictionary, b: Dictionary) -> bool:
 	var a_skill_variant = a.get("skill", null)

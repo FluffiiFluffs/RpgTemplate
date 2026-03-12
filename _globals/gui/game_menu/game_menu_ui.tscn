@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://di0t1rfx6vku1" path="res://_globals/gui/game_menu/stats_ui.tscn" id="7_qqjhd"]
 [ext_resource type="PackedScene" uid="uid://dmbj7ud0vje5r" path="res://_globals/gui/game_menu/quests_ui.tscn" id="8_4lmyi"]
 [ext_resource type="PackedScene" uid="uid://bk2prub87gsep" path="res://_globals/gui/game_menu/options_ui.tscn" id="9_qqjhd"]
+[ext_resource type="Script" uid="uid://dv7ln05jm8nuu" path="res://_globals/gui/game_menu/sort_order_game_menu.gd" id="10_4lmyi"]
 [ext_resource type="PackedScene" uid="uid://tvpwudaxg3lq" path="res://_globals/gui/game_menu/sort_order.tscn" id="14_apaxs"]
 
 [node name="GameMenuUI" type="CanvasLayer" unique_id=1152144091]
@@ -37,6 +38,7 @@ unique_name_in_owner = true
 
 [node name="SortOrder" parent="." unique_id=1308004968 instance=ExtResource("14_apaxs")]
 unique_name_in_owner = true
+script = ExtResource("10_4lmyi")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1431622732]
 unique_name_in_owner = true

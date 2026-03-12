@@ -58,7 +58,10 @@ extends Node2D
 
 
 
-@export_enum("ALL_CLOSED", "NEW_GAME_MENU_OPEN", "LOAD_GAME_MENU_OPEN", "LOAD_GAME_MENU_CONFIRM", "OPTIONS_MENU_OPEN", "OPTIONS_SLIDER", "CONTROLS_MENU_OPEN", "EXIT_GAME_MENU_OPEN") var menu_state : String = "ALL_CLOSED"
+@export_enum("ALL_CLOSED", "NEW_GAME_MENU_OPEN", "LOAD_GAME_MENU_OPEN", "LOAD_GAME_MENU_CONFIRM", "OPTIONS_MENU_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING", "CONTROLS_MENU_OPEN", "EXIT_GAME_MENU_OPEN") var menu_state : String = "ALL_CLOSED"
+
+var sort_selected_index : int = -1
+var menu_is_animating : bool = false
 
 signal license_done
 
@@ -79,10 +82,6 @@ func _ready()->void:
 
 #region Setup
 func setup_title()->void:
-	#Find list of savegames to load
-	#retrieve options from save file and apply to Options
-	
-	#Hide all menus in case they are visible from the inspector
 	canvas_layer.visible = false
 	options_menu.visible = false
 	new_game_menu.visible = false
@@ -90,14 +89,14 @@ func setup_title()->void:
 	load_game_confirm_menu.visible = false
 	exit_game_menu.visible = false
 	options_menu.title_scene = self
-	
+
 	setup_buttons()
+	options_menu.setup_options_focus()
+	options_menu.setup_options_buttons_presses()
 	options_menu.setup_options_menu()
-	
-	#Set menu state to ALL_CLOSED
+
 	menu_state = "ALL_CLOSED"
 	get_viewport().gui_release_focus()
-	#unfocus all, to ensure nothing is focused by accident
 
 
 ##Connects all menu button functions to the buttons (except options)
@@ -249,57 +248,47 @@ func new_game_confirm_close()->void:
 	
 ##Opens the options menu, settings should reflect the save file containing options variables
 func options_menu_open()->void:
-	#show options menu
+	options_menu.setup_options_menu()
 	canvas_layer.visible = true
 	animation_player.play("options_menu_show")
 	await animation_player.animation_finished
-	#focus top option
 	options_menu.opt_music_slider.button.grab_focus()
-	
-	#set field character being controlled to is_controlled = true
+
 	CharDataKeeper.controlled_character.is_controlled = false
-	#Change menu state to "OPTIONS_MENU_OPEN"
 	menu_state = "OPTIONS_MENU_OPEN"
 
 ##Closes the options menu. Saves settings to options file which should be loaded when the game starts if it exists (autosaves). ##TODO need save/load system in order to do this
 func options_menu_close()->void:
-	#save options to file (autosave)
-	
-	#hide options menu
+	SaveManager.save_options()
+
 	animation_player.play("options_menu_hide")
 	await animation_player.animation_finished
 	canvas_layer.visible = false
-	
-	#set field character being controlled to is_controlled = true
+
 	CharDataKeeper.controlled_character.is_controlled = true
 	get_viewport().gui_release_focus()
-	#change menu state back to "ALL_CLOSED"
 	menu_state = "ALL_CLOSED"
 
 
-##Opens the load game menu. Focuses the first save or if no saves, then the focus close button
+##Opens the autoloaded load game menu and lets SaveManager propagate the save slots
 func load_game_menu_open()->void:
-	#unhide load menu
-	canvas_layer.visible = true
-	animation_player.play("load_game_menu_show")
-	await animation_player.animation_finished
-	
-	#focus first save. If no saves, then focus close button
-	load_game_close_button.grab_focus()
-	
-	#set field character being controlled to is_controlled = false
-	CharDataKeeper.controlled_character.is_controlled = false
-	menu_state = "LOAD_GAME_MENU_OPEN"
+	if CharDataKeeper.controlled_character:
+		CharDataKeeper.controlled_character.is_controlled = false
 
-##Closes load menu if player hits close button or cancel_input
+	menu_state = "LOAD_GAME_MENU_OPEN"
+	get_viewport().gui_release_focus()
+
+	SaveManager.save_load_menu.menu_mode = SaveLoadMenu.MODE.LOAD
+	SaveManager.save_load_menu.sub_mode = SaveLoadMenu.SUB_MODE.NONE
+	SaveManager.save_load_menu.show_saveload_menu()
+
+##Resets title scene state after the autoloaded load menu closes
 func load_game_menu_close()->void:
-	#hide load menu
-	animation_player.play("load_game_menu_hide")
-	await animation_player.animation_finished
 	canvas_layer.visible = false
-	
-	#set field character being controlled to is_controlled = true
-	CharDataKeeper.controlled_character.is_controlled = true
+
+	if CharDataKeeper.controlled_character:
+		CharDataKeeper.controlled_character.is_controlled = true
+
 	get_viewport().gui_release_focus()
 	menu_state = "ALL_CLOSED"
 	
@@ -405,3 +394,14 @@ func _unhandled_input(_event: InputEvent) -> void:
 				pass
 			"EXIT_GAME_MENU_OPEN":
 				exit_game_menu_close()
+			"OPTIONS_SORT_ORDER":
+				options_menu.sort_order.close_sort_menu()
+			"OPTIONS_SORT_ORDER_SORTING":
+				var idx = sort_selected_index
+				options_menu.sort_order.cancel_sort_selection()
+				if idx >= 0:
+					var slist = options_menu.sort_order.sort_order_v_box.get_children()
+					if idx < slist.size():
+						var entry = slist[idx]
+						if entry is SortOrderButton:
+							(entry as SortOrderButton).grab_button_focus()

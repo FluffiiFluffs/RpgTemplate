@@ -34,13 +34,13 @@
 	[NEXT]
 	#Implement character naming similar to mother series with "don't care" option
 	This is mostly implemented, however the title scene needs to be updated
-		Options menu needs to be updated to just have an instantiated version of what's in game menu now that it is split up into its own scene
+		#Options menu needs to be updated to be more in line with what's in game_menu
 		New Game needs to trigger naming
 			cutscene actions need to be added to:
 				await
 				call function from a script (somehow)
 			The way this should work is:
-				new game button is pressed, confirm pops up, yes is pressed, cutscene starts, first cutscene action calls scenemanager instantiation of the naming scene for warrior, second cutscene action is await until it hears a signal that naming is done, third cutscene action is to load a field scene that is the intro the the game.	
+				new game button is pressed, confirm pops up, yes is pressed, cutscene starts, first cutscene action calls scenemanager instantiation of the naming scene for warrior, second cutscene action is await until it hears a signal that naming is done, third cutscene action is to load a field scene that is the intro the the game.
 	[NEXT]
 	
 	

@@ -7,6 +7,7 @@ extends PanelContainer
 @onready var m_speed_value : Label = %MSpeedValue
 @onready var m_speed_slider : HSlider = %MSpeedSlider
 @onready var button : Button = %Button
+@onready var options_menu : TitleOptionsMenu = find_parent("OptionsMenu") as TitleOptionsMenu
 
 
 func _ready()->void:
@@ -15,23 +16,20 @@ func _ready()->void:
 	button.pressed.connect(button_pressed)
 	button.focus_entered.connect(button_focused)
 	button.focus_exited.connect(button_unfocused)
-	if Engine.is_editor_hint:
+	if Engine.is_editor_hint():
 		return
 	get_options_speed()
 	set_speed_label()
 
 
-
 func button_focused()->void:
 	self_modulate = GameMenu.DISABLED_COLOR
-	#print(str(name)+" focused")
 
 func button_unfocused()->void:
-	if SceneManager.main_scene.title_scene.options_menu.current_selected_slider == self:
+	if options_menu.current_selected_slider == self:
 		return
 	self_modulate = GameMenu.TRANS_COLOR
 
-#Should be called any time the options menu is opened, too
 func get_options_speed()->void:
 	match message_type:
 		"MENU":
@@ -54,9 +52,9 @@ func set_speed_label()->void:
 			m_speed_value.text = str(Options.battle_message_speed)
 
 func button_pressed()->void:
-	SceneManager.main_scene.title_scene.options_menu.slider_active(self)
+	options_menu.slider_active(self)
 	self_modulate = GameMenu.ENABLED_COLOR
-	SceneManager.main_scene.title_scene.menu_state = "OPTIONS_SLIDER"
+	options_menu.title_scene.menu_state = "OPTIONS_SLIDER"
 	m_speed_slider.grab_focus()
 
 func slider_changed(_value:float)->void:
@@ -69,9 +67,9 @@ func slider_changed(_value:float)->void:
 			m_speed_value.text = str(_value)
 	set_speed_label()
 
-func _unhandled_input(_event):
-	if SceneManager.main_scene.title_scene.options_menu.current_selected_slider == self:
+func _unhandled_input(_event)->void:
+	if options_menu.current_selected_slider == self:
 		if Input.is_action_just_pressed("cancel_input"):
 			button.grab_focus()
 			await get_tree().process_frame
-			SceneManager.main_scene.title_scene.options_menu.slider_inactive() 
+			options_menu.slider_inactive()

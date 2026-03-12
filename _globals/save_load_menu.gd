@@ -109,10 +109,17 @@ func show_saveload_menu()->void:
 func hide_saveload_menu(restore_previous_state: bool = true) -> void:
 	visible = false
 	confirm_window.visible = false
+
 	if restore_previous_state:
 		if last_game_state == GameState.State.FIELD:
 			SceneManager.set_field_enemies_paused(false)
 		GameState.gamestate = last_game_state
+
+	if last_game_state == GameState.State.STARTMENU:
+		if SceneManager.main_scene != null:
+			if SceneManager.main_scene.title_scene != null:
+				SceneManager.main_scene.title_scene.load_game_menu_close()
+
 	_reset_copy_ui_state()
 
 func show_confirm_window()->void:
