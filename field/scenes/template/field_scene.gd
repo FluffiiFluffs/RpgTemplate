@@ -1,5 +1,5 @@
 class_name FieldScene
-extends Node2D
+extends WorldScene
 
 @onready var tile : Node2D = %Tile
 @onready var ground1 : TileMapLayer = %Ground1

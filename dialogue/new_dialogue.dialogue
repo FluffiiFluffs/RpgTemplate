@@ -1,6 +1,17 @@
 using DM
+using SceneManager
+using CutsceneManager
+
 
 ~ start
+PLAYER: Who are you?
+do play_cutscene("NameTheThief")
+
+=> END
+
+
+
+~ start2
 Warrior: [#mood=happy] [[Hi|Hello|Howdy]], this is some dialogue.
 npc_test_01: Here are some choices. [wait=0.5] Make your choice.
 - First one

@@ -1,5 +1,5 @@
 class_name TitleScene
-extends Node2D
+extends WorldScene
 
 @export var field_id : StringName = &""
 @export var enforce_draw_order : bool = true
@@ -117,10 +117,10 @@ func setup_buttons()->void:
 ##Start a new game[br]
 ##Takes user to the name input screen
 func new_game_yes_pressed()->void:
-	#Open name input screen (don't actually change scenes yet)
 	print("NEW GAME STARTED")
-	new_game_confirm_close() #this will close the menu until the input screen is actually implemented
-	pass
+	await new_game_confirm_close()
+	SaveManager.clear_arrays_for_loading()
+	CutsceneManager.play_cutscene(&"NamingBegin")
 	
 ##Closes the new game confirmation window
 func new_game_no_pressed()->void:

@@ -534,25 +534,4 @@ func _setup_save_slot_focus_neighbors() -> void:
 
 
 func _force_close_game_menu_for_load() -> void:
-	get_viewport().gui_release_focus()
-	GameMenu.current_selected_party_member = null
-	GameMenu.selected_skill_button = null
-	GameMenu.selected_skill = null
-	GameMenu.last_selected_skills_option_button = null
-	GameMenu.last_top_level_stats_focused = null
-
-	# Close any overlays first
-	GameMenu.sort_order.force_close_for_load()
-
-	# Close sub menus
-	GameMenu.options.force_close_for_load()
-	GameMenu.quests.force_close_for_load()
-	GameMenu.stats.force_close_for_load()
-	GameMenu.equip.force_close_for_load()
-	GameMenu.inventory.force_close_for_load()
-	GameMenu.skills.force_close_for_load()
-
-	# Close the top level UI last (positioners, money, etc)
-	GameMenu.top_level.force_close_for_load()
-
-	GameMenu.menu_state = "TOP_MENU_CLOSED"
+	GameMenu.force_close_for_scene_change()

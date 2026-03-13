@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cy22favvd1vsj" path="res://_common/scene_transition/scene_transition.tscn" id="3_bnmu4"]
 [ext_resource type="PackedScene" uid="uid://k6yrhmix58h4" path="res://field/objects/save_point/save_point.tscn" id="3_ifaer"]
 [ext_resource type="PackedScene" uid="uid://56kk082o8ck1" path="res://actors/3_npc/npc_scenes/base/npc.tscn" id="7_rushk"]
+[ext_resource type="Resource" uid="uid://dkky0bkw56p7p" path="res://dialogue/new_dialogue.dialogue" id="7_yty8o"]
 [ext_resource type="PackedScene" uid="uid://dt8y3g87tb6pj" path="res://_common/talk_area/talk_area.tscn" id="9_wu166"]
 [ext_resource type="Script" uid="uid://b6uulr3b28gbn" path="res://cutscene/_common/cutscene_area.gd" id="13_h4dcs"]
 [ext_resource type="PackedScene" uid="uid://bpheiglew657y" path="res://cutscene/_common/cutscene_marker.tscn" id="13_uy666"]
@@ -22,6 +23,8 @@
 [ext_resource type="Script" uid="uid://dbeyleu2ccipg" path="res://cutscene/_common/cutscene_changescene.gd" id="22_ifaer"]
 [ext_resource type="Script" uid="uid://gc4vxr88hmeg" path="res://cutscene/_common/cutscene_instantiate.gd" id="23_wuunf"]
 [ext_resource type="Script" uid="uid://bkfkcx7phsu18" path="res://cutscene/_common/cutscene_queuefree.gd" id="24_yty8o"]
+[ext_resource type="Script" uid="uid://chlrc4i447pib" path="res://cutscene/_common/cutscene_name_party_member.gd" id="25_notke"]
+[ext_resource type="Script" uid="uid://04angwtem418" path="res://cutscene/_common/cutscene_remakeparty.gd" id="25_q6wuj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugp46"]
 size = Vector2(16, 64)
@@ -150,6 +153,35 @@ script = ExtResource("15_h4dcs")
 cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_7rp38"), SubResource("Resource_mrl45")])
 metadata/_custom_type_script = "uid://dldt2m47r81s8"
 
+[sub_resource type="Resource" id="Resource_idanm"]
+script = ExtResource("25_notke")
+actor_id = &"thief02"
+metadata/_custom_type_script = "uid://chlrc4i447pib"
+
+[sub_resource type="Resource" id="Resource_d3t3w"]
+script = ExtResource("24_yty8o")
+target_id = &"Thief"
+metadata/_custom_type_script = "uid://bkfkcx7phsu18"
+
+[sub_resource type="Resource" id="Resource_54el5"]
+script = ExtResource("15_h4dcs")
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_idanm"), SubResource("Resource_d3t3w")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
+
+[sub_resource type="Resource" id="Resource_7114b"]
+script = ExtResource("25_q6wuj")
+metadata/_custom_type_script = "uid://04angwtem418"
+
+[sub_resource type="Resource" id="Resource_i40x4"]
+script = ExtResource("20_ahd2c")
+follow_controlled_character = true
+metadata/_custom_type_script = "uid://hkl5bunkpdqg"
+
+[sub_resource type="Resource" id="Resource_508rm"]
+script = ExtResource("15_h4dcs")
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_7114b"), SubResource("Resource_i40x4")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
+
 [node name="Test01" type="Node2D" unique_id=45094763]
 y_sort_enabled = true
 script = ExtResource("1_m38he")
@@ -239,6 +271,15 @@ field_actor_id = &"dialogue_cutscene_npc_01"
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC4" unique_id=447987433 instance=ExtResource("9_wu166")]
 start_position = "dialoguecutscenetest01"
 dialogue = ExtResource("14_k2s2j")
+
+[node name="NPC5" parent="FieldActors/PlacedNPCs" unique_id=1546177778 instance=ExtResource("7_rushk")]
+position = Vector2(98, 173)
+display_name = "Thief"
+field_actor_id = &"Thief"
+
+[node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC5" unique_id=1498250636 instance=ExtResource("9_wu166")]
+dialogue = ExtResource("7_yty8o")
+indicator = 2
 
 [node name="Party" type="Node2D" parent="FieldActors" unique_id=1665240552]
 unique_name_in_owner = true
@@ -422,4 +463,10 @@ cutscene_id = &"CutsceneScript06"
 one_shot = false
 acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_2r861")])
 pause_entities = 2
+metadata/_custom_type_script = "uid://ccg8s63bglcau"
+
+[node name="NameTheThief" type="Node" parent="Cutscenes" unique_id=1058767092]
+script = ExtResource("14_xo7o1")
+cutscene_id = &"NameTheThief"
+acts = Array[ExtResource("15_h4dcs")]([SubResource("Resource_54el5"), SubResource("Resource_508rm")])
 metadata/_custom_type_script = "uid://ccg8s63bglcau"

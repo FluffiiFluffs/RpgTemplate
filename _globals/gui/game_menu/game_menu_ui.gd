@@ -53,8 +53,7 @@ const MINUS_COLOR = Color("9b3800ff")
 
 "QUESTS_SELECT_TYPE", "QUESTS_CURRENT_QUESTS", "QUESTS_COMPLETED_QUESTS", 
 
-"OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING", "OPTIONS_LOAD_MENU_OPEN") 
-
+"OPTIONS_OPEN", "OPTIONS_SLIDER", "OPTIONS_SORT_ORDER", "OPTIONS_SORT_ORDER_SORTING", "OPTIONS_LOAD_MENU_OPEN", "OPTIONS_EXIT_CONFIRM_OPEN")
 var menu_state : String = "TOP_MENU_CLOSED"
 
 ##Used to store the button that was focused before moving to another menu so it can be refocused when the menus is closed
@@ -163,18 +162,15 @@ func _unhandled_input(_event):
 		if GameState.gamestate == GameState.State.FIELD:
 			top_level.top_menu_open()
 			top_level.focus_last_top_menu_button()
-	#if GameMenu.current_selected_slider != null:
-			#return
+
 	if Input.is_action_just_pressed("cancel_input"):
 		match menu_state:
-			"TOP_MENU_CLOSED": #TOP_MENU_CLOSED
+			"TOP_MENU_CLOSED":
 				return
 			"TOP_MENU_OPEN":
 				await top_level.top_menu_close()
-
 				menu_state = "TOP_MENU_CLOSED"
 			"INVENTORY_OPTIONS":
-				#close the inventory completely, open top menu
 				await inventory.close_inventory()
 				top_level.close_to_top_menu()
 			"USE_ITEMS":
@@ -187,18 +183,16 @@ func _unhandled_input(_event):
 				await get_tree().process_frame
 				last_selected_inventory_button.grab_button_focus()
 				menu_state = "USE_ITEMS"
-				pass
 			"REORDER_ITEMS":
 				inventory.reorder_items_button.is_active = false
 				inventory.update_inventory_options_buttons_color()
 				inventory.focus_last_inventory_options_button()
 				menu_state = "INVENTORY_OPTIONS"
 			"REORDER_ITEMS_REORDERING":
-				var first_button := last_selected_inventory_button
+				var first_button = last_selected_inventory_button
 				inventory.cancel_reorder_selection()
 				if first_button != null and is_instance_valid(first_button):
 					first_button.grab_button_focus()
-				pass
 			"SKILLS_PARTY_SELECT":
 				top_level.close_to_top_menu()
 			"SKILLS_OPTION_SELECT":
@@ -210,19 +204,12 @@ func _unhandled_input(_event):
 				skills.cancel_skill_target_selection()
 			"SKILLS_REORDER":
 				skills.cancel_reorder_selection()
-				
-				
-				
 			"EQUIP_PARTY_SELECT":
 				top_level.close_to_top_menu()
-				pass
 			"EQUIP_OPTIONS":
-				#animation_player.play("equip_menu_hide")
 				equip.equip_menu_hide()
 				menu_state = "EQUIP_PARTY_SELECT"
 				top_level.focus_last_top_level_stats()
-				pass
-				
 			"EQUIP_EQUIP_SELECT":
 				menu_state = "EQUIP_OPTIONS"
 				for child in equip.equip_options_h_box.get_children():
@@ -236,56 +223,37 @@ func _unhandled_input(_event):
 				equip.hide_equip_equipping_list()
 				equip.hide_all_equip_differences()
 				equip.equip_equip_button.grab_button_focus()
-				
-				pass
 			"EQUIP_MENU_REMOVE":
-				##return to "EQUIP_OPTIONS"
 				menu_state = "EQUIP_OPTIONS"
 				equip.equip_remove_button.is_active = false
 				equip.equip_remove_button.self_modulate = TRANS_COLOR
 				equip.equip_equip_button.grab_button_focus()
-				pass
 			"EQUIP_MENU_EQUIPPING":
 				equip.equip_equipping_completed()
-
 				menu_state = "EQUIP_EQUIP_SELECT"
-				
 				last_curr_equip_slot_button.grab_button_focus()
 				equip.clear_equip_equipping_list()
 				equip.hide_equip_equipping_list()
-				##return to last selected curre
-				pass
-				
 			"STATS_SELECTION":
-				#menu_state = "TOP_MENU_OPEN"
-				#top_level.stats_button.is_active = false
-				#top_level.focus_last_top_menu_button()
 				GameMenu.top_level.close_to_top_menu()
 			"STATS_OPEN":
 				stats.close_stats_menu()
-				#menu_state = "STATS_SELECTION"
 			"QUESTS_SELECT_TYPE":
 				await quests.close_quests_menu()
 				GameMenu.top_level.close_to_top_menu()
-				pass
 			"QUESTS_CURRENT_QUESTS":
 				quests.cancel_to_quest_type_selection()
-				pass
 			"QUESTS_COMPLETED_QUESTS":
 				quests.cancel_to_quest_type_selection()
-				pass
 			"OPTIONS_OPEN":
-				##close the options menu, open the top menu
 				await options.close_options()
 				top_level.close_to_top_menu()
 			"OPTIONS_SLIDER":
-				#refocuses the button attached to the slider
-				#handled by the button itself
 				pass
 			"OPTIONS_SORT_ORDER":
 				sort_order.close_sort_menu()
 			"OPTIONS_SORT_ORDER_SORTING":
-				var idx := sort_selected_index
+				var idx = sort_selected_index
 				sort_order.cancel_sort_selection()
 				if idx >= 0:
 					var slist = sort_order.sort_order_v_box.get_children()
@@ -293,6 +261,8 @@ func _unhandled_input(_event):
 						var entry = slist[idx]
 						if entry is SortOrderButton:
 							(entry as SortOrderButton).grab_button_focus()
+			"OPTIONS_EXIT_CONFIRM_OPEN":
+				options.cancel_exit_to_title()
 #endregion input
 
 
@@ -364,5 +334,36 @@ func setup_vertical_focus_neighbors(_vbox : VBoxContainer)->void:
 		btn.focus_previous = top_btn.get_path()
 		btn.focus_next = bottom_btn.get_path()
 
+
+func force_close_for_scene_change() -> void:
+	get_viewport().gui_release_focus()
+
+	current_selected_slider = null
+	current_selected_party_member = null
+	last_selected_inventory_options_button = null
+	last_selected_inventory_button = null
+	last_top_level_stats_focused = null
+	last_quests_menu_state = "QUESTS_CURRENT_QUESTS"
+	sort_selected_index = -1
+	last_curr_equip_slot_button = null
+	equip_preview_owner = null
+	last_selected_equip_option_button = null
+	last_selected_skills_option_button = null
+	selected_skill_button = null
+	selected_skill = null
+	last_selected_skill_id_by_actor_id.clear()
+	menu_is_animating = false
+	last_top_button_focused = top_level.items_button
+
+	sort_order.force_close_for_load()
+	options.force_close_for_load()
+	quests.force_close_for_load()
+	stats.force_close_for_load()
+	equip.force_close_for_load()
+	inventory.force_close_for_load()
+	skills.force_close_for_load()
+	top_level.force_close_for_load()
+
+	menu_state = "TOP_MENU_CLOSED"
 
 #endregion helpers

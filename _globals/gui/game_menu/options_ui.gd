@@ -311,8 +311,28 @@ func load_game_button_pressed()->void:
 	pass
 
 ##Pops up exit game confirmation window
+##Pops up exit game confirmation window
 func exit_game_button_pressed()->void:
-	pass
+	GameMenu.menu_state = "OPTIONS_EXIT_CONFIRM_OPEN"
+
+	SaveManager.confirm_window.open_confirm(
+		"RETURN TO TITLE?",
+		Callable(self, "_confirm_exit_to_title"),
+		Callable(self, "cancel_exit_to_title")
+	)
+	SaveManager.confirm_window.focus_no_button()
+
+func cancel_exit_to_title()->void:
+	SaveManager.confirm_window.close_confirm()
+	GameMenu.menu_state = "OPTIONS_OPEN"
+	exit_game_button.grab_focus()
+
+func _confirm_exit_to_title()->void:
+	SaveManager.confirm_window.close_confirm()
+	SaveManager.save_options()
+	SaveManager.clear_arrays_for_loading()
+	GameMenu.force_close_for_scene_change()
+	SceneManager.load_title_scene()
 
 func slider_active(_slider)->void:
 	GameMenu.current_selected_slider = _slider

@@ -15,7 +15,7 @@ signal cutscene_end(cutscene_id : StringName)
 
 #region Scene references and caches
 ## The currently active FieldScene that owns cutscene nodes and actors.
-var current_field_scene : FieldScene = null
+var current_field_scene = null
 
 ## Direct references to scene objects.
 ## Lookup is done by linear scan using each node's exported id (or node name fallback).
@@ -54,6 +54,13 @@ var _cutscene_state_entries : Array[Dictionary] = []
 ## Camera rigs touched by camera actions during the current cutscene.
 ## Used so we can restore follow to the controlled character when the cutscene ends.
 var _camera_override_entries : Array[Dictionary] = []
+
+
+## Active overscene being awaited by CutsceneOverscene.
+var _active_overscene : Node = null
+
+## True while CutsceneManager is waiting for overscene_completed.
+var _waiting_for_overscene_completion : bool = false
 #endregion
 
 
@@ -83,7 +90,7 @@ class ParallelCounter:
 #region Public API
 ## Called by SceneManager when a FieldScene becomes active.
 ## This is the point where the manager discovers CutsceneScript and CutsceneMarker nodes.
-func register_field_scene(fscene : FieldScene) -> void:
+func register_field_scene(fscene) -> void:
 	current_field_scene = fscene
 	_cutscenes_by_id.clear()
 	_markers_by_id.clear()
@@ -179,6 +186,8 @@ func _finish_cutscene() -> void:
 	_is_playing = false
 	_abort_requested = false
 	_active_pause_entities = CutsceneScript.PENTITIES.ALL
+	_active_overscene = null
+	_waiting_for_overscene_completion = false
 
 #endregion
 
@@ -378,6 +387,10 @@ func _run_action(action : CutsceneAction) -> void:
 	if action is CutsceneChangeScene:
 		await _run_change_scene(action)
 		return
+
+	if action is CutsceneOverscene:
+		await _run_overscene(action)
+		return
 		
 	if action is CutsceneQueueFree:
 		await _run_queue_free(action)
@@ -386,9 +399,20 @@ func _run_action(action : CutsceneAction) -> void:
 	if action is CutsceneInstantiate:
 		await _run_instantiate(action)
 		return
+	
+	if action is CutsceneNamePartyMember:
+		await _run_name_party_member(action)
+		return
 		
+	if action is CutsceneRemakeParty:
+		await _run_remake_party(action)
+		return
 		
 	push_warning("CutsceneManager: action class missing implementation: " + action.get_class())
+	
+	
+	
+	
 	## Executes a CutsceneActorMove.
 ## 1) Resolve actor (controlled character if requested, otherwise by field_actor_id)
 ## 2) Resolve each marker id into a CutsceneMarker
@@ -532,6 +556,87 @@ func _run_change_scene(action : CutsceneChangeScene) -> void:
 	# If we force closed dialogue, the dialogue_ended signal will not fire.
 	# Ensure enemy pause state is not left enabled after the scene load.
 	SceneManager.set_field_enemies_paused(false)
+
+func _run_overscene(action : CutsceneOverscene) -> void:
+	if action.scene_path.is_empty():
+		push_error("CutsceneManager: CutsceneOverscene scene_path is empty")
+		return
+
+	var overscene : Node = SceneManager.begin_cutscene_overscene(action.scene_path)
+	if overscene == null:
+		return
+
+	if not overscene.has_signal("overscene_completed"):
+		push_error("CutsceneManager: overscene root must emit signal overscene_completed")
+		SceneManager.end_cutscene_overscene()
+		return
+
+	_active_overscene = overscene
+	_waiting_for_overscene_completion = true
+	overscene.connect("overscene_completed", Callable(self, "_on_active_overscene_completed"), CONNECT_ONE_SHOT)
+
+	while _waiting_for_overscene_completion:
+		if not is_instance_valid(_active_overscene):
+			push_error("CutsceneManager: active overscene was freed before overscene_completed emitted")
+			_waiting_for_overscene_completion = false
+			_active_overscene = null
+			SceneManager.end_cutscene_overscene()
+			return
+
+		await get_tree().process_frame
+
+	SceneManager.end_cutscene_overscene()
+	_active_overscene = null
+
+
+func _run_name_party_member(action : CutsceneNamePartyMember) -> void:
+	if action.actor_id == &"":
+		push_error("CutsceneManager: CutsceneNamePartyMember actor_id is empty")
+		return
+
+	var overscene : Node = SceneManager.begin_cutscene_name_party_member(action)
+	if overscene == null:
+		return
+
+	if not overscene.has_signal("overscene_completed"):
+		push_error("CutsceneManager: naming overscene root must emit signal overscene_completed")
+		SceneManager.end_cutscene_overscene()
+		return
+
+	_active_overscene = overscene
+	_waiting_for_overscene_completion = true
+	overscene.connect("overscene_completed", Callable(self, "_on_active_overscene_completed"), CONNECT_ONE_SHOT)
+
+	while _waiting_for_overscene_completion:
+		if not is_instance_valid(_active_overscene):
+			push_error("CutsceneManager: active naming overscene was freed before overscene_completed emitted")
+			_waiting_for_overscene_completion = false
+			_active_overscene = null
+			SceneManager.end_cutscene_overscene()
+			return
+
+		await get_tree().process_frame
+
+	SceneManager.end_cutscene_overscene()
+	_active_overscene = null
+
+func _run_remake_party(_action : CutsceneRemakeParty) -> void:
+	await SceneManager.remake_party_in_current_scene()
+
+	if _active_pause_entities == CutsceneScript.PENTITIES.NONE:
+		return
+
+	for actor in CharDataKeeper.field_party_nodes:
+		if actor == null:
+			continue
+		if not is_instance_valid(actor):
+			continue
+		_enter_cutscene_state_for_actor(actor)
+
+
+
+func _on_active_overscene_completed() -> void:
+	_waiting_for_overscene_completion = false
 
 func _run_instantiate(action : CutsceneInstantiate) -> void:
 	if action.instantiated_scene == null:

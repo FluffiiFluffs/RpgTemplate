@@ -298,6 +298,7 @@ func _save_party_member_list(section_root : String, members : Array[PartyMemberD
 		lines.append("[" + section_root + "." + str(i) + "]")
 		lines.append(_keyvalue_line("actor_id", String(member.actor_id)))
 		lines.append(_keyvalue_line("display_name", member.display_name))
+		lines.append(_keyvalue_line("gender", member.gender))
 		lines.append(_keyvalue_line("level", member.level))
 		lines.append(_keyvalue_line("current_exp", member.current_exp))
 		lines.append(_keyvalue_line("next_level_exp", member.next_level_exp))
@@ -629,17 +630,22 @@ func clear_arrays_for_loading()->void:
 	party_member_deaths = 0
 	items_used = 0
 	skills_used = 0
-	
+
 	state_flags.clear()
-	
+
 	CharDataKeeper.party_members.clear()
 	CharDataKeeper.outside_members.clear()
-	
-	Inventory.current_inventory.clear()
-	
+	CharDataKeeper.field_party_nodes.clear()
+	CharDataKeeper.controlled_character = null
+	CharDataKeeper.controlled_index = 0
+	CharDataKeeper.party_is_moving = false
+	CharDataKeeper.player_trying_move = false
+	CharDataKeeper.poison_accumulated = 0.0
+
+	Inventory.clear_slots()
+
 	QuestManager.current_quests.clear()
 	QuestManager.completed_quests.clear()
-	
 	
 	
 func load_state_flags() -> void:
@@ -884,8 +890,16 @@ func load_current_party_members()->void:
 			continue
 
 		var pm : PartyMemberData = template.duplicate(true) as PartyMemberData
+		if pm.speaker_resource != null:
+			pm.speaker_resource = pm.speaker_resource.duplicate(true)
 
 		pm.display_name = _sec_get_string(data, "display_name", pm.display_name)
+		pm.gender = _sec_get_int(data, "gender", pm.gender)
+
+		if pm.speaker_resource != null:
+			pm.speaker_resource.display_name = pm.display_name
+			pm.speaker_resource.pronoun = pm.gender
+
 		pm.level = _sec_get_int(data, "level", pm.level)
 		pm.current_exp = _sec_get_int(data, "current_exp", pm.current_exp)
 		pm.next_level_exp = _sec_get_int(data, "next_level_exp", pm.next_level_exp)
@@ -995,8 +1009,16 @@ func load_outside_party_members()->void:
 			continue
 
 		var pm : PartyMemberData = template.duplicate(true) as PartyMemberData
+		if pm.speaker_resource != null:
+			pm.speaker_resource = pm.speaker_resource.duplicate(true)
 
 		pm.display_name = _sec_get_string(data, "display_name", pm.display_name)
+		pm.gender = _sec_get_int(data, "gender", pm.gender)
+
+		if pm.speaker_resource != null:
+			pm.speaker_resource.display_name = pm.display_name
+			pm.speaker_resource.pronoun = pm.gender
+
 		pm.level = _sec_get_int(data, "level", pm.level)
 		pm.current_exp = _sec_get_int(data, "current_exp", pm.current_exp)
 		pm.next_level_exp = _sec_get_int(data, "next_level_exp", pm.next_level_exp)

@@ -90,17 +90,20 @@ enum NISTATE{GENDER, NAMING, CONFIRM}
 @export var current_member_data : PartyMemberData = null
 
 
-var name_max_length : int = 10
+var name_max_length : int = 8
 var current_input_letter_place : int = 0
 var current_possible_name_index : int = 0
-var selected_gender : int = -1 #default -1 so nothing is selected
+var selected_gender : int = -1
 var selected_name : String = ""
 var state : NISTATE
 var previous_gamestate : int = GameState.State.STARTMENU
+var target_actor_id : StringName = &""
+var _scene_is_ready : bool = false
+var _did_start : bool = false
 
 const INPUT_LETTER = preload("uid://cos3t0ctsf8g0")
 
-
+signal overscene_completed
 
 
 func _ready()->void:
@@ -111,19 +114,61 @@ func _ready()->void:
 	next.pressed.connect(on_next_button_pressed)
 	no_confirm.pressed.connect(on_no_confirm_button_pressed)
 	yes_confirm.pressed.connect(on_yes_confirm_button_pressed)
+
+	_scene_is_ready = true
+	_try_start_from_overscene()
 	
 ## Loads a party member called by actor_id. Should be called with a custom script.
-func load_member_by_id(id : StringName)->void:
+func load_member_by_id(id : StringName) -> bool:
 	current_member_data = null
 	current_input_letter_place = 0
 	current_possible_name_index = 0
 	selected_gender = -1
 	selected_name = ""
 
+	if id == &"":
+		return false
+
 	for pm in Registry.all_party_members:
 		if id == pm.actor_id:
-			current_member_data = pm.duplicate(true)
-			break
+			current_member_data = pm.duplicate(true) as PartyMemberData
+			if current_member_data.speaker_resource != null:
+				current_member_data.speaker_resource = current_member_data.speaker_resource.duplicate(true)
+			return true
+
+	return false
+	
+func apply_cutscene_overscene_action(action : CutsceneOverscene) -> void:
+	if action == null:
+		return
+
+	target_actor_id = action.actor_id
+	_try_start_from_overscene()
+
+
+func _try_start_from_overscene() -> void:
+	if _scene_is_ready == false:
+		return
+	if _did_start == true:
+		return
+
+	previous_gamestate = GameState.gamestate
+	GameState.gamestate = GameState.State.NAMING
+
+	if load_member_by_id(target_actor_id) == false:
+		push_error("NameInput: actor_id not found in Registry.all_party_members: " + String(target_actor_id))
+		_finish_overscene()
+		return
+
+	_did_start = true
+	setup_portraits()
+	call_deferred("ready_gender_input")
+
+
+func _finish_overscene() -> void:
+	GameState.gamestate = previous_gamestate
+	overscene_completed.emit()
+	
 	
 ## Begins naming routine
 func start()->void:
@@ -171,7 +216,9 @@ func place_party_member_into_party(place : int)->void:
 	if current_member_data == null:
 		return
 
-	var member_copy : PartyMemberData = current_member_data.duplicate(true)
+	var member_copy : PartyMemberData = current_member_data.duplicate(true) as PartyMemberData
+	if member_copy.speaker_resource != null:
+		member_copy.speaker_resource = member_copy.speaker_resource.duplicate(true)
 
 	if place == 0:
 		CharDataKeeper.party_members.append(member_copy)
@@ -328,6 +375,8 @@ func on_next_button_pressed() -> void:
 				return
 
 			current_member_data.gender = selected_gender
+			if current_member_data.speaker_resource != null:
+				current_member_data.speaker_resource.pronoun = selected_gender
 			ready_name_input()
 
 		NISTATE.NAMING:
@@ -345,7 +394,6 @@ func on_next_button_pressed() -> void:
 		NISTATE.CONFIRM:
 			return
 			
-			
 func on_no_confirm_button_pressed() -> void:
 	if state != NISTATE.CONFIRM:
 		return
@@ -354,17 +402,21 @@ func on_no_confirm_button_pressed() -> void:
 	name_gender_control.visible = true
 	ready_name_input()
 
-
 func on_yes_confirm_button_pressed() -> void:
 	if state != NISTATE.CONFIRM:
 		return
 
 	current_member_data.gender = selected_gender
 	current_member_data.display_name = selected_name
+
+	if current_member_data.speaker_resource != null:
+		current_member_data.speaker_resource.pronoun = selected_gender
+		current_member_data.speaker_resource.display_name = selected_name
+
 	place_party_member_into_party(0)
-	GameState.gamestate = previous_gamestate
-	queue_free()
-			
+	_finish_overscene()
+	
+	
 func get_possible_party_member_name()->String:
 	if current_member_data == null:
 		return ""
@@ -391,6 +443,13 @@ func parse_and_apply_name() -> void:
 		finalname += letter
 
 	selected_name = finalname.strip_edges()
+
+func apply_name_party_member_action(action : CutsceneNamePartyMember) -> void:
+	if action == null:
+		return
+
+	target_actor_id = action.actor_id
+	_try_start_from_overscene()
 
 
 func _unhandled_input(_event: InputEvent) -> void:

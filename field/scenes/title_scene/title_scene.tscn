@@ -10,6 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://cgpqb6mbyf8oo" path="res://_assets/start_menu/xit.png" id="7_kni3l"]
 [ext_resource type="PackedScene" uid="uid://dow6bhq3i06aj" path="res://field/scenes/title_scene/options_menu.tscn" id="9_kni3l"]
 [ext_resource type="Script" uid="uid://kdndoucar8ah" path="res://field/scenes/title_scene/options_menu.gd" id="10_0cay3"]
+[ext_resource type="Script" uid="uid://ccg8s63bglcau" path="res://cutscene/_common/cutscene_script.gd" id="11_jr4w5"]
+[ext_resource type="Script" uid="uid://dldt2m47r81s8" path="res://cutscene/_common/cutscene_act.gd" id="12_tef3k"]
+[ext_resource type="Script" uid="uid://d3x6oel5jd5vr" path="res://cutscene/_common/cutscene_action.gd" id="13_di50g"]
+[ext_resource type="Script" uid="uid://chlrc4i447pib" path="res://cutscene/_common/cutscene_name_party_member.gd" id="14_tef3k"]
+[ext_resource type="Script" uid="uid://dbeyleu2ccipg" path="res://cutscene/_common/cutscene_changescene.gd" id="15_tef3k"]
 
 [sub_resource type="Gradient" id="Gradient_kmx5h"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
@@ -688,6 +693,21 @@ size = Vector2(420, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lr084"]
 size = Vector2(20, 224)
 
+[sub_resource type="Resource" id="Resource_12byv"]
+script = ExtResource("14_tef3k")
+actor_id = &"warrior01"
+metadata/_custom_type_script = "uid://chlrc4i447pib"
+
+[sub_resource type="Resource" id="Resource_di50g"]
+script = ExtResource("15_tef3k")
+scene_to_load = "uid://my8hd4okxhcq"
+metadata/_custom_type_script = "uid://dbeyleu2ccipg"
+
+[sub_resource type="Resource" id="Resource_3b7n1"]
+script = ExtResource("12_tef3k")
+cutscene_actions = Array[ExtResource("13_di50g")]([SubResource("Resource_12byv"), SubResource("Resource_di50g")])
+metadata/_custom_type_script = "uid://dldt2m47r81s8"
+
 [node name="TitleScene" type="Node2D" unique_id=411987689]
 script = ExtResource("1_trq1k")
 
@@ -1149,3 +1169,9 @@ shape = SubResource("RectangleShape2D_lr084")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=831740191]
 position = Vector2(410, 112)
 shape = SubResource("RectangleShape2D_lr084")
+
+[node name="NamingBegin" type="Node" parent="." unique_id=1651361397]
+script = ExtResource("11_jr4w5")
+cutscene_id = &"NamingBegin"
+acts = Array[ExtResource("12_tef3k")]([SubResource("Resource_3b7n1")])
+metadata/_custom_type_script = "uid://ccg8s63bglcau"

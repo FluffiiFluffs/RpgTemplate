@@ -55,7 +55,7 @@ func _ready()->void:
 func clear_slots() -> void:
 	current_inventory.clear()
 	slots_filled = 0
-	#current_slots = default_slots
+	current_slots = default_slots
 
 
 ##For adding a new slot with an item.[br]

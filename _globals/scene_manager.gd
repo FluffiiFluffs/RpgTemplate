@@ -26,6 +26,14 @@ var last_party_actor : Node2D = null
 
 var main_scene : Main = null
 
+
+
+## Currently active overscene instance started by CutsceneOverscene.
+var current_overscene : Node = null
+
+## Cached field_root process mode so it can be restored after the overscene ends.
+var _previous_field_root_process_mode : int = Node.PROCESS_MODE_INHERIT
+
 #var current_field_scene : FieldScene = null
 
 var spawn_direction : int = SIDE.DOWN
@@ -92,34 +100,29 @@ func set_field_enemies_paused(paused : bool)->void:
 
 #region Scene Changing
 ##Loads a new field scene (used with SceneTransitioner)
-func load_field_scene(scene_path : String, scene_transition_target: String)->void:
+func load_field_scene(scene_path : String, scene_transition_target: String) -> void:
 	is_loading_field_scene = true
 	load_started.emit()
-	
+
 	DM.force_cleanup_dialogue_session()
-	
-	
-	#play transition begin
+
 	main_scene.transition_layer.play_begin()
 	await main_scene.transition_layer.animation_player.animation_finished
-	
-	#stores the name of the next transitioner to be found
+
 	next_scene_transitioner_name = scene_transition_target
-	
-	#Clear out the field party nodes array so it can be populated again
+
 	CharDataKeeper.field_party_nodes.clear()
-	#Clear the controlled character, too
 	CharDataKeeper.controlled_character = null
-	
-	if main_scene.current_field_scene != null:
-		main_scene.current_field_scene.queue_free()
-		main_scene.current_field_scene = null
-	
-	#use scene path string to instantiate a scene under main_scene.field_scene_container
-	var new_scene = load(scene_path).instantiate()
+
+	for child in main_scene.field_scene_container.get_children():
+		child.queue_free()
+
+	main_scene.current_field_scene = null
+	main_scene.title_scene = null
+
+	var new_scene : FieldScene = load(scene_path).instantiate() as FieldScene
 	main_scene.field_scene_container.add_child(new_scene)
 	main_scene.current_field_scene = new_scene
-	##Registers the new field scene to CutsceneManager
 	CutsceneManager.register_field_scene(main_scene.current_field_scene)
 	last_party_actor = null
 
@@ -130,14 +133,15 @@ func load_field_scene(scene_path : String, scene_transition_target: String)->voi
 		spawn_offset = party_spawn_point.compute_spawn_offset(transition_entry_offset)
 		make_party_at_spawn_point(party_spawn_point)
 		main_scene.field_camera_rig.follow_player()
-	
-	
+
 	await get_tree().process_frame
 	main_scene.transition_layer.play_end()
 	await main_scene.transition_layer.animation_player.animation_finished
+
+	GameState.gamestate = GameState.State.FIELD
+
 	load_completed.emit()
 	is_loading_field_scene = false
-
 
 ##Loads the title scene. Title scene is specifically loaded
 func load_title_scene()->void:
@@ -145,19 +149,59 @@ func load_title_scene()->void:
 	GameState.gamestate = GameState.State.INTRO
 	load_started.emit()
 	DM.force_cleanup_dialogue_session()
-	#Clear out the field party nodes array so it can be populated again
+
+	set_field_enemies_paused(false)
+	_field_enemies_paused = false
+
+	player_is_made = false
+	party_is_made = false
+	party_spawn_point = null
+	last_party_actor = null
+	next_scene_transitioner_name = ""
+	spawn_offset = Vector2.ZERO
+	transition_entry_offset = Vector2.ZERO
+	current_overscene = null
+	_previous_field_root_process_mode = Node.PROCESS_MODE_INHERIT
+
 	CharDataKeeper.field_party_nodes.clear()
-	#Clear the controlled character, too
 	CharDataKeeper.controlled_character = null
 
-	#use scene path string to instantiate a scene under main_scene.field_scene_container
-	var new_scene = load("uid://b36ngnfew8k5c").instantiate()
+	if main_scene == null:
+		load_completed.emit()
+		is_loading_field_scene = false
+		return
+
+	main_scene.field_camera_rig.clear_target()
+	main_scene.field_camera_rig.activate()
+
+	for child in main_scene.over_scene.get_children():
+		child.queue_free()
+
+	for child in main_scene.battle_root.get_children():
+		child.queue_free()
+	main_scene.current_battle_scene = null
+	main_scene.battling_field_enemy_scene = null
+	main_scene.battle_root.visible = false
+
+	for child in main_scene.field_scene_container.get_children():
+		child.queue_free()
+
+	main_scene.current_field_scene = null
+	main_scene.title_scene = null
+
+	main_scene.field_root.visible = true
+	main_scene.field_root.process_mode = Node.PROCESS_MODE_INHERIT
+
+	var new_scene: TitleScene = load("uid://b36ngnfew8k5c").instantiate() as TitleScene
 	main_scene.field_scene_container.add_child(new_scene)
 	main_scene.title_scene = new_scene
 
+	CutsceneManager.register_field_scene(main_scene.title_scene)
+
 	load_completed.emit()
 	is_loading_field_scene = false
-
+	
+	
 ##Loads a field scene by filename.
 ##Loops through res://field/scenes/field_scenes/ and subfolders, returns the file.
 ##Used primary during loading a saved game.
@@ -170,14 +214,82 @@ func load_field_scene_by_filename(filename : String)->FieldScene:
 ## Instantiates name_input.tscn into main.overscene (uses load, not preload)
 ## Changes game state from whatever it's at, and records what it was before that point so it can be restored after naming is done
 ## Uses ID in the argument to call NameInput.load_member_by_id(id). It is assumed both of these functions will be called with ids specified (via a cutscene action or dialogue call)
-func begin_naming_sequence(id : StringName)->void:
-	var name_input_scene : NameInput = load("uid://u03vmppwcufq").instantiate()
-	name_input_scene.previous_gamestate = GameState.gamestate
-	main_scene.over_scene.add_child(name_input_scene)
-	GameState.gamestate = GameState.State.NAMING
-	await get_tree().process_frame
-	name_input_scene.load_member_by_id(id)
-	name_input_scene.start()
+func begin_cutscene_name_party_member(action : CutsceneNamePartyMember) -> Node:
+	if action == null:
+		push_error("SceneManager: begin_cutscene_name_party_member action is null")
+		return null
+
+	if action.actor_id == &"":
+		push_error("SceneManager: begin_cutscene_name_party_member actor_id is empty")
+		return null
+
+	if current_overscene != null and is_instance_valid(current_overscene):
+		push_error("SceneManager: begin_cutscene_name_party_member called while another overscene is already active")
+		return null
+
+	var packed_scene : PackedScene = load(action.scene_path) as PackedScene
+	if packed_scene == null:
+		push_error("SceneManager: failed to load naming scene: " + action.scene_path)
+		return null
+
+	var overscene : NameInput = packed_scene.instantiate() as NameInput
+	if overscene == null:
+		push_error("SceneManager: failed to instantiate NameInput")
+		return null
+
+	overscene.apply_name_party_member_action(action)
+
+	_previous_field_root_process_mode = main_scene.field_root.process_mode
+	main_scene.field_root.process_mode = Node.PROCESS_MODE_DISABLED
+	main_scene.over_scene.add_child(overscene)
+	current_overscene = overscene
+	return overscene
+	
+	
+## Instantiates a cutscene overscene under main_scene.over_scene and suspends field_root processing.
+## Returns the instantiated overscene so CutsceneManager can await its completion signal.
+func begin_cutscene_overscene(scene_path : String) -> Node:
+	if scene_path.is_empty():
+		push_error("SceneManager: begin_cutscene_overscene scene_path is empty")
+		return null
+
+	if main_scene == null:
+		push_error("SceneManager: begin_cutscene_overscene cannot run because main_scene is null")
+		return null
+
+	if current_overscene != null and is_instance_valid(current_overscene):
+		push_error("SceneManager: begin_cutscene_overscene called while another overscene is already active")
+		return null
+
+	var packed_scene : PackedScene = load(scene_path) as PackedScene
+	if packed_scene == null:
+		push_error("SceneManager: begin_cutscene_overscene failed to load scene: " + scene_path)
+		return null
+
+	var overscene : Node = packed_scene.instantiate()
+	if overscene == null:
+		push_error("SceneManager: begin_cutscene_overscene failed to instantiate scene: " + scene_path)
+		return null
+
+	_previous_field_root_process_mode = main_scene.field_root.process_mode
+	main_scene.field_root.process_mode = Node.PROCESS_MODE_DISABLED
+	main_scene.over_scene.add_child(overscene)
+	current_overscene = overscene
+	return overscene
+
+
+## Frees the active cutscene overscene and restores field_root processing.
+func end_cutscene_overscene() -> void:
+	if main_scene == null:
+		current_overscene = null
+		return
+
+	if current_overscene != null and is_instance_valid(current_overscene):
+		current_overscene.queue_free()
+
+	current_overscene = null
+	main_scene.field_root.process_mode = _previous_field_root_process_mode
+
 
 #endregion Scene Changing
 
@@ -249,6 +361,96 @@ func make_party_at_spawn_point(spoint : SceneTransitioner)->void:
 				last_party_actor = pmemberscene
 				CharDataKeeper.field_party_nodes.append(pmemberscene)
 
+func remake_party_in_current_scene() -> void:
+	if main_scene == null:
+		push_error("SceneManager: remake_party_in_current_scene cannot run because main_scene is null")
+		return
+
+	var fscene : Node = main_scene.current_field_scene
+	if fscene == null:
+		push_error("SceneManager: remake_party_in_current_scene cannot run because there is no active field scene")
+		return
+
+	if not (fscene is FieldScene or fscene is TitleScene):
+		push_error("SceneManager: remake_party_in_current_scene active scene does not expose a party node")
+		return
+
+	if CharDataKeeper.party_members.is_empty():
+		push_warning("SceneManager: remake_party_in_current_scene called with no party members")
+		return
+
+	var party_parent : Node2D = fscene.party
+	if party_parent == null:
+		push_error("SceneManager: remake_party_in_current_scene party parent is null")
+		return
+
+	var recorded_positions : Dictionary = {}
+	var leader_position : Vector2 = Vector2.ZERO
+	var have_leader_position : bool = false
+
+	for child in party_parent.get_children():
+		if child is FieldPartyMember:
+			var field_member : FieldPartyMember = child
+			if field_member.field_actor_id != &"":
+				recorded_positions[field_member.field_actor_id] = field_member.global_position
+				if have_leader_position == false:
+					leader_position = field_member.global_position
+					have_leader_position = true
+
+	if have_leader_position == false and CharDataKeeper.controlled_character != null:
+		if is_instance_valid(CharDataKeeper.controlled_character):
+			leader_position = CharDataKeeper.controlled_character.global_position
+			have_leader_position = true
+
+	for child in party_parent.get_children():
+		child.queue_free()
+
+	await get_tree().process_frame
+
+	CharDataKeeper.field_party_nodes.clear()
+	CharDataKeeper.controlled_character = null
+	last_party_actor = null
+
+	for index in range(CharDataKeeper.party_members.size()):
+		if index > CharDataKeeper.party_size - 1:
+			break
+
+		var pmember : PartyMemberData = CharDataKeeper.party_members[index]
+		if pmember == null:
+			continue
+
+		var pmemberscene : FieldPartyMember = pmember.field_scene.instantiate() as FieldPartyMember
+		party_parent.add_child(pmemberscene)
+		pmemberscene.name = pmember.get_display_name()
+		pmemberscene.field_actor_id = pmember.actor_id
+
+		var spawn_position : Vector2 = leader_position
+		if recorded_positions.has(pmember.actor_id):
+			spawn_position = recorded_positions[pmember.actor_id]
+		elif index != 0:
+			spawn_position = leader_position + Vector2(0, -1)
+
+		pmemberscene.global_position = spawn_position
+		pmemberscene.force_face_direction(Vector2.DOWN)
+
+		if index == 0:
+			CharDataKeeper.controlled_character = pmemberscene
+			pmemberscene.set_controlled_on()
+			pmemberscene.is_controlled = true
+			pmemberscene.is_following = false
+			pmemberscene.actor_to_follow = null
+			last_party_actor = pmemberscene
+		else:
+			pmemberscene.actor_to_follow = last_party_actor
+			pmemberscene.is_controlled = false
+			pmemberscene.is_following = true
+			pmemberscene.set_controlled_off()
+			last_party_actor = pmemberscene
+
+		CharDataKeeper.field_party_nodes.append(pmemberscene)
+
+
+
 #endregion Instantiate Player + Party
 
 
@@ -266,10 +468,23 @@ func _side_to_vector(side : int) -> Vector2:
 	return Vector2.DOWN
 		
 ##Finds the scene transitioner by name in the next field scene and returns it
-func find_transitioner(fscene : FieldScene, tname : String )->SceneTransitioner:
-	var n = fscene.transition_areas.get_node_or_null(tname)
-	if n is SceneTransitioner:
-		return n
+## Finds a SceneTransitioner anywhere inside the loaded field scene by node name.
+## This allows authored spawn points to live in any branch of the scene tree.
+func find_transitioner(fscene : FieldScene, tname : String) -> SceneTransitioner:
+	if fscene == null:
+		return null
+	return _find_transitioner_recursive(fscene, tname)
+
+
+func _find_transitioner_recursive(root : Node, tname : String) -> SceneTransitioner:
+	for child in root.get_children():
+		if child is SceneTransitioner and child.name == tname:
+			return child
+
+		var found : SceneTransitioner = _find_transitioner_recursive(child, tname)
+		if found != null:
+			return found
+
 	return null
 	
 #endregion

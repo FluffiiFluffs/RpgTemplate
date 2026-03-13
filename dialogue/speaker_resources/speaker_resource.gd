@@ -2,7 +2,7 @@ class_name SpeakerResource
 extends Resource
 ## Defines the name, portraits, and voices to be used within the dialogue system 
 
-enum GENDER {HE, SHE, IT, THEY}
+enum GENDER {HE, SHE, THEY, IT}
 
 @export_category("Identification")
 ## ID of the speaker to be matched within the dialogue system

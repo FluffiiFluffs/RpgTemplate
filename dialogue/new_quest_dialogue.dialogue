@@ -43,3 +43,4 @@ do play_cutscene("CutsceneScript02")
 ~ dialoguecutscenetest01_02
 npc_test_01: See, I made you move.
 => END
+
