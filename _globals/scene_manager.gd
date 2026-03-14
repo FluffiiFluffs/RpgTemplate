@@ -288,6 +288,7 @@ func end_cutscene_overscene() -> void:
 		current_overscene.queue_free()
 
 	current_overscene = null
+	@warning_ignore("int_as_enum_without_cast")
 	main_scene.field_root.process_mode = _previous_field_root_process_mode
 
 

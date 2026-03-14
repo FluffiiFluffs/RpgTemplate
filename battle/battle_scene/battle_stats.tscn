@@ -349,7 +349,6 @@ button_type = "run"
 
 [node name="CommandFlasher" type="PanelContainer" parent="VBoxContainer/CommandContainerContainer" unique_id=720488847]
 unique_name_in_owner = true
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rh2e1")

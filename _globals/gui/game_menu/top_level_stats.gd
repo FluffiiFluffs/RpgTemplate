@@ -30,8 +30,11 @@ func _ready() -> void:
 	button.pressed.connect(on_button_pressed)
 	button.focus_entered.connect(on_button_focus_entered)
 	button.focus_exited.connect(on_button_focus_exited)
+	button.visible = true
 	
 	if Engine.is_editor_hint():
+		top_flasher_container.visible = false
+		button.visible = false
 		return
 	top_flasher_container.visible = true
 

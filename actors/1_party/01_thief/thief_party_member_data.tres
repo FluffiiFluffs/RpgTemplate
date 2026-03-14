@@ -1,14 +1,64 @@
 [gd_resource type="Resource" script_class="PartyMemberData" format=3 uid="uid://b5wmbkov323pp"]
 
+[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/base/battleaction.gd" id="1_6dfu1"]
 [ext_resource type="Texture2D" uid="uid://bu58d1dq8dbls" path="res://_assets/battle/icons/thief_battle_icon.png" id="1_8au5w"]
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_ng66m"]
+[ext_resource type="Script" uid="uid://txqlda50q5r6" path="res://battle/actions/battle_actions/defend/battleaction_defend.gd" id="2_35e5y"]
 [ext_resource type="PackedScene" uid="uid://bvuhnuj24if74" path="res://actors/1_party/01_thief/thief_field_scene.tscn" id="2_ab6kp"]
 [ext_resource type="Resource" uid="uid://b2c8lt8f13vtd" path="res://skill/skills/_normal_attacks/skill_normal_attack.tres" id="3_iwwlg"]
+[ext_resource type="Script" uid="uid://b837nwbupckgt" path="res://battle/actions/battle_actions/run/battleaction_run.gd" id="3_jq2el"]
+[ext_resource type="Script" uid="uid://chg0itvnkf68t" path="res://battle/actions/battle_actions/skill/battleaction_skill.gd" id="4_fmus1"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="4_hxkt2"]
+[ext_resource type="Script" uid="uid://x11xua83jghj" path="res://battle/actions/battle_actions/item/battleaction_item.gd" id="5_f1iya"]
 [ext_resource type="Resource" uid="uid://cd0gb0dnbu00o" path="res://dialogue/speaker_resources/thief02_sr.tres" id="5_pb5ex"]
+[ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/base/battleactions.gd" id="6_7iifl"]
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="6_d6glb"]
 [ext_resource type="Texture2D" uid="uid://cuaj6pmnmyyux" path="res://_assets/character/party/thief/fatfox_thief_concept_01.png" id="6_pb5ex"]
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="8_4mtom"]
+
+[sub_resource type="Resource" id="Resource_pnfvy"]
+script = ExtResource("2_35e5y")
+battleaction_id = &"battleactiondefend"
+action_name = "defend"
+description = "Defends a target (any allies). Single target."
+category = 3
+type = 1
+target_side = 0
+message_template = "{user} defends {target}."
+metadata/_custom_type_script = "uid://txqlda50q5r6"
+
+[sub_resource type="Resource" id="Resource_bwbe3"]
+script = ExtResource("3_jq2el")
+battleaction_id = &"battleactionrun"
+action_name = "run"
+description = "Attempt to run from battle!"
+category = 4
+type = 2
+target_shape = 1
+target_side = 0
+message_template = "{user} tries to run from battle!"
+metadata/_custom_type_script = "uid://b837nwbupckgt"
+
+[sub_resource type="Resource" id="Resource_6o0t1"]
+script = ExtResource("4_fmus1")
+battleaction_id = &"battleactionskill"
+action_name = "Skill"
+description = "Opens skill menu"
+metadata/_custom_type_script = "uid://chg0itvnkf68t"
+
+[sub_resource type="Resource" id="Resource_texla"]
+script = ExtResource("5_f1iya")
+battleaction_id = &"battleactionitem"
+action_name = "Item"
+description = "Opens item menu"
+category = 2
+type = 3
+metadata/_custom_type_script = "uid://x11xua83jghj"
+
+[sub_resource type="Resource" id="Resource_vh7g4"]
+script = ExtResource("6_7iifl")
+battle_actions = Array[ExtResource("1_6dfu1")]([SubResource("Resource_pnfvy"), SubResource("Resource_bwbe3"), SubResource("Resource_6o0t1"), SubResource("Resource_texla")])
+metadata/_custom_type_script = "uid://curfpkctgy4ww"
 
 [resource]
 resource_local_to_scene = true
@@ -18,11 +68,11 @@ class_color = Color(0.4862745, 0.34901962, 0, 1)
 speaker_resource = ExtResource("5_pb5ex")
 current_exp = 1
 stats_table = ExtResource("8_4mtom")
+possible_names = Array[String](["Fattii", "Stabs", "Sneaks", "Foxx"])
 field_scene = ExtResource("2_ab6kp")
 battle_icon = ExtResource("1_8au5w")
 actor_id = &"thief02"
-display_name = "Fat Fox"
 actor_class = 1
-current_hp = 1
+battle_actions = SubResource("Resource_vh7g4")
 normal_attack_skill = ExtResource("3_iwwlg")
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

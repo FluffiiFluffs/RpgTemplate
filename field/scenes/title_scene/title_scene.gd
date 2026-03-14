@@ -221,54 +221,80 @@ func spawn_title_player()->void:
 ##Opens confirmation box for starting a new game (Y/N)
 ##Exists so the player doesn't accidentally start a new game when they don't want to
 func new_game_confirm_open()->void:
+	if CharDataKeeper.controlled_character == null or not is_instance_valid(CharDataKeeper.controlled_character):
+		for child in party.get_children():
+			if child is FieldPartyMember:
+				CharDataKeeper.controlled_character = child
+				break
+
 	canvas_layer.visible = true
-	#show new game confirm menu
 	animation_player.play("new_game_menu_show")
 	await animation_player.animation_finished
-	#focus N (just in case)
 	new_game_no.grab_focus()
-		
-	#set field character being controlled to is_controlled = true
-	CharDataKeeper.controlled_character.is_controlled = false
-	#Change menu state to "NEW_GAME_MENU_OPEN"
+
+	if CharDataKeeper.controlled_character != null:
+		CharDataKeeper.controlled_character.is_controlled = false
+
 	menu_state = "NEW_GAME_MENU_OPEN"
 
 ##Closes confirmation box for starting a new game
 func new_game_confirm_close()->void:
-	#close new game confirm menu
+	if CharDataKeeper.controlled_character == null or not is_instance_valid(CharDataKeeper.controlled_character):
+		for child in party.get_children():
+			if child is FieldPartyMember:
+				CharDataKeeper.controlled_character = child
+				break
+
 	animation_player.play("new_game_menu_hide")
 	await animation_player.animation_finished
 	canvas_layer.visible = false
-	
-	#set field character being controlled to is_controlled = false
-	CharDataKeeper.controlled_character.is_controlled = true	
-	#change menu state back to "ALL_CLOSED"
+
+	if CharDataKeeper.controlled_character != null:
+		CharDataKeeper.controlled_character.is_controlled = true
+
 	get_viewport().gui_release_focus()
 	menu_state = "ALL_CLOSED"
+
 	
 ##Opens the options menu, settings should reflect the save file containing options variables
 func options_menu_open()->void:
+	if CharDataKeeper.controlled_character == null or not is_instance_valid(CharDataKeeper.controlled_character):
+		for child in party.get_children():
+			if child is FieldPartyMember:
+				CharDataKeeper.controlled_character = child
+				break
+
 	options_menu.setup_options_menu()
 	canvas_layer.visible = true
 	animation_player.play("options_menu_show")
 	await animation_player.animation_finished
 	options_menu.opt_music_slider.button.grab_focus()
 
-	CharDataKeeper.controlled_character.is_controlled = false
+	if CharDataKeeper.controlled_character != null:
+		CharDataKeeper.controlled_character.is_controlled = false
+
 	menu_state = "OPTIONS_MENU_OPEN"
 
 ##Closes the options menu. Saves settings to options file which should be loaded when the game starts if it exists (autosaves). ##TODO need save/load system in order to do this
+
 func options_menu_close()->void:
+	if CharDataKeeper.controlled_character == null or not is_instance_valid(CharDataKeeper.controlled_character):
+		for child in party.get_children():
+			if child is FieldPartyMember:
+				CharDataKeeper.controlled_character = child
+				break
+
 	SaveManager.save_options()
 
 	animation_player.play("options_menu_hide")
 	await animation_player.animation_finished
 	canvas_layer.visible = false
 
-	CharDataKeeper.controlled_character.is_controlled = true
+	if CharDataKeeper.controlled_character != null:
+		CharDataKeeper.controlled_character.is_controlled = true
+
 	get_viewport().gui_release_focus()
 	menu_state = "ALL_CLOSED"
-
 
 ##Opens the autoloaded load game menu and lets SaveManager propagate the save slots
 func load_game_menu_open()->void:
@@ -321,34 +347,42 @@ func load_game_menu_confirm_close()->void:
 
 	
 ##Opens the exit game confirm menu (Y/N)
+
+
 func exit_game_menu_open()->void:
+	if CharDataKeeper.controlled_character == null or not is_instance_valid(CharDataKeeper.controlled_character):
+		for child in party.get_children():
+			if child is FieldPartyMember:
+				CharDataKeeper.controlled_character = child
+				break
+
 	canvas_layer.visible = true
-	#unhide exit menu confirm box
 	animation_player.play("exit_game_menu_show")
 	await animation_player.animation_finished
-	#focus N
 	exit_game_no.grab_focus()
-	#set field character being controlled to is_controlled = false
-	CharDataKeeper.controlled_character.is_controlled = false
-	
-	#Change menu state to "EXIT_GAME_MENU_OPEN"
+
+	if CharDataKeeper.controlled_character != null:
+		CharDataKeeper.controlled_character.is_controlled = false
+
 	menu_state = "EXIT_GAME_MENU_OPEN"
-	
 	
 ##Closes the exit game confirm menu
 ##If user hits N or cancel_input
 func exit_game_menu_close()->void:
-	#hide exit menu
+	if CharDataKeeper.controlled_character == null or not is_instance_valid(CharDataKeeper.controlled_character):
+		for child in party.get_children():
+			if child is FieldPartyMember:
+				CharDataKeeper.controlled_character = child
+				break
+
 	animation_player.play("exit_game_menu_hide")
 	await animation_player.animation_finished
 	canvas_layer.visible = false
-	#set field character being controlled to is_controlled = true
-	CharDataKeeper.controlled_character.is_controlled = true
-	
-	#change menu state back to "ALL_CLOSED"
+
+	if CharDataKeeper.controlled_character != null:
+		CharDataKeeper.controlled_character.is_controlled = true
+
 	menu_state = "ALL_CLOSED"
-	
-	#unfocus all
 	get_viewport().gui_release_focus()
 
 #endregion Show Hide Menus

@@ -110,11 +110,68 @@ func find_speaker_by_id(id) -> SpeakerResource:
 	var key : StringName = _to_speaker_key(id)
 	if key == &"":
 		return null
+
 	if _run_speaker_by_id.has(key):
 		return _run_speaker_by_id[key]
+
+	var runtime_party_speaker : SpeakerResource = _find_runtime_party_speaker_by_actor_id(key)
+	if runtime_party_speaker != null:
+		return runtime_party_speaker
+
 	if _speaker_by_id.has(key):
 		return _speaker_by_id[key]
+
 	return null
+
+
+func sname(speaker_id) -> String:
+	var resolved_speaker : SpeakerResource = _resolve_inline_speaker_resource(speaker_id)
+	if resolved_speaker != null:
+		if not resolved_speaker.display_name.is_empty():
+			return resolved_speaker.display_name
+		if not resolved_speaker.speaker_id.is_empty():
+			return resolved_speaker.speaker_id
+
+	var fallback_id : StringName = _to_speaker_key(speaker_id)
+	if fallback_id == &"":
+		return ""
+	return String(fallback_id)
+
+## Pronoun
+func pn(speaker_id, pronoun_type : int) -> String:
+	var resolved_speaker : SpeakerResource = _resolve_inline_speaker_resource(speaker_id)
+	if resolved_speaker == null:
+		return ""
+
+	if pronoun_type < 1 or pronoun_type > 5:
+		push_warning("DM: pn pronoun_type must be 1 through 5. Got: %s" % str(pronoun_type))
+		return ""
+
+	var pronoun_forms : PackedStringArray = PackedStringArray()
+
+	match resolved_speaker.pronoun:
+		SpeakerResource.GENDER.HE:
+			pronoun_forms = PackedStringArray(["he", "him", "his", "his", "himself"])
+		SpeakerResource.GENDER.SHE:
+			pronoun_forms = PackedStringArray(["she", "her", "her", "hers", "herself"])
+		SpeakerResource.GENDER.THEY:
+			pronoun_forms = PackedStringArray(["they", "them", "their", "theirs", "themselves"])
+		SpeakerResource.GENDER.IT:
+			pronoun_forms = PackedStringArray(["it", "it", "its", "its", "itself"])
+		_:
+			pronoun_forms = PackedStringArray(["he", "him", "his", "his", "himself"])
+
+	return pronoun_forms[pronoun_type - 1]
+
+func va(speaker_id, singular_form : String, plural_form : String) -> String:
+	var resolved_speaker : SpeakerResource = _resolve_inline_speaker_resource(speaker_id)
+	if resolved_speaker == null:
+		return singular_form
+
+	if resolved_speaker.pronoun == SpeakerResource.GENDER.THEY:
+		return plural_form
+
+	return singular_form
 
 
 func resolve_speaker_id(line_or_id) -> StringName:
@@ -481,6 +538,19 @@ func _to_speaker_key(id) -> StringName:
 		return &""
 	return StringName(raw)
 
+func _resolve_inline_speaker_resource(speaker_id) -> SpeakerResource:
+	var author_key : StringName = _to_speaker_key(speaker_id)
+	if author_key == &"":
+		return null
+
+	if author_key == &"PLAYER":
+		var controlled_speaker : SpeakerResource = _resolve_controlled_party_speaker_resource()
+		if controlled_speaker != null:
+			return controlled_speaker
+
+	return find_speaker_by_id(author_key)
+
+
 func _resolve_display_name(speaker_id : StringName, speaker : SpeakerResource) -> String:
 	if speaker != null and not speaker.display_name.is_empty():
 		return speaker.display_name
@@ -555,4 +625,27 @@ func _resolve_controlled_party_speaker_resource() -> SpeakerResource:
 	if controlled_member == null:
 		return null
 	return controlled_member.speaker_resource
+	
+	
+func _find_runtime_party_speaker_by_actor_id(actor_id : StringName) -> SpeakerResource:
+	if actor_id == &"":
+		return null
+
+	for member in CharDataKeeper.party_members:
+		if member == null:
+			continue
+		if member.actor_id != actor_id:
+			continue
+		if member.speaker_resource != null:
+			return member.speaker_resource
+
+	for member in CharDataKeeper.outside_members:
+		if member == null:
+			continue
+		if member.actor_id != actor_id:
+			continue
+		if member.speaker_resource != null:
+			return member.speaker_resource
+
+	return null
 #endregion

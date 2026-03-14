@@ -6,12 +6,17 @@ using CutsceneManager
 ~ start
 PLAYER: Who are you?
 do play_cutscene("NameTheThief")
+=> END
 
+
+~ start2
+thief02: I'm {{sname("thief02")}}.
+NARRATOR: {{pn("thief02", 1)}} {{va("thief02","appears", "appear")}} to be a thief of considerable skill.
 => END
 
 
 
-~ start2
+~ start99
 Warrior: [#mood=happy] [[Hi|Hello|Howdy]], this is some dialogue.
 npc_test_01: Here are some choices. [wait=0.5] Make your choice.
 - First one

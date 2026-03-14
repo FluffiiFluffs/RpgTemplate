@@ -1173,5 +1173,6 @@ shape = SubResource("RectangleShape2D_lr084")
 [node name="NamingBegin" type="Node" parent="." unique_id=1651361397]
 script = ExtResource("11_jr4w5")
 cutscene_id = &"NamingBegin"
+one_shot = false
 acts = Array[ExtResource("12_tef3k")]([SubResource("Resource_3b7n1")])
 metadata/_custom_type_script = "uid://ccg8s63bglcau"

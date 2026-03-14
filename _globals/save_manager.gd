@@ -898,6 +898,7 @@ func load_current_party_members()->void:
 
 		if pm.speaker_resource != null:
 			pm.speaker_resource.display_name = pm.display_name
+			@warning_ignore("int_as_enum_without_cast")
 			pm.speaker_resource.pronoun = pm.gender
 
 		pm.level = _sec_get_int(data, "level", pm.level)
@@ -1017,6 +1018,7 @@ func load_outside_party_members()->void:
 
 		if pm.speaker_resource != null:
 			pm.speaker_resource.display_name = pm.display_name
+			@warning_ignore("int_as_enum_without_cast")
 			pm.speaker_resource.pronoun = pm.gender
 
 		pm.level = _sec_get_int(data, "level", pm.level)

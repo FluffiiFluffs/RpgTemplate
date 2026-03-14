@@ -35,31 +35,6 @@ color = Color(1, 1, 1, 1)
 grow_begin = -8.0
 grow_end = -8.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpmpa"]
-content_margin_left = 2.0
-content_margin_top = 1.0
-content_margin_right = 2.0
-content_margin_bottom = 1.0
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eumik"]
-bg_color = Color(0.945, 0.704, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xbg21"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_15xk2"]
 content_margin_left = 2.0
 content_margin_top = 1.0
@@ -102,6 +77,31 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.945, 0.704, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpmpa"]
+content_margin_left = 2.0
+content_margin_top = 1.0
+content_margin_right = 2.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eumik"]
+bg_color = Color(0.945, 0.704, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xbg21"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_0pvbt"]
 color = Color(1, 1, 1, 1)
@@ -797,20 +797,17 @@ gender = 3
 [node name="EntryOptionsBox" type="HBoxContainer" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer" unique_id=875945436]
 layout_mode = 2
 
-[node name="PickForMe" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=513239901]
+[node name="Back" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=664888250]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("3_nrt72")
-theme_override_font_sizes/font_size = 9
-theme_override_styles/normal = SubResource("StyleBoxFlat_fpmpa")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_eumik")
-theme_override_styles/hover = SubResource("StyleBoxFlat_eumik")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_xbg21")
-theme_override_styles/focus = SubResource("StyleBoxFlat_eumik")
-text = "Pick For Me"
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_15xk2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ee6c6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hrnld")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xfncb")
+theme_override_styles/focus = SubResource("StyleBoxFlat_go54n")
+text = "Back"
 
 [node name="RESET" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=1699317368]
 unique_name_in_owner = true
@@ -826,6 +823,21 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_eumik")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_xbg21")
 theme_override_styles/focus = SubResource("StyleBoxFlat_eumik")
 text = "RESET"
+
+[node name="PickForMe" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=513239901]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_nrt72")
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_fpmpa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_eumik")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eumik")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xbg21")
+theme_override_styles/focus = SubResource("StyleBoxFlat_eumik")
+text = "Pick For Me"
 
 [node name="Next" type="Button" parent="NameGenderControl/MarginContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer/EntryOptionsBox" unique_id=347554856]
 unique_name_in_owner = true

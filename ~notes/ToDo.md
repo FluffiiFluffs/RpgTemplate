@@ -1,4 +1,5 @@
 #All commented out lines are completed
+** Denotes sub-commment (usually after something has been completed)
 
 [Big Changes]
 	#Implement cutscenes
@@ -20,7 +21,7 @@
 		
 	# Implement a deeper system for miss / dodge/ parry / block / riposte
 	
-	Implement status/Elemental resists
+	[big]Implement status/Elemental resists
 	
 	#Implement leveling system
 		#Leveling System is implemented...in battle
@@ -33,14 +34,13 @@
 
 	[NEXT]
 	#Implement character naming similar to mother series with "don't care" option
-	This is mostly implemented, however the title scene needs to be updated
+	#This is mostly implemented, however the title scene needs to be updated
 		#Options menu needs to be updated to be more in line with what's in game_menu
-		New Game needs to trigger naming
-			cutscene actions need to be added to:
-				await
-				call function from a script (somehow)
-			The way this should work is:
-				new game button is pressed, confirm pops up, yes is pressed, cutscene starts, first cutscene action calls scenemanager instantiation of the naming scene for warrior, second cutscene action is await until it hears a signal that naming is done, third cutscene action is to load a field scene that is the intro the the game.
+		#New Game needs to trigger naming
+			#cutscene actions need to be added to:
+				#cutscene to trigger naming sequence as an overscene is implemented, game awaits until overscene emits a finished signal
+			#The way this should work is:
+			#new game button is pressed, confirm pops up, yes is pressed, cutscene starts, first cutscene action calls scenemanager instantiation of the naming scene for warrior, second cutscene action is await until it hears a signal that naming is done, third cutscene action is to load a field scene that is the intro the the game.
 	[NEXT]
 	
 	
@@ -51,9 +51,25 @@
 		
 	#Implement title screen / intro sequence
 		**a baseline version of this has been implemented, complete with a menu for options**
-		loading menu needs to be implemented
+		#loading menu needs to be implemented
 		
-	Implement shop system
+	# TOP LEVEL STATS DOES NOT SUPPORT 10 CHARACTER NAME
+		** Reconfigured top_level_stats and decided 8 characters is a good compromise. 10 is still too much.**
+		
+	[IMPORTANT] Implement shop system
+
+[DIALOGUE]
+	**Implement subject/verb conjugation**
+	**Implement name and pronoun injection to dialogue lines**
+
+
+[CUTSCENE]
+
+[OVERSCENE]
+	Overscene needs to be transitioned into something that can "do anything" and be akin to the way the battle system works.
+	Overscene should be able to play cutscenes (through cutscene manager)
+		This needs to use its own set of variables to keep track of what's going on in the overscene's cutscenes due to the overscene being part of a cutscene....
+
 
 [BATTLE] 
 	party defeat needs to be handled, currently unimplemented
@@ -64,13 +80,17 @@
 	Implement other-party-member-leading routines for when the main character is dead (or later the player will be able to change the party order)
 		(needs to be like earthbound / DQ)
 	
+	[fix]Characters that attack themselves should not be able to dodge/parry/riposte themselves
+
+	[fix] Update the all party member scenes to match the warrior's because they're outdated
+
 
 #	Implement power value for skills that heal or do damage
 #		Power value should be used for scaling
 #		Need to implement an enum for which stat to scale from
 
 	
-	## maybe not 
+[maybe won't be implemented] 
 		Create quote bubble system for in-battle use
 	
 	Modify the battle_notify_ui to reveal text (very fast, it's battle)
@@ -80,7 +100,7 @@
 	Determine how many characters a line can have (need to research which character takes up the most space)
 	
 	Need to implement visual elements (like purple bubbles when poisoned) so it's apparent which status effect is affecting who in battle
-
+[maybe won't be implemented]
 
 [INVENTORY]
 	#Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time. ** Implemented during registry refactor
@@ -98,6 +118,8 @@
 	
 	#Implement skill usage outside of battle*
 		#Implement skills being rearranged / sorted just like items
+
+
 
 	Test menu memory more thoroughly and make it default ON
 

@@ -25,6 +25,8 @@
 [ext_resource type="Script" uid="uid://bkfkcx7phsu18" path="res://cutscene/_common/cutscene_queuefree.gd" id="24_yty8o"]
 [ext_resource type="Script" uid="uid://chlrc4i447pib" path="res://cutscene/_common/cutscene_name_party_member.gd" id="25_notke"]
 [ext_resource type="Script" uid="uid://04angwtem418" path="res://cutscene/_common/cutscene_remakeparty.gd" id="25_q6wuj"]
+[ext_resource type="Script" uid="uid://cugike0u07qx8" path="res://cutscene/_common/cutscene_dialogue.gd" id="25_qmboe"]
+[ext_resource type="Script" uid="uid://b7jxkssdicobn" path="res://cutscene/_common/cutscene_maxvitals.gd" id="27_qmboe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugp46"]
 size = Vector2(16, 64)
@@ -168,6 +170,12 @@ script = ExtResource("15_h4dcs")
 cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_idanm"), SubResource("Resource_d3t3w")])
 metadata/_custom_type_script = "uid://dldt2m47r81s8"
 
+[sub_resource type="Resource" id="Resource_ycc3c"]
+script = ExtResource("25_qmboe")
+dialogue_resource = ExtResource("7_yty8o")
+dialogue_start = "start2"
+metadata/_custom_type_script = "uid://cugike0u07qx8"
+
 [sub_resource type="Resource" id="Resource_7114b"]
 script = ExtResource("25_q6wuj")
 metadata/_custom_type_script = "uid://04angwtem418"
@@ -177,9 +185,19 @@ script = ExtResource("20_ahd2c")
 follow_controlled_character = true
 metadata/_custom_type_script = "uid://hkl5bunkpdqg"
 
+[sub_resource type="Resource" id="Resource_pgx6x"]
+script = ExtResource("19_p2wuy")
+wait_time = 0.1
+metadata/_custom_type_script = "uid://chhxk8uwqo01c"
+
+[sub_resource type="Resource" id="Resource_x8rj5"]
+script = ExtResource("27_qmboe")
+party_member_slot = 1
+metadata/_custom_type_script = "uid://b7jxkssdicobn"
+
 [sub_resource type="Resource" id="Resource_508rm"]
 script = ExtResource("15_h4dcs")
-cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_7114b"), SubResource("Resource_i40x4")])
+cutscene_actions = Array[ExtResource("16_p2wuy")]([SubResource("Resource_ycc3c"), SubResource("Resource_7114b"), SubResource("Resource_i40x4"), SubResource("Resource_pgx6x"), SubResource("Resource_x8rj5")])
 metadata/_custom_type_script = "uid://dldt2m47r81s8"
 
 [node name="Test01" type="Node2D" unique_id=45094763]
@@ -249,6 +267,7 @@ display_name = "TestQuestNPC01"
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC" unique_id=1438587103 instance=ExtResource("9_wu166")]
 start_position = "npc1"
 dialogue = ExtResource("14_k2s2j")
+indicator = 2
 
 [node name="NPC2" parent="FieldActors/PlacedNPCs" unique_id=1482229836 instance=ExtResource("7_rushk")]
 position = Vector2(628, -97)
@@ -257,6 +276,7 @@ display_name = "TestQuestNPC02"
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC2" unique_id=1831271577 instance=ExtResource("9_wu166")]
 start_position = "npc2"
 dialogue = ExtResource("14_k2s2j")
+indicator = 2
 
 [node name="NPC3" parent="FieldActors/PlacedNPCs" unique_id=1332659260 instance=ExtResource("7_rushk")]
 position = Vector2(-112, -26)
@@ -271,6 +291,7 @@ field_actor_id = &"dialogue_cutscene_npc_01"
 [node name="TalkArea" parent="FieldActors/PlacedNPCs/NPC4" unique_id=447987433 instance=ExtResource("9_wu166")]
 start_position = "dialoguecutscenetest01"
 dialogue = ExtResource("14_k2s2j")
+indicator = 2
 
 [node name="NPC5" parent="FieldActors/PlacedNPCs" unique_id=1546177778 instance=ExtResource("7_rushk")]
 position = Vector2(98, 173)

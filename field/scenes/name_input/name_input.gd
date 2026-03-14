@@ -84,12 +84,13 @@ enum NISTATE{GENDER, NAMING, CONFIRM}
 @onready var yes_confirm: Button = %YesConfirm
 @onready var he_button: GenderButton = %HE
 @onready var a_button: LetterEntryButton = %A
+@onready var back_button: Button = %Back
 
 
 ## Current party member's name being input
 @export var current_member_data : PartyMemberData = null
 
-
+## 8 Characters is the max the UI can handle.
 var name_max_length : int = 8
 var current_input_letter_place : int = 0
 var current_possible_name_index : int = 0
@@ -103,8 +104,7 @@ var _did_start : bool = false
 
 const INPUT_LETTER = preload("uid://cos3t0ctsf8g0")
 
-signal overscene_completed
-
+signal overscene_completed(should_abort_cutscene : bool)
 
 func _ready()->void:
 	reference_self_to_letters()
@@ -114,6 +114,9 @@ func _ready()->void:
 	next.pressed.connect(on_next_button_pressed)
 	no_confirm.pressed.connect(on_no_confirm_button_pressed)
 	yes_confirm.pressed.connect(on_yes_confirm_button_pressed)
+	back_button.pressed.connect(on_back_button_pressed)
+
+	back_button.visible = false
 
 	_scene_is_ready = true
 	_try_start_from_overscene()
@@ -165,10 +168,9 @@ func _try_start_from_overscene() -> void:
 	call_deferred("ready_gender_input")
 
 
-func _finish_overscene() -> void:
+func _finish_overscene(should_abort_cutscene : bool = false) -> void:
 	GameState.gamestate = previous_gamestate
-	overscene_completed.emit()
-	
+	overscene_completed.emit(should_abort_cutscene)
 	
 ## Begins naming routine
 func start()->void:
@@ -205,6 +207,7 @@ func ready_gender_input()->void:
 	reset.visible = false
 	gender_label.text = ""
 	question_label.text = "Gender?"
+	_update_back_button_visibility()
 
 	for child in gender_grid.get_children():
 		if child is GenderButton:
@@ -212,7 +215,8 @@ func ready_gender_input()->void:
 	he_button.button.grab_focus()
 
 ## This is done after the the sequence ends.
-func place_party_member_into_party(place : int)->void:
+## This is done after the the sequence ends.
+func place_party_member_into_party(place : int) -> void:
 	if current_member_data == null:
 		return
 
@@ -220,8 +224,19 @@ func place_party_member_into_party(place : int)->void:
 	if member_copy.speaker_resource != null:
 		member_copy.speaker_resource = member_copy.speaker_resource.duplicate(true)
 
+	# Build level based base stats from StatsTable for this runtime copy.
+	member_copy.rebuild_base_stats()
+
+	# New party members added through naming should enter with fresh vitals
+	# matching their current level derived max values.
+	member_copy.current_hp = member_copy.get_max_hp()
+	member_copy.current_sp = member_copy.get_max_sp()
+
+	# Keep next level threshold in sync for the added member.
+	CharDataKeeper.refresh_next_level_exp_for_member(member_copy)
+
 	if place == 0:
-		CharDataKeeper.party_members.append(member_copy)
+		CharDataKeeper.add_party_member(member_copy)
 	else:
 		CharDataKeeper.outside_members.append(member_copy)
 
@@ -239,6 +254,7 @@ func ready_name_input()->void:
 	gender_grid.visible = false
 	gender_label.visible = false
 	question_label.text = "Name?"
+	_update_back_button_visibility()
 	a_button.grab_focus()
 
 
@@ -376,6 +392,7 @@ func on_next_button_pressed() -> void:
 
 			current_member_data.gender = selected_gender
 			if current_member_data.speaker_resource != null:
+				@warning_ignore("int_as_enum_without_cast")
 				current_member_data.speaker_resource.pronoun = selected_gender
 			ready_name_input()
 
@@ -389,6 +406,7 @@ func on_next_button_pressed() -> void:
 			gender_label_confirm.text = gender_label.text
 			name_label_confirm.text = selected_name
 			state = NISTATE.CONFIRM
+			_update_back_button_visibility()
 			no_confirm.grab_focus()
 
 		NISTATE.CONFIRM:
@@ -410,12 +428,47 @@ func on_yes_confirm_button_pressed() -> void:
 	current_member_data.display_name = selected_name
 
 	if current_member_data.speaker_resource != null:
+		@warning_ignore("int_as_enum_without_cast")
 		current_member_data.speaker_resource.pronoun = selected_gender
 		current_member_data.speaker_resource.display_name = selected_name
 
 	place_party_member_into_party(0)
 	_finish_overscene()
 	
+	
+func _is_title_flow() -> bool:
+	if SceneManager.main_scene == null:
+		return false
+	if SceneManager.main_scene.title_scene == null:
+		return false
+	return true
+
+
+func _update_back_button_visibility() -> void:
+	match state:
+		NISTATE.GENDER:
+			back_button.visible = _is_title_flow()
+
+		NISTATE.NAMING:
+			back_button.visible = true
+
+		NISTATE.CONFIRM:
+			back_button.visible = false
+	
+## If the last screen was the title scene, then take back to that
+## If the naming scene was made mid-game, then hide the back button in this stage
+	## In this case, the button should only been shown in the naming screen to go back to gender selection
+func on_back_button_pressed()->void:
+	match state:
+		NISTATE.GENDER:
+			if _is_title_flow():
+				_finish_overscene(true)
+
+		NISTATE.NAMING:
+			ready_gender_input()
+
+		NISTATE.CONFIRM:
+			return
 	
 func get_possible_party_member_name()->String:
 	if current_member_data == null:

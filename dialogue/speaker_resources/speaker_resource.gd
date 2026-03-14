@@ -10,8 +10,21 @@ enum GENDER {HE, SHE, THEY, IT}
 ## Name displayed during talking within the dialogue system
 @export var display_name : String = ""
 ## What pronoun set to use for this speaker.
-## Called in dialogue manager with do pronoun(speaker_id, pronoun_type).
-## Pronoun type: subject, object, possissive determiner, possesseive pronoun, reflexive.
+## [br]
+## Used in dialogue inline replacements with {{pn("speaker_id", pronoun_type)}}.
+## [br]
+## Pronoun type mapping:
+## [br]
+## 1 = subject
+## [br]
+## 2 = object
+## [br]
+## 3 = possessive determiner
+## [br]
+## 4 = possessive pronoun
+## [br]
+## 5 = reflexive
+## [br]
 @export var pronoun : GENDER = GENDER.HE
 
 @export_category("Voice")

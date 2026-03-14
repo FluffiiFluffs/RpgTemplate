@@ -488,7 +488,6 @@ func _setup_save_slot_focus_neighbors() -> void:
 	var copy_button_path: NodePath = copy_button.get_path()
 	var erase_button_path: NodePath = erase_button.get_path()
 
-	# Bottom row: wrap between EXIT, COPY, ERASE (left and right)
 	exit_button.focus_neighbor_left = erase_button_path
 	exit_button.focus_neighbor_right = copy_button_path
 
@@ -498,7 +497,6 @@ func _setup_save_slot_focus_neighbors() -> void:
 	erase_button.focus_neighbor_left = copy_button_path
 	erase_button.focus_neighbor_right = exit_button_path
 
-	# Bottom row: up and down go to the first save slot
 	exit_button.focus_neighbor_top = first_slot_button_path
 	exit_button.focus_neighbor_bottom = first_slot_button_path
 
@@ -508,17 +506,12 @@ func _setup_save_slot_focus_neighbors() -> void:
 	erase_button.focus_neighbor_top = first_slot_button_path
 	erase_button.focus_neighbor_bottom = first_slot_button_path
 
-	# Save slots: left and right stay on the same slot button
-	# Up and down move to previous and next slot
-	# First slot up goes to EXIT
-	# Last slot down goes to EXIT
 	for slot_index in range(save_slot_index.size()):
 		var slot: SaveSlot = save_slot_index[slot_index]
 		var slot_button: Button = slot.get_node("Button") as Button
-		var slot_button_path: NodePath = slot_button.get_path()
 
-		slot_button.focus_neighbor_left = slot_button_path
-		slot_button.focus_neighbor_right = slot_button_path
+		slot_button.focus_neighbor_left = exit_button_path
+		slot_button.focus_neighbor_right = erase_button_path
 
 		if slot_index == 0:
 			slot_button.focus_neighbor_top = exit_button_path
@@ -531,7 +524,6 @@ func _setup_save_slot_focus_neighbors() -> void:
 		else:
 			var next_button: Button = save_slot_index[slot_index + 1].get_node("Button") as Button
 			slot_button.focus_neighbor_bottom = next_button.get_path()
-
 
 func _force_close_game_menu_for_load() -> void:
 	GameMenu.force_close_for_scene_change()

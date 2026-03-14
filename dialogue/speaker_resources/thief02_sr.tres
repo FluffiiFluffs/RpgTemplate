@@ -18,7 +18,8 @@
 [resource]
 script = ExtResource("1_utqpn")
 speaker_id = "thief02"
-display_name = "Fat Fox"
+display_name = "A Thief"
+pronoun = 2
 voice = ExtResource("14_xk14s")
 angry_close = ExtResource("1_r3oa7")
 angry_open = ExtResource("2_8g1x8")

@@ -1,23 +1,113 @@
 [gd_resource type="Resource" script_class="PartyMemberData" format=3 uid="uid://5ypxra5wjlwe"]
 
 [ext_resource type="Script" uid="uid://dtu3mn8pht81q" path="res://actors/_common/party_member_data.gd" id="1_crqld"]
+[ext_resource type="Script" uid="uid://d0jhs6suuqlge" path="res://battle/actions/base/battleaction.gd" id="1_sa2al"]
 [ext_resource type="Texture2D" uid="uid://c3f7lt2n2gath" path="res://_assets/battle/icons/healer_battle_icon.png" id="1_tf7wx"]
 [ext_resource type="PackedScene" uid="uid://brktccwmkngwh" path="res://actors/1_party/03_healer/healer_field_scene.tscn" id="2_3gpb3"]
+[ext_resource type="Script" uid="uid://txqlda50q5r6" path="res://battle/actions/battle_actions/defend/battleaction_defend.gd" id="2_l3e1t"]
+[ext_resource type="Script" uid="uid://b837nwbupckgt" path="res://battle/actions/battle_actions/run/battleaction_run.gd" id="3_sidg4"]
 [ext_resource type="Script" uid="uid://c3imvl0552hk1" path="res://skill/_base/skill.gd" id="4_07rsg"]
-[ext_resource type="Resource" uid="uid://cthqy4p6sn13x" path="res://dialogue/speaker_resources/healer04_sr.tres" id="5_07rsg"]
+[ext_resource type="Script" uid="uid://chg0itvnkf68t" path="res://battle/actions/battle_actions/skill/battleaction_skill.gd" id="4_hdv8x"]
+[ext_resource type="Texture2D" uid="uid://4c2n1j1ge2g3" path="res://_assets/dialogue/portraits/healer/healer_angry_close.png" id="5_4nfie"]
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="5_34iqf"]
+[ext_resource type="Script" uid="uid://x11xua83jghj" path="res://battle/actions/battle_actions/item/battleaction_item.gd" id="5_aff3s"]
+[ext_resource type="Texture2D" uid="uid://dqcfyrh3r3l28" path="res://_assets/dialogue/portraits/healer/healer_angry_open.png" id="6_2xlgm"]
 [ext_resource type="Texture2D" uid="uid://d3xl076rwfq4q" path="res://_assets/character/party/healer/dino_healer_concept_01.png" id="6_34iqf"]
+[ext_resource type="Script" uid="uid://curfpkctgy4ww" path="res://battle/actions/base/battleactions.gd" id="6_83oe7"]
+[ext_resource type="Texture2D" uid="uid://cvh8gkwalvlsi" path="res://_assets/dialogue/portraits/healer/healer_special_close.png" id="7_617kq"]
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="7_kav3x"]
+[ext_resource type="Texture2D" uid="uid://dit14k1a81fy0" path="res://_assets/dialogue/portraits/healer/healer_special_open.png" id="8_np7ii"]
+[ext_resource type="Texture2D" uid="uid://c3415krmtc3xe" path="res://_assets/dialogue/portraits/healer/healer_normal_close.png" id="9_7uj2k"]
+[ext_resource type="Resource" uid="uid://b2c8lt8f13vtd" path="res://skill/skills/_normal_attacks/skill_normal_attack.tres" id="9_l3e1t"]
+[ext_resource type="Texture2D" uid="uid://2s3f2l06vbea" path="res://_assets/dialogue/portraits/healer/healer_normal_open.png" id="10_41y24"]
+[ext_resource type="Texture2D" uid="uid://21ae81jejawr" path="res://_assets/dialogue/portraits/healer/healer_sad_close.png" id="11_sa2al"]
+[ext_resource type="Texture2D" uid="uid://corw8hm4wwnay" path="res://_assets/dialogue/portraits/healer/healer_sad_open.png" id="12_l3e1t"]
+[ext_resource type="Script" uid="uid://dcki00a4qlvga" path="res://dialogue/speaker_resources/speaker_resource.gd" id="13_sidg4"]
+[ext_resource type="Texture2D" uid="uid://dcjsn2esng0gh" path="res://_assets/dialogue/portraits/healer/healer_surprised_close.png" id="14_hdv8x"]
+[ext_resource type="Texture2D" uid="uid://blhljtey8f2rs" path="res://_assets/dialogue/portraits/healer/healer_surprised_open.png" id="15_aff3s"]
+[ext_resource type="Texture2D" uid="uid://o1ttwaktextl" path="res://_assets/dialogue/portraits/healer/healer_tired_close.png" id="16_83oe7"]
+[ext_resource type="Texture2D" uid="uid://vs043c0qas84" path="res://_assets/dialogue/portraits/healer/healer_tired_open.png" id="17_r7v2j"]
+[ext_resource type="AudioStream" uid="uid://cgqn5gb21o8hu" path="res://_assets/dialogue/voices/placeholder_voices/snd_txttor.wav" id="18_64lkq"]
+
+[sub_resource type="Resource" id="Resource_r7v2j"]
+script = ExtResource("2_l3e1t")
+battleaction_id = &"battleactiondefend"
+action_name = "defend"
+description = "Defends a target (any allies). Single target."
+category = 3
+type = 1
+target_side = 0
+message_template = "{user} defends {target}."
+metadata/_custom_type_script = "uid://txqlda50q5r6"
+
+[sub_resource type="Resource" id="Resource_64lkq"]
+script = ExtResource("3_sidg4")
+battleaction_id = &"battleactionrun"
+action_name = "run"
+description = "Attempt to run from battle!"
+category = 4
+type = 2
+target_shape = 1
+target_side = 0
+message_template = "{user} tries to run from battle!"
+metadata/_custom_type_script = "uid://b837nwbupckgt"
+
+[sub_resource type="Resource" id="Resource_f40yy"]
+script = ExtResource("4_hdv8x")
+battleaction_id = &"battleactionskill"
+action_name = "Skill"
+description = "Opens skill menu"
+metadata/_custom_type_script = "uid://chg0itvnkf68t"
+
+[sub_resource type="Resource" id="Resource_uu146"]
+script = ExtResource("5_aff3s")
+battleaction_id = &"battleactionitem"
+action_name = "Item"
+description = "Opens item menu"
+category = 2
+type = 3
+metadata/_custom_type_script = "uid://x11xua83jghj"
+
+[sub_resource type="Resource" id="Resource_thkar"]
+script = ExtResource("6_83oe7")
+battle_actions = Array[ExtResource("1_sa2al")]([SubResource("Resource_r7v2j"), SubResource("Resource_64lkq"), SubResource("Resource_f40yy"), SubResource("Resource_uu146")])
+metadata/_custom_type_script = "uid://curfpkctgy4ww"
+
+[sub_resource type="Resource" id="Resource_4nfie"]
+script = ExtResource("13_sidg4")
+speaker_id = "healer04"
+display_name = "A Dino"
+pronoun = 2
+voice = ExtResource("18_64lkq")
+angry_close = ExtResource("5_4nfie")
+angry_open = ExtResource("6_2xlgm")
+happy_close = ExtResource("7_617kq")
+happy_open = ExtResource("8_np7ii")
+normal_close = ExtResource("9_7uj2k")
+normal_open = ExtResource("10_41y24")
+sad_close = ExtResource("11_sa2al")
+sad_open = ExtResource("12_l3e1t")
+special_close = ExtResource("7_617kq")
+special_open = ExtResource("8_np7ii")
+surprise_close = ExtResource("14_hdv8x")
+surprise_open = ExtResource("15_aff3s")
+tired_close = ExtResource("16_83oe7")
+tired_open = ExtResource("17_r7v2j")
+metadata/_custom_type_script = "uid://dcki00a4qlvga"
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_crqld")
 stats_sprite = ExtResource("6_34iqf")
 class_color = Color(0, 0.4862745, 0.4862745, 1)
-speaker_resource = ExtResource("5_07rsg")
+speaker_resource = SubResource("Resource_4nfie")
 stats_table = ExtResource("7_kav3x")
+possible_names = Array[String](["Dino", "Envy", "Healii", "Dongo"])
 field_scene = ExtResource("2_3gpb3")
 battle_icon = ExtResource("1_tf7wx")
 actor_id = &"healer04"
-display_name = "Healer"
+display_name = "A Dino"
+actor_class = 3
+battle_actions = SubResource("Resource_thkar")
+normal_attack_skill = ExtResource("9_l3e1t")
 metadata/_custom_type_script = "uid://dtu3mn8pht81q"

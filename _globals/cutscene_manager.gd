@@ -61,6 +61,10 @@ var _active_overscene : Node = null
 
 ## True while CutsceneManager is waiting for overscene_completed.
 var _waiting_for_overscene_completion : bool = false
+
+## True when a naming overscene requested that the current cutscene stop after it closes.
+var _name_overscene_requested_abort : bool = false
+
 #endregion
 
 
@@ -188,6 +192,7 @@ func _finish_cutscene() -> void:
 	_active_pause_entities = CutsceneScript.PENTITIES.ALL
 	_active_overscene = null
 	_waiting_for_overscene_completion = false
+	_name_overscene_requested_abort = false
 
 #endregion
 
@@ -408,6 +413,11 @@ func _run_action(action : CutsceneAction) -> void:
 		await _run_remake_party(action)
 		return
 		
+		
+	if action is CutsceneMaxVitals:
+		await _run_max_vitals(action)
+		return
+		
 	push_warning("CutsceneManager: action class missing implementation: " + action.get_class())
 	
 	
@@ -605,7 +615,8 @@ func _run_name_party_member(action : CutsceneNamePartyMember) -> void:
 
 	_active_overscene = overscene
 	_waiting_for_overscene_completion = true
-	overscene.connect("overscene_completed", Callable(self, "_on_active_overscene_completed"), CONNECT_ONE_SHOT)
+	_name_overscene_requested_abort = false
+	overscene.connect("overscene_completed", Callable(self, "_on_active_name_overscene_completed"), CONNECT_ONE_SHOT)
 
 	while _waiting_for_overscene_completion:
 		if not is_instance_valid(_active_overscene):
@@ -616,6 +627,9 @@ func _run_name_party_member(action : CutsceneNamePartyMember) -> void:
 			return
 
 		await get_tree().process_frame
+
+	if _name_overscene_requested_abort:
+		_abort_requested = true
 
 	SceneManager.end_cutscene_overscene()
 	_active_overscene = null
@@ -635,8 +649,6 @@ func _run_remake_party(_action : CutsceneRemakeParty) -> void:
 
 
 
-func _on_active_overscene_completed() -> void:
-	_waiting_for_overscene_completion = false
 
 func _run_instantiate(action : CutsceneInstantiate) -> void:
 	if action.instantiated_scene == null:
@@ -705,6 +717,15 @@ func _run_instantiate(action : CutsceneInstantiate) -> void:
 		for fa in spawned_actors:
 			if is_instance_valid(fa):
 				_enter_cutscene_state_for_actor(fa)
+				
+func _on_active_overscene_completed() -> void:
+	_waiting_for_overscene_completion = false
+
+
+func _on_active_name_overscene_completed(should_abort_cutscene : bool = false) -> void:
+	_name_overscene_requested_abort = should_abort_cutscene
+	_waiting_for_overscene_completion = false
+
 
 func _resolve_instantiate_parent(t : int) -> Node:
 	if current_field_scene == null:
@@ -1178,6 +1199,62 @@ func _restore_camera_overrides_async() -> void:
 
 	_camera_override_entries.clear()
 
+func _run_max_vitals(action : CutsceneMaxVitals) -> void:
+	if CharDataKeeper.party_members.is_empty():
+		push_warning("CutsceneManager: CutsceneMaxVitals called with no party members")
+		return
+
+	var targets : Array[PartyMemberData] = []
+
+	if action.all_party_members:
+		for member in CharDataKeeper.party_members:
+			if member != null:
+				targets.append(member)
+	else:
+		var member : PartyMemberData = CharDataKeeper.get_member(action.party_member_slot)
+		if member == null:
+			push_error("CutsceneManager: CutsceneMaxVitals party_member_slot is invalid: " + str(action.party_member_slot))
+			return
+		targets.append(member)
+
+	for member in targets:
+		if action.remove_status_effects:
+			if member.status_effects == null:
+				member.status_effects = []
+
+			var dummy : Battler = Battler.new()
+			dummy.actor_data = member
+
+			var snapshot : Array = member.status_effects.duplicate()
+			for effect in snapshot:
+				if effect == null:
+					continue
+				if effect.kind == StatusEffect.StatusKind.AILMENT:
+					CharDataKeeper.field_status_system.remove_status(dummy, effect)
+
+		member.current_hp = member.get_max_hp()
+		member.current_sp = member.get_max_sp()
+		member.clamp_vitals()
+
+		var field_member : FieldPartyMember = CharDataKeeper.get_runtime_party_field_scene(member)
+		if field_member != null:
+			field_member.set_poison_flash(_party_member_has_poison(member))
+
+	if action.remove_status_effects:
+		CharDataKeeper.poison_accumulated = 0.0
+
+
+func _party_member_has_poison(member : PartyMemberData) -> bool:
+	if member.status_effects == null:
+		return false
+
+	for effect in member.status_effects:
+		if effect == null:
+			continue
+		if effect is StatusEffectPoison:
+			return true
+
+	return false
 
 #endregion
 
