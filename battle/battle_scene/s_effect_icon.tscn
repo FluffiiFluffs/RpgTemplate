@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d2uo2fqaknae3"]
+
+[ext_resource type="Texture2D" uid="uid://d0e82dapxsbva" path="res://_assets/ui/status_icons_battle_18/atkup18.png" id="1_8hqqj"]
+[ext_resource type="Script" uid="uid://bn7pmkkayd8q6" path="res://battle/battle_scene/s_effect_icon.gd" id="1_8nbdu"]
+
+[node name="SEffectIcon" type="TextureRect" unique_id=22930382]
+custom_minimum_size = Vector2(18, 18)
+texture = ExtResource("1_8hqqj")
+script = ExtResource("1_8nbdu")

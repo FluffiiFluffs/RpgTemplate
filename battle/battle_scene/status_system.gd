@@ -228,7 +228,7 @@ func _add_status_unchecked(receiver : Battler, effect : StatusEffect, caster : B
 
 	receiver.actor_data.status_effects.append(runtime_effect)
 	runtime_effect.on_apply(self)
-
+	refresh_status_icons_for_battler(receiver)
 
 func try_add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> Dictionary:
 	var result : Dictionary = {
@@ -325,7 +325,14 @@ func try_add_status(receiver : Battler, effect : StatusEffect, caster : Battler 
 	result["outcome"] = AddStatusOutcome.REPLACED
 	return result
 
-
+func refresh_status_icons_for_battler(battler : Battler) -> void:
+	if battler == null:
+		return
+	if battler.ui_element == null:
+		return
+	if battler.ui_element is BattleStats:
+		var stats : BattleStats = battler.ui_element as BattleStats
+		stats.refresh_status_icons()
 
 
 func add_status(receiver : Battler, effect : StatusEffect, caster : Battler = null) -> void:
@@ -346,6 +353,7 @@ func remove_status(receiver : Battler, effect : StatusEffect) -> void:
 	if receiver.actor_data.status_effects.has(effect):
 		effect.on_remove(self)
 		receiver.actor_data.status_effects.erase(effect)
+		refresh_status_icons_for_battler(receiver)
 
 ##Finds status and removes it
 func remove_status_by_class(receiver : Battler, status_class : Variant) -> void:
@@ -421,17 +429,23 @@ func _remove_expiring_statuses_for_turn_start(acting : Battler, _owner : Battler
 		return
 
 	var acting_actor : ActorData = acting.actor_data
+	var removed_any : bool = false
 
 	for i in range(_owner.actor_data.status_effects.size() - 1, -1, -1):
 		var s : StatusEffect = _owner.actor_data.status_effects[i]
 		if s == null:
 			_owner.actor_data.status_effects.remove_at(i)
+			removed_any = true
 			continue
 
 		if s.expire_timing == StatusEffect.ExpireTiming.TURN_START_OF_BATTLER:
 			if s.expire_on_actor == acting_actor:
 				s.on_remove(self)
 				_owner.actor_data.status_effects.remove_at(i)
+				removed_any = true
+
+	if removed_any:
+		refresh_status_icons_for_battler(_owner)
 
 func on_action_selected(battler : Battler, use : ActionUse) -> bool:
 	if battler == null:
@@ -661,15 +675,21 @@ func _clear_battle_only_statuses() -> void:
 		if bat.actor_data.status_effects == null:
 			continue
 
+		var removed_any : bool = false
+
 		for i in range(bat.actor_data.status_effects.size() - 1, -1, -1):
 			var s : StatusEffect = bat.actor_data.status_effects[i]
 			if s == null:
 				bat.actor_data.status_effects.remove_at(i)
+				removed_any = true
 				continue
 			if s.scope == StatusEffect.Scope.BATTLE_ONLY:
 				s.on_remove(self)
 				bat.actor_data.status_effects.remove_at(i)
+				removed_any = true
 
+		if removed_any:
+			refresh_status_icons_for_battler(bat)
 
 ##Gets all battlers
 func _get_all_battlers() -> Array[Battler]:
@@ -726,16 +746,22 @@ func _remove_statuses_on_death(dead_battler : Battler) -> void:
 	if dead_battler.actor_data.status_effects == null:
 		return
 
+	var removed_any : bool = false
+
 	for i in range(dead_battler.actor_data.status_effects.size() - 1, -1, -1):
 		var s : StatusEffect = dead_battler.actor_data.status_effects[i]
 		if s == null:
 			dead_battler.actor_data.status_effects.remove_at(i)
+			removed_any = true
 			continue
 
 		if s.remove_on_death:
 			s.on_remove(self)
 			dead_battler.actor_data.status_effects.remove_at(i)
+			removed_any = true
 
+	if removed_any:
+		refresh_status_icons_for_battler(dead_battler)
 
 
 func should_force_physical_hit(defender : Battler) -> bool:

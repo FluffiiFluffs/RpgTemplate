@@ -50,6 +50,7 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 
 		if strength < down_level:
 			existing_down.set_stack_level(down_level - strength)
+			status_system.refresh_status_icons_for_battler(target_battler)
 			ctx.queue_battle_message("{target}'s magic down weakens.", target_battler)
 			return true
 
@@ -84,6 +85,7 @@ func apply(ctx : EffectContext, target : ActorData) -> bool:
 	if existing_up != null:
 		existing_up.set_stack_level(desired_level)
 		existing_up.refresh_duration(duration_turns)
+		status_system.refresh_status_icons_for_battler(target_battler)
 	else:
 		var caster_battler : Battler = null
 		if ctx.battle_scene != null:

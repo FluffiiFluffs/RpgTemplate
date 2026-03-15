@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cl7dqfdhdhw3n"]
+
+[ext_resource type="Script" uid="uid://xpspfow807ky" path="res://actors/_common/battle_party.gd" id="1_wj81n"]
+
+[sub_resource type="Gradient" id="Gradient_d6v41"]
+colors = PackedColorArray(0.9448032, 0.70420504, 0, 0.70000005, 0, 0, 0, 0.70000005)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wh8qy"]
+gradient = SubResource("Gradient_d6v41")
+width = 92
+height = 92
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="ThiefBattleScene" type="Node2D" unique_id=583052705]
+script = ExtResource("1_wj81n")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1632294166]
+unique_name_in_owner = true
+
+[node name="BattleSprite" type="Sprite2D" parent="Marker2D" unique_id=562862285]
+unique_name_in_owner = true
+texture = SubResource("GradientTexture2D_wh8qy")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1754508792]
+unique_name_in_owner = true

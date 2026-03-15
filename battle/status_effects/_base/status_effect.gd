@@ -3,8 +3,19 @@ extends Resource
 
 ##ID of the Status
 @export var status_id : StringName = &""
+
+## Texture to represent the status effect on the field menu
+@export var field_icon : Texture = null
+
+## Texture to represent the status effect in-battle
+## 12x12
+@export var battle_icon : Texture = null
+
+
 enum StatusKind { AILMENT, ENHANCEMENT, STANCE, LINK, SPECIAL }
 @export var kind : StatusKind = StatusKind.SPECIAL
+
+
 
 var caster_actor : ActorData = null
 var receiver_actor : ActorData = null

@@ -21,6 +21,10 @@ extends Control
 @onready var run_button : CommandButton = %RunButton
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var marker_2d: Marker2D = %Marker2D
+@onready var stats_panel_flasher: PanelContainer = %StatsPanelFlasher
+@onready var s_effect_h_box: HBoxContainer = %SEffectHBox
+
+
 
 #toggles command container visibility
 @export var show_commands : bool = false : set = set_show_commands
@@ -39,6 +43,7 @@ var last_item_selected : InventorySlot = null
 
 
 
+
 #var attack_action : BattleAction = null
 var defend_action : BattleAction = null
 var run_action : BattleAction = null
@@ -49,7 +54,7 @@ const DEFEND = preload("uid://dsddu45iui2g8") #icon
 const ITEM = preload("uid://khupsuwtpksw") #icon
 const RUN = preload("uid://pyut5kkgk1wd") #icon
 const SKILL = preload("uid://dxepja5wakufl") #icon
-
+const S_EFFECT_ICON = preload("uid://d2uo2fqaknae3")
 
 
 
@@ -57,10 +62,13 @@ func _ready() -> void:
 	_apply_show_commands()
 
 	if Engine.is_editor_hint():
+		stats_panel_flasher.visible = false
+		command_flasher.visible = false
 		return
 	show_commands = false #for runtime
 	last_command_button_selected = attack_button
 	_apply_show_commands()
+	stats_panel_flasher.visible = true
 	command_flasher.visible = true
 	button.pressed.connect(button_pressed)
 	button.focus_entered.connect(focused)
@@ -169,7 +177,68 @@ func setup_hpmp()->void:
 	hp_progress_bar.value = member.current_hp
 	sp_progress_bar.value = member.current_sp
 	if_hp_mp_full_or_empty()
-	
+
+func clear_status_icons()->void:
+	for child in s_effect_h_box.get_children():
+		child.free()
+
+
+func refresh_status_icons()->void:
+	clear_status_icons()
+
+	if member == null:
+		return
+	if member.status_effects == null:
+		return
+
+	for status in member.status_effects:
+		if not _should_show_status_icon(status):
+			continue
+
+		var new_icon = S_EFFECT_ICON.instantiate() as SEffectIcon
+		s_effect_h_box.add_child(new_icon)
+		new_icon.setup_from_status(status)
+
+
+func _should_show_status_icon(status : StatusEffect) -> bool:
+	if status == null:
+		return false
+
+	if status.status_id == &"statusdefending":
+		return false
+
+	if status.status_id == &"statusdefended":
+		return false
+
+	if status is StatusEffectPoison:
+		return true
+
+	match status.status_id:
+		&"statusattackdown":
+			return true
+		&"statusattackup":
+			return true
+		&"statusconfuse":
+			return true
+		&"statusdefensedown":
+			return true
+		&"statusdefenseup":
+			return true
+		&"statushaste":
+			return true
+		&"statusmagicdown":
+			return true
+		&"statusmagicup":
+			return true
+		&"statussleep":
+			return true
+		&"statusslow":
+			return true
+		&"statusstun":
+			return true
+
+	return false
+
 func set_defend_action()->void:
 	for bact in battler.actor_data.battle_actions.battle_actions:
 		if bact is BattleActionDefend:
@@ -227,6 +296,8 @@ func mp_changed()->void:
 
 #Instantiates battler visuals into the scene
 func update_battle_scene()->void:
+	refresh_status_icons()
+
 	#cleanup 
 	if member.battle_scene != null and member != null:
 		#cleans up the BattleParty children inside the container (if any exist)

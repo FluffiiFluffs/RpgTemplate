@@ -3,6 +3,7 @@
 [ext_resource type="FontFile" uid="uid://ct1o26rpsdb2" path="res://_assets/fonts/pixel-loot.ttf" id="1_m0en3"]
 [ext_resource type="Script" uid="uid://cou62otm3wjw7" path="res://battle/battle_scene/battle_stats.gd" id="1_xjkr3"]
 [ext_resource type="PackedScene" uid="uid://76laxtdwkaco" path="res://battle/battle_scene/command_button.tscn" id="2_xjkr3"]
+[ext_resource type="PackedScene" uid="uid://d2uo2fqaknae3" path="res://battle/battle_scene/s_effect_icon.tscn" id="3_q368o"]
 [ext_resource type="PackedScene" uid="uid://bx67oqk81de2j" path="res://actors/1_party/00_warrior/warrior_battle_scene.tscn" id="4_rh2e1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rh2e1"]
@@ -154,6 +155,15 @@ grow_vertical = 0
 theme_override_constants/separation = 0
 alignment = 2
 
+[node name="SEffectHBox" type="HBoxContainer" parent="VBoxContainer" unique_id=2122056743]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="SEffectIcon" parent="VBoxContainer/SEffectHBox" unique_id=22930382 instance=ExtResource("3_q368o")]
+layout_mode = 2
+
 [node name="StatsPanelContainerContainer" type="PanelContainer" parent="VBoxContainer" unique_id=2074414040]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -289,6 +299,8 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_xjkr3")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_xjkr3")
 
 [node name="StatsPanelFlasher" type="PanelContainer" parent="VBoxContainer/StatsPanelContainerContainer" unique_id=394415080]
+unique_name_in_owner = true
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xjkr3")
@@ -349,6 +361,7 @@ button_type = "run"
 
 [node name="CommandFlasher" type="PanelContainer" parent="VBoxContainer/CommandContainerContainer" unique_id=720488847]
 unique_name_in_owner = true
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rh2e1")

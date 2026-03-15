@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://dceefyj2dxxxc" path="res://battle/status_effects/_base/status_effect.gd" id="6_d6glb"]
 [ext_resource type="Texture2D" uid="uid://cuaj6pmnmyyux" path="res://_assets/character/party/thief/fatfox_thief_concept_01.png" id="6_pb5ex"]
 [ext_resource type="Resource" uid="uid://dxa2fey1udrof" path="res://actors/1_party/00_warrior/warrior_stats_table.tres" id="8_4mtom"]
+[ext_resource type="PackedScene" uid="uid://cdesrh55s0xw6" path="res://actors/1_party/01_thief/thief_battle_scene.tscn" id="8_35e5y"]
 
 [sub_resource type="Resource" id="Resource_pnfvy"]
 script = ExtResource("2_35e5y")
@@ -70,8 +71,10 @@ current_exp = 1
 stats_table = ExtResource("8_4mtom")
 possible_names = Array[String](["Fattii", "Stabs", "Sneaks", "Foxx"])
 field_scene = ExtResource("2_ab6kp")
+battle_scene = ExtResource("8_35e5y")
 battle_icon = ExtResource("1_8au5w")
 actor_id = &"thief02"
+display_name = "A Thief"
 actor_class = 1
 battle_actions = SubResource("Resource_vh7g4")
 normal_attack_skill = ExtResource("3_iwwlg")

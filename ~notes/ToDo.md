@@ -1,5 +1,5 @@
 #All commented out lines are completed
-** Denotes sub-commment (usually after something has been completed)
+**** Denotes sub-commment (usually after something has been completed)
 
 [Big Changes]
 	#Implement cutscenes
@@ -47,7 +47,7 @@
 	
 	#Check DialogueManager code to try to figure out if some things implemented were already in place by default
 	#	within the dialoguemanager addon (specifically the portrait thing)
-	#** Dialogue Manager handling has been reworked so that dm_helper handles almost everything. SpeakerResource reworked. Easier authoring within dialogue scripts. Also added the ability to use PLAYER: to use the speaker resource attached to the currently controlled party member's SpeakerResource.
+	# Dialogue Manager handling has been reworked so that dm_helper handles almost everything. SpeakerResource reworked. Easier authoring within dialogue scripts. Also added the ability to use PLAYER: to use the speaker resource attached to the currently controlled party member's SpeakerResource.
 		
 	#Implement title screen / intro sequence
 		**a baseline version of this has been implemented, complete with a menu for options**
@@ -59,8 +59,8 @@
 	[IMPORTANT] Implement shop system
 
 [DIALOGUE]
-	**Implement subject/verb conjugation**
-	**Implement name and pronoun injection to dialogue lines**
+	**Implemented subject/verb conjugation**
+	**Implemented name and pronoun injection to dialogue lines**
 
 
 [CUTSCENE]
@@ -82,8 +82,9 @@
 	
 	[fix]Characters that attack themselves should not be able to dodge/parry/riposte themselves
 
-	[fix] Update the all party member scenes to match the warrior's because they're outdated
+	#[fix] Update the all party member scenes to match the warrior's because they're outdated
 
+	Implement status effect icons in battle using s_effect_icon. may need additional functionality in the status system
 
 #	Implement power value for skills that heal or do damage
 #		Power value should be used for scaling
@@ -106,7 +107,7 @@
 	#Have a script go through the items folder to automatically add them to all_items instead of adding them directly, this should save a lot of time. ** Implemented during registry refactor
 
 [QUESTS]
-	FIX Quests do not seem to work properly when the game is loaded, needs more testing
+	[FIX] Quests do not seem to work properly when the game is loaded, needs more testing
 
 
 
